@@ -18,6 +18,8 @@
         .mainTab button.selected{
             background-color:blue;
         }
+        
+        
         .mainTab button{
             background-color:beige;
             float: left;
@@ -27,31 +29,81 @@
             font-size:18px;
             position: relative;
         }
-        .mainTab button:hover{
-            background-color:violet;
+        .mainButton{
+            background-color: beige;
+            color: black;
+            padding: 15px;
+            font-size:15px;
         }
+        .mainButton{border-radius: 8px;}
+        .mainTab button:hover{
+            background-color:blue;
+        }
+        .dropdown{
+            position: relative;
+            display: inline-block;
+        }
+        .dropdownContent{
+            display:none;
+            position:absolute;
+            background-color: gray;
+            min-width: 160px;
+            overflow: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .dropdownContent a{
+            color: black;
+            padding: 12px 12px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdownContent a:hover{background-color:blueviolet;}
         .mainTabContent{
             display:none;
             padding: 6px 12px;
             border: 1px solid #ccc;
             border-top: none;
         }
+        .show {display:block;}
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 <body>
-    <h1>Sports hub</h1>
+    
     <div class="mainTab"> 
-        <button>Menu</button>
-        <button>Settings</button>
+        <h1>Sports hub</h2>
+        <div class="dropdown">
+            <button class="mainButton" onclick="dropDown()">Menu</button>
+            <div id="DPart" class="dropdownContent">
+                <a>My teams</a>
+                <a>Settings</a>
+            </div>
+           
+        </div>
+        
+    
     </div>
+   
+
     <script>
-        function dropDown(event, nameVal){
-            var valV, content;
-            content=getElementsByClassName("mainTabContent");
-            
+        function dropDown(part){
+            document.getElementById("DPart").classList.toggle("show");
+           
+        }
+        window.onclick=function(event){
+            if(!event.target.matches('.mainButton')){
+                var dropOptions, count, currOption;
+                 dropOptions=document.getElementsByClassName("dropdownContent");
+                for(count=0; count<dropOptions.length; count++){
+                    currOption=dropOptions[count];
+                    if(currOption.classList.contains('show')){
+                        currOption.classList.remove('show');
+                    }
+                }
+            }
         }
     </script>
 </body>
