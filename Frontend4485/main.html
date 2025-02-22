@@ -6,6 +6,10 @@
         h1{
             text-align: center;
         }
+        h2{
+            text-align: center;
+            font-family:'Courier New', Courier, monospace;
+        }
         body{
             font-family: Arial;
         }
@@ -13,7 +17,13 @@
             border: 2px solid blue;
             background-color: aqua;
             overflow: hidden;
-            padding: 15px 6px;
+            padding: 20px 4px;
+        }
+        .newsTab{
+            border: 5px solid black;
+            background-color: gray;
+            overflow: hidden;
+            padding: 50px 50px;
         }
         .mainTab button.selected{
             background-color:blue;
@@ -86,7 +96,16 @@
         
     
     </div>
-   
+   <div class="newsTab"> 
+    <h2>News of the week</h2>
+    <div class="newsTab">
+        <p>Latest results</p>
+    </div>
+    <div class="newsTab">
+        <p>Latest events</p>
+    </div>
+    
+   </div>
 
     <script>
         function dropDown(part){
