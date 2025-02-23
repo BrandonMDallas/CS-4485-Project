@@ -14,6 +14,13 @@
             font-family:Arial, Helvetica, sans-serif;
             padding: 20px;
         }
+        #mainContainer{border-radius: 6px;}
+        textInput{
+            width:70%;
+            padding: 20px, 30px;
+            margin: 7px;
+        }
+        .textInput{border-radius: 6px;}
         .mainContainerPoints{
             text-align: center;
         }
@@ -31,13 +38,13 @@
         .mainContainerButton{border-radius: 14px;}
     </style>
 </head>
-<body>
+<body style="background-color: rgba(171, 6, 6, 0.918);">
     <div id="mainContainer">
         <h2>Sign in</h2>
         <p class="mainContainerPoints">Username </p>
-        <input class="mainContainerPoints" type="text" placeholder="Type here..." name="search">
+        <input class="textInput" type="text" placeholder="Type here..." name="search">
         <p class="mainContainerPoints">Password </p>
-        <input class="mainContainerPoints" type="text" placeholder="Type here..." name="search">
+        <input class="textInput" type="text" placeholder="Type here..." name="search">
         <br>
         <br>
         <button class="mainContainerButton">Log in</button>
