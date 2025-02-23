@@ -3,6 +3,9 @@
 <head>
     <title>Sports hub</title>
     <style>
+        .spacing{
+            margin: 15px;
+        }
         .group1{
             text-align: left;
             background-color: gray;
@@ -148,6 +151,7 @@
             font-family: Arial, Helvetica, sans-serif;
             width: 250px;
             border-radius: 10px;
+            padding: 10px;
         }        
         .searchAssistant{
             background-color:lightskyblue;
@@ -167,6 +171,7 @@
         .show {display:block;}
         .mainCal{
             display:flex;
+            
         }
     </style>
     <meta charset="UTF-8">
@@ -189,33 +194,35 @@
         
     
     </div>
+    <br>
     <div class="mainCal">
-   <div class="group1"> 
+   <div class="group1", ""> 
     <h2>News of the week</h2>
     <div class="componentInWidget">
         
             <p class="courierFont">Latest results</p>
        
     </div>
-    <div class="componentInWidget">
+    <div class="componentInWidget spacing">
         
         <p class="courierFont">Latest events</p>
         <ul><li></li></ul>
     </div>
     
-    <div class="componentInWidget">
+    <div class="componentInWidget spacing">
         <p class="courierFont">Search events</p>
         <input type="text" placeholder="Type here..." name="search">
         <button type="submit"><img src="searchIcon.jpg" width="15" height="15"></button>
     </div>
 </div>
-   
-   <div class="searchAssistant">
+   <hr>
+   <div class="searchAssistant spacing">
     <h2 class="h2v2">Talk to our assistant</h2>
-    <button class="assistantButton">Ask a question</button>
-    <button class="assistantButton">View data</button>
+    <button class="assistantButton spacing">Need to find interests?</button>
+    <button class="assistantButton">Need help figuring something out?</button>
    </div>
-<div class="followTeam">
+   
+<div class="followTeam spacing">
     <h1>Follow a team</h1>
     <div style="display: flex;">
         <div style="flex: 1"><input type="text" placeholder="Type team name here..." name="search"></div>
@@ -224,7 +231,7 @@
     <p>About your followed teams </p>
     
 </div>
-<div class="videoSection">
+<div class="videoSection spacing">
     <h2>Watch the latest game!</h2>
 </div>
     </div>
