@@ -9,6 +9,9 @@
             overflow: hidden;
             padding:10px 10px;
             border: 1px darkslategrey;
+            position: relative;
+            float: left; 
+            width: 550px;
         }
         .group1{border-radius:16px;}
         h1{
@@ -39,6 +42,8 @@
         }
         .courierFont{
             font-family:'Courier New', Courier, monospace;
+            position: relative;
+            bottom: 35px;
         }
         .mainTab{
             border: 2px solid blue;
@@ -51,12 +56,20 @@
             border: 5px solid black;
             background-color: gray;
             overflow: hidden;
-            padding: 50px 50px;
+            padding: 30px;
             float: left;
-            width: 20%;
+            width: 10%;
+            position: relative;
+            float: left;
         }
         .mainTab button.selected{
             background-color:blue;
+        }
+        .componentInWidget{
+            position: relative;
+            float: left;
+            background-color: lightgrey;
+            padding: 20px;
         }
         
         .assistantButton{
@@ -65,6 +78,9 @@
             padding:15px;
             font-size:15px;
             border: blueviolet;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
         .assistantButton:hover{
             background-color:black;
@@ -93,6 +109,18 @@
             position: relative;
             display: inline-block;
         }
+        .sideToSide{
+            display: flex;
+        }
+        .videoSection{
+            background-color: whitesmoke;
+            width:500px;
+            border-radius: 10px;
+            
+        }
+        .sideToSide .left, .sideToSide .right{
+            flex: 1;
+        }
         .dropdownContent{
             display:none;
             position:absolute;
@@ -112,13 +140,24 @@
         .searchFormat1{
             text-align:left;
         }
+        .followTeam{
+            position: relative;
+            float: left;
+            background-color: lightcoral;
+            border-color: black;
+            font-family: Arial, Helvetica, sans-serif;
+            width: 250px;
+            border-radius: 10px;
+        }        
         .searchAssistant{
             background-color:lightskyblue;
             float: left; 
             width:30%;
             padding: 20px 20px;
-
+            position: relative;
+            float: center;
         }
+        .searchAssistant{border-radius: 10px;}
         .mainTabContent{
             display:none;
             padding: 6px 12px;
@@ -126,6 +165,9 @@
             border-top: none;
         }
         .show {display:block;}
+        .mainCal{
+            display:flex;
+        }
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -140,39 +182,52 @@
             <div id="DPart" class="dropdownContent">
                 <a>My teams</a>
                 <a>Settings</a>
+                <a>Add a widget</a>
             </div>
            
         </div>
         
     
     </div>
+    <div class="mainCal">
    <div class="group1"> 
     <h2>News of the week</h2>
-    <div class="courierFont">
+    <div class="componentInWidget">
         
-        <div class="section1">
-            <p class="bodySection1">Latest results</p>
-        </div>
+            <p class="courierFont">Latest results</p>
+       
     </div>
-    <div class="courierFont">
-        <div class="section1">
+    <div class="componentInWidget">
+        
         <p class="courierFont">Latest events</p>
-        
+        <ul><li></li></ul>
     </div>
-    <div class="courierFont">
-        <div class="section1">
+    
+    <div class="componentInWidget">
         <p class="courierFont">Search events</p>
         <input type="text" placeholder="Type here..." name="search">
-            <button type="submit">Search</button></div>
+        <button type="submit"><img src="searchIcon.jpg" width="15" height="15"></button>
     </div>
 </div>
-
-   </div>
+   
    <div class="searchAssistant">
     <h2 class="h2v2">Talk to our assistant</h2>
     <button class="assistantButton">Ask a question</button>
     <button class="assistantButton">View data</button>
    </div>
+<div class="followTeam">
+    <h1>Follow a team</h1>
+    <div style="display: flex;">
+        <div style="flex: 1"><input type="text" placeholder="Type team name here..." name="search"></div>
+    <div style="flex: 1"><button><img src="searchIcon.jpg" width="15" height="15"></button></div>
+    </div>
+    <p>About your followed teams </p>
+    
+</div>
+<div class="videoSection">
+    <h2>Watch the latest game!</h2>
+</div>
+    </div>
     <script>
         function dropDown(part){
             document.getElementById("DPart").classList.toggle("show");
