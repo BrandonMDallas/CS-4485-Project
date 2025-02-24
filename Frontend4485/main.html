@@ -57,7 +57,7 @@
         }
         .mainTabImage{
             position: relative;
-            left: 625px;
+            left: 1025px;
             top: -125px;
             float: left;
             border-radius: 10px;
@@ -137,7 +137,12 @@
             background-color: whitesmoke;
             width:500px;
             border-radius: 10px;
-            
+            position: relative;
+        }
+        .moreVideosButton{
+            position: relative;
+            left: 150px;
+            top: 100px;
         }
         .sideToSide .left, .sideToSide .right{
             flex: 1;
@@ -205,7 +210,7 @@
             <div id="DPart" class="dropdownContent">
                 <a>My teams</a>
                 <a>Settings</a>
-                <a>Add a widget</a>
+                
             </div>
            
         </div>
@@ -242,9 +247,11 @@
 </div>
    <hr>
    <div class="searchAssistant spacing">
-    <h2 class="h2v2">Talk to our assistant</h2>
+    <h2 class="h2v2">Talk to our AI assistant</h2>
     <button class="assistantButton spacing">Need to find interests?</button>
     <button class="assistantButton">Need help figuring something out?</button>
+    <br>
+    <img src="AIImage.webp" height="100" width="200">
    </div>
    
 <div class="followTeam spacing">
@@ -259,7 +266,11 @@
 </div>
 <div class="videoSection spacing">
     <h2>Watch the latest game!</h2>
-    <embed type="video/webm" width="300" height="400">
+    <embed type="video/webm" width="300" height="100">
+        <p style="font-size: 30px;">View previous games</p>
+        <embed type="video/webm" width="300" height="100">
+        <embed type="video/webm" width="300" height="100">
+    <button class="moreVideosButton">View more videos</button>
 </div>
     </div>
     <script>
