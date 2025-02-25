@@ -27,17 +27,35 @@
             display: block;
         }
         .dropdownContent a:hover{background-color:blueviolet;}
+        .mainButton{
+            background-color: beige;
+            color: black;
+            padding: 15px;
+            font-size:15px;
+            top: -50px;
+        }
+        .mainButton{border-radius: 8px;}
+        .mainButton:hover{
+            color: white;
+            background-color: blue;
+        }
+        .dropdown{
+            position: relative;
+            display: inline-block;
+        }
     </style>
 </head>
 <body style="background-color: rgb(43, 43, 43);">
     <div class="videoSection">
         <button><img src="backward icon.jpg" height="50" width="50"></button>
         <h3>List of videos from the last...</h3>
-        <button>Pick time range</button>
-        <div class="dropdownContent">
+        <div class="dropdown">
+        <button class="mainButton"  onclick="dropDown()">Pick time range</button>
+        <div id="DPart" class="dropdownContent">
             <a>Month</a>
             <a>Year</a>
         </div>
+    </div>
         <embed type="video/webm" width="300" height="100">
         <embed type="video/webm" width="300" height="100">
         <embed type="video/webm" width="300" height="100">
@@ -46,7 +64,7 @@
         <embed type="video/webm" width="300" height="100">
     </div>
     <script>
-        function dropDown(part){
+        function dropDown(){
             document.getElementById("DPart").classList.toggle("show");
            
         }
