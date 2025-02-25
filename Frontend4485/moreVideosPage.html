@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Videos from Sports Hub</title>
+    <style>
+        .videoSection{
+            background-color: whitesmoke;
+            width:500px;
+            border-radius: 10px;
+            position: relative;
+        }
+        .dropdownContent{
+            display:none;
+            position:absolute;
+            background-color: gray;
+            min-width: 160px;
+            overflow: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .dropdownContent a{
+            color: black;
+            padding: 12px 12px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdownContent a:hover{background-color:blueviolet;}
+    </style>
+</head>
+<body style="background-color: rgb(43, 43, 43);">
+    <div class="videoSection">
+        <button><img src="backward icon.jpg" height="50" width="50"></button>
+        <h3>List of videos from the last...</h3>
+        <button>Pick time range</button>
+        <div class="dropdownContent">
+            <a>Month</a>
+            <a>Year</a>
+        </div>
+        <embed type="video/webm" width="300" height="100">
+        <embed type="video/webm" width="300" height="100">
+        <embed type="video/webm" width="300" height="100">
+        <embed type="video/webm" width="300" height="100">
+        <embed type="video/webm" width="300" height="100">
+        <embed type="video/webm" width="300" height="100">
+    </div>
+    <script>
+        function dropDown(part){
+            document.getElementById("DPart").classList.toggle("show");
+           
+        }
+        window.onclick=function(event){
+            if(!event.target.matches('.mainButton')){
+                var dropOptions, count, currOption;
+                 dropOptions=document.getElementsByClassName("dropdownContent");
+                for(count=0; count<dropOptions.length; count++){
+                    currOption=dropOptions[count];
+                    if(currOption.classList.contains('show')){
+                        currOption.classList.remove('show');
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
