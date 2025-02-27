@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Sports hub</title>
+    <style>
+        .spacing{
+            margin: 15px;
+        }
+        .group1{
+            text-align: left;
+            background-color: gray;
+            overflow: hidden;
+            padding:10px 10px;
+            border: 1px darkslategrey;
+            position: relative;
+            float: left; 
+            width: 700px;
+        }
+        .group1{border-radius:16px;}
+        h1{
+            text-align: center;
+        }
+        h2{
+            text-align: center;
+            font-family:'Courier New', Courier, monospace;
+        }
+        .h2v2{
+            font-family:Arial, Helvetica, sans-serif;
+        }
+        .section1{
+            background-color: yellowgreen;
+            border: 3px solid darkgreen;
+            float: left;
+            overflow: hidden;
+            width: 10%;
+            padding: 20px 80px
+        }
+        .section1{border-radius:16px;}
+        body{
+            font-family: Arial;
+        }
+        .bodySection1{
+            text-align: left;
+            font-family:'Courier New', Courier, monospace;
+        }
+        .courierFont{
+            font-family:'Courier New', Courier, monospace;
+            position: relative;
+            bottom: 35px;
+        }
+        .mainTab{
+            border: 2px solid blue;
+            background-color: lightpink;
+            overflow: hidden;
+            padding: 20px 4px;
+            height: 205px;
+        }
+        .mainTabImage{
+            position: relative;
+            left: 1100px;
+            top: -125px;
+            float: left;
+            border-radius: 10px;
+            background-color:aliceblue;
+            margin: 15px;
+        }
+        .mainTabImage:hover{
+            color: white;
+        }
+        
+        .mainTab{border-radius:16px;}
+        .newsTab{
+            border: 5px solid black;
+            background-color: gray;
+            overflow: hidden;
+            padding: 30px;
+            float: left;
+            width: 10%;
+            position: relative;
+            float: left;
+        }
+        .mainTab button.selected{
+            background-color:blue;
+        }
+        .componentInWidget{
+            position: relative;
+            float: left;
+            background-color: lightgrey;
+            padding: 20px;
+        }
+        
+        .assistantButton{
+            background-color:blueviolet;
+            color:white;
+            padding:15px;
+            font-size:15px;
+            border: blueviolet;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .assistantButton:hover{
+            background-color:black;
+        }
+        .assistantButton{border-radius:10px;}
+        .mainTab button{
+            background-color:beige;
+            float: left;
+            border: aqua;
+            cursor:pointer;
+            padding: 14px 16px;
+            font-size:18px;
+            position: relative;
+        }
+        .mainButton{
+            background-color: beige;
+            color: black;
+            padding: 15px;
+            font-size:15px;
+            top: -50px;
+        }
+        .mainButton{border-radius: 8px;}
+        .mainButton:hover{
+            color: white;
+        }
+        .mainTab button:hover{
+            background-color:blue;
+        }
+        .dropdown{
+            position: relative;
+            display: inline-block;
+        }
+        .sideToSide{
+            display: flex;
+        }
+        .videoSection{
+            background-color: whitesmoke;
+            width:500px;
+            border-radius: 10px;
+            position: relative;
+        }
+        .moreVideosButton{
+            position: relative;
+            left: 212px;
+            top: -3px;
+        }
+        .sideToSide .left, .sideToSide .right{
+            flex: 1;
+        }
+        .dropdownContent{
+            display:none;
+            position:absolute;
+            background-color: gray;
+            min-width: 160px;
+            overflow: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .dropdownContent a{
+            color: black;
+            padding: 12px 12px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdownContent a:hover{background-color:blueviolet;}
+        .searchFormat1{
+            text-align:left;
+        }
+        .followTeam{
+            position: relative;
+            float: left;
+            background-color: lightcoral;
+            border-color: black;
+            font-family: Arial, Helvetica, sans-serif;
+            width: 250px;
+            border-radius: 10px;
+            padding: 10px;
+        }        
+        .searchAssistant{
+            background-color:lightskyblue;
+            float: left; 
+            width:30%;
+            padding: 20px 20px;
+            position: relative;
+            float: center;
+        }
+        .searchAssistant{border-radius: 10px;}
+        .mainTabContent{
+            display:none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+        .show {display:block;}
+        .mainCal{
+            display:flex;
+            
+        }
+        
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body style="background-color: rgb(43, 43, 43);">
+    
+    <div class="mainTab"> 
+        <h1>Sports hub</h2>
+        <div class="dropdown">
+            <button class="mainButton" onclick="dropDown()">Menu</button>
+            <div id="DPart" class="dropdownContent">
+                <a>My teams</a>
+                <a>Settings</a>
+                
+            </div>
+           
+        </div>
+        <div>
+            <button class="mainTabImage"><img src="plusIcon.png" width="50" height="50"><p>Add a widget</p></button>
+            <button class="mainTabImage"><img src="profileIcon.png" width="50" height="50"><p>View profile</p></button>
+            
+        </div>
+        
+    
+    </div>
+</div>
+    <br>
+    <div class="mainCal">
+   <div class="group1"> 
+    <h2>News of the week</h2>
+    <div class="componentInWidget spacing">
+        
+            <p class="courierFont">Latest results</p>
+            <embed type="text/html" src="latestResults.html" width="100" height="100">
+       
+    </div>
+    <div class="componentInWidget spacing">
+        
+        <p class="courierFont">Latest events</p>
+        <ul><li></li></ul>
+    </div>
+    
+    <div class="componentInWidget spacing">
+        <p class="courierFont">Search events</p>
+        <input type="text" placeholder="Type here..." name="search">
+        <button type="submit"><img src="searchIcon.jpg" width="15" height="15"></button>
+    </div>
+</div>
+   <hr>
+   <div class="searchAssistant spacing">
+    <h2 class="h2v2">Talk to our AI assistant</h2>
+    <button class="assistantButton spacing">Need to find interests?</button>
+    <button class="assistantButton">Need help figuring something out?</button>
+    <br>
+    <img src="AIImage.webp" height="100" width="200">
+   </div>
+   
+<div class="followTeam spacing">
+    <h1>Follow a team</h1>
+    <div style="display: flex;">
+        <div style="flex: 1"><input type="text" placeholder="Type team name here..." name="search"></div>
+    <div style="flex: 1"><button><img src="searchIcon.jpg" width="15" height="15"></button></div>
+    </div>
+    <p>About your followed teams: </p>
+    <ul><li>(Enter a team to find facts about it)</li></ul>
+    
+</div>
+<div class="videoSection spacing">
+    <h2>Watch the latest game!</h2>
+    <embed type="video/webm" width="300" height="100">
+        <p style="font-size: 30px;">View previous games</p>
+        <embed type="video/webm" width="300" height="100">
+        <embed type="video/webm" width="300" height="100">
+    <button class="moreVideosButton">View more videos</button>
+</div>
+    </div>
+    <script>
+        function dropDown(part){
+            document.getElementById("DPart").classList.toggle("show");
+           
+        }
+        window.onclick=function(event){
+            if(!event.target.matches('.mainButton')){
+                var dropOptions, count, currOption;
+                 dropOptions=document.getElementsByClassName("dropdownContent");
+                for(count=0; count<dropOptions.length; count++){
+                    currOption=dropOptions[count];
+                    if(currOption.classList.contains('show')){
+                        currOption.classList.remove('show');
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
