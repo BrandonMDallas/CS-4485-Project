@@ -3,9 +3,6 @@
 <head>
     <title>Sports hub</title>
     <style>
-        .spacing{
-            margin: 15px;
-        }
         .group1{
             text-align: left;
             background-color: gray;
@@ -14,7 +11,7 @@
             border: 1px darkslategrey;
             position: relative;
             float: left; 
-            width: 700px;
+            width: 550px;
         }
         .group1{border-radius:16px;}
         h1{
@@ -50,24 +47,10 @@
         }
         .mainTab{
             border: 2px solid blue;
-            background-color: lightpink;
+            background-color: aqua;
             overflow: hidden;
             padding: 20px 4px;
-            height: 205px;
         }
-        .mainTabImage{
-            position: relative;
-            left: 1100px;
-            top: -125px;
-            float: left;
-            border-radius: 10px;
-            background-color:aliceblue;
-            margin: 15px;
-        }
-        .mainTabImage:hover{
-            color: white;
-        }
-        
         .mainTab{border-radius:16px;}
         .newsTab{
             border: 5px solid black;
@@ -117,12 +100,8 @@
             color: black;
             padding: 15px;
             font-size:15px;
-            top: -50px;
         }
         .mainButton{border-radius: 8px;}
-        .mainButton:hover{
-            color: white;
-        }
         .mainTab button:hover{
             background-color:blue;
         }
@@ -137,12 +116,7 @@
             background-color: whitesmoke;
             width:500px;
             border-radius: 10px;
-            position: relative;
-        }
-        .moreVideosButton{
-            position: relative;
-            left: 212px;
-            top: -3px;
+            
         }
         .sideToSide .left, .sideToSide .right{
             flex: 1;
@@ -174,7 +148,6 @@
             font-family: Arial, Helvetica, sans-serif;
             width: 250px;
             border-radius: 10px;
-            padding: 10px;
         }        
         .searchAssistant{
             background-color:lightskyblue;
@@ -194,14 +167,13 @@
         .show {display:block;}
         .mainCal{
             display:flex;
-            
         }
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body style="background-color: rgb(43, 43, 43);">
+<body style="background-color: lightgray;">
     
     <div class="mainTab"> 
         <h1>Sports hub</h2>
@@ -210,67 +182,85 @@
             <div id="DPart" class="dropdownContent">
                 <a>My teams</a>
                 <a>Settings</a>
-                
+                <a>Add a widget</a>
             </div>
+
+            <button id="darkModeToggle" class="mainButton">Toggle Dark Mode</button>
+</div>
+
+<script>
+    document.getElementById('darkModeToggle').addEventListener('click', function() {
+        document.body.classList.toggle('dark-mode');
+    });
+</script>
+
+<style>
+    /* Dark mode styles */
+    .dark-mode {
+        background-color: #121212;
+        color: white;
+    }
+    .dark-mode .mainTab {
+        background-color: #1e1e1e;
+        border-color: white;
+    }
+    .dark-mode .group1, 
+    .dark-mode .searchAssistant, 
+    .dark-mode .followTeam, 
+    .dark-mode .videoSection {
+        background-color: #333;
+        color: white;
+    }
+    .dark-mode button {
+        background-color: #555;
+        color: white;
+    }
+    .dark-mode button:hover {
+        background-color: #777;
+    }
+</style>
            
-        </div>
-        <div>
-            <button class="mainTabImage"><img src="plusIcon.png" width="50" height="50"><p>Add a widget</p></button>
-            <button class="mainTabImage"><img src="profileIcon.png" width="50" height="50"><p>View profile</p></button>
-            
         </div>
         
     
     </div>
-</div>
-    <br>
     <div class="mainCal">
    <div class="group1"> 
     <h2>News of the week</h2>
-    <div class="componentInWidget spacing">
+    <div class="componentInWidget">
         
             <p class="courierFont">Latest results</p>
-            <embed type="text/html" src="latestResults.html" width="100" height="100">
        
     </div>
-    <div class="componentInWidget spacing">
+    <div class="componentInWidget">
         
         <p class="courierFont">Latest events</p>
         <ul><li></li></ul>
     </div>
     
-    <div class="componentInWidget spacing">
+    <div class="componentInWidget">
         <p class="courierFont">Search events</p>
         <input type="text" placeholder="Type here..." name="search">
         <button type="submit"><img src="searchIcon.jpg" width="15" height="15"></button>
     </div>
 </div>
-   <hr>
-   <div class="searchAssistant spacing">
-    <h2 class="h2v2">Talk to our AI assistant</h2>
-    <button class="assistantButton spacing">Need to find interests?</button>
-    <button class="assistantButton">Need help figuring something out?</button>
-    <br>
-    <img src="AIImage.webp" height="100" width="200">
-   </div>
    
-<div class="followTeam spacing">
+   <div class="searchAssistant">
+    <h2 class="h2v2">Talk to our assistant</h2>
+    <button class="assistantButton">Ask a question</button>
+    <button class="assistantButton">View data</button>
+   </div>
+<div class="followTeam">
     <h1>Follow a team</h1>
     <div style="display: flex;">
         <div style="flex: 1"><input type="text" placeholder="Type team name here..." name="search"></div>
     <div style="flex: 1"><button><img src="searchIcon.jpg" width="15" height="15"></button></div>
     </div>
-    <p>About your followed teams: </p>
-    <ul><li>(Enter a team to find facts about it)</li></ul>
+    <p>About your followed teams </p>
     
 </div>
-<div class="videoSection spacing">
+<div class="videoSection">
     <h2>Watch the latest game!</h2>
-    <embed type="video/webm" width="300" height="100">
-        <p style="font-size: 30px;">View previous games</p>
-        <embed type="video/webm" width="300" height="100">
-        <embed type="video/webm" width="300" height="100">
-    <button class="moreVideosButton">View more videos</button>
 </div>
     </div>
     <script>
