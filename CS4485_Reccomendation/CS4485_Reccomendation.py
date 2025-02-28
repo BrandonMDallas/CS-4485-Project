@@ -4,21 +4,21 @@ from scipy.sparse import coo_matrix
 from lightfm import LightFM
 from lightfm.data import Dataset
 
-# Sample user-stock interaction data
+#Test for 1 user stock interaction data
 interactions = pd.DataFrame({
     'user_id': [1, 1, 2, 2, 3, 3, 4, 4],
     'stock': ['TSLA', 'NVDA', 'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'META', 'NFLX'],
-    'score': [1, 1, 1, 1, 1, 1, 1, 1]  # Implicit feedback (1 = invested)
+    'score': [1, 1, 1, 1, 1, 1, 1, 1]  #Score based on user preference, set as 1 default
 })
 
-# Sample stock metadata (features)
+#Sample stock metadata based on attributes for reccomendations
 stock_features = pd.DataFrame({
     'stock': ['TSLA', 'NVDA', 'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'META', 'NFLX'],
     'sector': ['EV', 'AI', 'Tech', 'Tech', 'Tech', 'E-commerce', 'Social', 'Streaming'],
     'volatility': ['High', 'High', 'Medium', 'Medium', 'Medium', 'High', 'High', 'Medium']
 })
 
-# Initialize LightFM Dataset
+#Initialize Lightfm dataset
 dataset = Dataset()
 dataset.fit(
     interactions['user_id'], 
@@ -26,32 +26,30 @@ dataset.fit(
     item_features=stock_features['sector'].tolist() + stock_features['volatility'].tolist()
 )
 
-# Convert interactions to sparse matrix
+#Changes interactions to sparse matrix
 (interactions_matrix, _) = dataset.build_interactions(
     [(row['user_id'], row['stock'], row['score']) for _, row in interactions.iterrows()]
 )
 
-# Convert stock metadata to feature matrix
+#Convert stock metadata to feature matrix for reccomendation
 stock_feature_tuples = [(row['stock'], [row['sector'], row['volatility']]) for _, row in stock_features.iterrows()]
 stock_feature_matrix = dataset.build_item_features(stock_feature_tuples)
 
-# Train LightFM model (Hybrid: using interactions & stock features)
+#Train Lightfm model using interactions from other users & stock attributes
 model = LightFM(loss='warp')
 model.fit(interactions_matrix, item_features=stock_feature_matrix, epochs=10, num_threads=2)
 
-# Function to generate stock recommendations
+#Generate stock recommendations
 def recommend_stocks(model, dataset, user_id, n_recommendations=3):
-    # Get the mapping from internal IDs to stock names
-    stock_ids = dataset.mapping()[1]
-    # Predict the scores for all items
+    #Get the list of stock names (item ids) from the dataset
+    stock_ids = list(dataset.mapping()[1].keys())  #Extract stock names from the dataset mapping
     scores = model.predict(user_id, np.arange(len(stock_ids)), item_features=stock_feature_matrix)
-    # Get the top stock indices by sorting the scores
     top_stock_indices = np.argsort(-scores)[:n_recommendations]
-    # Map the internal stock IDs to their names using the dataset mapping
-    stock_names = [list(stock_ids.keys())[i] for i in top_stock_indices]
+    #Use the indices to get the corresponding stock names
+    stock_names = [list(dataset.mapping()[1].keys())[i] for i in top_stock_indices]
     return stock_names
 
-# Generate recommendations for a sample user
+#Generate recommendations for a sample user
 user_id = 1
 recommendations = recommend_stocks(model, dataset, user_id)
 print(f"Recommended stocks for user {user_id}: {recommendations}")
