@@ -54,7 +54,7 @@ def interactive_recommendation():
     available_stocks = ['TSLA', 'NVDA', 'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'META', 'NFLX']
     print(f"Available stocks: {', '.join(available_stocks)}")
     #Ask the user to enter the stocks they are interested in
-    user_input = input("Enter the stocks you are interested in (comma-separated): ")
+    user_input = input("Enter the stocks names that you are interested in: ")
     selected_stocks = [stock.strip() for stock in user_input.split(',')]
     #Check if the entered stocks are valid
     invalid_stocks = [stock for stock in selected_stocks if stock not in available_stocks]
