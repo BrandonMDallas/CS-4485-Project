@@ -7,7 +7,7 @@ from lightfm.data import Dataset
 interactions = pd.DataFrame({
     'user_id': [1, 1, 2, 2, 3, 3, 4, 4],
     'stock': ['TSLA', 'NVDA', 'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'META', 'NFLX'],
-    'score': [1, 1, 1, 1, 1, 1, 1, 1]  #Based on 
+    'score': [1, 1, 1, 1, 1, 1, 1, 1]
 })
 
 #Stock metadata and attributes
