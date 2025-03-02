@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Stocks</title>
+    <style>
+        h1{
+            text-align: center;
+            font-family:'Courier New', Courier, monospace
+        }
+       .head{
+        background-color:lightseagreen;
+        border-radius: 10px;
+       }
+       .yourSection{
+        background-color: lightblue;
+        border-radius: 10px;
+       }
+       .moreSection{
+        background-color:lightyellow;
+        border-radius: 10px;
+       }
+       .aiButton{
+        background-color: black;
+        color: white;
+        padding: 10px;
+        border-radius: 6px;
+       }
+       .backButton{
+        background-color: green;
+        border-radius: 6px;
+       }
+    </style>
+    <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+    <script type="text/javascript">
+    
+    window.onload = function () {
+        var chart = new CanvasJS.Chart("stock1", {
+            title:{
+                text: "Stock 1"              
+            },
+            data: [              
+            {
+                type: "line",
+                dataPoints: [
+                    { x: 1,  y: 2  },
+                    { x: 2, y: 5  },
+                ]
+            }
+            ]
+        });
+        chart.render();
+    }
+    </script>
+</head>
+<body style="background-color: rgb(167, 129, 25);">
+    <div class="head">
+        <button class="backButton spacing" onclick="location.href='index.html'"><img src="backward icon.jpg" height="50" width="50"></button>
+    <h1>Stocks</h1>
+    <button class="aiButton">Ask AI for investing advice</button>
+    </div>
+    <div class="yourSection">
+        <h2>Your Stocks</h2>
+        <div id="stock1" style="height: 100px; width: 50%;"></div>
+        <button>Edit</button>
+    </div>
+    <br>
+    <div class="moreSection">
+        <h2>View more stocks</h2>
+        
+    </div>
+</body>
+</html>

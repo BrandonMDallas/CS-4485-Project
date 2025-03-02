@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Chill Network!</title>
+    <style>
+        .sticky{
+            position: sticky;
+        }
+        h1{
+            color: white;
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif
+        }
+        .leftS{
+            float: left;
+            position: relative;
+        }
+        .nest1{
+            display: flex;
+        }
+        .nest2{
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: black;
+            color: white;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body style="background-color: red;">
+    
+    <div class="nest1 sticky">
+        <img src="welcomePic2.webp" height="500">
+        <div>
+            <h1>Welcome to the Chill Network!</h1>
+            <div>
+                <button style="width: 250px; height: 100px;" class="nest2" onclick="location.href='logIn.html'">Sign in</button>
+                
+            </div>
+            <div>
+                <button style="width: 250px; height: 100px;" class="nest2" onclick="location.href='signUp.html'">Don't have an account? Sign Up!</button>
+            </div>
+            
+        </div>
+        <div>
+            <div>
+                <img src="musicListen.webp" height="300">
+            </div>
+            <div >
+                <img src="welcomePic3.webp" height="200" width="300">
+                <div class="leftS">
+                    <div class="spacing">
+                    <img src="aiPic.webp" height="150" width="150">
+                    <p style="color:white">With an AI assistant!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</body>
+</html>

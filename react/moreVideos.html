@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Videos from Sports Hub</title>
+    <style>
+        .videoSection{
+            background-color: whitesmoke;
+            width:500px;
+            border-radius: 10px;
+            position: relative;
+        }
+        .dropdownContent2{
+            display:none;
+            position:absolute;
+            background-color: gray;
+            min-width: 160px;
+            overflow: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            
+        }
+       .dropdownContent2 a{
+        color: black;
+            padding: 12px 12px;
+            text-decoration: none;
+            display: block;
+       }
+        .dropdownContent2 a:hover{background-color:blue;}
+        .mainButton2{
+            background-color: black;
+            color: white;
+            padding: 15px;
+            font-size:15px;
+            top: -50px;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+        
+        .mainButton2:hover{
+            color: white;
+            background-color: blue;
+        }
+        .sticky{
+            position: sticky;
+        }
+        .dropdown2{
+            position: relative;
+            display: inline-block;
+        }
+        .show{display:block;}
+    </style>
+</head>
+<body style="background-color: rgb(43, 43, 43);">
+    <div class="videoSection sticky">
+        <button onclick="location.href='sportsHub.html'"><img src="backward icon.jpg" height="50" width="50"></button>
+        <h1>List of videos from the last...</h1>
+        <div class="dropdown2">
+            <div>
+        <button class="mainButton2" onclick="dropDown()">Filter by</button>
+        <div id="dropID" class="dropdownContent2">
+            <a>Time</a>
+            <a>Sport</a>
+        </div>
+        </div>
+        </div>
+        <br>
+        <br>
+        <embed type="video/webm" width="300" height="100">
+            <embed type="video/webm" width="300" height="100">
+            <embed type="video/webm" width="300" height="100">
+            <embed type="video/webm" width="300" height="100">
+            <embed type="video/webm" width="300" height="100">
+            <embed type="video/webm" width="300" height="100">
+        </div>
+        
+    </div>
+    
+        
+    
+    <script>
+        function dropDown(part){
+            document.getElementById("dropID").classList.toggle("show");
+           
+        }
+        window.onclick=function(event){
+            if(!event.target.matches('.mainButton2')){
+                var dropOptions, count, currOption;
+                 dropOptions=document.getElementsByClassName("dropdownContent2");
+                for(count=0; count<dropOptions.length; count++){
+                    currOption=dropOptions[count];
+                    if(currOption.classList.contains('show')){
+                        currOption.classList.remove('show');
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
