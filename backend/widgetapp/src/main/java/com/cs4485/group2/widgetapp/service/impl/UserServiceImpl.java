@@ -5,10 +5,12 @@ import com.cs4485.group2.widgetapp.model.User;
 import com.cs4485.group2.widgetapp.repository.UserRepository;
 import com.cs4485.group2.widgetapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
