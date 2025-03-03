@@ -29,6 +29,26 @@ public class UserController {
         UserDto savedUserDto = userService.getUserById(userId);
         return ResponseEntity.ok(savedUserDto);
     }
+
+    @GetMapping()
+    public ResponseEntity<List<UserDto>> getAllUsers(){
+        List<UserDto> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<UserDto> updateUser(@PathVariable("id") Long userId, @RequestBody UserDto updatedUser )
+    {
+        UserDto userDto = userService.updateUser(userId, updatedUser);
+        return ResponseEntity.ok(userDto);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable("id") Long userId)
+    {
+        userService.deleteUser(userId);
+        return ResponseEntity.ok("User deleted successfully!");
+    }
     /*
     @Autowired
     public UserController(UserService userService) {

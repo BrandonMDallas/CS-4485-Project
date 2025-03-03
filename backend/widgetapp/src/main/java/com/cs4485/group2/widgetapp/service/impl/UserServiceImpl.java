@@ -37,9 +37,30 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> findAllUsers() {
+    public List<UserDto> getAllUsers() {
         List<User> users = userRepository.findAll();
-        return users.stream().map(this::mapToUserDto).collect(Collectors.toList());
+        return users.stream().map((user) -> UserMapper.mapToUserDto(user)).collect(Collectors.toList());
+        //return users.stream().map(this::mapToUserDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public UserDto updateUser(Long userId, UserDto updatedUser) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("User does not exist with the given id: " + userId));
+        user.setUsername(updatedUser.getUsername());
+        user.setEmail(updatedUser.getEmail());
+        User updatedUserObj = userRepository.save(user);
+        return UserMapper.mapToUserDto(updatedUserObj);
+    }
+
+    @Override
+    public void deleteUser(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("User does not exist with the given id: " + userId));
+
+        userRepository.deleteById(user.getId());
     }
 
     private UserDto mapToUserDto(User user) {
