@@ -11,12 +11,36 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <title>The-hub</title>
-
+<style>
+  /* Dark mode styles (this part was done by Unaisa) */
+  .dark-mode {
+        background-color: #121212;
+        color: white;
+    }
+    .dark-mode .mainTab {
+        background-color: #1e1e1e;
+        border-color: white;
+    }
+    .dark-mode .group1, 
+    .dark-mode .searchAssistant, 
+    .dark-mode .followTeam, 
+    .dark-mode .videoSection {
+        background-color: #333;
+        color: white;
+    }
+    .dark-mode button {
+        background-color: #555;
+        color: white;
+    }
+    .dark-mode button:hover {
+        background-color: #777;
+    }
+</style>
 </head>
-<body style="background-color: gray">
+<body class="dark-mode">
     <h1 class="display-4" style="text-align: center;">The-hub</h1>
     <div class="dropdown" style="display: table; margin: 0 auto;">
-        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+        <button class="dark-mode button" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
           Menu
         </button>
         
