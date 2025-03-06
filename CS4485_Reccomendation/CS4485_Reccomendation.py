@@ -29,6 +29,7 @@ def get_stock_data_parallel(tickers):
     print(f"Fetched data for {len(stock_data)} stocks.")
     return pd.DataFrame(stock_data)
 
+# Fetch stock information
 def fetch_stock_info(ticker):
     stock = yf.Ticker(ticker)
     info = stock.info
@@ -37,9 +38,13 @@ def fetch_stock_info(ticker):
     return {'stock': ticker, 'sector': sector, 'volatility': volatility}
 
 # Fetch real-time stock data
-tickers = get_all_stocks() [:50] #struggle to get anything past 50
+tickers = get_all_stocks()[:50]
 stock_list = tickers  # Define stock_list globally
 stock_features = get_stock_data_parallel(tickers)
+
+# Create a mapping of stocks by sector and volatility
+sector_map = stock_features.groupby('sector')['stock'].apply(list).to_dict()
+volatility_map = stock_features.groupby('volatility')['stock'].apply(list).to_dict()
 
 # Simulated user interactions
 interactions = pd.DataFrame({
@@ -64,33 +69,49 @@ stock_feature_matrix = dataset.build_item_features(stock_feature_tuples)
 model = LightFM(loss='warp')
 model.fit(interactions_matrix, item_features=stock_feature_matrix, epochs=1, num_threads=2)
 
-# Recommendation function
-def recommend_stocks(user_id, n_recommendations=5, stock_list=None):
-    if stock_list is None:
-        print("Error: stock_list is not defined!")
-        return []
-    
-    print(f"Generating recommendations for user {user_id}...")
+# Enhanced Recommendation function
+def recommend_stocks(user_input_stock, n_recommendations=5):
+    user_input_stock = user_input_stock.upper()
 
-    stock_name_to_index = {stock: i for i, stock in enumerate(stock_list)}  
-    stock_index_to_name = {v: stock for stock, v in stock_name_to_index.items()}
-    
-    stock_ids = list(stock_name_to_index.keys())  
-    scores = model.predict(user_id, np.arange(len(stock_ids)), item_features=stock_feature_matrix)
-    top_stock_indices = np.argsort(-scores)[:n_recommendations]
-    
-    recommendations = [str(stock_index_to_name[i]) for i in top_stock_indices]
+    # Check if the stock exists in our data
+    if user_input_stock not in stock_features['stock'].values:
+        print(f"Stock {user_input_stock} not found in data!")
+        return []
+
+    # Extract sector and volatility of the given stock
+    stock_info = stock_features[stock_features['stock'] == user_input_stock].iloc[0]
+    stock_sector = stock_info['sector']
+    stock_volatility = stock_info['volatility']
+
+    # Group stocks by sector and volatility
+    sector_matches = stock_features[stock_features['sector'] == stock_sector]['stock'].tolist()
+    volatility_matches = stock_features[stock_features['volatility'] == stock_volatility]['stock'].tolist()
+
+    # Remove the selected stock itself from recommendations
+    sector_matches = [s for s in sector_matches if s != user_input_stock]
+    volatility_matches = [s for s in volatility_matches if s != user_input_stock]
+
+    # Select recommendations
+    recommendations = []
+    for stock in sector_matches[:n_recommendations//2]:  # Prioritize same sector
+        recommendations.append((stock, f"Same Sector: {stock_sector}"))
+
+    for stock in volatility_matches[:n_recommendations//2]:  # Then similar volatility
+        if stock not in sector_matches:
+            recommendations.append((stock, f"Similar Volatility: {stock_volatility}"))
+
+    # Print recommendations
+    print("\nRecommended stocks:")
+    for stock, reason in recommendations:
+        print(f"- {stock} ({reason})")
 
     return recommendations
 
-# Interactive User Interface
+# Interactive CLI for input
 def interactive_recommendation():
     print(f"Available stocks: {', '.join(stock_list[:20])}...")
-    user_input = input("Enter stock names you are interested in: ")
-    selected_stocks = [stock.strip().upper() for stock in user_input.split(',')]
-    print(f"Selected stocks: {', '.join(selected_stocks)}")
-    user_id = 1
-    recommendations = recommend_stocks(user_id, stock_list=stock_list)
-    print(f"Recommended stocks: {', '.join(recommendations)}")
+    user_input = input("Enter a stock name you are interested in: ").strip().upper()
+    recommend_stocks(user_input)
 
+# Run the interactive function
 interactive_recommendation()
