@@ -164,6 +164,64 @@
         .show {
             display: block;
         }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+            background: white;
+            padding: 5px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .search-btn {
+            background-color: transparent;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        .search-btn img {
+            width: 20px;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .search-btn:hover img {
+            opacity: 1;
+        }
+
+        /* Trending Tags */
+        .trending-tags {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .trending-tags span {
+            background: #007bff;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .trending-tags span:hover {
+            background: #0056b3;
+        }
+
     </style>
 </head>
 <body>
@@ -208,6 +266,24 @@
             </div>
             
             <!-- Search Section -->
+            <div class="section searchSection">
+                <h2>Search for Music</h2>
+        
+                <div class="search-bar">
+                    <input type="text" placeholder="Search for songs, artists..." class="search-input">
+                    <button class="search-btn">
+                        <img src="search-icon.png" alt="🔍" width="20">
+                    </button>
+                </div>
+
+                <p>Trending now:</p>
+                <div class="trending-tags">
+                    <span>#TopHits</span>
+                    <span>#NewReleases</span>
+                    <span>#ViralTracks</span>
+                </div>
+            </div>
+
                         
             <!-- Playlist Section -->
             <div class="section playlistSection">
