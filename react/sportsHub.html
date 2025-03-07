@@ -1,313 +1,501 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Sports hub</title>
+    <title>Sports Hub</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        .spacing{
-            margin: 15px;
-        }
-        .group1{
-            text-align: left;
-            background-color: gray;
-            overflow: hidden;
-            padding:10px 10px;
-            border: 1px darkslategrey;
-            position: relative;
-            float: left; 
-            width: 700px;
-        }
-        .group1{border-radius:16px;}
-        h1{
-            text-align: center;
-            font-family:Verdana, Geneva, Tahoma, sans-serif;
-        }
-        h2{
-            text-align: center;
-            font-family:'Courier New', Courier, monospace;
-        }
-        .h2v2{
-            font-family:Arial, Helvetica, sans-serif;
-        }
-        .section1{
-            background-color: yellowgreen;
-            border: 3px solid darkgreen;
-            float: left;
-            overflow: hidden;
-            width: 10%;
-            padding: 20px 80px
-        }
-        .section1{border-radius:16px;}
-        body{
-            font-family: Arial;
-        }
-        .bodySection1{
-            text-align: left;
-            font-family:'Courier New', Courier, monospace;
-        }
-        .courierFont{
-            font-family:'Courier New', Courier, monospace;
-            position: relative;
-            bottom: 35px;
-        }
-        .mainTab{
-            border: 2px solid blue;
-            background-color: lightblue;
-            overflow: hidden;
-            padding: 20px 4px;
-            height: 205px;
-        }
-        .sticky{
-            position: sticky;
-        }
-        .mainTabImage{
-            position: relative;
-            left: 100px;
-            top: -125px;
-            float: left;
-            border-radius: 10px;
-            background-color:aliceblue;
-            margin: 15px;
-        }
-        .mainTabImage:hover{
-            color: white;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
         
-        .mainTab{border-radius:16px;}
-        .newsTab{
-            border: 5px solid black;
-            background-color: gray;
-            overflow: hidden;
-            padding: 30px;
-            float: left;
-            width: 10%;
-            position: relative;
-            float: left;
-        }
-        .mainTab button.selected{
-            background-color:blue;
-        }
-        .componentInWidget{
-            position: relative;
-            float: left;
-            background-color: lightgrey;
-            padding: 20px;
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+            padding: 0 20px;
         }
         
-        .assistantButton{
-            background-color:blueviolet;
-            color:white;
-            padding:15px;
-            font-size:15px;
-            border: blueviolet;
+        /* Page title */
+        h1 { 
+            text-align: center;
+            font-family: Arial, sans-serif;
+            font-size: 2.5rem;
+            font-weight: bold;
+            padding: 10px 0;
+            margin: 0 0 15px 0;
+            color: #333;
+            position: relative;
+            width: 100%;
+        }
+        
+        h1::after {
+            content: "";
             display: block;
-            margin-left: auto;
-            margin-right: auto;
+            width: 150px;
+            height: 3px;
+            background-color: #4CAF50;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
         }
-        .assistantButton:hover{
-            background-color:black;
+        
+        h2 {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            margin-bottom: 15px;
         }
-        .assistantButton{border-radius:10px;}
-        .mainTab button{
-            background-color:beige;
-            float: left;
-            border: aqua;
-            cursor:pointer;
-            padding: 14px 16px;
-            font-size:18px;
-            position: relative;
+        
+        .h2v2 {
+            font-family: Arial, sans-serif;
         }
-        .mainButton{
-            background-color: beige;
-            color: black;
-            padding: 15px;
-            font-size:15px;
-            top: -50px;
+        
+        p {
+            margin-bottom: 1px;
+            font-family: Arial, sans-serif;
         }
-        .mainButton{border-radius: 8px;}
-        .mainButton:hover{
+        
+        /* Layout Components */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .spacing {
+            margin: 15px;
+        }
+        
+        .mainTab {
+            background-color: rgb(160, 199, 212);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            position: sticky;
+            margin-top: 20px;
+            padding-top: 20px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 0 20px;
+            margin-bottom: 15px;
+        }
+        
+        .header-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+            width: 100%;
+        }
+        
+        .mainCal {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 20px;
+        }
+        
+        /* Main content column */
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        /* Sidebar column */
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        /* Content Sections */
+        .group1 {
+            text-align: left;
+            background-color: #666;
+            border-radius: 16px;
+            padding: 20px;
+            width: 100%;
+        }
+        
+        .componentInWidget {
+            background-color: #e0e0e0;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            width: 100%;
+            clear: both;
+        }
+        
+        .courierFont {
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .searchAssistant {
+            background-color: lightskyblue;
+            border-radius: 10px;
+            padding: 20px;
+            width: 100%;
+            aspect-ratio: 1/1; /* Makes it a square */
+        }
+        
+        .followTeam {
+            background-color: lightcoral;
+            border-radius: 10px;
+            padding: 20px;
+            width: 100%;
+        }
+        
+        .videoSection {
+            background-color: whitesmoke;
+            border-radius: 10px;
+            padding: 20px;
+            width: 100%;
+        }
+        
+        /* Interactive Elements */
+        .assistantButton {
+            background-color: blueviolet;
             color: white;
+            padding: 15px;
+            font-size: 15px;
+            border: none;
+            border-radius: 10px;
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-family: Arial, sans-serif;
         }
-        .mainTab button:hover{
-            background-color:blue;
+        
+        .assistantButton:hover {
+            background-color: black;
         }
-        .dropdown{
+        
+        .mainButton { /*menu button*/
+            background-color: white;
+            color: black;
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: Arial, sans-serif;
+            min-width: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .mainButton:hover {
+            color: white;
+            background-color: blue;
+        }
+        
+        .backButton {
+            background-color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+        }
+        
+        .mainTabImage {
+            background-color: aliceblue;
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            min-width: 120px;
+        }
+        
+        .mainTabImage:hover {
+            background-color: #e0e0e0;
+            transform: translateY(-3px);
+        }
+        
+        .moreVideosButton {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            margin: 15px 0;
+            display: block;
+            width: fit-content;
+            font-family: Arial, sans-serif;
+        }
+        
+        /* Form elements */
+        input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+            font-family: Arial, sans-serif;
+        }
+        
+        button[type="submit"] {
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+        }
+        
+        /* Dropdown */
+        .dropdown {
             position: relative;
             display: inline-block;
         }
-        .sideToSide{
-            display: flex;
-        }
-        .videoSection{
-            background-color: whitesmoke;
-            width:500px;
-            border-radius: 10px;
-            position: relative;
-        }
-        .moreVideosButton{
-            position: relative;
-            left: 80px;
-            top: -3px;
-        }
-        .sideToSide .left, .sideToSide .right{
-            flex: 1;
-        }
-        .dropdownContent{
-            display:none;
-            position:absolute;
+        
+        .dropdownContent {
+            display: none;
+            position: absolute;
             background-color: gray;
             min-width: 160px;
+            border-radius: 5px;
             overflow: auto;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
             z-index: 1;
+            top: 100%;
+            left: 0;
         }
-        .dropdownContent a{
+        
+        .dropdownContent a {
             color: black;
-            padding: 12px 12px;
+            padding: 12px;
             text-decoration: none;
             display: block;
-        }
-        .dropdownContent a:hover{background-color:blueviolet;}
-        .searchFormat1{
-            text-align:left;
-        }
-        .followTeam{
-            position: relative;
-            float: left;
-            background-color: lightcoral;
-            border-color: black;
-            font-family: Arial, Helvetica, sans-serif;
-            width: 250px;
-            border-radius: 10px;
-            padding: 10px;
-        }        
-        .searchAssistant{
-            background-color:lightskyblue;
-            float: left; 
-            width:30%;
-            padding: 20px 20px;
-            position: relative;
-            float: center;
-        }
-        .searchAssistant{border-radius: 10px;}
-        .mainTabContent{
-            display:none;
-            padding: 6px 12px;
-            border: 1px solid #ccc;
-            border-top: none;
-        }
-        .show {display:block;}
-        .mainCal{
-            display:flex;
-            
-        }
-        .backButton{
-            position: relative;
-            float: left;
-            border-radius: 6px;
-            background-color: white;
-            top: -100px;
+            font-family: Arial, sans-serif;
         }
         
+        .dropdownContent a:hover {
+            background-color: blueviolet;
+            color: white;
+        }
+        
+        .show {
+            display: block;
+        }
+        
+        /* Utility classes */
+        .text-center {
+            text-align: center;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-family: Arial, sans-serif;
+        }
+        
+        .flex-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        /* Other text elements */
+        ul, li, h3, strong {
+            font-family: Arial, sans-serif;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .mainCal {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-buttons {
+                flex-wrap: wrap;
+            }
+            
+            .searchAssistant {
+                aspect-ratio: auto;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
     </style>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
 </head>
-<body style="background-color: rgb(43, 43, 43);">
-    
-    <div class="mainTab sticky"> 
-        <h1>Sports hub</h2>
-            <button class="backButton spacing" onclick="location.href='index.html'"><img src="backward icon.jpg" height="50" width="50"></button>
-        <div class="dropdown">
-            <button class="mainButton" onclick="dropDown()">Menu</button>
-            <div id="DPart" class="dropdownContent">
-                <a>My teams</a>
-                <a href="#" onclick="windowOpen()">Settings</a>
+<body>
+    <div class="container">
+        <!-- Header Navigation - Redesigned -->
+        <div class="mainTab">
+            <!-- Top navigation bar with back button and menu -->
+            <div class="header-nav">
+                <button class="backButton" onclick="location.href='index.html'">
+                    <img src="backward icon.jpg" height="30" width="30" alt="Back">
+                </button>
                 
+                <div class="dropdown">
+                    <button class="mainButton" onclick="dropDown()">Menu</button>
+                    <div id="DPart" class="dropdownContent">
+                        <a href="#">My Teams</a>
+                        <a href="#" onclick="windowOpen()">Settings</a>
+                    </div>
+                </div>
             </div>
-           
-        </div>
-        <div>
-            <button class="mainTabImage" onclick="location.href='widgetAdder.html'"><img src="plusIcon.png" width="50" height="50"><p>Add a widget</p></button>
-            <button class="mainTabImage"><img src="profileIcon.png" width="50" height="50"><p>View profile</p></button>
             
+            <!-- Centered title with decorative underline -->
+            <h1>Sports Hub</h1>
+            
+            <!-- Centered action buttons -->
+            <div class="header-buttons">
+                <button class="mainTabImage" onclick="location.href='widgetAdder.html'">
+                    <img src="plusIcon.png" width="30" height="30" alt="Add Widget">
+                    <p>Add a widget</p>
+                </button>
+                <button class="mainTabImage">
+                    <img src="profileIcon.png" width="30" height="30" alt="Profile">
+                    <p>View profile</p>
+                </button>
+            </div>
         </div>
         
+        <!-- Main Content Area - Using Grid Layout -->
+        <div class="mainCal">
+            <!-- Left Column - News and Videos -->
+            <div class="left-column">
+                <!-- News Section -->
+                <div class="group1">
+                    <h2 class="section-title">News of the Week</h2>
+                    
+                    <div class="componentInWidget">
+                        <h3 class="courierFont">Latest Results</h3>
+                        <embed type="text/html" src="latestResults.html" width="100%" height="150">
+                    </div>
+                    
+                    <div class="componentInWidget">
+                        <h3 class="courierFont">Latest Events</h3>
+                        <ul>
+                            <li>No events found</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="componentInWidget">
+                        <h3 class="courierFont">Search Events</h3>
+                        <div class="flex-container">
+                            <input type="text" placeholder="Type here..." name="search" style="flex: 1;">
+                            <button type="submit">
+                                <img src="searchIcon.jpg" width="15" height="15" alt="Search">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Video Section -->
+                <div class="videoSection">
+                    <h2>Watch the Latest Game!</h2>
+                    <embed type="video/webm" width="100%" height="150">
+                    
+                    <h3 style="font-size: 20px; margin: 15px 0;">View Previous Games</h3>
+                    <div class="flex-container" style="flex-wrap: wrap;">
+                        <embed type="video/webm" width="48%" height="100">
+                        <embed type="video/webm" width="48%" height="100">
+                    </div>
+                    
+                    <button class="moreVideosButton" onclick="location.href='moreVideos.html'">
+                        View more videos
+                    </button>
+                    
+                    <h3 style="font-size: 20px; margin: 15px 0;">Search for Game Videos</h3>
+                    <div class="flex-container">
+                        <input type="text" placeholder="Type here..." name="search" style="flex: 1;">
+                        <button>
+                            <img src="searchIcon.jpg" width="15" height="15" alt="Search">
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Column - AI Assistant and Team Following -->
+            <div class="right-column">
+                <!-- AI Assistant Section - Now a square -->
+                <div class="searchAssistant">
+                    <h2 class="h2v2 text-center">Talk to our AI Assistant</h2>
+                    <button class="assistantButton" onclick="location.href='aiInterest.html'">
+                        Need to find interests?
+                    </button>
+                    <button class="assistantButton">
+                        Need help figuring something out?
+                    </button>
+                    <div class="text-center" style="margin-top: 15px;">
+                        <img src="AIImage.webp" height="100" width="auto" alt="AI Assistant">
+                    </div>
+                </div>
+                
+                <!-- Team Following Section -->
+                <div class="followTeam">
+                    <h2>Follow a Team</h2>
+                    <div class="flex-container">
+                        <input type="text" placeholder="Type team name here..." name="search" style="flex: 1;">
+                        <button>
+                            <img src="searchIcon.jpg" width="15" height="15" alt="Search">
+                        </button>
+                    </div>
+                    <p><strong>About your followed teams:</strong></p>
+                    <ul>
+                        <li>(Enter a team to find facts about it)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
     
-    </div>
-</div>
-    <br>
-    <div class="mainCal">
-   <div class="group1"> 
-    <h2>News of the week</h2>
-    <div class="componentInWidget spacing">
-        
-            <p class="courierFont">Latest results</p>
-            <embed type="text/html" src="latestResults.html" width="100" height="100">
-       
-    </div>
-    <div class="componentInWidget spacing">
-        
-        <p class="courierFont">Latest events</p>
-        <ul><li></li></ul>
-    </div>
-    
-    <div class="componentInWidget spacing">
-        <p class="courierFont">Search events</p>
-        <input type="text" placeholder="Type here..." name="search">
-        <button type="submit"><img src="searchIcon.jpg" width="15" height="15"></button>
-    </div>
-</div>
-   <hr>
-   <div class="searchAssistant spacing">
-    <h2 class="h2v2">Talk to our AI assistant</h2>
-    <button class="assistantButton spacing" onclick="location.href='aiInterest.html'">Need to find interests?</button>
-    <button class="assistantButton">Need help figuring something out?</button>
-    <br>
-    <img src="AIImage.webp" height="100" width="200">
-   </div>
-   
-<div class="followTeam spacing">
-    <h2 style="font-family:Verdana, Geneva, Tahoma, sans-serif">Follow a team</h2>
-    <div style="display: flex;">
-        <div style="flex: 1"><input type="text" placeholder="Type team name here..." name="search"></div>
-    <div style="flex: 1"><button><img src="searchIcon.jpg" width="15" height="15"></button></div>
-    </div>
-    <p>About your followed teams: </p>
-    <ul><li>(Enter a team to find facts about it)</li></ul>
-    
-</div>
-<div class="videoSection spacing">
-    <h2>Watch the latest game!</h2>
-    <embed type="video/webm" width="300" height="100">
-        <p style="font-size: 20px;">View previous games</p>
-        <embed type="video/webm" width="300" height="100">
-        <embed type="video/webm" width="300" height="100">
-    <button class="moreVideosButton" onclick="location.href='moreVideos.html'">View more videos</button>
-    <p style="font-size: 20px;">Search for more videos of games</p>
-    <div style="flex: 1; float: left;"><input type="text" placeholder="Type here..." name="search"></div>
-    <div style="flex: 1; float: left;"><button><img src="searchIcon.jpg" width="15" height="15"></button></div>
-</div>
-    </div>
     <script>
-        function dropDown(part){
+        function dropDown() {
             document.getElementById("DPart").classList.toggle("show");
-           
         }
-        window.onclick=function(event){
-            if(!event.target.matches('.mainButton')){
-                var dropOptions, count, currOption;
-                 dropOptions=document.getElementsByClassName("dropdownContent");
-                for(count=0; count<dropOptions.length; count++){
-                    currOption=dropOptions[count];
-                    if(currOption.classList.contains('show')){
+        
+        window.onclick = function(event) {
+            if (!event.target.matches('.mainButton')) {
+                var dropOptions = document.getElementsByClassName("dropdownContent");
+                for (var count = 0; count < dropOptions.length; count++) {
+                    var currOption = dropOptions[count];
+                    if (currOption.classList.contains('show')) {
                         currOption.classList.remove('show');
                     }
                 }
             }
         }
-        function windowOpen(){
-            windowInstance=window.open('sportsSettings.html', 'Settings Window Sports', 'top=100, left=100, width=300, height=300,status=1')
+        
+        function windowOpen() {
+            var windowInstance = window.open('sportsSettings.html', 'Settings Window Sports', 'top=100, left=100, width=400, height=500, status=1');
         }
     </script>
 </body>
