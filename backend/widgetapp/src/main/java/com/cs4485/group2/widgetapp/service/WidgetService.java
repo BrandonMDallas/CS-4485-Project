@@ -13,5 +13,5 @@ public interface WidgetService {
 
     WidgetDto updateWidget(Long widgetId, WidgetDto updatedWidget);
 
-    void deleteWidget(Long widget);
+    void deleteWidget(Long widgetId);
 }

@@ -62,14 +62,4 @@ public class UserServiceImpl implements UserService {
 
         userRepository.deleteById(user.getId());
     }
-
-    private UserDto mapToUserDto(User user) {
-        return UserDto.builder()
-                .id(user.getId())
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .createdAt(user.getCreatedAt())
-                .updatedAt(user.getUpdatedAt())
-                .build();
-    }
 }
