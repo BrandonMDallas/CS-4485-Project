@@ -32,4 +32,41 @@ public class AlphaVantageService {
         ResponseEntity<AlphaVantageResponse> response = restTemplate.getForEntity(url, AlphaVantageResponse.class);
         return response.getBody();
     }
+
+    /**
+     * Fetches daily cryptocurrency data using Alpha Vantage’s DIGITAL_CURRENCY_DAILY function.
+     * @param symbol Cryptocurrency symbol (e.g., "BTC")
+     * @param market Market currency (e.g., "USD")
+     */
+    public AlphaVantageResponse getDailyCryptoData(String symbol, String market) {
+        String function = "DIGITAL_CURRENCY_DAILY";
+        String url = String.format("%s?function=%s&symbol=%s&market=%s&apikey=%s", baseUrl, function, symbol, market, apiKey);
+        ResponseEntity<AlphaVantageResponse> response = restTemplate.getForEntity(url, AlphaVantageResponse.class);
+        return response.getBody();
+    }
+
+    /**
+     * Fetches daily forex data using Alpha Vantage’s FX_DAILY function.
+     * @param fromCurrency Base currency (e.g., "EUR")
+     * @param toCurrency Target currency (e.g., "USD")
+     */
+    public AlphaVantageResponse getDailyForexData(String fromCurrency, String toCurrency) {
+        String function = "FX_DAILY";
+        String url = String.format("%s?function=%s&from_symbol=%s&to_symbol=%s&apikey=%s", baseUrl, function, fromCurrency, toCurrency, apiKey);
+        ResponseEntity<AlphaVantageResponse> response = restTemplate.getForEntity(url, AlphaVantageResponse.class);
+        return response.getBody();
+    }
+
+    /**
+     * Fetches commodity data. In this example we reuse the TIME_SERIES_DAILY function,
+     * assuming the symbol represents a commodity (e.g., "WTI").
+     * Adjust the function if your commodity provider requires a different endpoint.
+     * @param symbol Commodity symbol
+     */
+    public AlphaVantageResponse getCommodityData(String symbol) {
+        String function = "TIME_SERIES_DAILY";
+        String url = String.format("%s?function=%s&symbol=%s&apikey=%s", baseUrl, function, symbol, apiKey);
+        ResponseEntity<AlphaVantageResponse> response = restTemplate.getForEntity(url, AlphaVantageResponse.class);
+        return response.getBody();
+    }
 }
