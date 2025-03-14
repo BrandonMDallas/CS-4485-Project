@@ -1,6 +1,7 @@
 import yfinance as yf
 import numpy as np
 import pandas as pd
+import requests
 from lightfm import LightFM
 from lightfm.data import Dataset
 from concurrent.futures import ThreadPoolExecutor
@@ -97,10 +98,78 @@ def recommend_stocks(user_input_stock, n_recommendations=5):
         print(f"- {stock} ({reason})")
     return recommendations
 
+
+def get_stock_news(stock):
+    API_KEY = "dd5aee5d09f640748e280fde6759f8a6"  
+    url = f"https://newsapi.org/v2/everything?q={stock}&apiKey={API_KEY}"
+
+    try:
+        response = requests.get(url)
+        data = response.json()
+        
+        if data["status"] != "ok":
+            print("Error fetching news:", data.get("message", "Unknown error"))
+            return []
+        
+        articles = data.get("articles", [])[:5]  # Get top 5 articles
+        news_list = [(article["title"], article["url"]) for article in articles]
+
+        return news_list
+
+    except Exception as e:
+        print(f"Error fetching news for {stock}: {e}")
+        return []
+    
+def get_company_name(stock_symbol):
+    try:
+        url = f"https://query2.finance.yahoo.com/v1/finance/search?q={stock_symbol}"
+        response = requests.get(url, headers={"User-Agent": "Mozilla/5.0"})
+        data = response.json()
+
+        if "quotes" in data and len(data["quotes"]) > 0:
+            return data["quotes"][0].get("shortname", stock_symbol)  # Get full company name
+        else:
+            return stock_symbol  # Default to the symbol if not found
+    except Exception as e:
+        return stock_symbol  # Return symbol if API fails
+
+def get_company_summary(stock_symbol):
+    """Fetch the Wikipedia summary for a stock using its full company name."""
+    company_name = get_company_name(stock_symbol)  # Convert symbol to full name
+    
+    search_url = f"https://en.wikipedia.org/api/rest_v1/page/summary/{company_name.replace(' ', '_')}"
+    
+    try:
+        response = requests.get(search_url)
+        data = response.json()
+        
+        if "extract" in data:
+            return data["extract"]
+        else:
+            return f"No summary found for {company_name}."
+    except Exception as e:
+        return f"Error fetching summary for {stock_symbol}: {e}"
+
 # Input
 def interactive_recommendation():
     print(f"Available stocks: {', '.join(stock_list[:50])}...")
     user_input = input("Enter a stock name you are interested in: ").strip().upper()
+    
+    # Fetch and display company summary
+    print(f"\nSummary of {user_input}:")
+    print(get_company_summary(user_input))
+
     recommend_stocks(user_input)
+    # Fetch and display news articles
+    print(f"\nFetching news for {user_input}...\n")
+    news_articles = get_stock_news(user_input)
+
+    if news_articles:
+        print("Recent News Articles:")
+        for title, url in news_articles:
+            print(f"- {title} ({url})")
+    else:
+        print("No news found for this stock.")
+
 #Run the interactive function
 interactive_recommendation()
