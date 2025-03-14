@@ -13,7 +13,7 @@ public class DotenvInitializer implements ApplicationContextInitializer<Configur
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
         Dotenv dotenv = Dotenv.configure()
-                .ignoreIfMissing() // Optional: ignore if the .env file is not found
+                .ignoreIfMissing()
                 .load();
 
         Map<String, Object> map = new HashMap<>();
