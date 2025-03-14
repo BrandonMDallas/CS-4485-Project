@@ -31,4 +31,30 @@ public class NewsApiService {
         ResponseEntity<NewsApiResponse> response = restTemplate.getForEntity(url, NewsApiResponse.class);
         return response.getBody();
     }
+
+    /**
+     * Fetches top headlines filtered by category.
+     *
+     * @param country  the country code (e.g., "us", "gb")
+     * @param category the news category (e.g., "technology", "sports")
+     * @return the parsed response from NewsAPI
+     */
+    public NewsApiResponse getTopHeadlinesByCategory(String country, String category) {
+        String url = String.format("%s?country=%s&category=%s&apiKey=%s", baseUrl, country, category, apiKey);
+        ResponseEntity<NewsApiResponse> response = restTemplate.getForEntity(url, NewsApiResponse.class);
+        return response.getBody();
+    }
+
+    /**
+     * Fetches headlines based on a keyword search.
+     *
+     * @param country the country code (e.g., "us", "gb")
+     * @param keyword the search keyword
+     * @return the parsed response from NewsAPI
+     */
+    public NewsApiResponse getHeadlinesByKeyword(String country, String keyword) {
+        String url = String.format("%s?country=%s&q=%s&apiKey=%s", baseUrl, country, keyword, apiKey);
+        ResponseEntity<NewsApiResponse> response = restTemplate.getForEntity(url, NewsApiResponse.class);
+        return response.getBody();
+    }
 }

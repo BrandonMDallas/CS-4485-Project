@@ -23,4 +23,24 @@ public class NewsApiController {
     public NewsApiResponse getTopHeadlines(@RequestParam(defaultValue = "us") String country) {
         return newsApiService.getTopHeadlines(country);
     }
+
+    /**
+     * Endpoint to get top headlines filtered by category.
+     * Example: GET /top-headlines/category?country=us&category=technology
+     */
+    @GetMapping("/top-headlines/category")
+    public NewsApiResponse getTopHeadlinesByCategory(@RequestParam(defaultValue = "us") String country,
+                                                     @RequestParam String category) {
+        return newsApiService.getTopHeadlinesByCategory(country, category);
+    }
+
+    /**
+     * Endpoint to get headlines by keyword search.
+     * Example: GET /top-headlines/search?country=us&keyword=bitcoin
+     */
+    @GetMapping("/top-headlines/search")
+    public NewsApiResponse getHeadlinesByKeyword(@RequestParam(defaultValue = "us") String country,
+                                                 @RequestParam String keyword) {
+        return newsApiService.getHeadlinesByKeyword(country, keyword);
+    }
 }
