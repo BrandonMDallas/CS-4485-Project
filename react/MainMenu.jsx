@@ -6,17 +6,18 @@ import Tabs from 'react-bootstrap/Tabs'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import './App.css'
-import StocksPage from './App.jsx'
-import { BrowserRouter, Router, Routes, Route, Navigate } from 'react-router-dom'
+import StocksPage from './StocksPage.jsx'
 import { useNavigate } from "react-router"
 import Form from 'react-bootstrap/Form'
 import InputGroup from 'react-bootstrap/InputGroup';
 import Stack from 'react-bootstrap/Stack';
 import { useState, useEffect } from 'react'
 import Axios from 'axios';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom'
 import Carousel from 'react-bootstrap/Carousel';
 import Accordion from 'react-bootstrap/Accordion';
-
+import App from './StocksPage.jsx'
+import { Link } from 'react-router'
     function MyComponent() {
       /*let navigate = useNavigate();
 
@@ -50,8 +51,24 @@ import Accordion from 'react-bootstrap/Accordion';
      const changePassword = () =>{
       setElementType2(elementType2 === 'div' ? 'input' : 'div');
      }
+     const [username, setUserName]=useState("")
+  const [password, setPassword]=useState("")
+  const [picVar, setPicVar]=useState("")
+const usernameChange = () =>
+{
+  console.log(username)
+}
+const passwordChange = () =>
+  {
+    console.log(password)
+  }
+     // '/' is default page for routing 
       return (
-        <>
+        <div>
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
+  
+  <img src={picVar} />
+  </div>
         <h1 class="display-1" >The-hub</h1>
         <Tabs
       defaultActiveKey="mainPage"
@@ -67,7 +84,7 @@ import Accordion from 'react-bootstrap/Accordion';
         <div class="card-body">
           <h5 class="card-title">Sports</h5>
           <p class="card-text">Catch up with the latest news in sports, players, and teams!</p>
-          <a href="#" class="btn btn-primary">Visit</a>
+          <Link to="/sportsHub"><a href="#" class="btn btn-primary">Visit</a></Link>
         </div>
       </div>
       <div class="card" style={{width: '18rem'}}>
@@ -75,7 +92,7 @@ import Accordion from 'react-bootstrap/Accordion';
         <div class="card-body">
           <h5 class="card-title">Music</h5>
           <p class="card-text">Listen to the latest and most popular songs currently out there!</p>
-          <a href="#" style={{backgroundColor: 'purple', borderColor: 'purple'}} class="btn btn-primary">Visit</a>
+          <Link to="/musicHub"><a href="#" style={{backgroundColor: 'purple', borderColor: 'purple'}} class="btn btn-primary">Visit</a></Link>
         </div>
       </div>
       <div class="card" style={{width: '18rem'}}>
@@ -83,7 +100,7 @@ import Accordion from 'react-bootstrap/Accordion';
         <div class="card-body">
           <h5 class="card-title">Stocks</h5>
           <p class="card-text">View and keep track of stock data from various companies!</p>
-          <a href="#" style={{backgroundColor: 'green', borderColor: 'green', color: 'white'}} class="btn btn-primary">Visit</a>
+          <Link to="/stocks"><a  style={{backgroundColor: 'green', borderColor: 'green', color: 'white'}} class="btn btn-primary">Visit</a></Link>
         </div>
       </div>
       </div>
@@ -95,7 +112,10 @@ import Accordion from 'react-bootstrap/Accordion';
         <Accordion.Header>Edit profile</Accordion.Header>
         <Accordion.Body>
           <p>Change email</p>
-          <input type="text" id="EmailInput" /> <Button type="submit">Change</Button>
+          <input type="text" id="EmailInput" 
+      class="form-control"
+      value={username}
+      onChange={(e) => setUserName(e.target.value)}/> <Button type="submit" onClick={usernameChange}>Change</Button>
           <p>Change password</p> 
           <input type="text" id="PasswordInput" /> <Button type="submit">Change</Button>
           <br />
@@ -160,7 +180,7 @@ import Accordion from 'react-bootstrap/Accordion';
     <br></br>
     <br></br>
     <br></br>
-    <Carousel>
+    <Carousel style={{width: '600px',marginLeft: 'auto', marginRight: 'auto'}}>
         <Carousel.Item interval={1500}>
           <img
           src="https://lh6.googleusercontent.com/proxy/NgkNfPvCY8PgW0Rg2WmgVbky9KaATmj8i2eRoq7kQEdgwd7ygtrAXNZMM2JroWOU5gpODQqVBMzxdHaiEpe7ZxKerkqTsCxSdtlcQ54oe_BzEOI9Z0Wg-R7g6m7h2eu6JS5WPMt7rZuspWTVnD4rSvVGIl8"
@@ -184,8 +204,8 @@ import Accordion from 'react-bootstrap/Accordion';
           </Carousel.Caption>
         </Carousel.Item>
       </Carousel>
-        </>
-        
+
+        </div>
       );
     }
 
