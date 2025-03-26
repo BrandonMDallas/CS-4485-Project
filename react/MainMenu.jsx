@@ -1,4 +1,4 @@
-import React from 'react'
+ import React from 'react'
     import 'bootstrap/dist/css/bootstrap.css'
     import 'bootstrap/dist/css/bootstrap.min.css'
     import Tab from 'react-bootstrap/Tab'
@@ -15,6 +15,7 @@ import { useState, useEffect } from 'react'
 import Axios from 'axios';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom'
 import Carousel from 'react-bootstrap/Carousel';
+import WelcomePage from './welcomePage.jsx'
 import Accordion from 'react-bootstrap/Accordion';
 import App from './StocksPage.jsx'
 import { Link } from 'react-router'
@@ -37,6 +38,29 @@ import { Link } from 'react-router'
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
       };
+      const [newsHeader, setNewsHeader]=useState("")
+  const [newsImage, setNewsImage]=useState("")
+  useEffect(() => {
+      getNews();
+  }, [])
+  async function getNews(){
+    await Axios.get("https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=AAPL&apikey=demo").then((response)=> {
+      try{
+        console.log(response.data.feed)
+       
+        let i =20;
+          setNewsHeader(response.data.feed[i].title);
+          setNewsImage(response.data.feed[i].banner_image);
+      
+        }
+        
+      catch(error){
+        console.error('Error with API:', error);
+      }
+       
+      
+    })
+  }
       useEffect(() => {
         Axios.get("https://catfact.ninja/fact").then((response)=> {
       setNewsFact(response.data.fact)});
@@ -69,6 +93,10 @@ const passwordChange = () =>
   
   <img src={picVar} />
   </div>
+  <div style={{ position: 'absolute', left: '10%'}}>
+      <Link to="/welcome"><img src="https://cdn-icons-png.freepik.com/512/3114/3114883.png" width="50px" height="50px"/></Link> 
+      </div>
+
         <h1 class="display-1" >The-hub</h1>
         <Tabs
       defaultActiveKey="mainPage"
@@ -106,7 +134,7 @@ const passwordChange = () =>
       </div>
   
       </Tab>
-      <Tab eventKey="profile" title="Profile">
+      <Tab eventKey="profile" title="Your Profile">
       <Accordion defaultActiveKey="0">
       <Accordion.Item eventKey="0">
         <Accordion.Header>Edit profile</Accordion.Header>
@@ -200,7 +228,17 @@ const passwordChange = () =>
           />
           <Carousel.Caption>
             <h3>Label for second slide</h3>
-            <p>Sample Text for Image Two</p>
+            <p>Sample Text for Image three</p>
+          </Carousel.Caption>
+        </Carousel.Item>
+        <Carousel.Item interval={1500}>
+          <img
+          src={newsImage}
+            className="d-block w-100"
+            alt="Image One"
+          />
+          <Carousel.Caption>
+            <h3>{newsHeader}</h3>
           </Carousel.Caption>
         </Carousel.Item>
       </Carousel>
