@@ -64,10 +64,7 @@ const [checkedItems, setCheckedItems] = useState(
 const removeLike = (indexToRemove) => {
   setList1(list1.filter((_, index) => index !== indexToRemove));
 };
-const stockListMulti = (val1, val2) => {
-  updateData(val1, val2)
-  scrollFunc()
-}
+
 const scrollFunc = () => {
   window.scrollTo(800, 500);
 }
@@ -137,10 +134,12 @@ const onCheckListSubmit = () =>{
    
     //setDynamicData(setArr)
     var xLabel, xSide;
+    const mins=['10 min', '20 min', '30 min', '40 min', '50 min', '60 min']
     const hours=['8 am', '10 am', '12 pm', '1 pm', '2 pm', '3 pm']
     const months=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
     const newData = chartData.datasets[0].data.map((item, index) => Math.floor(setArr[index]));
     if(value===1){
+      xSide=mins
       xLabel='minutes'
     }else if(value===2){
       xSide=hours
@@ -184,6 +183,11 @@ const onCheckListSubmit = () =>{
   
 
   };
+  const stockListMulti = () => {
+
+    updateData([6, 12, 18, 24], 2)
+    scrollFunc()
+  }
   const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
     const [show3, setShow3] = useState(false);
@@ -276,6 +280,8 @@ const onCheckListSubmit = () =>{
   const [newsHeader, setNewsHeader]=useState([])
   const [newsBody, setNewsBody]=useState([])
   const [newsImage, setNewsImage]=useState([])
+  const [newsSentiment, setNewsSentiment]=useState([])
+  const [newsSource, setNewsSource]=useState([])
   const [newsData, setNewsData]=useState([])
   useEffect(() => {
       getNews();
@@ -284,7 +290,30 @@ const onCheckListSubmit = () =>{
     await Axios.get("https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=AAPL&apikey=demo").then((response)=> {
       try{
         console.log(response.data.feed)
-        setNewsData(response.data.feed)
+        const newArray1 = [...newsHeader];
+        const newArray2 = [...newsBody];
+        const newArray3 = [...newsImage];
+        const newArray4 = [...newsSentiment];
+        const newArray5 = [...newsSource];
+        for (let i = 0; i < 8; i++) {
+          newArray1.push(response.data.feed[i].title);
+          newArray2.push(response.data.feed[i].summary);
+          newArray3.push(response.data.feed[i].banner_image);
+          newArray4.push(response.data.feed[i].overall_sentiment_score);
+          newArray5.push(response.data.feed[i].source);
+
+        }
+        setNewsHeader(newArray1);
+        setNewsBody(newArray2);
+        setNewsImage(newArray3);
+        setNewsSentiment(newArray4);
+        setNewsSource(newArray5);
+        /*const tempArray=[...newsHeader]
+        tempArray.map((index, item)=>{
+          
+          tempArray[index]=response.data.feed[index].title
+        })
+        setNewsHeader(tempArray)*/
       }catch(error){
         console.error('Error with API:', error);
       }
@@ -343,16 +372,24 @@ const onCheckListSubmit = () =>{
         return(
     <>
    
-    <div style={{ display: 'flex', flexDirection: 'row', backgroundColor: 'gray'}}>
-  
-    <Link to="/"><Button style={{backgroundColor: 'lightgray', borderColor: 'black', color: 'black'}}><img src="https://cdn-icons-png.freepik.com/512/3114/3114883.png" width="50px" height="50px"/></Button></Link> 
-    <Link to="/stocksSetting"><Button style={{backgroundColor: 'lightgray', borderColor: 'black', color: 'black'}}><img src="https://cdn-icons-png.flaticon.com/512/3524/3524659.png" width="50px" height="50px"/><br />Settings</Button></Link>
-    <Link to="/profilePage"><Button style={{backgroundColor: 'lightgray', borderColor: 'black', color: 'black'}}><img src="https://cdn-icons-png.flaticon.com/512/9815/9815472.png" width="50px" height="50px"/><br />Profile</Button></Link>
+    <div style={{ display: 'flex', flexDirection: 'row'}}>
+    <div style={{ position: 'absolute', left: '10%'}}>
+    <Link to="/"><img src="https://cdn-icons-png.freepik.com/512/3114/3114883.png" width="50px" height="50px"/></Link> 
+    </div>
+    <div style={{ position: 'absolute', right: '20%'}}>
+    <Link to="/stocksSetting"> <img style={{backgroundColor: 'white'}} src="https://w7.pngwing.com/pngs/95/869/png-transparent-setting-color-gradient-3d-icon.png" width="50px" height="50px"/></Link>
+    <br />Settings
+    </div>
+    <div style={{ position: 'absolute', right: '10%'}}>
+    <Link to="/profilePage">
+        <img  src="https://cdn-icons-png.flaticon.com/512/9815/9815472.png" width="50px" height="50px"/>
+    </Link><br></br>Profile
+      </div>
     
     </div>
     <h1 class="display-4">StocksHub</h1>
     <div>
-    <button class="aiButton" onClick={handleShow3}>Ask AI assistant for investing advice</button>
+    <button class="aiButton" onClick={handleShow3}><img src="https://img.freepik.com/premium-photo/friendly-ai-assistant-icon-circular-design-with-modern-aesthetic-generative-ai_437323-33312.jpg" width="150px" height="150px"/> <br></br>Ask AI assistant for investing advice</button>
     <Modal show={show3} onHide={handleClose3}>
         <Modal.Header closeButton>
           <Modal.Title>Ask AI a question</Modal.Title>
@@ -512,31 +549,31 @@ const onCheckListSubmit = () =>{
       <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row'}}><img src={displayArray[0]} height="50px" width="50px"/><h5 class="card-title">       {companies[0]}</h5>
         <p class="card-text">       With supporting text below as a natural lead-in to additional content.</p>
         <Button variant="primary" style={{backgroundColor: 'gray', color: 'black', borderColor: 'gray'}} onClick={() => handleShow5(0)}>About</Button>
-        <Button variant="primary" onClick={() =>stockListMulti([6, 12, 18, 24], 0)}>View stock</Button>
+        <Button variant="primary" onClick={() =>stockListMulti()}>View stock</Button>
         <Button style={{backgroundColor: 'green', color: 'white', borderColor: 'green'}}  onClick={()=>addLike(0)}>Invest</Button></li>
         <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row'}}><img src={displayArray[1]} height="50px" width="50px"/>
       <h5 class="card-title">{companies[1]}</h5>
         <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
         <Button variant="primary" style={{backgroundColor: 'gray', color: 'black', borderColor: 'gray'}} onClick={() => handleShow5(1)}>About</Button>
-        <Button variant="primary" onClick={()=>stockListMulti([2, 10, 15, 20], 0)}>View stock</Button>
+        <Button variant="primary" onClick={()=>stockListMulti()}>View stock</Button>
         <Button  style={{backgroundColor: 'green', color: 'white', borderColor: 'green'}} onClick={()=>addLike(1)}>Invest</Button></li>
   <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row'}}><img src={displayArray[2]} height="50px" width="50px"/>
         <h5 class="card-title">{companies[2]}</h5>
         <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
         <Button variant="primary" style={{backgroundColor: 'gray', color: 'black', borderColor: 'gray'}} onClick={() => handleShow5(2)}>About</Button>
-        <Button variant="primary" onClick={()=>stockListMulti([3, 8, 12, 16], 0)}>View stock</Button>
+        <Button variant="primary" onClick={()=>stockListMulti()}>View stock</Button>
         <Button style={{backgroundColor: 'green', color: 'white', borderColor: 'green'}}  onClick={()=>addLike(2)}>Invest</Button></li>
   <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row'}}><img src={displayArray[3]} height="50px" width="50px"/>
       <h5 class="card-title">{companies[3]}</h5>
         <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
         <Button variant="primary" style={{backgroundColor: 'gray', color: 'black', borderColor: 'gray'}} onClick={() => handleShow5(3)}>About</Button>
-        <Button variant="primary" onClick={()=>stockListMulti([1, 6, 9, 12], 0)}>View stock</Button>
+        <Button variant="primary" onClick={()=>stockListMulti()}>View stock</Button>
         <Button style={{backgroundColor: 'green', color: 'white',  borderColor: 'green'}}  onClick={()=>addLike(3)}>Invest</Button></li>
   <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row'}}><img src={displayArray[4]} height="50px" width="50px"/>
         <h5 class="card-title">{companies[4]}</h5>
         <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
         <Button variant="primary" style={{backgroundColor: 'gray', color: 'black',  borderColor: 'gray'}} onClick={() => handleShow5(4)}>About</Button>
-        <Button variant="primary" onClick={()=>stockListMulti([1, 4, 6, 8], 0)}>View stock</Button>
+        <Button variant="primary" onClick={()=>stockListMulti()}>View stock</Button>
         <Button style={{backgroundColor: 'green', color: 'white'}} onClick={()=>addLike(4)}>Invest</Button></li>
   
 </ul>
@@ -558,181 +595,75 @@ const onCheckListSubmit = () =>{
 
     </div>
     <h2>Latest in news</h2>
+   <div style={{display: 'flex'}}>
+   <Card style={{ width: '18rem' }}>
+      <Card.Img variant="top" src={newsImage[0]} />
+      <Card.Body>
+        <Card.Title>{newsHeader[0]}</Card.Title>
+        <Card.Text>
+          {newsBody[0]}
+        </Card.Text>
+        <Button variant="primary">More information</Button>
+      </Card.Body>
+    </Card>
+
+    <Card style={{ width: '18rem' }}>
+      <Card.Img variant="top" src={newsImage[1]} />
+      <Card.Body>
+        <Card.Title>{newsHeader[1]}</Card.Title>
+        <Card.Text>
+          {newsBody[1]}
+        </Card.Text>
+        <Button variant="primary">More information</Button>
+      </Card.Body>
+    </Card>
+    <Card style={{ width: '18rem' }}>
+      <Card.Img variant="top" src={newsImage[2]} />
+      <Card.Body>
+        <Card.Title>{newsHeader[2]}</Card.Title>
+        <Card.Text>
+          {newsBody[2]}
+        </Card.Text>
+        <Button variant="primary">More information</Button>
+      </Card.Body>
+    </Card>
+   </div>
    
+   <div style={{display: 'flex'}}>
+   <Card style={{ width: '18rem' }}>
+      <Card.Img variant="top" src={newsImage[3]} />
+      <Card.Body>
+        <Card.Title>{newsHeader[3]}</Card.Title>
+        <Card.Text>
+          {newsBody[3]}
+        </Card.Text>
+        <Button variant="primary">More information</Button>
+      </Card.Body>
+    </Card>
 
-
-
+    <Card style={{ width: '18rem' }}>
+      <Card.Img variant="top" src={newsImage[4]} />
+      <Card.Body>
+        <Card.Title>{newsHeader[4]}</Card.Title>
+        <Card.Text>
+          {newsBody[4]}
+        </Card.Text>
+        <Button variant="primary">More information</Button>
+      </Card.Body>
+    </Card>
+    <Card style={{ width: '18rem' }}>
+      <Card.Img variant="top" src={newsImage[5]} />
+      <Card.Body>
+        <Card.Title>{newsHeader[5]}</Card.Title>
+        <Card.Text>
+          {newsBody[5]}
+        </Card.Text>
+        <Button variant="primary">More information</Button>
+      </Card.Body>
+    </Card>
+   </div>
     </>
   )
 }
 //For automatic scrolling: window.scrollTo(500, 0);
 export default StockFunc
-
-
-/*
-const lineChart = () =>{
-  return <div>
-    <Line 
-    data={{
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-      datasets: [
-        {
-          label: 'stock value',
-          data: [12, 19, 3, 5, 2, 3], 
-        },
-      ],
-    }}
-    height={200}
-    width={300}/>
-  </div>
-}
-/*fetch('your_api_endpoint')
-.then(response => response.json())
-.then(data => {
-  // Process data and create chart
-  createChart(data);
-})
-.catch(error => console.error('Error fetching data:', error));
-
-(async function() {
-  const data = [
-    { year: 2010, count: 10 },
-    { year: 2011, count: 20 },
-    { year: 2012, count: 15 },
-    { year: 2013, count: 25 },
-    { year: 2014, count: 22 },
-    { year: 2015, count: 30 },
-    { year: 2016, count: 28 },
-  ];
-
-  new Chart(
-    document.getElementById('acquisitions'),
-    {
-      type: 'bar',
-      data: {
-        labels: data.map(row => row.year),
-        datasets: [
-          {
-            label: 'Acquisitions by year',
-            data: data.map(row => row.count)
-          }
-        ]
-      }
-    }
-  );
-})();
- 
-
-const SimpleLineChart = () => {
-  return (
-    <LineChart
-      width={500}
-      height={300}
-      data={data}
-      margin={{
-        top: 5,
-        right: 30,
-        left: 20,
-        bottom: 5,
-      }}
-    >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-      <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-    </LineChart>
-  );
-}*/
-//To add elements dynamically in React, it's recommended to manage an 
-// array in the component's state and render elements based on the contents of that array.
-/* fetch("https://catfact.ninja/fact").then((res) =>res.json())
-.then((data)=>{
-  console.log(data);
-});*/
-//Notes: axios shows everytime the component here updates unless you do mounting
-//- How to put variable in a string: use ` instead of " " for the string, ${(const variable goes here)}
-//Use . in axios to get the value of an attribute of an object received
-//-useState({}) or useState(null) is for making an empty object
-// putting a ? before a . of an object means to only access the value of that attribute of that object ONLY IF it's the object
-//isn't null
-/*useEffectAxios.get("https://catfact.ninja/fact").then((res) => {
-  console.log(res.data);
-});*/
-/*useEffect(() => {
-    const getData= async () => {
-      const {data} = await axios.get("http://localhost:5000/api/v1/analytics/revenue/lifetime")
-    console.log(data)
-    }
-    getData()
-  }, []
-<Card style={{ width: '18rem' }}>
-      <Card.Body>
-      <img src="https://logo.clearbit.com/starbucks.com"></img>
-        <Card.Title>Random stock</Card.Title>
-        <Card.Text>
-           Brief description of stock goes here.
-        </Card.Text>
-        <Button variant="primary">View stock</Button>
-      </Card.Body>
-    </Card>
-    <Card style={{ width: '18rem' }}>
-      <Card.Body>
-      <img src="https://logo.clearbit.com/mcdonalds.com"></img>
-        <Card.Title>Random stock</Card.Title>
-        <Card.Text>
-           Brief description of stock goes here.
-        </Card.Text>
-        <Button variant="primary">View stock</Button>
-      </Card.Body>
-    </Card>
-    <Card style={{ width: '18rem' }}>
-      <Card.Body>
-        <Card.Title>Random stock</Card.Title>
-        <Card.Text>
-           Brief description of stock goes here.
-        </Card.Text>
-        <Button variant="primary">Add stock</Button>
-      </Card.Body>
-    </Card>
-    </div>
-    <div style={{ display: 'flex', flexDirection: 'row' }}>
-  <Card style={{ width: '18rem' }}>
-      <Card.Body>
-        <Card.Title>Random stock</Card.Title>
-        <Card.Text>
-           Brief description of stock goes here.
-        </Card.Text>
-        <Button variant="primary">Add stock</Button>
-      </Card.Body>
-    </Card>
-    <Card style={{ width: '18rem' }}>
-      <Card.Body>
-        <Card.Title>Random stock</Card.Title>
-        <Card.Text>
-           Brief description of stock goes here.
-        </Card.Text>
-        <Button variant="primary">Add stock</Button>
-      </Card.Body>
-    </Card>
-    <Card style={{ width: '18rem' }}>
-      <Card.Body>
-        <Card.Title>Random stock</Card.Title>
-        <Card.Text>
-           Brief description of stock goes here.
-        </Card.Text>
-        <Button variant="primary">Add stock</Button>
-      </Card.Body>
-    </Card>
-    <Card style={{ width: '18rem' }}>
-      <Card.Body>
-        <Card.Title>Random stock</Card.Title>
-        <Card.Text>
-           Brief description of stock goes here.
-        </Card.Text>
-        <Button variant="primary">Add stock</Button>
-      </Card.Body>
-    </Card>
-  )*/
- //import {CategoryScale, Chart as ChartJS, LinearScale, LineElement, PointElement} from 'chart.js'
