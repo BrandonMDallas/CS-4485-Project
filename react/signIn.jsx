@@ -37,14 +37,21 @@ function signInPage() {
     console.log(password);
     console.log(email);
   }
-  const obtainFile=(event)=>{
-    setSelectedFile(event.target.value);
-    console.log(selectedFile)
-  }
-  const displayFile=()=>{
-    const fileURL=URL.createObjectURL(selectedFile)
-    return (<img src={fileURL} />)
-  }
+  const handleOnChange = e => {
+    if (e.target.files) {
+      setSelectedFile(e.target.files[0]);
+    }
+  };
+  
+  const renderAttachedFilePreview = () => {
+    return <div>{selectedFile?.name}</div>;
+  };
+
+  const onSubmit = e => {
+    e.preventDefault();
+    console.log(`file ${selectedFile?.name} was submitted`);
+  };
+  
   return(
     <>
    <h1>Make an account</h1>
@@ -81,17 +88,16 @@ function signInPage() {
       <img />
       <Form.Control type="file"
       onChange={(e)=>{
-        obtainFile(e)
+       handleOnChange(e)
       }}
       
       
       
       />
     </Form.Group>
-<p>{selectedFile}</p>
     </div>
     <p>Preview</p>
-    <div>{displayFile}</div>
+    {renderAttachedFilePreview()}
     <button onClick={()=>sendData()}>Sign up</button>
    </>
   )
