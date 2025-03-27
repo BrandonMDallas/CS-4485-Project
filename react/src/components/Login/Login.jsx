@@ -25,7 +25,18 @@ const Login = () => {
         setPwd('');
         setSuccess(true);
     }
+
   return (
+    <>
+        {success ? (
+            <section>
+                <h1>You are logged in!</h1>
+                <br/>
+                <p>
+                    <a href='#'>Go to Home</a>
+                </p>
+            </section>
+        ) : (
     <section>
         <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
         <h1>Sign In</h1>
@@ -59,6 +70,8 @@ const Login = () => {
             </span>
         </p>
     </section>
+    )}
+    </>
   )
 }
 
