@@ -9,13 +9,10 @@ from lightfm.data import Dataset
 from concurrent.futures import ThreadPoolExecutor
 from bs4 import BeautifulSoup
 
-openai.api_key = "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"
+openai.api_key = "h"
 ALPHA_VANTAGE_API_KEY = '1M4IJ68U3C8UI8AJ'
 
 def generate_stock_network(stock_features):
-    """
-    Create a network of related stocks based on multiple attributes
-    """
     stock_network = {}
     
     # Group stocks by sector and additional characteristics
