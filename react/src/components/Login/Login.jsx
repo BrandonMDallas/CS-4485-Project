@@ -3,7 +3,7 @@ import { useRef, useState, useEffect, useContext} from 'react';
 import AuthContext from '../../context/AuthProvider';
 import axios from '../../api/axios';
 import { Link } from 'react-router-dom';
-const LOGIN_URL = '/auth';
+const LOGIN_URL = '/api/auth/login';
 
 
 const Login = () => {
@@ -28,7 +28,7 @@ const Login = () => {
         e.preventDefault();
         
         try{
-            const response = await axios.post(LOGIN_URL, JSON.stringify({user, pwd}), {
+            const response = await axios.post(LOGIN_URL, JSON.stringify({username: user, password: pwd}), {
                 headers: { 'Content-Type': 'application/json'},
                 withCredentials: true
                 }
