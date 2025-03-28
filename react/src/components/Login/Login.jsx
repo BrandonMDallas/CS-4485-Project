@@ -2,6 +2,7 @@ import React from 'react'
 import { useRef, useState, useEffect, useContext} from 'react';
 import AuthContext from '../../context/AuthProvider';
 import axios from '../../api/axios';
+import { Link } from 'react-router-dom';
 const LOGIN_URL = '/auth';
 
 
@@ -51,7 +52,7 @@ const Login = () => {
                 } else{
                     setErrMsg('Login Failed');
                 }
-
+                errRef.current.focus();
         }
     }
 
@@ -95,7 +96,8 @@ const Login = () => {
             Need an Account?<br />
             <span className="line">
                 {/*Router Link*/}
-                <a href ="#">Sign Up</a>
+                <Link to="/register">Sign Up</Link>
+                {/*<a href ="#">Sign Up</a>*/}
             </span>
         </p>
     </section>
