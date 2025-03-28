@@ -1,6 +1,9 @@
 import React from 'react'
 import { useRef, useState, useEffect, useContext} from 'react';
 import AuthContext from '../../context/AuthProvider';
+import axios from '../../api/axios';
+const LOGIN_URL = '/auth';
+
 
 const Login = () => {
     const { setAuth } = useContext(AuthContext);
@@ -22,10 +25,34 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(user,pwd);
-        setUser('');
-        setPwd('');
-        setSuccess(true);
+        
+        try{
+            const response = await axios.post(LOGIN_URL, JSON.stringify({user, pwd}), {
+                headers: { 'Content-Type': 'application/json'},
+                withCredentials: true
+                }
+            );
+            setUser('');
+            setPwd('');
+            setSuccess(true);
+            console.log(JSON.stringify(response?.data))
+            const accessToken = response?.data?.accessToken;
+            const roles = response?.data?.roles;
+            setAuth( {user, pwd, roles, accessToken})
+            } catch(err){
+                console.log("ISSUE");
+                if (!err?.response){
+                    setErrMsg('No Server Response');
+                }
+                else if (err.response?.status === 400){
+                    setErrMsg('Missing Username or Password;');
+                } else if(err.response?.status === 401){
+                    setErrMsg('Unauthorized');
+                } else{
+                    setErrMsg('Login Failed');
+                }
+
+        }
     }
 
   return (
