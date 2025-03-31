@@ -1,5 +1,6 @@
 {
   "name": "aidan-turguts-react",
+  "main": "index.js",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -24,7 +25,10 @@
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.2.0",
-    "recharts": "^2.15.1"
+    "recharts": "^2.15.1",
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/react-fontawesome": "^0.2.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

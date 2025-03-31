@@ -1,69 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chill Network</title>
-    <style>
-        .beginningSection{
-            background-color:gray;
-            background-image:linear-gradient(to right, white, gray);
-            
-        }
-        .bigSection{
-            background-color:yellow;
-            background-image:linear-gradient(to bottom, yellow, red);
-        }
-        .historySection{
-            background-color:blue;
-            background-image:linear-gradient(to right, white, blue);
-        }
-        .regularSection{
-            background-color:beige;
-        }
-        .sticky{
-            position: sticky;
-        }
-        .topicButton{
-            background-color: white;
-            color: black;
-            border-radius: 8px;
-        }
-        .topicButton:hover{
-            background-color: black;
-            color: white;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="sticky">
-    <div class="beginningSection">
-        <h1>Chill Network</h1>
-    </div>
-    <div class="bigSection">
-        <h2>Pick an interest</h2>
-        <button  onclick="location.href='sportsHub.html'" class="topicButton">Sports</button>
-        <br>
-        <button onclick="location.href='musicHub.html'" class="topicButton">Music</button>
-        <br>
-        <button onclick="location.href='stocks.html'" class="topicButton">Stocks</button>
-    </div>
-    <div class="historySection">
-        <h2>View your history</h2>
-        <p>What you searched this week</p>
-        <div class="regularSection">
-            <ul>
-                <li></li>
-            </ul>
-        </div>
-        <p>What you searched this month</p>
-        <div class="regularSection">
-            <ul>
-                <li></li>
-            </ul>
-        </div>
-    </div>
-    </div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My React App</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>

@@ -9,7 +9,7 @@ public class UserMapper {
         return UserDto.builder()
                 .id(user.getId())
                 .username(user.getUsername())
-                .email(user.getEmail())
+                .password(user.getPassword())
                 .createdAt(user.getCreatedAt())
                 .updatedAt(user.getUpdatedAt())
                 .build();
@@ -19,7 +19,7 @@ public class UserMapper {
         return new User(
                 userDto.getId(),
                 userDto.getUsername(),
-                userDto.getEmail(),
+                userDto.getPassword(),
                 userDto.getCreatedAt(),
                 userDto.getUpdatedAt()
         );

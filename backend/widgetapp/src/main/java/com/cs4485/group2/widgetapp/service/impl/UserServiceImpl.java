@@ -9,6 +9,7 @@ import com.cs4485.group2.widgetapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,7 +50,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() ->
                         new ResourceNotFoundException("User does not exist with the given id: " + userId));
         user.setUsername(updatedUser.getUsername());
-        user.setEmail(updatedUser.getEmail());
+        user.setPassword(updatedUser.getPassword());
         User updatedUserObj = userRepository.save(user);
         return UserMapper.mapToUserDto(updatedUserObj);
     }
@@ -61,5 +62,25 @@ public class UserServiceImpl implements UserService {
                         new ResourceNotFoundException("User does not exist with the given id: " + userId));
 
         userRepository.deleteById(user.getId());
+    }
+    @Override
+    public UserDto authenticate(String username, String password) {
+        // Find the user by username
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with username: " + username));
+
+        if (user.getPassword().equals(password))
+        {
+            return UserMapper.mapToUserDto(user);
+        }
+        // Create a PasswordEncoder instance. In a real application, you would typically inject this bean.
+        //PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        // Verify the password. Assuming user.getPassword() returns the hashed password.
+        //if (passwordEncoder.matches(password, user.getPassword())) {
+       //     return UserMapper.mapToUserDto(user);
+        //}
+        // If the password doesn't match, you can either return null or throw an exception (e.g., InvalidCredentialsException)
+        return null;
     }
 }
