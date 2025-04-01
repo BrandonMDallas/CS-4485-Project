@@ -1,6 +1,6 @@
-package com.cs4485.group2.widgetapp.config;
+package com.cs4485.group2.widgetapp.security;
 
-/*
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,11 +13,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors()  // Enable CORS support
+                .csrf().disable()
+                .authorizeHttpRequests()
+                .anyRequest().authenticated()
                 .and()
-                .csrf().disable(); // Disable CSRF if appropriate
+                .httpBasic();
         return http.build();
     }
 }
-
- */
