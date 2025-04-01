@@ -8,38 +8,38 @@ const LOGIN_URL = '/api/auth/login';
 
 const Login = () => {
     const { setAuth } = useContext(AuthContext);
-    const userRef = useRef();
+    const usernameRef = useRef();
     const errRef = useRef();
     
-    const [user, setUser] = useState('');
-    const [pwd, setPwd] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState('');
 
     useEffect(() =>{
-        userRef.current.focus();
+        usernameRef.current.focus();
     }, []);
 
     useEffect(() => {
         setErrMsg('');
-    }, [user,pwd])
+    }, [username,password])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         
         try{
-            const response = await axios.post(LOGIN_URL, JSON.stringify({username: user, password: pwd}), {
+            const response = await axios.post(LOGIN_URL, JSON.stringify({username: username, password: password}), {
                 headers: { 'Content-Type': 'application/json'},
                 withCredentials: true
                 }
             );
-            setUser('');
-            setPwd('');
+            setUsername('');
+            setPassword('');
             setSuccess(true);
             console.log(JSON.stringify(response?.data))
             const accessToken = response?.data?.accessToken;
             const roles = response?.data?.roles;
-            setAuth( {user, pwd, roles, accessToken})
+            setAuth( {username, password, roles, accessToken})
             } catch(err){
                 console.log("ISSUE");
                 if (!err?.response){
@@ -75,19 +75,19 @@ const Login = () => {
             <input 
             type="text" 
             id="username"
-            ref={userRef}
+            ref={usernameRef}
             autoComplete='off'
-            onChange={(e) => setUser(e.target.value)}
-            value={user}
+            onChange={(e) => setUsername(e.target.value)}
+            value={username}
             required
              />
             <label htmlFor="password">Password:</label>
             <input 
             type="password" 
             id="password"
-            ref={userRef}
-            onChange={(e) => setPwd(e.target.value)}
-            value={pwd}
+            ref={usernameRef}
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
             required
              />
              <button>Sign In</button>

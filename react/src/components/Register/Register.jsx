@@ -11,7 +11,7 @@ const REGISTER_URL = '/api/users';
 
 
 const Register = () => {
-    const userRef = useRef();
+    const usernameRef = useRef();
     const errRef = useRef();
 
     const [user, setUser] = useState('');
@@ -30,7 +30,7 @@ const Register = () => {
     const [success, setSuccess] = useState(false);
 
     useEffect(() => {
-        userRef.current.focus();
+        usernameRef.current.focus();
     }, [])
 
     useEffect(() => {
@@ -106,7 +106,7 @@ const Register = () => {
                         <input
                             type="text"
                             id="username"
-                            ref={userRef}
+                            ref={usernameRef}
                             autoComplete="off"
                             onChange={(e) => setUser(e.target.value)}
                             value={user}
