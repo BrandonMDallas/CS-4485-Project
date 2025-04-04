@@ -1,5 +1,6 @@
 package com.cs4485.group2.widgetapp.controller;
 
+import com.cs4485.group2.widgetapp.dto.LoginDto;
 import com.cs4485.group2.widgetapp.dto.LoginRequestDto;
 import com.cs4485.group2.widgetapp.dto.RegisterDto;
 import com.cs4485.group2.widgetapp.dto.UserDto;
@@ -65,7 +66,11 @@ public class AuthController {
     //private final UserService userService;
 
 
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginDto loginDto)
+    {
 
+    }
     /*
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequestDto loginRequest) {
