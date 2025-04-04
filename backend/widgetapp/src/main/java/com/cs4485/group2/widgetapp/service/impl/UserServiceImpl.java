@@ -3,13 +3,17 @@ package com.cs4485.group2.widgetapp.service.impl;
 import com.cs4485.group2.widgetapp.dto.UserDto;
 import com.cs4485.group2.widgetapp.exception.ResourceNotFoundException;
 import com.cs4485.group2.widgetapp.mapper.UserMapper;
+import com.cs4485.group2.widgetapp.model.Role;
 import com.cs4485.group2.widgetapp.model.User;
 import com.cs4485.group2.widgetapp.repository.UserRepository;
 import com.cs4485.group2.widgetapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +38,14 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("User does not exist with the given id: " + userId));
+        return UserMapper.mapToUserDto(user);
+    }
+
+    @Override
+    public UserDto getUserByUsername(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("User does not exist with the given username: " + username));
         return UserMapper.mapToUserDto(user);
     }
 
