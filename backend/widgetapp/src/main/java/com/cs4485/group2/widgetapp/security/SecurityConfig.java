@@ -2,6 +2,7 @@ package com.cs4485.group2.widgetapp.security;
 
 
 import com.cs4485.group2.widgetapp.service.UserService;
+import com.cs4485.group2.widgetapp.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,10 +24,10 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @Autowired
-    public SecurityConfig(UserService userService)
+    public SecurityConfig(UserServiceImpl userService)
     {
         this.userService = userService;
     }
@@ -41,6 +42,7 @@ public class SecurityConfig {
         return http.build();
     }
 
+    /*
     @Bean
     public UserDetailsService users(){
         UserDetails admin = User.builder()
@@ -55,7 +57,7 @@ public class SecurityConfig {
                 .build();
         return new InMemoryUserDetailsManager(admin, user);
     }
-
+    */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
         return authenticationConfiguration.getAuthenticationManager();

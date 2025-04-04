@@ -2,6 +2,7 @@ package com.cs4485.group2.widgetapp.controller;
 
 import com.cs4485.group2.widgetapp.dto.UserDto;
 import com.cs4485.group2.widgetapp.service.UserService;
+import com.cs4485.group2.widgetapp.service.impl.UserServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
-    private UserService userService;
+    private UserServiceImpl userService;
     @PostMapping
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto){
         UserDto savedUserDto = userService.createUser(userDto);

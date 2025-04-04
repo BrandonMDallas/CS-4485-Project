@@ -10,6 +10,9 @@ import com.cs4485.group2.widgetapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 
@@ -18,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserDetailsService {
     private UserRepository userRepository;
 
     @Autowired
@@ -26,14 +29,14 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
-    @Override
+
     public UserDto createUser(UserDto userDto) {
         User user = UserMapper.mapToUser(userDto);
         User savedUser = userRepository.save(user);
         return UserMapper.mapToUserDto(savedUser);
     }
 
-    @Override
+
     public UserDto getUserById(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() ->
@@ -41,7 +44,7 @@ public class UserServiceImpl implements UserService {
         return UserMapper.mapToUserDto(user);
     }
 
-    @Override
+
     public UserDto getUserByUsername(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() ->
@@ -49,14 +52,14 @@ public class UserServiceImpl implements UserService {
         return UserMapper.mapToUserDto(user);
     }
 
-    @Override
+
     public List<UserDto> getAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream().map((user) -> UserMapper.mapToUserDto(user)).collect(Collectors.toList());
         //return users.stream().map(this::mapToUserDto).collect(Collectors.toList());
     }
 
-    @Override
+
     public UserDto updateUser(Long userId, UserDto updatedUser) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() ->
@@ -67,7 +70,7 @@ public class UserServiceImpl implements UserService {
         return UserMapper.mapToUserDto(updatedUserObj);
     }
 
-    @Override
+
     public void deleteUser(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() ->
@@ -75,7 +78,7 @@ public class UserServiceImpl implements UserService {
 
         userRepository.deleteById(user.getId());
     }
-    @Override
+
     public UserDto authenticate(String username, String password) {
         // Find the user by username
         User user = userRepository.findByUsername(username)
@@ -94,5 +97,18 @@ public class UserServiceImpl implements UserService {
         //}
         // If the password doesn't match, you can either return null or throw an exception (e.g., InvalidCredentialsException)
         return null;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("User does not exist with the given username: " + username));
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));//UserMapper.mapToUserDto(user);
+    }
+
+    private Collection<GrantedAuthority> mapRolesToAuthorities(List<Role> roles)
+    {
+        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
 }
