@@ -17,16 +17,13 @@ import java.io.IOException;
 
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
+    @Autowired
     private JWTGenerator tokenGenerator;
 
 
+    @Autowired
     private UserServiceImpl userService;
 
-    @Autowired
-    public JWTAuthenticationFilter(JWTGenerator tokenGenerator, UserServiceImpl userService) {
-        this.tokenGenerator = tokenGenerator;
-        this.userService = userService;
-    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

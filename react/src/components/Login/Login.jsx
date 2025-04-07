@@ -28,6 +28,12 @@ const Login = () => {
         e.preventDefault();
         
         try{
+            console.log(LOGIN_URL);
+            console.log(                JSON.stringify({ username: username, password:password }),
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true
+                })
             const response = await axios.post(LOGIN_URL, JSON.stringify({username: username, password: password}), {
                 headers: { 'Content-Type': 'application/json'},
                 withCredentials: true
@@ -40,6 +46,7 @@ const Login = () => {
             const accessToken = response?.data?.accessToken;
             const roles = response?.data?.roles;
             setAuth( {username, password, roles, accessToken})
+            console.log(accessToken);
             } catch(err){
                 console.log("ISSUE");
                 if (!err?.response){
