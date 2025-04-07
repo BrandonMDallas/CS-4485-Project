@@ -7,11 +7,11 @@ import axios from '../../api/axios';
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-const REGISTER_URL = '/api/users';
+const REGISTER_URL = '/api/auth/register';
 
 
 const Register = () => {
-    const userRef = useRef();
+    const usernameRef = useRef();
     const errRef = useRef();
 
     const [user, setUser] = useState('');
@@ -30,7 +30,7 @@ const Register = () => {
     const [success, setSuccess] = useState(false);
 
     useEffect(() => {
-        userRef.current.focus();
+        usernameRef.current.focus();
     }, [])
 
     useEffect(() => {
@@ -56,6 +56,12 @@ const Register = () => {
             return;
         }
         try {
+            console.log(REGISTER_URL);
+            console.log(                JSON.stringify({ username: user, password:pwd }),
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true
+                })
             const response = await axios.post(REGISTER_URL,
                 JSON.stringify({ username: user, password:pwd }),
                 {
@@ -106,7 +112,7 @@ const Register = () => {
                         <input
                             type="text"
                             id="username"
-                            ref={userRef}
+                            ref={usernameRef}
                             autoComplete="off"
                             onChange={(e) => setUser(e.target.value)}
                             value={user}
