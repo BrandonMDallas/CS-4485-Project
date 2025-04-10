@@ -2,7 +2,7 @@ import React from 'react'
 import { useRef, useState, useEffect, useContext} from 'react';
 import AuthContext from '../../context/AuthProvider';
 import axios from '../../api/axios';
-import { Link } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 const LOGIN_URL = '/api/auth/login';
 
 
@@ -15,6 +15,12 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState('');
+
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const from = location.state?.from?.pathname || '/menu';
+
 
     useEffect(() =>{
         usernameRef.current.focus();
@@ -46,8 +52,10 @@ const Login = () => {
             const accessToken = response?.data?.accessToken;
             const roles = response?.data?.roles;
             setAuth( {username, password, roles, accessToken})
+            navigate(from, { replace: true });
             console.log(accessToken);
             } catch(err){
+                console.log(err);
                 console.log("ISSUE");
                 if (!err?.response){
                     setErrMsg('No Server Response');
