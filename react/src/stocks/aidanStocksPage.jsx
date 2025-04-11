@@ -18,7 +18,10 @@ import AiFinance from './aiFinance.jsx'
 import ProfilePage from './profilePage.jsx'
 import StocksSettings from './stocksSettings.jsx'
 import { Line } from 'react-chartjs-2';
-
+import Table from 'react-bootstrap/Table';
+import './App.jsx'
+//import './moreNews.jsx'
+//import Extranews from './moreNews.jsx'
 //secure -> environment variable
 //openai api: max_tokens is proportional to brain power (bigger request means more tokens)
 //.trim() MIGHT get rid of anything in the front or the end of your text
@@ -35,12 +38,19 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 function StockFunc() {
   const graphData=[1, 2, 3, 5, 8, 10, 67, 70];
   const graphData2=[10, 20, 50, 15];
-  
+  const [currTime, setCurrTime]=useState(new Date())
+  useEffect(() => {
+    const changeTime = setInterval(() => {
+      setCurrTime(new Date());
+    }, 1000); 
+
+    return () => clearInterval(changeTime);
+  }, []);
   const graphDatas=[[1, 2, 3, 4, 5], [10, 20, 30, 15, 20], [12, 23, 50, 20]]
   const [dynamicData, setDynamicData]=useState([10, 20, 30, 15])
   const months= ["Jan", "Feb", "March", "April", "May", "June"];
 const values = [1, 2, 3, 4, 5, 7];
-const companies=['nike', 'starbucks', 'mcdonalds', 'apple', 'google', 'microsoft', 'amazon', 'walmart'];
+const companies=['NKE', 'SBUX', 'MCD', 'AAPL', 'GOOG', 'MSFT', 'AMZN', 'WMT'];
 const company='';
 const ctx = document.getElementById("myChart");
 var theList=['company1', 'company2', 'company3']
@@ -51,13 +61,13 @@ var timeIntervals=['minutes', 'hours', 'days', 'months', 'years']
 const [list1, setList1] = useState([]);
 var preList1=list1;
  let index=0;
- let variable1="https://logo.clearbit.com/"+companies[0]+".com"
+ let variable1="https://assets.parqet.com/logos/symbol/"+companies[0]+"?format=png"
  let variable2='';
  const[buttonList, setButtonList]=useState([])
- const displayArray = ["https://logo.clearbit.com/"+companies[0]+".com", "https://logo.clearbit.com/"+companies[1]+".com", "https://logo.clearbit.com/"+companies[2]+".com",
-  "https://logo.clearbit.com/"+companies[3]+".com", "https://logo.clearbit.com/"+companies[4]+".com", 
-  "https://logo.clearbit.com/"+companies[5]+".com", "https://logo.clearbit.com/"+companies[6]+".com", 
- "https://logo.clearbit.com/"+companies[7]+".com"];
+ const displayArray = ["https://assets.parqet.com/logos/symbol/"+companies[0]+"?format=png", "https://assets.parqet.com/logos/symbol/"+companies[1]+"?format=png", "https://assets.parqet.com/logos/symbol/"+companies[2]+"?format=png",
+  "https://assets.parqet.com/logos/symbol/"+companies[3]+"?format=png", "https://assets.parqet.com/logos/symbol/"+companies[4]+"?format=png", 
+  "https://assets.parqet.com/logos/symbol/"+companies[5]+"?format=png", "https://assets.parqet.com/logos/symbol/"+companies[6]+"?format=png", 
+"https://assets.parqet.com/logos/symbol/"+companies[7]+"?format=png"];
 const [checkedItems, setCheckedItems] = useState(
     list1.map((item) => false)
   
@@ -65,10 +75,12 @@ const [checkedItems, setCheckedItems] = useState(
 const removeLike = (indexToRemove) => {
   setList1(list1.filter((_, index) => index !== indexToRemove));
 };
-
-const scrollFunc = () => {
-  window.scrollTo(800, 500);
+const todayDate = new Date();
+  const displayDate = todayDate.toLocaleDateString();
+const scrollFunc = (value) => {
+  window.scrollTo(0, value);
 }
+
 const addLike = (index) => {
   //Issues here
   let tempArray=list1;
@@ -99,90 +111,158 @@ const onCheckListSubmit = () =>{
     const createRL = () => {
     document.getElementById("resultList").innerHTML+="{resultList}";
     };
+    const [dataOpenPoints, setDataOpenPoints]=useState([])
+  const [dataLowPoints, setDataLowPoints]=useState([])
+  const [dataHighPoints, setDataHighPoints]=useState([])
+  const [dataClosePoints, setDataClosePoints]=useState([])
+  const [dataVolumePoints, setDataVolumePoints]=useState([])
+  const dataPoints=[];
+  const [xPoints, setXPoints]=useState([])
+var volumePoints=[];
+  async function getStock(value, value2, value3){
+   await Axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${value}&interval=30min&outputsize=full&apikey=32C6KJ3LT0U5QPAN`).then((response)=>{
+    console.log("Response: ", response)
+    console.log("value of comp: ", value);
+    let array1=[]
+    let array2=[]
+    for(var key in response.data['Time Series (30min)']){
+      array1.push(response.data['Time Series (30min)'][key]['1. open'])
+      array2.push(key)
+    }
+    value3=array1
+    setXPoints(array2)
+    console.log(xPoints)
+    console.log(value3)
+    //console.log(volumePoints)
+   }
+   
+     
+    
+   )
+  }
+  useEffect(()=> {
+   
+      getStock('IBM', 5, dataPoints);
+      getComp("IBM")
+      getNews();
+  }, [])
+  const [descV, setDescV]=useState("")
+  async function getComp(value){
+    await Axios.get(`https://www.alphavantage.co/query?function=OVERVIEW&symbol=${value}&apikey=32C6KJ3LT0U5QPAN`).then((response)=>{
+      const parsedData = JSON.parse(JSON.stringify(response));
+      setDescV(parsedData.data.Description)
+    
+     console.log("parsedData: ", descV);
+    }
+    
+      
+     
+    )
+   }
   const handleSubmit = (e) => {
     e.preventDefault(); 
   variable2=inputValue+' stock'
   console.log({variable2})
   };
   const [chartData, setChartData] = useState({
-    labels: ['Jan', 'Feb', 'Mar', 'Apr'],
+    labels: xPoints,
     datasets: [{
-      data: [1, 2, 3, 4],
+      data: dataPoints,
       borderColor: 'green',
       borderWidth: 1
     }]
   });
+  
   const [chartData2, setChartData2] = useState({
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+    labels: xPoints,
     datasets: [{
-      data: [1, 20, 3, 40, 5, 60, 7],
+      data: dataPoints,
       borderColor: 'green',
       borderWidth: 1
     }]
   });
   const [chartOptions, setCharOptions]=useState({
-    plugins: {
-      title: {
-         display: true,
-         text: 'Company name',
-         color: 'navy',
-         position: 'top',
-         align: 'center',
-         font: {
-            weight: 'bold'
-         },
-         padding: 8,
-         fullSize: true,
-      }
-   },
-
-      scales: {
-        
-        x: {
+    scales: {
+      
+      x: {
+        title: {
+          display: true,
+          text: 'Month'
+        }
+      },
+        y: {
           title: {
             display: true,
-            text: 'Month'
-          }
+            text: 'Stock value'
         },
-          y: {
-            title: {
-              display: true,
-              text: 'Stock value'
-          },
-              beginAtZero: true
-          }
-      }
-  
-  })
-  const updateData = (setArr, value) => {
-   
-    //setDynamicData(setArr)
-    var xLabel, xSide;
-    var lineColor='green'
-    const mins=['10 min', '20 min', '30 min', '40 min', '50 min', '60 min']
-    const hours=['8 am', '10 am', '12 pm', '1 pm', '2 pm', '3 pm']
-    const months=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
-    const newData = chartData2.datasets[0].data.map((item, index) => Math.floor(setArr[index]));
-    if(setArr[0]>setArr[setArr.length-1]){
-      lineColor='red';
-          }
-    if(value===1){
-      xSide=mins
-      xLabel='minutes'
-    }else if(value===2){
-      xSide=hours
-      xLabel='hours'
-    }else if(value===3){
-      xSide=months
-      xLabel='days'
-    }else if(value===4){
-      xSide=months
-      xLabel='weeks'
-    }else if(value===5){
-      xSide=months
-      xLabel='months'
+            beginAtZero: true
+        }
     }
 
+})
+  function LineGenerator (value) {
+    const smallPoints=[]
+    getStock(value, 1, smallPoints)
+
+    /*setChartData2({
+      ...chartData2,
+      labels: xSide,
+      datasets: [{
+        ...chartData2.datasets[0],data: dataPoints,
+        borderColor: lineColor
+      }]
+    });*/
+    return(
+      <>
+      <Line
+data={smallPoints} options={chartOptions} height={200} width={200}>
+</Line>
+</>
+    )
+  }
+  
+ /* */
+  const [abSelect, setAbSelect]=useState('')
+  const compParams = (value, value2) => {
+    getComp(value)
+    setAbSelect(value2)
+    handleShow7()
+  }
+  const updateData = (nameStock, value) => {
+   
+    //setDynamicData(setArr)
+
+    getStock(nameStock, 5, dataPoints)
+    var xLabel, xSide;
+    var lineColor='green'
+    const day=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    const hour=[xPoints[0], xPoints[1], xPoints[2], xPoints[3], xPoints[4], xPoints[5], xPoints[6], xPoints[7], xPoints[8], xPoints[9], xPoints[10], xPoints[11], xPoints[12], xPoints[13], xPoints[14]];
+    //console.log('X version', hour)
+    const month=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
+    //const year=['']
+   // const arrayPoints=setArr.map(stri => parseFloat(stri));
+    //console.log('Points version', arrayPoints)
+    //const newData = chartData2.datasets[0].data.map((item, index) => Math.floor(parseFloat(dataPoints[index])));
+   /* if(setArr[0]>setArr[setArr.length-1]){
+      lineColor='red';
+          }*/
+    if(value===1){
+      xSide=hour
+      xLabel='Specific time'
+    }else if(value===2){
+      xSide=day
+      xLabel='Days'
+    }else if(value===3){
+      xSide=month
+      xLabel='Months'
+    }else if(value===4){
+      xSide=[xPoints[650], xPoints[600], xPoints[500], xPoints[400], xPoints[300], xPoints[200], xPoints[100], xPoints[0]]
+      xLabel='Specific date'
+    }
+
+    if((Number(dataPoints[0]).toFixed(2))>(Number(dataPoints[dataPoints.length-1]).toFixed(2))){
+      lineColor='red'
+    }
     
       setCharOptions(chartOptions => ({ ...chartOptions, scales: {
         x: {
@@ -202,21 +282,23 @@ const onCheckListSubmit = () =>{
    }));
     
     
-    setChartData2({
-      ...chartData2,
+    setChartData({
+      ...chartData,
       labels: xSide,
       datasets: [{
-        ...chartData2.datasets[0],data: newData,
+        ...chartData.datasets[0],data: dataPoints,
         borderColor: lineColor
       }]
     });
   
 
   };
-  const stockListMulti = () => {
+  const [currentGraph, setCurrentGraph]=useState("")
 
-    updateData([6, 12, 18, 24], 2)
-    scrollFunc()
+  const stockListMulti = (value, value2) => {
+    setCurrentGraph(value)
+    updateData(value, 2)
+    scrollFunc(value2)
   }
   const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
@@ -224,6 +306,8 @@ const onCheckListSubmit = () =>{
     const [show4, setShow4] = useState(false);
     const [show5, setShow5] = useState(false);
     const [show6, setShow6] = useState(false);
+    const [show7, setShow7] = useState(false);
+
     const [graphSet, setGraphSet] =useState([]);
     const [makeGraph, setmakeGraph]=useState(false);
     const toggleMakeGraph = () => setmakeGraph(!makeGraph);
@@ -235,6 +319,9 @@ const onCheckListSubmit = () =>{
     const handleShow4 = () => setShow4(true);
     const handleClose6 = () => setShow6(false);
     const handleClose4=() => setShow4(false)
+    const handleShow7 = () => setShow7(true);
+    const handleClose7 = () => setShow7(false);
+
     const handleShow5 = (value) => {
       setShow5(true);
       setdSelect(value);
@@ -271,10 +358,11 @@ const onCheckListSubmit = () =>{
    
     }
     const changeDataCond = (index) => {
-      if(index===0){
-        return <p style={{color: 'red', fontSize: '23px'}}>-{index}</p>
-      }
-        return <p style={{color: 'green', fontSize: '23px'}}>+{index}</p>
+      let differenceV=dataPoints[1]-dataPoints[0]
+      if(differenceV<0){
+        return <p style={{color: 'red', fontSize: '23px'}}>{differenceV}</p>
+      }else{}
+       return <p style={{color: 'green', fontSize: '23px'}}>+{differenceV}</p>
       
      }
      const handleChange = (value) => {
@@ -314,12 +402,17 @@ const onCheckListSubmit = () =>{
 }}, [])*/
     const [isHidden, setHidden]=useState(true);
     const [isHidden2, setHidden2]=useState(false);
+    const [isHidden3, setHidden3]=useState(false);
+
     const changeHidden = () =>{
       setHidden(false)
       setHidden2(true)
     }
-   
+   const addMoreNews = () =>{
+    setHidden3(true)
+   }
   const graphInstance=document.getElementById("aChart");
+  const [companyName, setCompanyName]=useState("")
   const [newsHeader, setNewsHeader]=useState([])
   const [newsBody, setNewsBody]=useState([])
   const [newsImage, setNewsImage]=useState([])
@@ -327,13 +420,13 @@ const onCheckListSubmit = () =>{
   const [newsSource, setNewsSource]=useState([])
   const [newsSourceDomain, setNewsSourceDomain]=useState([])
   const [newsData, setNewsData]=useState([])
-  useEffect(() => {
-      getNews();
-  }, [])
+  
   async function getNews(){
     await Axios.get("https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=AAPL&apikey=demo").then((response)=> {
       try{
-        console.log(response.data.feed)
+        const parsedData = JSON.parse(JSON.stringify(response));
+        console.log("Raw news", response)
+       
         const newArray1 = [...newsHeader];
         const newArray2 = [...newsBody];
         const newArray3 = [...newsImage];
@@ -366,7 +459,7 @@ const onCheckListSubmit = () =>{
       }
     })
   }
-      
+  
    // setNewsHeader(response.data.feed.title)
    // setNewsImage(response.data.feed.banner_image)
    // setNewsBody(response.data.feed.summary)
@@ -423,25 +516,31 @@ const onCheckListSubmit = () =>{
   </div>*/
         return(
     <>
-   
+   <div style={{ backgroundColor: 'white',
+  boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px'}}>
     <div style={{ display: 'flex', flexDirection: 'row'}}>
-    <div style={{ position: 'absolute', left: '10%'}}>
-    <Link to="/"><img src="https://cdn-icons-png.freepik.com/512/3114/3114883.png" width="50px" height="50px"/></Link> 
-    </div>
-    <div style={{ position: 'absolute', right: '20%'}}>
-    <Link to="/stocksSetting"> <img style={{backgroundColor: 'white'}} src="https://w7.pngwing.com/pngs/95/869/png-transparent-setting-color-gradient-3d-icon.png" width="50px" height="50px"/></Link>
+    <Link to="/"><div style={{ position: 'absolute', left: '24%', backgroundColor: 'white',
+  boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px', margin: '10px'}}>
+    <img src="https://cdn-icons-png.freepik.com/512/3114/3114883.png" width="50px" height="50px"/>
+    </div></Link> 
+    <Link to="/stocksSetting"><div style={{ position: 'absolute', right: '26.5%', backgroundColor: 'white',
+  boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px', margin: '10px'}}>
+     <img style={{backgroundColor: 'white'}} src="https://w7.pngwing.com/pngs/953/757/png-transparent-setting-3d-icon.png" width="50px" height="50px"/>
     <br />Settings
-    </div>
-    <div style={{ position: 'absolute', right: '10%'}}>
-    <Link to="/profilePage">
+    </div></Link>
+    <Link to="/profilePage"><div style={{ position: 'absolute', right: '20.5%', backgroundColor: 'white',
+  boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px', margin: '10px'}}>
+    
         <img  src="https://cdn-icons-png.flaticon.com/512/9815/9815472.png" width="50px" height="50px"/>
-    </Link><br></br>Profile
-      </div>
+    <br></br>Profile
+      </div></Link>
     
     </div>
-    <h1 class="display-4">StocksHub</h1>
+    <h1 className="modern-title mb-0" style={{fontSize: '60px'}}>StocksHub</h1>
+    </div>
+    <p class="lead">Today's date and time: {displayDate} {currTime.toLocaleTimeString()}</p>
     <div>
-    <button class="aiButton" style={{borderRadius: '8px'}} onClick={handleShow3}><img style={{borderRadius: '8px'}} src="https://img.freepik.com/premium-photo/3d-ai-assistant-icon-artificial-intelligence-virtual-helper-logo-illustration_762678-41196.jpg" width="150px" height="150px"/> <br></br>Ask AI assistant for investing advice</button>
+    <button class="aiButton" style={{borderRadius: '8px'}} onClick={handleShow3}><img style={{borderRadius: '8px'}} src="https://static.vecteezy.com/system/resources/previews/004/639/658/non_2x/sun-icon-on-white-background-vector.jpg" width="250px" height="150px"/> <br></br>Ask AI assistant for investing advice</button>
     <Modal show={show3} onHide={handleClose3}>
         <Modal.Header closeButton>
           <Modal.Title>Ask AI a question</Modal.Title>
@@ -465,9 +564,10 @@ const onCheckListSubmit = () =>{
       </Modal>
     </div>
       <br />
-      <div class="yourSection">
-        <h2>Your Stocks</h2>
-        <Button variant="primary" onClick={handleShow} style={{position: 'absolute', left: "1350px"}}>
+      <div class="yourSection" style={{ backgroundColor: 'white',
+  boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px'}}>
+        <h2>Stock data</h2>
+        <Button variant="primary" onClick={handleShow} style={{ display: 'block', margin:'auto', float: 'right'}}>
         Edit list below
       </Button>
 <Modal show={show} onHide={handleClose}>
@@ -490,7 +590,7 @@ const onCheckListSubmit = () =>{
         <Modal.Footer>
         </Modal.Footer>
       </Modal>
-      <button type="button" class="btn btn-secondary" style={{ display: 'block', margin:'auto', float: 'left' }} data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" onClick={handleShow4}>
+      <button type="button" class="btn btn-secondary" style={{ display: 'block', margin:'auto', float: 'left'}} data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" onClick={handleShow4}>
   Ask AI for further analysis
 </button>
 <Modal show={show4} onHide={handleClose4}>
@@ -506,51 +606,99 @@ const onCheckListSubmit = () =>{
         </Modal.Footer>
       </Modal>
 <br></br>
-<p class="lead" style={{position: 'absolute', left: '46%'}}>List of your stocks</p><br />
+<div class="divStyle">
+
+<br></br>
+<br></br>
+<div style={{ borderRadius: "12px", backgroundColor: 'white',
+  boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)'}}>
+<p class="lead" style={{position: 'absolute', left: '45%', right: '45%'}}>Your stocks</p><br /><br />
 <div  style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
 {
               list1.map((item, index) => {
-                return <div key={index}>
+                return <div key={index} style={{ boxShadow: '5px 5px 10px rgba(7, 144, 18, 0.6)', borderRadius: '12px', backgroundColor: 'lightgreen', margin: '10px' }}>
                 
                 <label>
                   <p>{list1[index]}</p>
-                  <button type="button" class="btn btn-primary" onClick={()=>updateData([10, 30, 50, 20, 5, 6, 7], 2)}>View stock</button>
+                  
+                  <LineGenerator value={list1[index]}/>
+                  <button type="button" class="btn btn-primary" onClick={()=>stockListMulti(list1[index], 850)}>View stock</button>
                   {changeDataCond(index)}
                 </label>
               </div>
               }
             )}
             </div>
+</div>
+
+            </div>
 <br></br>
 <br></br>
 <p class="lead">Pick a time interval</p>
 
-<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" >
+<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" style={{ display: 'block', margin:'auto', float: 'middle'}}>
 {
  
    
      <li class="nav-item" style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-      <a style={{backgroundColor: 'lightgray', color: 'black', borderColor: 'black'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true" onClick={()=>updateData([1, 2, 3, 4, 5, 6, 7], 1)}>1 Hour</a>
-      <a style={{backgroundColor: 'lightgray', color: 'black', borderColor: 'black'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData([5, 6, 7, 8, 20, 10, 3], 2)}>4 Hours</a>
-      <a style={{backgroundColor: 'lightgray', color: 'black', borderColor: 'black'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData([10, 20, 30, 40, 200, 10, 10], 2)}>12 Hours</a>
-      <a style={{backgroundColor: 'lightgray', color: 'black', borderColor: 'black'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData([100, 200, 300, 160, 200, 10, 10], 2)}>1 day</a>
-      <a style={{backgroundColor: 'lightgray', color: 'black', borderColor: 'black'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData([100, 200, 300, 160, 200, 10, 10], 3)}>3 days</a>
-      <a style={{backgroundColor: 'lightgray', color: 'black', borderColor: 'black'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData([100, 200, 300, 160, 200, 10, 10], 4)}>1 week</a>
-      <a style={{backgroundColor: 'lightgray', color: 'black', borderColor: 'black'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData([100, 200, 300, 160, 200, 10, 10], 5)}>1 month</a>
-      <a style={{backgroundColor: 'lightgray', color: 'black', borderColor: 'black'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData([100, 200, 300, 160, 200, 10, 10], 5)}>3 months</a>
-      <a style={{backgroundColor: 'lightgray', color: 'black', borderColor: 'black'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData([100, 200, 300, 160, 200, 10, 10], 5)}>12 months</a>
+      <a style={{backgroundColor: 'lightgray', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}} class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true" onClick={()=>updateData(dataPoints, 1)}>Hour</a>
+      <a style={{backgroundColor: 'lightgray', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(dataPoints, 2)}>Day</a>
+      <a style={{backgroundColor: 'lightgray', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(dataPoints, 3)}>Month</a>
+      <a style={{backgroundColor: 'lightgray', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(dataPoints, 4)}>Year</a>
+
     </li>
 }
               
 </ul>
-<form className='add-form'>
+<form className='add-form' >
+  <div>
 <div class="col">
   <div>
+   <p class="lead" >Graph of {currentGraph}</p> 
   <Line
-  data={chartData2} options={chartOptions}>
+  data={chartData} options={chartOptions}>
   </Line>
         </div>
   </div>
+  </div>
+
+  <Table striped="columns">
+      <thead>
+        <tr>
+          <th>Time period</th>
+          <th>Volume</th>
+          <th>Open</th>
+          <th>High</th>
+          <th>Low</th>
+          <th>Close</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Intraday</td>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+        </tr>
+        <tr>
+          <td>Daily</td>
+          <td>Jacob</td>
+          <td>Thornton</td>
+          <td>@fat</td>
+        </tr>
+        <tr>
+          <td>Weekly</td>
+          <td colSpan={2}>Larry the Bird</td>
+          <td>@twitter</td>
+        </tr>
+        <tr>
+          <td>Monthly</td>
+          <td colSpan={2}>Larry the Bird</td>
+          <td>@twitter</td>
+        </tr>
+      </tbody>
+    </Table>
+
 </form>
 </div>
 <br></br>
@@ -605,8 +753,8 @@ const onCheckListSubmit = () =>{
   data={chartData} options={chartOptions} height={200} width={200}>
   </Line>
           </div>
-        <Button class="buttonSpacing" variant="primary" style={{backgroundColor: 'gray', color: 'black', borderColor: 'gray', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => handleShow5(0)}>About</Button>
-        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti()}>View stock</Button>
+        <Button class="buttonSpacing" variant="primary" style={{backgroundColor: 'gray', color: 'black', borderColor: 'gray', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("NKE", 0)}>About</Button>
+        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti('NKE', 500)}>View stock</Button>
         <Button class="buttonSpacing" style={{backgroundColor: 'green', color: 'white', borderColor: 'green', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(0)}>Add to list</Button></li>
         <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row'}}><img src={displayArray[1]} height="50px" width="50px"/>
       <h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>{companies[1]}</h5>
@@ -615,8 +763,8 @@ const onCheckListSubmit = () =>{
   data={chartData} options={chartOptions} height={200} width={200}>
   </Line>
         </div>
-        <Button class="buttonSpacing" variant="primary" style={{backgroundColor: 'gray', color: 'black', borderColor: 'gray', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => handleShow5(1)}>About</Button>
-        <Button class="buttonSpacing"  style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}} variant="primary" onClick={()=>stockListMulti()}>View stock</Button>
+        <Button class="buttonSpacing" variant="primary" style={{backgroundColor: 'gray', color: 'black', borderColor: 'gray', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("SBUX", 1)}>About</Button>
+        <Button class="buttonSpacing"  style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}} variant="primary" onClick={()=>stockListMulti('SBUX', 500)}>View stock</Button>
         <Button class="buttonSpacing" style={{backgroundColor: 'green', color: 'white', borderColor: 'green', margin: '15px', height: '50px', position: 'absolute', right: '10px'}} onClick={()=>addLike(1)}>Add to list</Button></li>
   <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row'}}><img src={displayArray[2]} height="50px" width="50px"/>
         <h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>{companies[2]}</h5>
@@ -625,8 +773,8 @@ const onCheckListSubmit = () =>{
   data={chartData} options={chartOptions} height={200} width={200}>
   </Line>
         </div>
-        <Button class="buttonSpacing" variant="primary" style={{backgroundColor: 'gray', color: 'black', borderColor: 'gray', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => handleShow5(2)}>About</Button>
-        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={()=>stockListMulti()}>View stock</Button>
+        <Button class="buttonSpacing" variant="primary" style={{backgroundColor: 'gray', color: 'black', borderColor: 'gray', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("MCD", 2)}>About</Button>
+        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={()=>stockListMulti('MCD', 500)}>View stock</Button>
         <Button class="buttonSpacing" style={{backgroundColor: 'green', color: 'white', borderColor: 'green', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(2)}>Add to list</Button></li>
   <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row'}}><img src={displayArray[3]} height="50px" width="50px"/>
       <h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>{companies[3]}</h5>
@@ -635,8 +783,8 @@ const onCheckListSubmit = () =>{
   data={chartData} options={chartOptions} height={200} width={200}>
   </Line>
         </div>
-        <Button class="buttonSpacing" variant="primary" style={{backgroundColor: 'gray', color: 'black', borderColor: 'gray', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => handleShow5(3)}>About</Button>
-        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={()=>stockListMulti()}>View stock</Button>
+        <Button class="buttonSpacing" variant="primary" style={{backgroundColor: 'gray', color: 'black', borderColor: 'gray', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("AAPL", 3)}>About</Button>
+        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={()=>stockListMulti('AAPL', 500)}>View stock</Button>
         <Button class="buttonSpacing" style={{backgroundColor: 'green', color: 'white',  borderColor: 'green', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(3)}>Add to list</Button></li>
   <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row'}}><img src={displayArray[4]} height="50px" width="50px"/>
         <h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>{companies[4]}</h5>
@@ -645,8 +793,8 @@ const onCheckListSubmit = () =>{
   data={chartData} options={chartOptions} height={200} width={200}>
   </Line>
         </div>
-        <Button class="buttonSpacing" variant="primary" style={{backgroundColor: 'gray', color: 'black',  borderColor: 'gray', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => handleShow5(4)}>About</Button>
-        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}} variant="primary" onClick={()=>stockListMulti()}>View stock</Button>
+        <Button class="buttonSpacing" variant="primary" style={{backgroundColor: 'gray', color: 'black',  borderColor: 'gray', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("GOOGL", 4)}>About</Button>
+        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}} variant="primary" onClick={()=>stockListMulti('GOOGL', 500)}>View stock</Button>
         <Button class="buttonSpacing" style={{backgroundColor: 'green', color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}} onClick={()=>addLike(4)}>Add to list</Button></li>
   
 </ul>
@@ -668,7 +816,7 @@ const onCheckListSubmit = () =>{
 
     </div>
     <h2>Latest in news</h2>
-   <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+   <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%'}} class="col-lg-4 mb-3 d-flex align-items-stretch">
    <Card style={{ width: '18rem' }}>
       <Card.Img variant="top" src={newsImage[0]} />
       <Card.Body>
@@ -702,7 +850,7 @@ const onCheckListSubmit = () =>{
     </Card>
    </div>
    
-   <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+   <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%'}} class="col-lg-4 mb-3 d-flex align-items-stretch">
    <Card style={{ width: '18rem' }}>
       <Card.Img variant="top" src={newsImage[3]} />
       <Card.Body>
@@ -736,7 +884,7 @@ const onCheckListSubmit = () =>{
     </Card>
    </div>
    <div hidden={isHidden}>
-   <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+   <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%'}} class="col-lg-4 mb-3 d-flex align-items-stretch">
    <Card style={{ width: '18rem' }}>
       <Card.Img variant="top" src={newsImage[6]} />
       <Card.Body>
@@ -770,7 +918,7 @@ const onCheckListSubmit = () =>{
     </Card>
    </div>
    
-   <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+   <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%'}} class="col-lg-4 mb-3 d-flex align-items-stretch">
    <Card style={{ width: '18rem' }}>
       <Card.Img variant="top" src={newsImage[9]} />
       <Card.Body>
@@ -802,10 +950,24 @@ const onCheckListSubmit = () =>{
         <Button variant="primary" onClick={() => handleShow6(11)} >More information</Button>
       </Card.Body>
     </Card>
+    
+
    </div>
+   <Link to="/moreNews" onClick={()=>addMoreNews()}><button>View more news</button></Link>
    </div>
    <button hidden={isHidden2} onClick={() => changeHidden()}>View more news</button>
-
+   <Modal show={show7} onHide={handleClose7}>
+        <Modal.Header closeButton>
+          <Modal.Title>More about {companies[abSelect]}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          
+          {descV}
+          
+        </Modal.Body>
+        <Modal.Footer>
+        </Modal.Footer>
+      </Modal>
    <Modal show={show6} onHide={handleClose6}>
         <Modal.Header closeButton>
           <Modal.Title>More about this news</Modal.Title>
@@ -824,6 +986,57 @@ const onCheckListSubmit = () =>{
     </>
   )
 }
+/**
+ * <div>
+    {
+      return(
+        <>
+      {(() => {
+        for(let count=0; count<30; count++){
+          return(
+            <>
+            <Card style={{ width: '18rem' }}>
+        <Card.Img variant="top" src={newsImage[11]} />
+        <Card.Body>
+          <Card.Title>{newsHeader[11]}</Card.Title>
+          <Card.Text>
+            {newsBody[11]}
+          </Card.Text>
+          <Button variant="primary" onClick={() => handleShow6(11)} >More information</Button>
+        </Card.Body>
+      </Card>
+      </>
+          )
+        }
+      )
+      })}
+      </>
+    }
+    </div>
+ */
+/**
+ * plugins: {
+      title: {
+         display: true,
+         text: companies[0],
+         color: 'navy',
+         position: 'top',
+         align: 'center',
+         font: {
+            weight: 'bold'
+         },
+         padding: 8,
+         fullSize: true,
+      }
+   },
+ */
+/**
+ * <a style={{backgroundColor: 'lightgray', color: 'black', borderColor: 'black'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData([100, 200, 300, 160, 200, 10, 10], 3)}>3 days</a>
+      <a style={{backgroundColor: 'lightgray', color: 'black', borderColor: 'black'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData([100, 200, 300, 160, 200, 10, 10], 4)}>1 week</a>
+      <a style={{backgroundColor: 'lightgray', color: 'black', borderColor: 'black'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData([100, 200, 300, 160, 200, 10, 10], 5)}>1 month</a>
+      <a style={{backgroundColor: 'lightgray', color: 'black', borderColor: 'black'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData([100, 200, 300, 160, 200, 10, 10], 5)}>3 months</a>
+      <a style={{backgroundColor: 'lightgray', color: 'black', borderColor: 'black'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData([100, 200, 300, 160, 200, 10, 10], 5)}>12 months</a>
+ */
 //For automatic scrolling: window.scrollTo(500, 0);
 export default StockFunc
 
