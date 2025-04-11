@@ -19,8 +19,9 @@ import {createElement} from 'react';
 import {Chart as ChartJS, LinearScale, LineElement, CategoryScale, PointElement} from 'chart.js'
 import {Line} from 'react-chartjs-2'
 import Axios from 'axios';
-import Accordion from 'react-bootstrap/Accordion';
 import InputGroup from 'react-bootstrap/InputGroup';
+
+import Accordion from 'react-bootstrap/Accordion';
 
 
 function logInPage() {
