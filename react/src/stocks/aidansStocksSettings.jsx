@@ -28,17 +28,19 @@ function stocksSetting() {
       const handleShow = () => setShow(true);
   return(
     <>
-   <h1>Settings</h1>
-   <div class="container">
+    <div style={{ position: 'absolute', left: '10%', top: '50px'}}>
+          <Link to="/stocks"><img src="https://cdn-icons-png.freepik.com/512/3114/3114883.png" width="50px" height="50px"/></Link> 
+          </div>
+   <h1 style={{position: 'absolute', top: '50px', left: '40%', fontSize: '90px'}}>Settings</h1>
+   <div class="container" style={{color: 'black'}}>
   <div class="row">
     <div class="col">
     <h3>Page display</h3>
-   <div class="form-check">
-        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2" />
-        <label class="form-check-label" for="gridRadios2">
-          Dark mode
-        </label>
-      </div>
+    <div class="form-check form-switch">
+  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" />
+  <label class="form-check-label" for="flexSwitchCheckChecked">Dark mode</label>
+  
+</div>
    <h3>Profile</h3>
    <img />
    <p>Full name: </p>
@@ -47,7 +49,12 @@ function stocksSetting() {
     </div>
     <div class="col">
     <h3>AI assistant</h3>
-   <p>On/off</p>
+    <div class="form-check form-switch">
+  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" />
+  <label class="form-check-label" for="flexSwitchCheckChecked">On/Off</label>
+  
+</div>
+   
    <p>Level of accuracy: </p>
    <Button  onClick={handleShow}>
    Allow AI assistant to use some of your information
