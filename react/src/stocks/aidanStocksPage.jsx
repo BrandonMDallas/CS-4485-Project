@@ -116,10 +116,10 @@ const onCheckListSubmit = () =>{
   const [dataHighPoints, setDataHighPoints]=useState([])
   const [dataClosePoints, setDataClosePoints]=useState([])
   const [dataVolumePoints, setDataVolumePoints]=useState([])
-  const dataPoints=[];
+  const [dataPoints, setDataPoints]=useState([])
   const [xPoints, setXPoints]=useState([])
 var volumePoints=[];
-  async function getStock(value, value2, value3){
+  async function getStock(value, value2){
    await Axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${value}&interval=30min&outputsize=full&apikey=32C6KJ3LT0U5QPAN`).then((response)=>{
     console.log("Response: ", response)
     console.log("value of comp: ", value);
@@ -129,10 +129,10 @@ var volumePoints=[];
       array1.push(response.data['Time Series (30min)'][key]['1. open'])
       array2.push(key)
     }
-    value3=array1
+    setDataPoints(array1)
     setXPoints(array2)
     console.log(xPoints)
-    console.log(value3)
+    console.log('dataPoints: ', dataPoints)
     //console.log(volumePoints)
    }
    
@@ -142,7 +142,7 @@ var volumePoints=[];
   }
   useEffect(()=> {
    
-      getStock('IBM', 5, dataPoints);
+      getStock('IBM', 5);
       getComp("IBM")
       getNews();
   }, [])
@@ -202,7 +202,7 @@ var volumePoints=[];
 })
   function LineGenerator (value) {
     const smallPoints=[]
-    getStock(value, 1, smallPoints)
+    getStock(value, 1)
 
     /*setChartData2({
       ...chartData2,
@@ -215,7 +215,7 @@ var volumePoints=[];
     return(
       <>
       <Line
-data={smallPoints} options={chartOptions} height={200} width={200}>
+data={dataPoints} options={chartOptions} height={200} width={200}>
 </Line>
 </>
     )
@@ -232,7 +232,7 @@ data={smallPoints} options={chartOptions} height={200} width={200}>
    
     //setDynamicData(setArr)
 
-    getStock(nameStock, 5, dataPoints)
+    getStock(nameStock, 5)
     var xLabel, xSide;
     var lineColor='green'
     const day=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
@@ -621,7 +621,9 @@ data={smallPoints} options={chartOptions} height={200} width={200}>
                 <label>
                   <p>{list1[index]}</p>
                   
-                  <LineGenerator value={list1[index]}/>
+                  <Line
+data={chartData} options={chartOptions} height={200} width={200}>
+</Line>
                   <button type="button" class="btn btn-primary" onClick={()=>stockListMulti(list1[index], 850)}>View stock</button>
                   {changeDataCond(index)}
                 </label>
