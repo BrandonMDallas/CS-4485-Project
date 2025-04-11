@@ -531,16 +531,16 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
    <div style={{ backgroundColor: 'white',
   boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px'}}>
     <div style={{ display: 'flex', flexDirection: 'row'}}>
-    <Link to="/"><div style={{ position: 'absolute', left: '24%', backgroundColor: 'white',
+    <Link to="/"><div style={{ position: 'fixed', left: '24%', backgroundColor: 'white',
   boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px', margin: '10px'}}>
     <img src="https://cdn-icons-png.freepik.com/512/3114/3114883.png" width="50px" height="50px"/>
     </div></Link> 
-    <Link to="/stocksSetting"><div style={{ position: 'absolute', right: '26.5%', backgroundColor: 'white',
+    <Link to="/stocksSetting"><div style={{ position: 'fixed', right: '23.5%', backgroundColor: 'white',
   boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px', margin: '10px'}}>
      <img style={{backgroundColor: 'white'}} src="https://w7.pngwing.com/pngs/953/757/png-transparent-setting-3d-icon.png" width="50px" height="50px"/>
     <br />Settings
     </div></Link>
-    <Link to="/profilePage"><div style={{ position: 'absolute', right: '20.5%', backgroundColor: 'white',
+    <Link to="/profilePage"><div style={{ position: 'fixed', right: '19.5%', backgroundColor: 'white',
   boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px', margin: '10px'}}>
     
         <img  src="https://cdn-icons-png.flaticon.com/512/9815/9815472.png" width="50px" height="50px"/>
@@ -690,28 +690,28 @@ data={chartData} options={chartOptions} height={200} width={200}>
         <tr>
           <td>{xPoints[0]}</td>
           <td>{dataHighPoints[0]}</td>
-          <td>{volumePoints[0]}</td>
+          <td>{dataVolumePoints[0]}</td>
           <td>{dataLowPoints[0]}</td>
           <td>{dataClosePoints[0]}</td>
         </tr>
         <tr>
           <td>{xPoints[100]}</td>
           <td>{dataHighPoints[100]}</td>
-          <td>{volumePoints[100]}</td>
+          <td>{dataVolumePoints[100]}</td>
           <td>{dataLowPoints[100]}</td>
           <td>{dataClosePoints[100]}</td>
         </tr>
         <tr>
           <td>{xPoints[400]}</td>
           <td>{dataHighPoints[400]}</td>
-          <td>{volumePoints[400]}</td>
+          <td>{dataVolumePoints[400]}</td>
           <td>{dataLowPoints[400]}</td>
           <td>{dataClosePoints[400]}</td>
         </tr>
         <tr>
           <td>{xPoints[xPoints.length-1]}</td>
           <td>{dataHighPoints[xPoints.length-1]}</td>
-          <td>{volumePoints[xPoints.length-1]}</td>
+          <td>{dataVolumePoints[xPoints.length-1]}</td>
           <td>{dataLowPoints[xPoints.length-1]}</td>
           <td>{dataClosePoints[xPoints.length-1]}</td>
         </tr>
@@ -1071,181 +1071,3 @@ data={chartData} options={chartOptions} height={200} width={200}>
  */
 //For automatic scrolling: window.scrollTo(500, 0);
 export default StockFunc
-
-/**
- * <br></br>
-          <p>Source domain: </p>
-          {() => {if(!newsSourceDomain[dSelect]){
-            return(
-              <p>None available</p>
-            )
-          }}}
- */
-
-/*
-const lineChart = () =>{
-  return <div>
-    <Line 
-    data={{
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-      datasets: [
-        {
-          label: 'stock value',
-          data: [12, 19, 3, 5, 2, 3], 
-        },
-      ],
-    }}
-    height={200}
-    width={300}/>
-  </div>
-}
-/*fetch('your_api_endpoint')
-.then(response => response.json())
-.then(data => {
-  // Process data and create chart
-  createChart(data);
-})
-.catch(error => console.error('Error fetching data:', error));
-
-(async function() {
-  const data = [
-    { year: 2010, count: 10 },
-    { year: 2011, count: 20 },
-    { year: 2012, count: 15 },
-    { year: 2013, count: 25 },
-    { year: 2014, count: 22 },
-    { year: 2015, count: 30 },
-    { year: 2016, count: 28 },
-  ];
-
-  new Chart(
-    document.getElementById('acquisitions'),
-    {
-      type: 'bar',
-      data: {
-        labels: data.map(row => row.year),
-        datasets: [
-          {
-            label: 'Acquisitions by year',
-            data: data.map(row => row.count)
-          }
-        ]
-      }
-    }
-  );
-})();
- 
-
-const SimpleLineChart = () => {
-  return (
-    <LineChart
-      width={500}
-      height={300}
-      data={data}
-      margin={{
-        top: 5,
-        right: 30,
-        left: 20,
-        bottom: 5,
-      }}
-    >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-      <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-    </LineChart>
-  );
-}*/
-//To add elements dynamically in React, it's recommended to manage an 
-// array in the component's state and render elements based on the contents of that array.
-/* fetch("https://catfact.ninja/fact").then((res) =>res.json())
-.then((data)=>{
-  console.log(data);
-});*/
-//Notes: axios shows everytime the component here updates unless you do mounting
-//- How to put variable in a string: use ` instead of " " for the string, ${(const variable goes here)}
-//Use . in axios to get the value of an attribute of an object received
-//-useState({}) or useState(null) is for making an empty object
-// putting a ? before a . of an object means to only access the value of that attribute of that object ONLY IF it's the object
-//isn't null
-/*useEffectAxios.get("https://catfact.ninja/fact").then((res) => {
-  console.log(res.data);
-});*/
-/*useEffect(() => {
-    const getData= async () => {
-      const {data} = await axios.get("http://localhost:5000/api/v1/analytics/revenue/lifetime")
-    console.log(data)
-    }
-    getData()
-  }, []
-<Card style={{ width: '18rem' }}>
-      <Card.Body>
-      <img src="https://logo.clearbit.com/starbucks.com"></img>
-        <Card.Title>Random stock</Card.Title>
-        <Card.Text>
-           Brief description of stock goes here.
-        </Card.Text>
-        <Button variant="primary">View stock</Button>
-      </Card.Body>
-    </Card>
-    <Card style={{ width: '18rem' }}>
-      <Card.Body>
-      <img src="https://logo.clearbit.com/mcdonalds.com"></img>
-        <Card.Title>Random stock</Card.Title>
-        <Card.Text>
-           Brief description of stock goes here.
-        </Card.Text>
-        <Button variant="primary">View stock</Button>
-      </Card.Body>
-    </Card>
-    <Card style={{ width: '18rem' }}>
-      <Card.Body>
-        <Card.Title>Random stock</Card.Title>
-        <Card.Text>
-           Brief description of stock goes here.
-        </Card.Text>
-        <Button variant="primary">Add stock</Button>
-      </Card.Body>
-    </Card>
-    </div>
-    <div style={{ display: 'flex', flexDirection: 'row' }}>
-  <Card style={{ width: '18rem' }}>
-      <Card.Body>
-        <Card.Title>Random stock</Card.Title>
-        <Card.Text>
-           Brief description of stock goes here.
-        </Card.Text>
-        <Button variant="primary">Add stock</Button>
-      </Card.Body>
-    </Card>
-    <Card style={{ width: '18rem' }}>
-      <Card.Body>
-        <Card.Title>Random stock</Card.Title>
-        <Card.Text>
-           Brief description of stock goes here.
-        </Card.Text>
-        <Button variant="primary">Add stock</Button>
-      </Card.Body>
-    </Card>
-    <Card style={{ width: '18rem' }}>
-      <Card.Body>
-        <Card.Title>Random stock</Card.Title>
-        <Card.Text>
-           Brief description of stock goes here.
-        </Card.Text>
-        <Button variant="primary">Add stock</Button>
-      </Card.Body>
-    </Card>
-    <Card style={{ width: '18rem' }}>
-      <Card.Body>
-        <Card.Title>Random stock</Card.Title>
-        <Card.Text>
-           Brief description of stock goes here.
-        </Card.Text>
-        <Button variant="primary">Add stock</Button>
-      </Card.Body>
-    </Card>
-  )*/
- //import {CategoryScale, Chart as ChartJS, LinearScale, LineElement, PointElement} from 'chart.js'
