@@ -125,11 +125,23 @@ var volumePoints=[];
     console.log("value of comp: ", value);
     let array1=[]
     let array2=[]
+    let array3=[]
+    let array4=[]
+    let array5=[]
+    let array6=[]
     for(var key in response.data['Time Series (30min)']){
       array1.push(response.data['Time Series (30min)'][key]['1. open'])
       array2.push(key)
+      array3.push(response.data['Time Series (30min)'][key]['3. low'])
+      array4.push(response.data['Time Series (30min)'][key]['2. high'])
+      array5.push(response.data['Time Series (30min)'][key]['4. close'])
+      array6.push(response.data['Time Series (30min)'][key]['5. volume'])
     }
     setDataPoints(array1)
+    setDataLowPoints(array3)
+    setDataHighPoints(array4)
+    setDataClosePoints(array5)
+    setDataVolumePoints(array6)
     setXPoints(array2)
     console.log(xPoints)
     console.log('dataPoints: ', dataPoints)
@@ -668,35 +680,40 @@ data={chartData} options={chartOptions} height={200} width={200}>
       <thead>
         <tr>
           <th>Time period</th>
-          <th>Volume</th>
-          <th>Open</th>
           <th>High</th>
+          <th>Volume</th>
           <th>Low</th>
           <th>Close</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>Intraday</td>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
+          <td>{xPoints[0]}</td>
+          <td>{dataHighPoints[0]}</td>
+          <td>{volumePoints[0]}</td>
+          <td>{dataLowPoints[0]}</td>
+          <td>{dataClosePoints[0]}</td>
         </tr>
         <tr>
-          <td>Daily</td>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
+          <td>{xPoints[100]}</td>
+          <td>{dataHighPoints[100]}</td>
+          <td>{volumePoints[100]}</td>
+          <td>{dataLowPoints[100]}</td>
+          <td>{dataClosePoints[100]}</td>
         </tr>
         <tr>
-          <td>Weekly</td>
-          <td colSpan={2}>Larry the Bird</td>
-          <td>@twitter</td>
+          <td>{xPoints[400]}</td>
+          <td>{dataHighPoints[400]}</td>
+          <td>{volumePoints[400]}</td>
+          <td>{dataLowPoints[400]}</td>
+          <td>{dataClosePoints[400]}</td>
         </tr>
         <tr>
-          <td>Monthly</td>
-          <td colSpan={2}>Larry the Bird</td>
-          <td>@twitter</td>
+          <td>{xPoints[xPoints.length-1]}</td>
+          <td>{dataHighPoints[xPoints.length-1]}</td>
+          <td>{volumePoints[xPoints.length-1]}</td>
+          <td>{dataLowPoints[xPoints.length-1]}</td>
+          <td>{dataClosePoints[xPoints.length-1]}</td>
         </tr>
       </tbody>
     </Table>
@@ -750,6 +767,7 @@ data={chartData} options={chartOptions} height={200} width={200}>
         
       <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row'}}><img src={displayArray[0]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {companies[0]}</h5>
         <div class="card-text"> 
+          {dataPoints[0]}
           {changeDataCond(0)}
           <Line
   data={chartData} options={chartOptions} height={200} width={200}>
@@ -760,7 +778,10 @@ data={chartData} options={chartOptions} height={200} width={200}>
         <Button class="buttonSpacing" style={{backgroundColor: 'green', color: 'white', borderColor: 'green', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(0)}>Add to list</Button></li>
         <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row'}}><img src={displayArray[1]} height="50px" width="50px"/>
       <h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>{companies[1]}</h5>
-        <div class="card-text">{changeDataCond(1)}
+      
+        <div class="card-text">
+        {dataPoints[0]}
+        {changeDataCond(1)}
         <Line
   data={chartData} options={chartOptions} height={200} width={200}>
   </Line>
@@ -770,7 +791,10 @@ data={chartData} options={chartOptions} height={200} width={200}>
         <Button class="buttonSpacing" style={{backgroundColor: 'green', color: 'white', borderColor: 'green', margin: '15px', height: '50px', position: 'absolute', right: '10px'}} onClick={()=>addLike(1)}>Add to list</Button></li>
   <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row'}}><img src={displayArray[2]} height="50px" width="50px"/>
         <h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>{companies[2]}</h5>
-        <div class="card-text">{changeDataCond(2)}
+        
+        <div class="card-text">
+        {dataPoints[0]}
+        {changeDataCond(2)}
         <Line
   data={chartData} options={chartOptions} height={200} width={200}>
   </Line>
@@ -780,7 +804,10 @@ data={chartData} options={chartOptions} height={200} width={200}>
         <Button class="buttonSpacing" style={{backgroundColor: 'green', color: 'white', borderColor: 'green', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(2)}>Add to list</Button></li>
   <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row'}}><img src={displayArray[3]} height="50px" width="50px"/>
       <h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>{companies[3]}</h5>
-        <div class="card-text">{changeDataCond(3)}
+      
+        <div class="card-text">
+        {dataPoints[0]}
+        {changeDataCond(3)}
         <Line
   data={chartData} options={chartOptions} height={200} width={200}>
   </Line>
@@ -790,7 +817,10 @@ data={chartData} options={chartOptions} height={200} width={200}>
         <Button class="buttonSpacing" style={{backgroundColor: 'green', color: 'white',  borderColor: 'green', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(3)}>Add to list</Button></li>
   <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row'}}><img src={displayArray[4]} height="50px" width="50px"/>
         <h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>{companies[4]}</h5>
-        <div class="card-text">{changeDataCond(4)}
+        
+        <div class="card-text">
+        {dataPoints[0]}
+        {changeDataCond(4)}
         <Line
   data={chartData} options={chartOptions} height={200} width={200}>
   </Line>
