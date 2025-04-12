@@ -119,8 +119,18 @@ const onCheckListSubmit = () =>{
   const [dataPoints, setDataPoints]=useState([])
   const [xPoints, setXPoints]=useState([])
 var volumePoints=[];
-  async function getStock(value, value2){
-   await Axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${value}&interval=30min&outputsize=full&apikey=32C6KJ3LT0U5QPAN`).then((response)=>{
+  async function getStock(value, value2, value3){
+    let value4="";
+    let value5="";
+    if(value3==='TIME_SERIES_INTRADAY'){
+      value4="interval=30min&"
+      value5="30min"
+    }else if(value3==="TIME_SERIES_DAILY"){
+      value5="Daily"
+    }else if(value3==="TIME_SERIES_MONTHLY"){
+      value5="Monthly"
+    }
+   await Axios.get(`https://www.alphavantage.co/query?function=${value3}&symbol=${value}&${value4}outputsize=full&apikey=32C6KJ3LT0U5QPAN`).then((response)=>{
     console.log("Response: ", response)
     console.log("value of comp: ", value);
     let array1=[]
@@ -129,13 +139,13 @@ var volumePoints=[];
     let array4=[]
     let array5=[]
     let array6=[]
-    for(var key in response.data['Time Series (30min)']){
-      array1.push(response.data['Time Series (30min)'][key]['1. open'])
+    for(var key in response.data[`Time Series (${value5})`]){
+      array1.push(response.data[`Time Series (${value5})`][key]['1. open'])
       array2.push(key)
-      array3.push(response.data['Time Series (30min)'][key]['3. low'])
-      array4.push(response.data['Time Series (30min)'][key]['2. high'])
-      array5.push(response.data['Time Series (30min)'][key]['4. close'])
-      array6.push(response.data['Time Series (30min)'][key]['5. volume'])
+      array3.push(response.data[`Time Series (${value5})`][key]['3. low'])
+      array4.push(response.data[`Time Series (${value5})`][key]['2. high'])
+      array5.push(response.data[`Time Series (${value5})`][key]['4. close'])
+      array6.push(response.data[`Time Series (${value5})`][key]['5. volume'])
     }
     setDataPoints(array1)
     setDataLowPoints(array3)
@@ -154,7 +164,7 @@ var volumePoints=[];
   }
   useEffect(()=> {
    
-      getStock('IBM', 5);
+      getStock('IBM', 5, "TIME_SERIES_INTRADAY");
       getComp("IBM")
       getNews();
   }, [])
@@ -214,7 +224,7 @@ var volumePoints=[];
 })
   function LineGenerator (value) {
     const smallPoints=[]
-    getStock(value, 1)
+    //getStock(value, 1)
 
     /*setChartData2({
       ...chartData2,
@@ -240,11 +250,11 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
     setAbSelect(value2)
     handleShow7()
   }
-  const updateData = (nameStock, value) => {
+  const updateData = (nameStock, value, value3) => {
    
     //setDynamicData(setArr)
 
-    getStock(nameStock, 5)
+    getStock(nameStock, 5, value3)
     var xLabel, xSide;
     var lineColor='green'
     const day=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
@@ -307,9 +317,9 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
   };
   const [currentGraph, setCurrentGraph]=useState("")
 
-  const stockListMulti = (value, value2) => {
+  const stockListMulti = (value, value2, value3) => {
     setCurrentGraph(value)
-    updateData(value, 2)
+    updateData(value, 2, value3)
     scrollFunc(value2)
   }
   const [show, setShow] = useState(false);
@@ -636,7 +646,7 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
                   <Line
 data={chartData} options={chartOptions} height={200} width={200}>
 </Line>
-                  <button type="button" class="btn btn-primary" onClick={()=>stockListMulti(list1[index], 850)}>View stock</button>
+                  <button type="button" class="btn btn-primary" onClick={()=>stockListMulti(list1[index], 850, "TIME_SERIES_INTRADAY")}>View stock</button>
                   {changeDataCond(index)}
                 </label>
               </div>
@@ -655,10 +665,10 @@ data={chartData} options={chartOptions} height={200} width={200}>
  
    
      <li class="nav-item" style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-      <a style={{backgroundColor: 'lightgray', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}} class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true" onClick={()=>updateData(dataPoints, 1)}>Hour</a>
-      <a style={{backgroundColor: 'lightgray', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(dataPoints, 2)}>Day</a>
-      <a style={{backgroundColor: 'lightgray', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(dataPoints, 3)}>Month</a>
-      <a style={{backgroundColor: 'lightgray', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(dataPoints, 4)}>Year</a>
+      <a style={{backgroundColor: 'lightgray', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}} class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true" onClick={()=>updateData(dataPoints, 1, "TIME_SERIES_INTRADAY")}>Hour</a>
+      <a style={{backgroundColor: 'lightgray', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(dataPoints, 2, "TIME_SERIES_DAILY")}>Day</a>
+      <a style={{backgroundColor: 'lightgray', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(dataPoints, 3, "TIME_SERIES_MONTHLY")}>Month</a>
+      <a style={{backgroundColor: 'lightgray', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(dataPoints, 4, "TIME_SERIES_ADJUSTED")}>Year</a>
 
     </li>
 }
@@ -675,7 +685,7 @@ data={chartData} options={chartOptions} height={200} width={200}>
         </div>
   </div>
   </div>
-
+<p class="lead">Extra data about this stock</p>
   <Table striped="columns">
       <thead>
         <tr>
@@ -774,7 +784,7 @@ data={chartData} options={chartOptions} height={200} width={200}>
   </Line>
           </div>
         <Button class="buttonSpacing" variant="primary" style={{backgroundColor: 'gray', color: 'black', borderColor: 'gray', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("NKE", 0)}>About</Button>
-        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti('NKE', 500)}>View stock</Button>
+        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti('NKE', 500, "TIME_SERIES_INTRADAY")}>View stock</Button>
         <Button class="buttonSpacing" style={{backgroundColor: 'green', color: 'white', borderColor: 'green', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(0)}>Add to list</Button></li>
         <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row'}}><img src={displayArray[1]} height="50px" width="50px"/>
       <h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>{companies[1]}</h5>
@@ -787,7 +797,7 @@ data={chartData} options={chartOptions} height={200} width={200}>
   </Line>
         </div>
         <Button class="buttonSpacing" variant="primary" style={{backgroundColor: 'gray', color: 'black', borderColor: 'gray', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("SBUX", 1)}>About</Button>
-        <Button class="buttonSpacing"  style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}} variant="primary" onClick={()=>stockListMulti('SBUX', 500)}>View stock</Button>
+        <Button class="buttonSpacing"  style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}} variant="primary" onClick={()=>stockListMulti('SBUX', 500, "TIME_SERIES_INTRADAY")}>View stock</Button>
         <Button class="buttonSpacing" style={{backgroundColor: 'green', color: 'white', borderColor: 'green', margin: '15px', height: '50px', position: 'absolute', right: '10px'}} onClick={()=>addLike(1)}>Add to list</Button></li>
   <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row'}}><img src={displayArray[2]} height="50px" width="50px"/>
         <h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>{companies[2]}</h5>
@@ -800,7 +810,7 @@ data={chartData} options={chartOptions} height={200} width={200}>
   </Line>
         </div>
         <Button class="buttonSpacing" variant="primary" style={{backgroundColor: 'gray', color: 'black', borderColor: 'gray', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("MCD", 2)}>About</Button>
-        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={()=>stockListMulti('MCD', 500)}>View stock</Button>
+        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={()=>stockListMulti('MCD', 500, "TIME_SERIES_INTRADAY")}>View stock</Button>
         <Button class="buttonSpacing" style={{backgroundColor: 'green', color: 'white', borderColor: 'green', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(2)}>Add to list</Button></li>
   <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row'}}><img src={displayArray[3]} height="50px" width="50px"/>
       <h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>{companies[3]}</h5>
@@ -813,7 +823,7 @@ data={chartData} options={chartOptions} height={200} width={200}>
   </Line>
         </div>
         <Button class="buttonSpacing" variant="primary" style={{backgroundColor: 'gray', color: 'black', borderColor: 'gray', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("AAPL", 3)}>About</Button>
-        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={()=>stockListMulti('AAPL', 500)}>View stock</Button>
+        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={()=>stockListMulti('AAPL', 500, "TIME_SERIES_INTRADAY")}>View stock</Button>
         <Button class="buttonSpacing" style={{backgroundColor: 'green', color: 'white',  borderColor: 'green', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(3)}>Add to list</Button></li>
   <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row'}}><img src={displayArray[4]} height="50px" width="50px"/>
         <h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>{companies[4]}</h5>
@@ -826,7 +836,7 @@ data={chartData} options={chartOptions} height={200} width={200}>
   </Line>
         </div>
         <Button class="buttonSpacing" variant="primary" style={{backgroundColor: 'gray', color: 'black',  borderColor: 'gray', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("GOOGL", 4)}>About</Button>
-        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}} variant="primary" onClick={()=>stockListMulti('GOOGL', 500)}>View stock</Button>
+        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}} variant="primary" onClick={()=>stockListMulti('GOOGL', 500, "TIME_SERIES_INTRADAY")}>View stock</Button>
         <Button class="buttonSpacing" style={{backgroundColor: 'green', color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}} onClick={()=>addLike(4)}>Add to list</Button></li>
   
 </ul>
