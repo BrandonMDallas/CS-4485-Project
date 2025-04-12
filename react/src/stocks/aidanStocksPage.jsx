@@ -81,14 +81,15 @@ const scrollFunc = (value) => {
   window.scrollTo(0, value);
 }
 
-const addLike = (index) => {
+const addLike = (value) => {
   //Issues here
   let tempArray=list1;
-tempArray.push(companies[index])
+tempArray.push(value)
 setList1(tempArray)
 setListCount((listCount)=>listCount+1)
 //setList1(tempArray)
 }
+
 const handleCheckboxChange = (index) => {
   const newCheckedItems = [...checkedItems];
   newCheckedItems[index] = !newCheckedItems[index];
@@ -369,6 +370,13 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
       const newButton =(<button>{companies[index]}</button>);
       setButtons([...buttons, newButton]);
   };
+  const getResultMulti = (value) =>{
+    
+    addLike(value)
+    updateData(value, 5, "TIME_SERIES_INTRADAY")
+    handleClose2()
+    scrollFunc(500)
+}
     const fetchInfo=(value) => {
      fetch("https://jsonplaceholder.typicode.com/users").then((response) => response.json()).then((json) => {
        const results = json.filter((user)=>{
@@ -689,7 +697,7 @@ data={chartData} options={chartOptions} height={200} width={200}>
   <Table striped="columns">
       <thead>
         <tr>
-          <th>Time period</th>
+          <th>Specific date/time</th>
           <th>High</th>
           <th>Volume</th>
           <th>Low</th>
@@ -762,7 +770,7 @@ data={chartData} options={chartOptions} height={200} width={200}>
         <div class="results-list" >
             {
               resultList.map((result, index) => {
-                return <div className="searchResult" key={index} onClick={(e) => alert(`You clicked on the item ${result}`)}>{result}</div>
+                return <div className="searchResult" key={index} onClick={() => getResultMulti(result)}>{result}</div>
               }
             )}
         </div>
@@ -785,7 +793,7 @@ data={chartData} options={chartOptions} height={200} width={200}>
           </div>
         <Button class="buttonSpacing" variant="primary" style={{backgroundColor: 'gray', color: 'black', borderColor: 'gray', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("NKE", 0)}>About</Button>
         <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti('NKE', 500, "TIME_SERIES_INTRADAY")}>View stock</Button>
-        <Button class="buttonSpacing" style={{backgroundColor: 'green', color: 'white', borderColor: 'green', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(0)}>Add to list</Button></li>
+        <Button class="buttonSpacing" style={{backgroundColor: 'green', color: 'white', borderColor: 'green', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike("NKE")}>Add to list</Button></li>
         <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row'}}><img src={displayArray[1]} height="50px" width="50px"/>
       <h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>{companies[1]}</h5>
       
@@ -798,7 +806,7 @@ data={chartData} options={chartOptions} height={200} width={200}>
         </div>
         <Button class="buttonSpacing" variant="primary" style={{backgroundColor: 'gray', color: 'black', borderColor: 'gray', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("SBUX", 1)}>About</Button>
         <Button class="buttonSpacing"  style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}} variant="primary" onClick={()=>stockListMulti('SBUX', 500, "TIME_SERIES_INTRADAY")}>View stock</Button>
-        <Button class="buttonSpacing" style={{backgroundColor: 'green', color: 'white', borderColor: 'green', margin: '15px', height: '50px', position: 'absolute', right: '10px'}} onClick={()=>addLike(1)}>Add to list</Button></li>
+        <Button class="buttonSpacing" style={{backgroundColor: 'green', color: 'white', borderColor: 'green', margin: '15px', height: '50px', position: 'absolute', right: '10px'}} onClick={()=>addLike("SBUX")}>Add to list</Button></li>
   <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row'}}><img src={displayArray[2]} height="50px" width="50px"/>
         <h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>{companies[2]}</h5>
         
@@ -811,7 +819,7 @@ data={chartData} options={chartOptions} height={200} width={200}>
         </div>
         <Button class="buttonSpacing" variant="primary" style={{backgroundColor: 'gray', color: 'black', borderColor: 'gray', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("MCD", 2)}>About</Button>
         <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={()=>stockListMulti('MCD', 500, "TIME_SERIES_INTRADAY")}>View stock</Button>
-        <Button class="buttonSpacing" style={{backgroundColor: 'green', color: 'white', borderColor: 'green', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(2)}>Add to list</Button></li>
+        <Button class="buttonSpacing" style={{backgroundColor: 'green', color: 'white', borderColor: 'green', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike("MCD")}>Add to list</Button></li>
   <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row'}}><img src={displayArray[3]} height="50px" width="50px"/>
       <h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>{companies[3]}</h5>
       
@@ -824,7 +832,7 @@ data={chartData} options={chartOptions} height={200} width={200}>
         </div>
         <Button class="buttonSpacing" variant="primary" style={{backgroundColor: 'gray', color: 'black', borderColor: 'gray', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("AAPL", 3)}>About</Button>
         <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={()=>stockListMulti('AAPL', 500, "TIME_SERIES_INTRADAY")}>View stock</Button>
-        <Button class="buttonSpacing" style={{backgroundColor: 'green', color: 'white',  borderColor: 'green', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(3)}>Add to list</Button></li>
+        <Button class="buttonSpacing" style={{backgroundColor: 'green', color: 'white',  borderColor: 'green', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike("AAPL")}>Add to list</Button></li>
   <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row'}}><img src={displayArray[4]} height="50px" width="50px"/>
         <h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>{companies[4]}</h5>
         
@@ -837,7 +845,7 @@ data={chartData} options={chartOptions} height={200} width={200}>
         </div>
         <Button class="buttonSpacing" variant="primary" style={{backgroundColor: 'gray', color: 'black',  borderColor: 'gray', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("GOOGL", 4)}>About</Button>
         <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}} variant="primary" onClick={()=>stockListMulti('GOOGL', 500, "TIME_SERIES_INTRADAY")}>View stock</Button>
-        <Button class="buttonSpacing" style={{backgroundColor: 'green', color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}} onClick={()=>addLike(4)}>Add to list</Button></li>
+        <Button class="buttonSpacing" style={{backgroundColor: 'green', color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}} onClick={()=>addLike("GOOGL")}>Add to list</Button></li>
   
 </ul>
       
