@@ -33,11 +33,6 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      console.log(LOGIN_URL);
-      console.log(JSON.stringify({ username: username, password: password }), {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      });
       const response = await axios.post(
         LOGIN_URL,
         JSON.stringify({ username: username, password: password }),
@@ -49,11 +44,13 @@ const Login = () => {
       setUsername("");
       setPassword("");
       setSuccess(true);
-      console.log(JSON.stringify(response?.data));
+
       const accessToken = response?.data?.accessToken;
       const roles = response?.data?.roles;
       setAuth({ username, password, roles, accessToken });
-      navigate(from, { replace: true });
+      setTimeout(() => {
+        navigate(from, { state: { fromRegister: true } });
+      }, 1500);
       console.log(accessToken);
     } catch (err) {
       console.log(err);
@@ -76,10 +73,7 @@ const Login = () => {
       {success ? (
         <section className={styles.form}>
           <h1>You are logged in!</h1>
-          <br />
-          <p>
-            <a href="#">Go to Home</a>
-          </p>
+          <p>Redirecting you...</p>
         </section>
       ) : (
         <section className={styles.container}>
