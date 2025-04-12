@@ -3,7 +3,6 @@ import axios from 'axios';
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import ReactDOM from 'react-dom/client';
-import './App.css'
 import 'https://cdn.jsdelivr.net/npm/chart.js'
 import Modal from 'react-bootstrap/Modal'
 import {FaSearch} from "react-icons/fa"

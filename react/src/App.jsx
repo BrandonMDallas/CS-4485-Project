@@ -3,12 +3,14 @@ import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
 import Menu from './components/Menu/Menu';
+import WelcomePage from './components/WelcomePage/WelcomePage';
 import RequireAuth from './components/Login/RequireAuth/RequireAuth';
 const App = () => {
   return (
     <BrowserRouter>  
       <Routes>
         {/* Public Routes */}
+        <Route path="/" element={<WelcomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 

@@ -2,7 +2,9 @@ import React from 'react'
 
 const Menu = () => {
   return (
-    <div>Menu</div>
+    <>
+        This is a protected page, you need to be logged in to view this
+    </>
   )
 }
 
