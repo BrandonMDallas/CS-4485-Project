@@ -83,17 +83,6 @@ function Dashboard() {
       <div style={{ display: "flex", flexDirection: "row" }}>
         <img src={picVar} />
       </div>
-      <div style={{ position: "absolute", left: "10%" }}>
-        <Link to="/welcome">
-          <img
-            src="https://cdn-icons-png.freepik.com/512/3114/3114883.png"
-            width="50px"
-            height="50px"
-          />
-        </Link>
-      </div>
-
-      <h1 class="display-1">The-hub</h1>
       <Tabs
         defaultActiveKey="mainPage"
         id="uncontrolled-tab-example"
