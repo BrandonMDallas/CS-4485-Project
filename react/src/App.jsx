@@ -1,5 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
+import Header from './components/Header/Header';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
 import Menu from './components/Menu/Menu';
@@ -7,7 +8,8 @@ import WelcomePage from './components/WelcomePage/WelcomePage';
 import RequireAuth from './components/Login/RequireAuth/RequireAuth';
 const App = () => {
   return (
-    <BrowserRouter>  
+    <BrowserRouter>
+      <Header />
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<WelcomePage />} />
