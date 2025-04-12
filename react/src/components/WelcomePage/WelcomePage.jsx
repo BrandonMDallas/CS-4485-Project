@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import ReactDOM from 'react-dom/client';
 import 'https://cdn.jsdelivr.net/npm/chart.js'
 import Modal from 'react-bootstrap/Modal'
@@ -12,14 +10,11 @@ import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'
-import MainMenu from './MainMenu.jsx'
-import Stocks from './StocksPage.jsx'
 import {createElement} from 'react';
 import {Chart as ChartJS, LinearScale, LineElement, CategoryScale, PointElement} from 'chart.js'
 import {Line} from 'react-chartjs-2'
 import Axios from 'axios';
 import Accordion from 'react-bootstrap/Accordion';
-import './App.css'
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Image from 'react-bootstrap/Image';
@@ -55,8 +50,8 @@ const handleClose = () => setShow(false);
     </div> 
     <div class="frontComponent" style={{backgroundImage: 'linear-gradient(to right, white, red)'}}>
     <h1 class="bold-italic">Welcome to The Hub!</h1>
-    <Link to="/logIn"><button style={{borderRadius: '10px'}}>Log in</button></Link>
-    <Link to="/signIn"><button style={{borderRadius: '10px'}}>Create an account</button></Link>
+    <Link to="/login"><button style={{borderRadius: '10px'}}>Log in</button></Link>
+    <Link to="/register"><button style={{borderRadius: '10px'}}>Create an account</button></Link>
     <Button style={{position: 'absolute', left: '1%', top: '5%'}}onClick={handleShow}>What's The Hub?</Button>
       </div> 
       <div>
