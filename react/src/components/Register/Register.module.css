@@ -137,30 +137,3 @@ button:not(:disabled):hover {
 .line a:hover {
   text-decoration: underline;
 }
-
-.hubLink {
-    color: var(--accent-color);
-    text-decoration: none;
-    font-weight: 500;
-    margin-left: 0.25rem;
-  }
-  
-  .hubLink:hover {
-    text-decoration: underline;
-  }
-  
-  .hubButton {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    background: var(--accent-color);
-    color: #fff;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: 500;
-    transition: background 0.2s;
-    margin-top: 1rem;
-  }
-  
-  .hubButton:hover {
-    background: var(--accent-hover);
-  }

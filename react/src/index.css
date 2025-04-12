@@ -28,7 +28,9 @@ body {
     min-height: 100vh;
     background-color: #ffffff;
 }
-
+#root{
+    width: 100%;
+}
 .App {
   display: flex;
   flex-direction: column;
