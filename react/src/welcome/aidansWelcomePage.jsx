@@ -56,9 +56,11 @@ const handleClose = () => setShow(false);
         <h1 class="bebas-neue-regular" style={{fontSize: '125px'}}>
     Welcome to The Hub!
   </h1>
+  <div style={{display: 'flex', gap: '13px'}}>
     <Link to="/logIn"><button style={{borderRadius: '10px'}}>Log in</button></Link>
     <Link to="/signIn"><button style={{borderRadius: '10px'}}>Create an account</button></Link>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" onClick={handleShow}>What's The Hub?</button>
+    <button type="button" style={{borderRadius: '10px'}} data-toggle="modal" data-target="#exampleModalCenter" onClick={handleShow}>What's The Hub?</button>
+    </div>
 <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>About The Hub</Modal.Title>
