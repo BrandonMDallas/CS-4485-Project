@@ -20,6 +20,8 @@ import StocksSettings from './stocksSettings.jsx'
 import { Line } from 'react-chartjs-2';
 import Table from 'react-bootstrap/Table';
 import './App.jsx'
+import OpenAI from "openai";
+
 //import './moreNews.jsx'
 //import Extranews from './moreNews.jsx'
 //secure -> environment variable
@@ -117,18 +119,19 @@ const onCheckListSubmit = () =>{
   const [dataHighPoints, setDataHighPoints]=useState([])
   const [dataClosePoints, setDataClosePoints]=useState([])
   const [dataVolumePoints, setDataVolumePoints]=useState([])
-  let dataPoints=[[100],[100]]
-  /*const [dataPoints, setDataPoints]=useState([])
+
+  const [dataPoints, setDataPoints]=useState([])
   const [dataPoints2, setDataPoints2]=useState([])
   const [dataPoints3, setDataPoints3]=useState([])
   const [dataPoints4, setDataPoints4]=useState([])
   const [dataPoints5, setDataPoints5]=useState([])
-  const [dataPoints6, setDataPoints6]=useState([])*/
+  const [dataPoints6, setDataPoints6]=useState([])
+
 
   const [xPoints, setXPoints]=useState([])
   const [currentGIndex, setGIndex]=useState(0)
 var volumePoints=[];
-  async function getStock(value, value2, value3, array){
+  async function getStock(value, value2, value3, id){
     let value4="";
     let value5="";
     if(value3==='TIME_SERIES_INTRADAY'){
@@ -156,14 +159,27 @@ var volumePoints=[];
       array5.push(response.data[`Time Series (${value5})`][key]['4. close'])
       array6.push(response.data[`Time Series (${value5})`][key]['5. volume'])
     }
-    array=array1;
+    if(id===1){
+setDataPoints(array1)
+    }else if(id===2){
+setDataPoints2(array1)
+    }else if(id===3){
+setDataPoints3(array1)
+    }else if(id===4){
+setDataPoints4(array1)
+    }
+    else if(id===5){
+setDataPoints5(array1)
+    }else if(id===6){
+setDataPoints6(array1)
+    }
     setDataLowPoints(array3)
     setDataHighPoints(array4)
     setDataClosePoints(array5)
     setDataVolumePoints(array6)
     setXPoints(array2)
     console.log(xPoints)
-    console.log('dataPoints: ', array)
+    //console.log('dataPoints: ', array)
     //console.log(volumePoints)
    }
    
@@ -173,7 +189,7 @@ var volumePoints=[];
   }
   useEffect(()=> {
    
-      getStock('IBM', 5, "TIME_SERIES_INTRADAY", dataPoints[0]);
+      getStock('IBM', 5, "TIME_SERIES_INTRADAY", 1);
       getComp("IBM")
       getNews();
   }, [])
@@ -198,7 +214,7 @@ var volumePoints=[];
   const [chartData, setChartData] = useState({
     labels: xPoints,
     datasets: [{
-      data: dataPoints[0],
+      data: dataPoints,
       borderColor: 'green',
       borderWidth: 1
     }]
@@ -207,7 +223,7 @@ var volumePoints=[];
   const [chartData2, setChartData2] = useState({
     labels: xPoints,
     datasets: [{
-      data: dataPoints[1],
+      data: dataPoints2,
       borderColor: 'green',
       borderWidth: 1
     }]
@@ -215,13 +231,37 @@ var volumePoints=[];
   const [chartData3, setChartData3] = useState({
     labels: xPoints,
     datasets: [{
-      data: dataPoints[2],
+      data: dataPoints3,
       borderColor: 'green',
       borderWidth: 1
     }]
   });
-  
   const [chartData4, setChartData4] = useState({
+    labels: xPoints,
+    datasets: [{
+      data: dataPoints4,
+      borderColor: 'green',
+      borderWidth: 1
+    }]
+  });
+  const [chartData5, setChartData5] = useState({
+    labels: xPoints,
+    datasets: [{
+      data: dataPoints5,
+      borderColor: 'green',
+      borderWidth: 1
+    }]
+  });
+  const [chartData6, setChartData6] = useState({
+    labels: xPoints,
+    datasets: [{
+      data: dataPoints5,
+      borderColor: 'green',
+      borderWidth: 1
+    }]
+  });
+  /*
+  const [chartData7, setChartData7] = useState({
     labels: xPoints,
     datasets: [{
       data: dataPoints[3],
@@ -229,7 +269,7 @@ var volumePoints=[];
       borderWidth: 1
     }]
   });
-  const [chartData5, setChartData5] = useState({
+  const [chartData8, setChartData8] = useState({
     labels: xPoints,
     datasets: [{
       data: dataPoints[4],
@@ -238,14 +278,14 @@ var volumePoints=[];
     }]
   });
   
-  const [chartData6, setChartData6] = useState({
+  const [chartData9, setChartData9] = useState({
     labels: xPoints,
     datasets: [{
       data: dataPoints[5],
       borderColor: 'green',
       borderWidth: 1
     }]
-  });
+  });*/
   const [chartOptions, setCharOptions]=useState({
     scales: {
       
@@ -287,7 +327,7 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
   }
   
  /* */
- const aiChat = async() => {
+ const aiChat = async() => {   //Since this is an async function
   const inputData ={
     method: "POST",
     body: JSON.stringify({
@@ -298,8 +338,8 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
     }
   }
   try{
-    const respVal=await fetch('http://localhost:8000/completions', inputData)
-  const dataBack=respVal.json()
+    const respVal=await fetch('http://localhost:8000/route1', inputData)
+  const dataBack= await respVal.json()
   console.log(dataBack)
   }catch{
       console.error(error)
@@ -311,11 +351,11 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
     setAbSelect(value2)
     handleShow7()
   }
-  const updateData = (nameStock, value, value3, array) => {
+  const updateData = (nameStock, value, value3, id) => {
    
     //setDynamicData(setArr)
 
-    getStock(nameStock, 5, value3, array)
+    getStock(nameStock, 5, value3, id)
     var xLabel, xSide;
     var lineColor='green'
     const day=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
@@ -365,23 +405,23 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
    }));
     
     
-    setChartData({
+  /*  setChartData({
       ...chartData,
       labels: xSide,
       datasets: [{
-        ...chartData.datasets[0],data: dataPoints,
+        ...chartData.datasets[0],data: dataPoints[0],
         borderColor: lineColor
       }]
-    });
+    });*/
   
 
   };
   const [currentGraph, setCurrentGraph]=useState("")
 
-  const stockListMulti = (numberID, value, value2, value3, array) => {
+  const stockListMulti = (numberID, value, value2, value3, id) => {
     setCurrentGraph(value)
     setGIndex(numberID)
-    updateData(value, 2, value3, array)
+    updateData(value, 2, value3, id)
     scrollFunc(value2)
   }
   const [show, setShow] = useState(false);
@@ -431,10 +471,10 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
       const newButton =(<button>{companies[index]}</button>);
       setButtons([...buttons, newButton]);
   };
-  const getResultMulti = (value, array) =>{
+  const getResultMulti = (value, id) =>{
     
     addLike(value)
-    updateData(value, 5, "TIME_SERIES_INTRADAY", array)
+    updateData(value, 5, "TIME_SERIES_INTRADAY", id)
     handleClose2()
     scrollFunc(500)
 }
@@ -644,6 +684,7 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
       value={inputValue}
       onChange={(e) => handleChange(e.target.value)}
     />
+    <Button onClick={()=>aiChat()}>Ask</Button>
           </form>
        
        <div class="modal-dialog modal-dialog-scrollable">
@@ -715,7 +756,7 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
                   <Line
 data={chartData} options={chartOptions} height={200} width={200}>
 </Line>
-                  <button type="button" class="btn btn-primary" onClick={()=>stockListMulti(index, list1[index], 850, "TIME_SERIES_INTRADAY", dataPoints[index])}>View stock</button>
+                  <button type="button" class="btn btn-primary" onClick={()=>stockListMulti(index, list1[index], 850, "TIME_SERIES_INTRADAY", dataPoints)}>View stock</button>
                   {()=>changeDataCond(index)}
                 </label>
               </div>
@@ -734,10 +775,10 @@ data={chartData} options={chartOptions} height={200} width={200}>
  
    
      <li class="nav-item" style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-      <a style={{backgroundColor: 'lightgray', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}} class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true" onClick={()=>updateData(companies[currentGIndex], 1, "TIME_SERIES_INTRADAY", dataPoints[currentGIndex])}>View by hour</a>
-      <a style={{backgroundColor: 'lightgray', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(companies[currentGIndex], 2, "TIME_SERIES_DAILY", dataPoints[currentGIndex])}>View by day</a>
-      <a style={{backgroundColor: 'lightgray', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(companies[currentGIndex], 3, "TIME_SERIES_MONTHLY", dataPoints[currentGIndex])}>View by month</a>
-      <a style={{backgroundColor: 'lightgray', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(companies[currentGIndex], 4, "TIME_SERIES_ADJUSTED", dataPoints[currentGIndex])}>View all data</a>
+      <a style={{backgroundColor: 'lightgray', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}} class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true" onClick={()=>updateData(companies[currentGIndex], 1, "TIME_SERIES_INTRADAY", 0)}>View by hour</a>
+      <a style={{backgroundColor: 'lightgray', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(companies[currentGIndex], 2, "TIME_SERIES_DAILY", 0)}>View by day</a>
+      <a style={{backgroundColor: 'lightgray', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(companies[currentGIndex], 3, "TIME_SERIES_MONTHLY", 0)}>View by month</a>
+      <a style={{backgroundColor: 'lightgray', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(companies[currentGIndex], 4, "TIME_SERIES_ADJUSTED", 0)}>View all data</a>
 
     </li>
 }
@@ -831,7 +872,7 @@ data={chartData} options={chartOptions} height={200} width={200}>
         <div class="results-list" >
             {
               resultList.map((result, index) => {
-                return <div className="searchResult" key={index} onClick={() => getResultMulti(result, dataPoints[index])}>{result}</div>
+                return <div className="searchResult" key={index} onClick={() => getResultMulti(result, dataPoints)}>{result}</div>
               }
             )}
         </div>
@@ -846,53 +887,53 @@ data={chartData} options={chartOptions} height={200} width={200}>
         
       <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row'}}><img src={displayArray[0]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {companies[0]}</h5>
         <div class="card-text"> 
-          {dataPoints[0]}
+          {dataPoints2[0]}
           {()=>changeDataCond(0)}
           <Line
-  data={chartData} options={chartOptions} height={200} width={200}>
+  data={chartData2} options={chartOptions} height={200} width={200}>
   </Line>
           </div>
         <Button class="buttonSpacing" variant="primary" style={{backgroundColor: 'gray', color: 'black', borderColor: 'gray', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("NKE", 0)}>About</Button>
-        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, 'NKE', 500, "TIME_SERIES_INTRADAY", dataPoints[1])}>View stock</Button>
+        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, 'NKE', 500, "TIME_SERIES_INTRADAY", dataPoints2)}>View stock</Button>
         <Button class="buttonSpacing" style={{backgroundColor: 'green', color: 'white', borderColor: 'green', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike("NKE")}>Add to list</Button></li>
         <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row'}}><img src={displayArray[1]} height="50px" width="50px"/>
       <h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>{companies[1]}</h5>
       
         <div class="card-text">
-        {dataPoints[0]}
+        {dataPoints3[0]}
         {()=>changeDataCond(1)}
         <Line
-  data={chartData} options={chartOptions} height={200} width={200}>
+  data={chartData3} options={chartOptions} height={200} width={200}>
   </Line>
         </div>
         <Button class="buttonSpacing" variant="primary" style={{backgroundColor: 'gray', color: 'black', borderColor: 'gray', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("SBUX", 1)}>About</Button>
-        <Button class="buttonSpacing"  style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}} variant="primary" onClick={()=>stockListMulti(2, 'SBUX', 500, "TIME_SERIES_INTRADAY", dataPoints[2])}>View stock</Button>
+        <Button class="buttonSpacing"  style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}} variant="primary" onClick={()=>stockListMulti(2, 'SBUX', 500, "TIME_SERIES_INTRADAY", dataPoints3)}>View stock</Button>
         <Button class="buttonSpacing" style={{backgroundColor: 'green', color: 'white', borderColor: 'green', margin: '15px', height: '50px', position: 'absolute', right: '10px'}} onClick={()=>addLike("SBUX")}>Add to list</Button></li>
   <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row'}}><img src={displayArray[2]} height="50px" width="50px"/>
         <h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>{companies[2]}</h5>
         
         <div class="card-text">
-        {dataPoints[0]}
+        {dataPoints4[0]}
         {()=>changeDataCond(2)}
         <Line
-  data={chartData} options={chartOptions} height={200} width={200}>
+  data={chartData4} options={chartOptions} height={200} width={200}>
   </Line>
         </div>
         <Button class="buttonSpacing" variant="primary" style={{backgroundColor: 'gray', color: 'black', borderColor: 'gray', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("MCD", 2)}>About</Button>
-        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={()=>stockListMulti(3, 'MCD', 500, "TIME_SERIES_INTRADAY", dataPoints[3])}>View stock</Button>
+        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={()=>stockListMulti(3, 'MCD', 500, "TIME_SERIES_INTRADAY", dataPoints4)}>View stock</Button>
         <Button class="buttonSpacing" style={{backgroundColor: 'green', color: 'white', borderColor: 'green', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike("MCD")}>Add to list</Button></li>
   <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row'}}><img src={displayArray[3]} height="50px" width="50px"/>
       <h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>{companies[3]}</h5>
       
         <div class="card-text">
-        {dataPoints[0]}
+        {dataPoints5[0]}
         {()=>changeDataCond(3)}
         <Line
-  data={chartData} options={chartOptions} height={200} width={200}>
+  data={chartData5} options={chartOptions} height={200} width={200}>
   </Line>
         </div>
         <Button class="buttonSpacing" variant="primary" style={{backgroundColor: 'gray', color: 'black', borderColor: 'gray', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("AAPL", 3)}>About</Button>
-        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={()=>stockListMulti(4, 'AAPL', 500, "TIME_SERIES_INTRADAY", dataPoints[4])}>View stock</Button>
+        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={()=>stockListMulti(4, 'AAPL', 500, "TIME_SERIES_INTRADAY", dataPoints5)}>View stock</Button>
         <Button class="buttonSpacing" style={{backgroundColor: 'green', color: 'white',  borderColor: 'green', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike("AAPL")}>Add to list</Button></li>
   <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row'}}><img src={displayArray[4]} height="50px" width="50px"/>
         <h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>{companies[4]}</h5>
@@ -901,11 +942,11 @@ data={chartData} options={chartOptions} height={200} width={200}>
         {dataPoints[0]}
         {()=>changeDataCond(4)}
         <Line
-  data={chartData} options={chartOptions} height={200} width={200}>
+  data={chartData6} options={chartOptions} height={200} width={200}>
   </Line>
         </div>
         <Button class="buttonSpacing" variant="primary" style={{backgroundColor: 'gray', color: 'black',  borderColor: 'gray', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("GOOGL", 4)}>About</Button>
-        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}} variant="primary" onClick={()=>stockListMulti(5, 'GOOGL', 500, "TIME_SERIES_INTRADAY", dataPoints[5])}>View stock</Button>
+        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}} variant="primary" onClick={()=>stockListMulti(5, 'GOOGL', 500, "TIME_SERIES_INTRADAY", dataPoints6)}>View stock</Button>
         <Button class="buttonSpacing" style={{backgroundColor: 'green', color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}} onClick={()=>addLike("GOOGL")}>Add to list</Button></li>
   
 </ul>
@@ -926,7 +967,9 @@ data={chartData} options={chartOptions} height={200} width={200}>
 </div>
 
     </div>
+    
     <h2>Latest in news</h2>
+    
    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%'}} class="col-lg-4 mb-3 d-flex align-items-stretch">
    <Card style={{ width: '18rem' }}>
       <Card.Img variant="top" src={newsImage[0]} />
