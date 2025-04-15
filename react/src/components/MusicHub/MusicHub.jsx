@@ -1,8 +1,7 @@
-import React from "react";
-import { useRef, useState, useEffect, useContext } from "react";
-//import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./MusicHub.css";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "../../api/axios";
 import {
   FaArrowLeft,
   FaPlus,
@@ -15,41 +14,30 @@ import {
   FaMoon,
   FaSun,
 } from "react-icons/fa";
-
-import "./MusicHub.css";
-
+//Comment
 const MusicHub = () => {
   const navigate = useNavigate();
-
-  // UI state
   const [dropdownVisible, setDropdownVisible] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  // Music data
   const [trendingSongs, setTrendingSongs] = useState([]);
-  const [recommendations, setRecommendations] = useState([]);
-  const [searchResults, setSearchResults] = useState([]);
-
-  // Search state
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchHistory, setSearchHistory] = useState([]);
-
-  // Playlist state
   const [playlists, setPlaylists] = useState([
     { id: 1, name: "My Playlist", songs: [] },
   ]);
   const [newPlaylistName, setNewPlaylistName] = useState("");
+  const [searchHistory, setSearchHistory] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [editingPlaylist, setEditingPlaylist] = useState(null);
+  const [searchResults, setSearchResults] = useState([]);
+  const [recommendations, setRecommendations] = useState([]);
 
-  // Fetch AI recommendations once
   useEffect(() => {
     const fetchRecommendations = async () => {
       try {
-        const { data } = await axios.get(
+        const response = await axios.get(
           "https://api.example.com/music/recommendations"
         );
-        setRecommendations(data);
-      } catch {
+        setRecommendations(response.data);
+      } catch (error) {
+        console.error("Error fetching AI recommendations:", error);
         setRecommendations([
           { id: 1, title: "AI Song 1", artist: "Artist 1" },
           { id: 2, title: "AI Song 2", artist: "Artist 2" },
@@ -57,114 +45,152 @@ const MusicHub = () => {
         ]);
       }
     };
+
     fetchRecommendations();
   }, []);
 
-  // Fetch trending songs once
-  useEffect(() => {
-    const fetchTrendingSongs = async () => {
-      try {
-        const apiKey = process.env.REACT_APP_LASTFM_API_KEY;
-        const res = await fetch(
-          `https://ws.audioscrobbler.com/2.0/?method=chart.gettoptracks&api_key=${apiKey}&format=json`
-        );
-        const data = await res.json();
-        setTrendingSongs(
-          data.tracks.track.map((song, idx) => ({
-            id: idx + 1,
-            name: song.name,
-            artist: song.artist.name,
-            url: song.url,
-          }))
-        );
-      } catch (err) {
-        console.error("Failed to fetch trending songs", err);
-      }
-    };
-    fetchTrendingSongs();
-  }, []);
+  //Toggle dropdown menu
+  const toggleDropdown = () => {
+    setDropdownVisible(!dropdownVisible);
+  };
 
-  // Load dark mode preference
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Toggle dark mode
+  const toggleDarkMode = () => {
+    const newMode = !isDarkMode;
+    setIsDarkMode(newMode);
+
+    // Apply dark mode class to body
+    document.body.classList.toggle("dark-mode", newMode);
+
+    // Save preference to localStorage
+    localStorage.setItem("darkMode", JSON.stringify(newMode));
+  };
+
+  // Checking for saved dark mode preference on component mount
   useEffect(() => {
-    const saved = localStorage.getItem("darkMode");
-    if (saved !== null) {
-      const isDark = JSON.parse(saved);
+    const savedDarkMode = localStorage.getItem("darkMode");
+    if (savedDarkMode !== null) {
+      const isDark = JSON.parse(savedDarkMode);
       setIsDarkMode(isDark);
       document.body.classList.toggle("dark-mode", isDark);
     }
   }, []);
 
-  const toggleDropdown = () => setDropdownVisible((v) => !v);
-
-  const toggleDarkMode = () => {
-    const next = !isDarkMode;
-    setIsDarkMode(next);
-    document.body.classList.toggle("dark-mode", next);
-    localStorage.setItem("darkMode", JSON.stringify(next));
-  };
-
+  // Handle search function
   const handleSearch = async () => {
-    const q = searchQuery.trim();
-    if (!q) return;
+    if (searchQuery.trim()) {
+      const newSearchHistory = [searchQuery, ...searchHistory.slice(0, 4)];
+      setSearchHistory(newSearchHistory);
 
-    setSearchHistory((h) => [q, ...h.slice(0, 4)]);
-    setSearchQuery("");
+      try {
+        const apiKey = process.env.REACT_APP_LASTFM_API_KEY;
+        const response = await fetch(
+          `https://ws.audioscrobbler.com/2.0/?method=track.search&track=${searchQuery}&api_key=${apiKey}&format=json`
+        );
+        const data = await response.json();
 
-    try {
-      const apiKey = process.env.REACT_APP_LASTFM_API_KEY;
-      const res = await fetch(
-        `https://ws.audioscrobbler.com/2.0/?method=track.search&track=${q}&api_key=${apiKey}&format=json`
-      );
-      const data = await res.json();
-      setSearchResults(
-        data.results.trackmatches.track.map((song, idx) => ({
-          id: idx + 1,
-          name: song.name,
-          artist: song.artist,
-          url: song.url,
-        }))
-      );
-    } catch (err) {
-      console.error("Error fetching search results", err);
+        // Map the search results into a structure suitable for your component
+        const searchResultsData = data.results.trackmatches.track.map(
+          (song, index) => ({
+            id: index + 1,
+            name: song.name,
+            artist: song.artist,
+            url: song.url,
+          })
+        );
+
+        console.log("Search API response:", data.results.trackmatches.track);
+        console.log("Formatted search results:", searchResultsData);
+
+        // Update the state with the search results
+        setSearchResults(searchResultsData);
+      } catch (error) {
+        console.error("Error fetching search results", error);
+      }
+
+      // Clear the search query input
+      setSearchQuery("");
     }
   };
 
+  // Create new playlist
   const createPlaylist = () => {
-    const name = newPlaylistName.trim();
-    if (!name) return;
-    setPlaylists((pls) => [
-      ...pls,
-      { id: Date.now(), name, songs: [], dateCreated: new Date() },
-    ]);
-    setNewPlaylistName("");
+    if (newPlaylistName.trim()) {
+      const newPlaylist = {
+        id: Date.now(),
+        name: newPlaylistName,
+        songs: [],
+        dateCreated: new Date(),
+      };
+      setPlaylists([...playlists, newPlaylist]);
+      setNewPlaylistName("");
+    }
   };
 
-  const editPlaylist = (pl) => setEditingPlaylist(pl);
+  // Edit playlist
+  const editPlaylist = (playlist) => {
+    setEditingPlaylist(playlist);
+  };
 
+  // Update playlist name
   const updatePlaylistName = (newName) => {
-    if (!editingPlaylist) return;
-    setPlaylists((pls) =>
-      pls.map((pl) =>
+    if (editingPlaylist) {
+      const updatedPlaylists = playlists.map((pl) =>
         pl.id === editingPlaylist.id ? { ...pl, name: newName } : pl
-      )
-    );
-    setEditingPlaylist(null);
+      );
+      setPlaylists(updatedPlaylists);
+      setEditingPlaylist(null);
+    }
   };
 
-  const deletePlaylist = (id) =>
-    setPlaylists((pls) => pls.filter((pl) => pl.id !== id));
+  // Delete playlist
+  const deletePlaylist = (playlistId) => {
+    const updatedPlaylists = playlists.filter((pl) => pl.id !== playlistId);
+    setPlaylists(updatedPlaylists);
+  };
 
   const addSongToPlaylist = (playlistId, song) => {
-    setPlaylists((pls) =>
-      pls.map((pl) =>
-        pl.id === playlistId ? { ...pl, songs: [...pl.songs, song] } : pl
+    setPlaylists(
+      playlists.map((playlist) =>
+        playlist.id === playlistId
+          ? { ...playlist, songs: [...playlist.songs, song] }
+          : playlist
       )
     );
   };
+
+  // Fetch trending songs (simulated API call)
+  useEffect(() => {
+    const fetchTrendingSongs = async () => {
+      try {
+        const apiKey = process.env.REACT_APP_LASTFM_API_KEY; // Use API Key
+
+        const response = await fetch(
+          `https://ws.audioscrobbler.com/2.0/?method=chart.gettoptracks&api_key=${apiKey}&format=json`
+        );
+        const data = await response.json();
+
+        const trendingData = data.tracks.track.map((song, index) => ({
+          id: index + 1,
+          name: song.name,
+          artist: song.artist.name,
+          duration: "N/A",
+          url: song.url,
+        }));
+
+        setTrendingSongs(trendingData);
+      } catch (error) {
+        console.error("Failed to fetch trending songs", error);
+      }
+    };
+
+    fetchTrendingSongs();
+  }, []);
 
   return (
     <div className="modern-container">
-      {/* Header */}
       <div className="modern-header">
         <div className="header-content">
           <div className="header-left">
@@ -179,6 +205,7 @@ const MusicHub = () => {
           <div className="header-right">
             <div className="modern-search">
               <input
+                type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search music..."
@@ -186,6 +213,7 @@ const MusicHub = () => {
               <button className="search-button" onClick={handleSearch}>
                 <FaSearch />
               </button>
+
               <button className="dark-mode-toggle" onClick={toggleDarkMode}>
                 {isDarkMode ? <FaSun /> : <FaMoon />}
               </button>
@@ -194,10 +222,9 @@ const MusicHub = () => {
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="modern-content">
         <div className="main-column">
-          {/* Trending Songs */}
+          {/* Trending Songs Section */}
           <div className="modern-card">
             <h2 className="modern-section-title">Trending Songs</h2>
             <div className="trending-songs">
@@ -214,17 +241,20 @@ const MusicHub = () => {
                     >
                       <FaPlay />
                     </button>
+
+                    {/* Dropdown to select a playlist and add song */}
                     {playlists.length > 0 && (
                       <select
                         onChange={(e) => {
-                          const pid = Number(e.target.value);
-                          if (pid) addSongToPlaylist(pid, song);
+                          const selectedPlaylistId = Number(e.target.value);
+                          if (selectedPlaylistId)
+                            addSongToPlaylist(selectedPlaylistId, song);
                         }}
                       >
                         <option value="">Add to Playlist</option>
-                        {playlists.map((pl) => (
-                          <option key={pl.id} value={pl.id}>
-                            {pl.name}
+                        {playlists.map((playlist) => (
+                          <option key={playlist.id} value={playlist.id}>
+                            {playlist.name}
                           </option>
                         ))}
                       </select>
@@ -235,11 +265,12 @@ const MusicHub = () => {
             </div>
           </div>
 
-          {/* Your Playlists */}
+          {/* Playlists Section */}
           <div className="modern-card">
             <h2 className="modern-section-title">Your Playlists</h2>
             <div className="playlist-creator">
               <input
+                type="text"
                 value={newPlaylistName}
                 onChange={(e) => setNewPlaylistName(e.target.value)}
                 placeholder="New playlist name"
@@ -249,46 +280,50 @@ const MusicHub = () => {
               </button>
             </div>
             <div className="playlist-grid">
-              {playlists.map((pl) => (
-                <div key={pl.id} className="playlist-card">
+              {playlists.map((playlist) => (
+                <div key={playlist.id} className="playlist-card">
                   <div className="playlist-details">
                     <h3>
-                      {editingPlaylist?.id === pl.id ? (
+                      {editingPlaylist && editingPlaylist.id === playlist.id ? (
                         <input
-                          defaultValue={pl.name}
+                          type="text"
+                          defaultValue={playlist.name}
                           onBlur={(e) => updatePlaylistName(e.target.value)}
                           autoFocus
                         />
                       ) : (
-                        pl.name
+                        playlist.name
                       )}
                     </h3>
                     <div className="playlist-actions">
                       <button
                         className="modern-button modern-button-outline"
-                        onClick={() => editPlaylist(pl)}
+                        onClick={() => editPlaylist(playlist)}
                       >
                         <FaEdit />
                       </button>
                       <button
                         className="modern-button modern-button-outline"
-                        onClick={() => deletePlaylist(pl.id)}
+                        onClick={() => deletePlaylist(playlist.id)}
                       >
                         <FaTrash />
                       </button>
                     </div>
                   </div>
-                  {pl.songs.length > 0 ? (
+
+                  {/* Display Songs in Playlist */}
+                  {playlist.songs.length > 0 ? (
                     <ul className="playlist-songs">
-                      {pl.songs.map((song) => (
+                      {playlist.songs.map((song) => (
                         <li key={song.id}>
-                          {song.name} - {song.artist}{" "}
+                          {song.name} - {song.artist}
                           <a
                             href={song.url}
                             target="_blank"
                             rel="noopener noreferrer"
                           >
-                            Play
+                            {" "}
+                            Play{" "}
                           </a>
                         </li>
                       ))}
@@ -302,9 +337,8 @@ const MusicHub = () => {
           </div>
         </div>
 
-        {/* Sidebar */}
         <div className="sidebar-column">
-          {/* Profile Dropdown */}
+          {/* User Profile Dropdown */}
           <div className="menuContainer">
             <button className="mainButton" onClick={toggleDropdown}>
               <FaUser /> Profile
@@ -324,7 +358,7 @@ const MusicHub = () => {
             )}
           </div>
 
-          {/* AI Recommendations */}
+          {/* AI Recommendation Section */}
           <div className="modern-card">
             <h2 className="modern-section-title">AI Recommendations</h2>
             <div className="recommendations-section">
@@ -332,7 +366,9 @@ const MusicHub = () => {
                 <ul className="recommendations-list">
                   {recommendations.map((song) => (
                     <li key={song.id} className="recommendation-item">
-                      <FaMusic /> {song.title} – {song.artist}
+                      <FaMusic />{" "}
+                      <span className="song-title">{song.title}</span> -
+                      <span className="song-artist">{song.artist}</span>
                     </li>
                   ))}
                 </ul>
@@ -349,9 +385,9 @@ const MusicHub = () => {
             <h2 className="modern-section-title">Search History</h2>
             {searchHistory.length > 0 ? (
               <ul>
-                {searchHistory.map((q, i) => (
-                  <li key={i} className="history-item">
-                    {q}
+                {searchHistory.map((query, index) => (
+                  <li key={index} className="history-item">
+                    {query}
                   </li>
                 ))}
               </ul>
@@ -360,7 +396,6 @@ const MusicHub = () => {
             )}
           </div>
 
-          {/* Search Results */}
           {searchResults.length > 0 && (
             <div className="modern-card">
               <h2 className="modern-section-title">Search Results</h2>
@@ -375,6 +410,7 @@ const MusicHub = () => {
                       href={song.url}
                       target="_blank"
                       rel="noopener noreferrer"
+                      className="play-link"
                     >
                       <button className="play-pause-button">
                         <FaPlay />
