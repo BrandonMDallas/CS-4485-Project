@@ -17,24 +17,10 @@ import Accordion from "react-bootstrap/Accordion";
 import { Link } from "react-router";
 import MainTab from "./MainTab";
 function Dashboard() {
-  /*let navigate = useNavigate();
-
-  const goToStocks = () => {
-    return <Navigate to="./App.jsx" />;
-  }*/
   const [slideIndex, setSlideIndex] = useState(0);
   const [elementType, setElementType] = useState("div");
   const [elementType2, setElementType2] = useState("div");
   const [newsFact, setNewsFact] = useState("");
-  const myStyle = {
-    backgroundImage:
-      "url('https://media.geeksforgeeks.org/wp-content/uploads/rk.png')",
-    height: "100vh",
-    marginTop: "-70px",
-    fontSize: "50px",
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
-  };
   const [newsHeader, setNewsHeader] = useState("");
   const [newsImage, setNewsImage] = useState("");
   useEffect(() => {

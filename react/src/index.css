@@ -18,6 +18,8 @@ html {
     font-family: 'Nunito', sans-serif;
     font-size: 22px;
     color: #fff;
+    height: 100%;
+    margin: 0;
 }
 
 body {
@@ -27,8 +29,11 @@ body {
     align-items: center;
     min-height: 100vh;
     background-color: #ffffff;
+    height: 100%;
+    margin: 0;
 }
 #root{
+    height: 100%;
     width: 100%;
 }
 .App {
