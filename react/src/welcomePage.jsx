@@ -56,9 +56,11 @@ const handleClose = () => setShow(false);
         <h1 class="bebas-neue-regular" style={{fontSize: '125px'}}>
     Welcome to The Hub!
   </h1>
+  <div style={{display: 'flex', gap: '13px'}}>
     <Link to="/logIn"><button style={{borderRadius: '10px'}}>Log in</button></Link>
     <Link to="/signIn"><button style={{borderRadius: '10px'}}>Create an account</button></Link>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" onClick={handleShow}>What's The Hub?</button>
+    <button type="button" style={{borderRadius: '10px'}} data-toggle="modal" data-target="#exampleModalCenter" onClick={handleShow}>What's The Hub?</button>
+    </div>
 <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>About The Hub</Modal.Title>
@@ -148,82 +150,3 @@ const handleClose = () => setShow(false);
   )
 }
 export default welcomeFunc;
-/**
- *  <div>
-    <Tabs
-      defaultActiveKey="sports"
-      id="justify-tab-example"
-      className="mb-3"
-      justify
-    >
-      <Tab eventKey="sports" title="Sports">
-      <div class="tab-pane fade show active" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
-      <h2 class="quicksand-q1" style={{textAlign: 'left'}}>Get the latest in sports</h2>
-      <div style={{display: 'flex', justifyContent: 'space-between'}}>
-
-<p class="quicksand-q1">Follow sports teams and catch up with the latest games and events!</p>
-<img style={{boxShadow: '2px 2px 5px'}} src='https://media.newyorker.com/photos/59095186019dfc3494e9dab5/master/pass/457771195-290.jpg' />
-</div>
-      </div>
-      </Tab>
-      <Tab eventKey="music" title="Music">
-      <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
-      <h2 class="quicksand-q1" style={{textAlign: 'left'}}>Treat your ears with the latest music</h2>
-      <div style={{display: 'flex', justifyContent: 'space-between'}}>
-
- <p class="quicksand-q1">Get the latest and most popular songs out there!</p>
- <img style={{boxShadow: '2px 2px 5px'}} src='https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTa5lFnMx8z6c2-GGfPjIe07_Dyd-QYvcjhfKGXD_oPKwWS7tOKPYNuLhBp1CTF3pF4PtL7Om_rerwxO2s3R3GLLw' />
-      </div>
-      </div>
-      </Tab>
-      <Tab eventKey="stocks" title="Stocks">
-      <div class="tab-pane fade show active" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
-      <h2 class="quicksand-q1" style={{textAlign: 'left'}}>Find out the latest on the most popular stocks right now</h2>
-      <div style={{display: 'flex', justifyContent: 'space-between'}}>
-
-      <p class="quicksand-q1" style={{textAlign: 'left'}}>If you invest or keep up with stocks, The Hub is the perfect site to view the latest in various stocks
-  from various companies and the latest in stock news!
- </p>
- <img style={{boxShadow: '2px 2px 5px'}} src='https://static.seekingalpha.com/cdn/s3/uploads/getty_images/1293330840/image_1293330840.jpg?io=getty-c-crop-16-9' height="300px" />
- </div>
-      </div>
-      </Tab>
-    </Tabs>
-    </div>
- */
-/**
- * 
- * 
- * <div class="row">
-  <div class="column">
-    <img className='img1' style={{zIndex: '1'}} src='https://blog.blairbunting.com/wp-content/uploads/2022/09/Sports-Photographer-Basketball-1.jpg' height="300px" />
-          <img className='img2' style={{zIndex: '1'}} src='https://www.musicteachermagazine.co.uk/media/1rcpdlrr/adobestock_563055013_shotprime-studio-copy.jpg?rxy=0.42539486070739224,0.4302872047106021&width=1002&height=668&bgcolor=White&v=1db08330c18d570' height="300px"/>
-      <img className='img3' style={{zIndex: '1'}} src='https://smartasset.com/wp-content/uploads/sites/2/2023/09/trading-charts-and-data-on-digital-screen-tradingview.jpg_s1024x1024wisk20ctfajIaJEp21Bd6QD4V7KKG8HwgJMOHZa_I_prQKxJ7g.webp' height="300px"/>
-  </div>
-  <div class="column">
-    <img src="underwater.jpg">
-    <img src="ocean.jpg">
-    <img src="wedding.jpg">
-    <img src="mountainskies.jpg">
-    <img src="rocks.jpg">
-    <img src="underwater.jpg">
-  </div>
-  <div class="column">
-    <img src="wedding.jpg">
-    <img src="rocks.jpg">
-    <img src="falls2.jpg">
-    <img src="paris.jpg">
-    <img src="nature.jpg">
-    <img src="mist.jpg">
-    <img src="paris.jpg">
-  </div>
-  <div class="column">
-    <img src="underwater.jpg">
-    <img src="ocean.jpg">
-    <img src="wedding.jpg">
-    <img src="mountainskies.jpg">
-    <img src="rocks.jpg">
-    <img src="underwater.jpg">
-  </div>
-</div>
- */
