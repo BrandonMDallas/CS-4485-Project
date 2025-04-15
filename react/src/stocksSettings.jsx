@@ -31,7 +31,7 @@ function stocksSetting() {
     <div style={{ position: 'absolute', left: '10%', top: '50px'}}>
           <Link to="/stocks"><img src="https://cdn-icons-png.freepik.com/512/3114/3114883.png" width="50px" height="50px"/></Link> 
           </div>
-   <h1 style={{position: 'absolute', top: '50px', left: '40%', fontSize: '90px'}}>Settings</h1>
+   <h1 style={{position: 'absolute', top: '50px', left: '45%', fontSize: '50px'}}>Settings</h1>
    <div class="container" style={{color: 'black'}}>
   <div class="row">
     <div class="col">
