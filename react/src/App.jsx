@@ -5,6 +5,7 @@ import Register from './components/Register/Register';
 import Menu from './components/Menu/Menu';
 import WelcomePage from './components/WelcomePage/WelcomePage';
 import RequireAuth from './components/Login/RequireAuth/RequireAuth';
+import SportsHub from './SportsHub';
 const App = () => {
   return (
     <BrowserRouter>  
@@ -13,7 +14,7 @@ const App = () => {
         <Route path="/" element={<WelcomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-
+        <Route path="/sportshub" element={<SportsHub />} />
         {/* Protected Routes */}
         <Route path="/menu" 
         element={<RequireAuth><Menu /></RequireAuth>} />
