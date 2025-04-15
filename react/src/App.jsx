@@ -7,6 +7,7 @@ import Menu from "./components/Menu/Menu";
 import WelcomePage from "./components/WelcomePage/WelcomePage";
 import RequireAuth from "./components/RequireAuth/RequireAuth";
 import Dashboard from "./components/Dashboard/Dashboard";
+import MusicHub from "./components/MusicHub/MusicHub";
 const App = () => {
   return (
     <BrowserRouter>
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/musichub" element={<MusicHub />} />
         {/* Protected Routes */}
         <Route
           path="/menu"
