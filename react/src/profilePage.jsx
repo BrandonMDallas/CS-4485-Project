@@ -1,118 +1,702 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import ReactDOM from 'react-dom/client';
-import 'https://cdn.jsdelivr.net/npm/chart.js'
-import Modal from 'react-bootstrap/Modal'
-import {FaSearch} from "react-icons/fa"
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import Button from 'react-bootstrap/Button'
-import Card from 'react-bootstrap/Card'
-import Form from 'react-bootstrap/Form'
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'
-import MainMenu from './MainMenu.jsx'
-import Stocks from './StocksPage.jsx'
-import {createElement} from 'react';
-import {Chart as ChartJS, LinearScale, LineElement, CategoryScale, PointElement} from 'chart.js'
-import {Line} from 'react-chartjs-2'
-import Axios from 'axios';
-import Accordion from 'react-bootstrap/Accordion';
-
-
-function profilePage() {
-  const [username, setUserName]=useState("")
-  const [password, setPassword]=useState("")
-  const usernameChange = () =>
-    {
-      console.log(username)
-    }
-    const passwordChange = () =>
-      {
-        console.log(password)
-      }
-  return(
-    <>
-     <div style={{ position: 'absolute', left: '10%', top: '50px'}}>
-              <Link to="/stocks"><img src="https://cdn-icons-png.freepik.com/512/3114/3114883.png" width="50px" height="50px"/></Link> 
-              </div>
-       <h1 style={{position: 'absolute', top: '50px', left: '40%', fontSize: '90px'}}>Your profile </h1>
-    <div class="container" style={{color: 'black'}}>
-  <div class="row">
-    <div class="col">
-    <h4>Profile information</h4>
-   <p>Profile pic</p>
-   <img />
-   <p>Full name: </p>
-   <p>Email address: </p>
-   <Accordion defaultActiveKey="0">
-      <Accordion.Item eventKey="0">
-        <Accordion.Header>Edit profile</Accordion.Header>
-        <Accordion.Body>
-          <p>Change email</p>
-          <input type="text" id="EmailInput" 
-      class="form-control"
-      value={username}
-      onChange={(e) => setUserName(e.target.value)}/> <Button type="submit" onClick={usernameChange}>Change</Button>
-          <p>Change password</p> 
-          <input type="text" id="PasswordInput" class="form-control"
-      value={password} onChange={(e) => setPassword(e.target.value)}/> <Button type="submit">Change</Button>
-          <br />
-          <div style={{display: 'inline-flex'}}>
-            <div>
-              <p style={{fontSize: '15px'}}>Current pic</p>
-            </div>
-            <div>
-            <Form.Group controlId="formFile" className="mb-3">
-      <Form.Label>Edit profile pic</Form.Label>
-      <img />
-      <Form.Control type="file" />
-    </Form.Group>
-    <Button>Use pic</Button>
-            </div>
-          </div>
-        </Accordion.Body>
-      </Accordion.Item>
-      </Accordion>
-    </div>
-    <div class="col">
-      <h4>Friends</h4>
-      <ul class="list-group">
-  <li class="list-group-item">An item <Button>Message</Button><Button style={{backgroundColor: 'red', color: 'white'}}>Remove</Button></li>
-  <li class="list-group-item">An item <Button>Message</Button><Button style={{backgroundColor: 'red', color: 'white'}}>Remove</Button></li>  
-  <li class="list-group-item">An item <Button>Message</Button><Button style={{backgroundColor: 'red', color: 'white'}}>Remove</Button></li> 
-  <li class="list-group-item">An item <Button>Message</Button><Button style={{backgroundColor: 'red', color: 'white'}}>Remove</Button></li>
-</ul>
-    </div>
-    <div class="col">
-      <h4>Account activity</h4>
-      <p>Music listened</p>
-      <ul>
-        <li>
-
-        </li>
-      </ul>
-      <p>Sports history</p>
-<ul>
-        <li>
-          
-        </li>
-      </ul>
-      <p>Stocks viewed</p>
-<ul>
-        <li>
-          
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
-   
-
-   
-   
-      </>
-  )
+:root {
+  --primary-color: #4361ee;
+  --primary-light: #4895ef;
+  --primary-dark: #3f37c9;
+  --secondary-color: #f72585;
+  --background-color: #f8f9fa;
+  --card-color: #ffffff;
+  --text-color: #212529;
+  --text-secondary: #6c757d;
+  --border-color: #44596d;
+  --success-color: #4BB543;
+  --warning-color: #FF9800;
+  --danger-color: #f44336;
+  --border-radius: 12px;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+  --transition: all 0.5s ease;
 }
-export default profilePage;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+/* Container and Layout */
+.modern-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Header Styles */
+.modern-header {
+  background-color: var(--card-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  padding: 16px 24px;
+  margin-bottom: 24px;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.modern-title {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin: 0;
+  position: relative;
+}
+
+.modern-back-button {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 50%;
+  transition: var(--transition);
+}
+
+.modern-back-button:hover {
+  background-color: var(--border-color);
+  color: var(--primary-color);
+}
+
+.modern-action-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: transparent;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.modern-action-button:hover {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.modern-action-button svg {
+  transition: var(--transition);
+}
+
+.modern-action-button:hover svg {
+  color: white;
+}
+
+/* Hamburger Menu */
+.modern-menu-container {
+  position: relative;
+}
+
+.hamburger-menu {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 22px;
+  padding: 0;
+  width: 30px;
+  margin-left: 8px;
+}
+
+.hamburger-line {
+  background-color: var(--text-color);
+  height: 2px;
+  transition: var(--transition);
+  width: 100%;
+  border-radius: 4px;
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(1) {
+  transform: translateY(10px) rotate(45deg);
+  background-color: var(--primary-color);
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(3) {
+  transform: translateY(-10px) rotate(-45deg);
+  background-color: var(--primary-color);
+}
+
+.modern-dropdown {
+  position: absolute;
+  right: 0;
+  top: 45px;
+  background-color: var(--card-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  min-width: 200px;
+  z-index: 100;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: var(--transition);
+}
+
+.modern-dropdown.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  color: var(--text-color);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.dropdown-item:hover {
+  background-color: rgba(67, 97, 238, 0.1);
+  color: var(--primary-color);
+}
+
+.dropdown-item:not(:last-child) {
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Main Content Layout */
+.modern-content {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 24px;
+}
+
+.main-column, .sidebar-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Card Styles */
+.modern-card {
+  background-color: var(--card-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  padding: 24px;
+  overflow: hidden;
+}
+
+.modern-section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.modern-panel {
+  background-color: var(--background-color);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.panel-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--text-color);
+}
+
+.subsection-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 16px 0;
+  color: var(--text-color);
+}
+
+/* News Section */
+.news-section {
+  color: var(--text-color);
+}
+
+.results-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.result-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.team-matchup {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.team {
+  font-weight: 500;
+}
+
+.score {
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+.versus {
+  font-size: 14px;
+  color: var(--text-secondary);
+  padding: 0 8px;
+}
+
+.no-events {
+  color: var(--text-secondary);
+  font-style: italic;
+  text-align: center;
+  padding: 12px 0;
+}
+
+/* Video Section */
+.video-section {
+  color: var(--text-color);
+}
+
+.main-video {
+  margin-bottom: 16px;
+}
+
+.video-placeholder {
+  background-color: var(--background-color);
+  border-radius: 8px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-secondary);
+  gap: 12px;
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.video-thumbnail {
+  background-color: var(--background-color);
+  border-radius: 8px;
+  height: 120px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.video-thumbnail:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+}
+
+.thumbnail-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modern-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.modern-button:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+.view-more-button {
+  margin: 8px 0 20px 0;
+}
+
+/* Search Elements */
+.modern-search {
+  display: flex;
+  gap: 8px;
+}
+
+.modern-search input[type="text"] {
+  flex: 1;
+  padding: 10px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 14px;
+  transition: var(--transition);
+  outline: none;
+}
+
+.modern-search input[type="text"]:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+}
+
+.search-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.search-button:hover {
+  background-color: var(--primary-dark);
+}
+
+/* AI Assistant Section */
+.ai-assistant {
+  background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+  color: white;
+}
+
+.ai-assistant .modern-section-title {
+  color: white;
+  border-bottom-color: rgba(255, 255, 255, 0.2);
+}
+
+.assistant-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.assistant-avatar {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.assistant-actions {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 12px;
+}
+
+.assistant-button {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  font-weight: 500;
+}
+
+.assistant-button:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Team Following Section */
+.team-following {
+  color: var(--text-color);
+}
+
+.team-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 16px 0 8px 0;
+  color: var(--text-color);
+}
+
+.empty-teams {
+  padding: 16px;
+  background-color: var(--background-color);
+  border-radius: 8px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .modern-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .header-content {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .header-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .video-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .assistant-content {
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  .assistant-actions {
+    flex: 1;
+  }
+  
+}
+* Tab navigation styling */
+.nav-pills .nav-link {
+border-radius: 0.5rem;
+padding: 0.5rem 1.25rem;
+font-weight: 500;
+transition: all 0.2s ease;
+}
+
+.nav-pills .nav-link.active {
+background-color: #3b82f6;
+color: white;
+}
+
+.nav-pills .nav-link:not(.active) {
+color: #6b7280;
+}
+
+.nav-pills .nav-link:not(.active):hover {
+background-color: #f3f4f6;
+color: #3b82f6;
+}
+
+/* Tab content transition effects */
+.modern-content {
+transition: opacity 0.3s ease;
+}
+
+/* Additional styles for new components */
+.event-item {
+padding: 0.75rem;
+border-bottom: 1px solid #e5e7eb;
+transition: background-color 0.2s ease;
+}
+
+.event-item:hover {
+background-color: #f9fafb;
+}
+
+.event-date {
+font-size: 0.85rem;
+color: #6b7280;
+margin-bottom: 0.25rem;
+}
+
+.event-title {
+font-weight: 600;
+margin-bottom: 0.25rem;
+}
+
+.event-details {
+font-size: 0.85rem;
+color: #4b5563;
+}
+
+/* Standings table styles */
+.standings-container {
+margin-top: 1rem;
+}
+
+.standings-header {
+display: flex;
+padding: 0.5rem 0;
+font-weight: 600;
+border-bottom: 2px solid #e5e7eb;
+color: #4b5563;
+font-size: 0.9rem;
+}
+
+.standings-item {
+display: flex;
+padding: 0.75rem 0;
+border-bottom: 1px solid #e5e7eb;
+transition: background-color 0.2s ease;
+}
+
+.standings-item:hover {
+background-color: #f9fafb;
+}
+
+.team-name {
+flex: 3;
+}
+
+.team-record, .team-pct {
+flex: 1;
+text-align: center;
+}
+
+/* Draft prospects styles */
+.prospects-list {
+margin-top: 1rem;
+}
+
+.prospect-item {
+display: flex;
+padding: 0.75rem 0;
+border-bottom: 1px solid #e5e7eb;
+align-items: center;
+}
+
+.prospect-rank {
+flex: 0 0 2rem;
+font-weight: 700;
+color: #4b5563;
+}
+
+.prospect-name {
+flex: 2;
+font-weight: 600;
+}
+
+.prospect-position {
+flex: 1;
+text-align: center;
+font-weight: 500;
+color: #6b7280;
+}
+
+.prospect-college {
+flex: 2;
+text-align: right;
+color: #6b7280;
+}
+
+/* AI Assistant enhancements */
+.assistant-suggestions {
+text-align: left;
+}
+
+.assistant-prompt {
+font-size: 0.85rem;
+color: #6b7280;
+margin-bottom: 0.5rem;
+}
+
+.suggestion-chips {
+display: flex;
+flex-wrap: wrap;
+gap: 0.5rem;
+}
+
+.suggestion-chip {
+background-color: #f3f4f6;
+padding: 0.35rem 0.75rem;
+border-radius: 1rem;
+font-size: 0.8rem;
+color: #4b5563;
+cursor: pointer;
+transition: all 0.2s ease;
+}
+
+.suggestion-chip:hover {
+background-color: #e5e7eb;
+color: #1f2937;
+}
+
+/* Trending teams section */
+.trending-list {
+margin-top: 0.5rem;
+}
+
+.trending-team-item {
+display: flex;
+justify-content: space-between;
+padding: 0.5rem 0;
+border-bottom: 1px solid #e5e7eb;
+}
+
+.trending-up {
+color: #10b981;
+font-weight: 700;
+}
+
+.trending-down {
+color: #ef4444;
+font-weight: 700;
+}
+
+
