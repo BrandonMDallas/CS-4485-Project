@@ -6,7 +6,7 @@ import Tabs from 'react-bootstrap/Tabs'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import './App.css'
-import StocksPage from './StocksPage.jsx'
+import StocksPage from './StocksHub.jsx'
 import { useNavigate } from "react-router"
 import Form from 'react-bootstrap/Form'
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -17,7 +17,7 @@ import { HashRouter as Router, Routes, Route } from 'react-router-dom'
 import Carousel from 'react-bootstrap/Carousel';
 import WelcomePage from './welcomePage.jsx'
 import Accordion from 'react-bootstrap/Accordion';
-import App from './StocksPage.jsx'
+import App from './StocksHub.jsx'
 import { Link } from 'react-router'
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
