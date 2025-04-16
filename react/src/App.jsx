@@ -12,7 +12,7 @@ import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'
 import MainMenu from './MainMenu.jsx'
-import Stocks from './StocksPage.jsx'
+import Stocks from './StocksHub.jsx'
 import {createElement} from 'react';
 import MusicHub from './musicHub.jsx'
 import AiFinance from './aiFinance.jsx'
