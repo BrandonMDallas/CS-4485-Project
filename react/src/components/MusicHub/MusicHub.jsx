@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "../../api/axios";
+import useAxiosPrivate from "../../api/useAxiosPrivate";
 import "./MusicHub.css";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -14,8 +15,11 @@ import {
   FaMoon,
   FaSun,
 } from "react-icons/fa";
+const TOP_TRACKS_URL = "/api/lastfm/top-tracks";
+const TRACK_SEARCH_URL = "/api/lastfm/search";
 //Comment
 const MusicHub = () => {
+  const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [trendingSongs, setTrendingSongs] = useState([]);
@@ -85,27 +89,15 @@ const MusicHub = () => {
       setSearchHistory(newSearchHistory);
 
       try {
-        const apiKey = process.env.REACT_APP_LASTFM_API_KEY;
-        const response = await fetch(
-          `https://ws.audioscrobbler.com/2.0/?method=track.search&track=${searchQuery}&api_key=${apiKey}&format=json`
-        );
-        const data = await response.json();
-
-        // Map the search results into a structure suitable for your component
-        const searchResultsData = data.results.trackmatches.track.map(
-          (song, index) => ({
-            id: index + 1,
-            name: song.name,
-            artist: song.artist,
-            url: song.url,
-          })
-        );
-
-        console.log("Search API response:", data.results.trackmatches.track);
-        console.log("Formatted search results:", searchResultsData);
+        const url = `${TRACK_SEARCH_URL}?query=${encodeURIComponent(
+          searchQuery
+        )}`;
+        console.log(url);
+        const response = await axiosPrivate.get(url);
+        console.log("Raw search results:", response.data);
 
         // Update the state with the search results
-        setSearchResults(searchResultsData);
+        setSearchResults(response.data);
       } catch (error) {
         console.error("Error fetching search results", error);
       }
@@ -165,22 +157,9 @@ const MusicHub = () => {
   useEffect(() => {
     const fetchTrendingSongs = async () => {
       try {
-        const apiKey = process.env.REACT_APP_LASTFM_API_KEY; // Use API Key
-
-        const response = await fetch(
-          `https://ws.audioscrobbler.com/2.0/?method=chart.gettoptracks&api_key=${apiKey}&format=json`
-        );
-        const data = await response.json();
-
-        const trendingData = data.tracks.track.map((song, index) => ({
-          id: index + 1,
-          name: song.name,
-          artist: song.artist.name,
-          duration: "N/A",
-          url: song.url,
-        }));
-
-        setTrendingSongs(trendingData);
+        const response = await axiosPrivate.get(TOP_TRACKS_URL);
+        console.log(response.data);
+        setTrendingSongs(response.data);
       } catch (error) {
         console.error("Failed to fetch trending songs", error);
       }

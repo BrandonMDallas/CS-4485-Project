@@ -7,28 +7,14 @@ import java.util.List;
 public class LastFmChartResponse {
     private Tracks tracks;
 
-
-    public Tracks getTracks() {
-        return tracks;
-    }
-
-    public void setTracks(Tracks tracks) {
-        this.tracks = tracks;
-    }
+    public Tracks getTracks() { return tracks; }
+    public void setTracks(Tracks tracks) { this.tracks = tracks; }
 
     public static class Tracks {
-        // matches the JSON: { "tracks": { "track": [ … ] } }
         @JsonProperty("track")
         private List<LastFmTrack> track;
 
-        // getters & setters
-
-        public List<LastFmTrack> getTrack() {
-            return track;
-        }
-
-        public void setTrack(List<LastFmTrack> track) {
-            this.track = track;
-        }
+        public List<LastFmTrack> getTrack() { return track; }
+        public void setTrack(List<LastFmTrack> track) { this.track = track; }
     }
 }
