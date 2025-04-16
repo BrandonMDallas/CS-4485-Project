@@ -16,6 +16,7 @@ import Carousel from "react-bootstrap/Carousel";
 import Accordion from "react-bootstrap/Accordion";
 import { Link } from "react-router";
 import MainTab from "./MainTab";
+import ProfileTab from "./ProfileTab";
 function Dashboard() {
   const [slideIndex, setSlideIndex] = useState(0);
   const [elementType, setElementType] = useState("div");
@@ -79,85 +80,7 @@ function Dashboard() {
           <MainTab />
         </Tab>
         <Tab eventKey="profile" title="Your Profile">
-          <Accordion defaultActiveKey="0">
-            <Accordion.Item eventKey="0">
-              <Accordion.Header>Edit profile</Accordion.Header>
-              <Accordion.Body>
-                <p>Change email</p>
-                <input
-                  type="text"
-                  id="EmailInput"
-                  class="form-control"
-                  value={username}
-                  onChange={(e) => setUserName(e.target.value)}
-                />{" "}
-                <Button type="submit" onClick={usernameChange}>
-                  Change
-                </Button>
-                <p>Change password</p>
-                <input type="text" id="PasswordInput" />{" "}
-                <Button type="submit">Change</Button>
-                <br />
-                <div style={{ display: "inline-flex" }}>
-                  <div>
-                    <p style={{ fontSize: "15px" }}>Current pic</p>
-                  </div>
-                  <div>
-                    <Form.Group controlId="formFile" className="mb-3">
-                      <Form.Label>Edit profile pic</Form.Label>
-                      <img />
-                      <Form.Control type="file" />
-                    </Form.Group>
-                    <Button>Use pic</Button>
-                  </div>
-                </div>
-              </Accordion.Body>
-            </Accordion.Item>
-          </Accordion>
-          <InputGroup className="mb-3">
-            <Stack gap={3}>
-              <div
-                style={{ display: "inline-flex" }}
-                className="p-2"
-                id="Email"
-              >
-                {React.createElement(elementType, {
-                  type: elementType === "input" ? "text" : null,
-                  children: elementType === "div" ? "Email goes here" : null,
-                })}
-                <Button
-                  variant="outline-secondary"
-                  id="button-addon2"
-                  onClick={() => changeEmail()}
-                >
-                  Edit
-                </Button>
-              </div>
-              <div
-                style={{ display: "inline-flex" }}
-                className="p-2"
-                id="Password"
-              >
-                {React.createElement(elementType2, {
-                  type: elementType2 === "input" ? "text" : null,
-                  children:
-                    elementType2 === "div" ? "Password goes here" : null,
-                })}
-                <Button
-                  variant="outline-secondary"
-                  id="button-addon2"
-                  onClick={() => changePassword()}
-                >
-                  Edit
-                </Button>
-              </div>
-              <div
-                style={{ display: "inline-flex" }}
-                className="p-2"
-                id="Email"
-              ></div>
-            </Stack>
-          </InputGroup>
+          <ProfileTab />
         </Tab>
         <Tab eventKey="settings" title="Settings">
           <div class="form-check form-switch">
