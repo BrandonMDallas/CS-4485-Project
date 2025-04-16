@@ -50,6 +50,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 
   //JSX doesn't recognize the for loop, we need to use the map function instead for iterating
 function StockFunc() {
+  const [currencyName, setCurrencyName]=useState(["Currency 1", "Currency 2"])
   const currencyURL="https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=USD&to_currency=JPY&apikey=demo"
   const graphData=[1, 2, 3, 5, 8, 10, 67, 70];
   const graphData2=[10, 20, 50, 15];
@@ -229,7 +230,7 @@ setDataPoints3(array1)
       getStock(companies[3], 5, "TIME_SERIES_INTRADAY", 4);
       getStock(companies[4], 5, "TIME_SERIES_INTRADAY", 5);      
       getStock(companies[5], 5, "TIME_SERIES_INTRADAY", 6);
-
+      changeDataCond()
       getComp("IBM")
       getER()
       getNews();
@@ -473,12 +474,12 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
      );
    
     }
-    const changeDataCond = (index) => {
-      let differenceV=dataPoints[index][1]-dataPoints[index][0]
-      if(differenceV<0){
-        return <p style={{color: 'red', fontSize: '23px'}}>{differenceV}</p>
-      }else{}
-       return <p style={{color: 'green', fontSize: '23px'}}>+{differenceV}</p>
+    const [diffArray, setDiffArray]=useState([])
+    const changeDataCond = () => {
+      let array=[]
+      setDiffArray(...diffArray, (dataPoints2[1]-dataPoints2[0]))
+    
+    
       
      }
      const handleChange = (value) => {
@@ -737,11 +738,9 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
                 <label>
                   <p>{list1[index]}</p>
                   
-                  <Line
-data={chartData} options={chartOptions} height={200} width={200}>
-</Line>
+                 
                   <button type="button" class="btn btn-primary" onClick={()=>stockListMulti(index, list1[index], 850, "TIME_SERIES_INTRADAY", 0)}>View stock</button>
-                  {()=>changeDataCond(index)}
+                
                 </label>
               </div>
               }
@@ -875,7 +874,6 @@ data={chartData} options={chartOptions} height={200} width={200}>
       <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row'}}><img src={displayArray[0]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {companies[0]}</h5>
         <div class="card-text"> 
           {dataPoints2[0]}
-          {()=>changeDataCond(0)}
           
           </div>
         <Button class="buttonSpacing" variant="primary" style={{backgroundColor: 'gray', color: 'black', borderColor: 'gray', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("NKE", 0)}>About</Button>
@@ -886,8 +884,7 @@ data={chartData} options={chartOptions} height={200} width={200}>
       
         <div class="card-text">
         {dataPoints3[0]}
-        {()=>changeDataCond(1)}
-        
+        {diffArray[0]}
         </div>
         <Button class="buttonSpacing" variant="primary" style={{backgroundColor: 'gray', color: 'black', borderColor: 'gray', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("SBUX", 1)}>About</Button>
         <Button class="buttonSpacing"  style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}} variant="primary" onClick={()=>stockListMulti(2, 'SBUX', 500, "TIME_SERIES_INTRADAY", 3)}>View stock</Button>
@@ -897,7 +894,6 @@ data={chartData} options={chartOptions} height={200} width={200}>
         
         <div class="card-text">
         {dataPoints4[0]}
-        {()=>changeDataCond(2)}
        
         </div>
         <Button class="buttonSpacing" variant="primary" style={{backgroundColor: 'gray', color: 'black', borderColor: 'gray', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("MCD", 2)}>About</Button>
@@ -908,7 +904,6 @@ data={chartData} options={chartOptions} height={200} width={200}>
       
         <div class="card-text">
         {dataPoints5[0]}
-        {()=>changeDataCond(3)}
        
         </div>
         <Button class="buttonSpacing" variant="primary" style={{backgroundColor: 'gray', color: 'black', borderColor: 'gray', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("AAPL", 3)}>About</Button>
@@ -919,7 +914,6 @@ data={chartData} options={chartOptions} height={200} width={200}>
         
         <div class="card-text">
         {dataPoints6[0]}
-        {()=>changeDataCond(4)}
         
         </div>
         <Button class="buttonSpacing" variant="primary" style={{backgroundColor: 'gray', color: 'black',  borderColor: 'gray', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("GOOGL", 4)}>About</Button>
@@ -978,26 +972,30 @@ data={chartData} options={chartOptions} height={200} width={200}>
         <h3 style={{color: 'blue'}}>Get exchange rates here</h3>
         <div style={{display: 'flex', gap: '10px'}}>
         <Dropdown>
-      <Dropdown.Toggle variant="success" id="dropdown-basic">
-       Currency 1
+      <Dropdown.Toggle style={{backgroundColor: 'white', color: 'black', borderColor: 'black'}} variant="success" id="dropdown-basic">
+       {currencyName[0]}
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setCurrencyName(["American Dollar", currencyName[1]])}>American Dollar</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setCurrencyName(["Pound", currencyName[1]])}>British Pound</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setCurrencyName(["Euro", currencyName[1]])}>Euro</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setCurrencyName(["Canadian Dollar", currencyName[1]])}>Canadian Dollar</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setCurrencyName(["Yen", currencyName[1]])}>Japanese Yen</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
 <p> to </p>
 <Dropdown>
-      <Dropdown.Toggle variant="success" id="dropdown-basic">
-       Currency 2
+      <Dropdown.Toggle style={{backgroundColor: 'white', color: 'black', borderColor: 'black'}}  variant="success" id="dropdown-basic">
+       {currencyName[1]}
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setCurrencyName([currencyName[0], "American Dollar"])}>American Dollar</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setCurrencyName([currencyName[0], "Pound"])}>British Pound</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setCurrencyName([currencyName[0], "Euro"])}>Euro</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setCurrencyName([currencyName[0], "Canadian Dollar"])}>Canadian Dollar</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setCurrencyName([currencyName[0], "Yen"])}>Japanese Yen</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
     
