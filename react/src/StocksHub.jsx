@@ -13,7 +13,7 @@ import Form from 'react-bootstrap/Form'
 import Dropdown from 'react-bootstrap/Dropdown';
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import MainPage from './MainPage.jsx'
+//import MainPage from './MainPage.jsx'
 import {createElement} from 'react';
 import Axios from 'axios';
 import AiFinance from './aiFinance.jsx'
