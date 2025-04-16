@@ -17,6 +17,7 @@ import Accordion from "react-bootstrap/Accordion";
 import { Link } from "react-router";
 import MainTab from "./MainTab";
 import ProfileTab from "./ProfileTab";
+import SettingsTab from "./SettingsTab";
 function Dashboard() {
   const [slideIndex, setSlideIndex] = useState(0);
   const [elementType, setElementType] = useState("div");
@@ -58,7 +59,7 @@ function Dashboard() {
   };
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [picVar, setPicVar] = useState("");
+  const [picVar, setPicVar] = useState(null);
   const usernameChange = () => {
     console.log(username);
   };
@@ -83,35 +84,34 @@ function Dashboard() {
           <ProfileTab />
         </Tab>
         <Tab eventKey="settings" title="Settings">
-          <div class="form-check form-switch">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              role="switch"
-              id="flexSwitchCheckChecked"
-            />
-            <label class="form-check-label" for="flexSwitchCheckChecked">
-              Switch 1
-            </label>
-          </div>
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value=""
-              id="defaultCheck1"
-            />
-            <label class="form-check-label" for="defaultCheck1">
-              Check 1
-            </label>
-          </div>
+          <SettingsTab />
         </Tab>
       </Tabs>
 
       <br></br>
       <br></br>
       <br></br>
-      <Carousel
+    </div>
+  );
+}
+
+export default Dashboard;
+/*
+<InputGroup className="mb-3">
+    <Form.Control
+      placeholder="Recipient's username"
+      aria-label="Recipient's username"
+      aria-describedby="basic-addon2"
+    />
+    <Button variant="outline-secondary" id="button-addon2">
+      Button
+    </Button>
+  </InputGroup>
+*/
+
+/*
+Carousel code
+     <Carousel
         style={{ width: "600px", marginLeft: "auto", marginRight: "auto" }}
       >
         <Carousel.Item interval={1500}>
@@ -143,20 +143,4 @@ function Dashboard() {
           </Carousel.Caption>
         </Carousel.Item>
       </Carousel>
-    </div>
-  );
-}
-
-export default Dashboard;
-/*
-<InputGroup className="mb-3">
-    <Form.Control
-      placeholder="Recipient's username"
-      aria-label="Recipient's username"
-      aria-describedby="basic-addon2"
-    />
-    <Button variant="outline-secondary" id="button-addon2">
-      Button
-    </Button>
-  </InputGroup>
 */

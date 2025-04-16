@@ -28,7 +28,7 @@ const ProfileTab = () => {
             <input
               type="text"
               id="EmailInput"
-              class="form-control"
+              className="form-control"
               value={username}
               onChange={(e) => setUserName(e.target.value)}
             />{" "}
