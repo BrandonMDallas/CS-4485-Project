@@ -4,7 +4,7 @@ import Card from 'react-bootstrap/Card';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
-import Stocks from './StocksPage.jsx'
+import Stocks from './StocksHub.jsx'
 import './App.css'
 import axios from 'axios';
 import Axios from 'axios';
