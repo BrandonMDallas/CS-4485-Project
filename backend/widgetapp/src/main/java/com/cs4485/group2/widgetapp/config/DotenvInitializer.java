@@ -20,6 +20,7 @@ public class DotenvInitializer implements ApplicationContextInitializer<Configur
         map.put("NEWSAPI_API_KEY", dotenv.get("NEWSAPI_API_KEY"));
         map.put("WEATHERAPI_API_KEY", dotenv.get("WEATHERAPI_API_KEY"));
         map.put("ALPHAVANTAGE_API_KEY", dotenv.get("ALPHAVANTAGE_API_KEY"));
+        map.put("LASTFM_API_KEY", dotenv.get("LASTFM_API_KEY"));
 
         MapPropertySource propertySource = new MapPropertySource("dotenvProperties", map);
         applicationContext.getEnvironment().getPropertySources().addFirst(propertySource);
