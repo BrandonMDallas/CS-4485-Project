@@ -1,7 +1,7 @@
 // SportsHub.jsx with modern UI/UX
 import React, { useState, useEffect } from 'react';
 import './SportsHub.css';
-import Scores from './Scores';
+import Scores from './scores';
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Button from 'react-bootstrap/Button'
