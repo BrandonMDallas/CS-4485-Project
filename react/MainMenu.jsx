@@ -6,8 +6,8 @@
 import Tabs from 'react-bootstrap/Tabs'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
-import './App.css'
-import StocksPage from './StocksPage.jsx'
+import './src/App.css'
+import Stocks from './Stocks.jsx'
 import { useNavigate } from "react-router"
 import Form from 'react-bootstrap/Form'
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -16,7 +16,7 @@ import { useState, useEffect } from 'react'
 import Axios from 'axios';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom'
 import Carousel from 'react-bootstrap/Carousel';
-import WelcomePage from './welcomePage.jsx'
+//import WelcomePage from './welcomePage.jsx'
 import Accordion from 'react-bootstrap/Accordion';
 import App from './Stocks.jsx'
 import { Link } from 'react-router'
