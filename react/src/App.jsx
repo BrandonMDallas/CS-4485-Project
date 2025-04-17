@@ -8,6 +8,8 @@ import WelcomePage from "./components/WelcomePage/WelcomePage";
 import RequireAuth from "./components/RequireAuth/RequireAuth";
 import Dashboard from "./components/Dashboard/Dashboard";
 import MusicHub from "./components/MusicHub/MusicHub";
+import SportsHub from "./SportsHub.jsx";
+
 
 const App = () => {
   return (
@@ -20,6 +22,7 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/musichub" element={<MusicHub />} />
+          <Route path="/sportshub" element={<SportsHub />} />
           {/* Protected Routes */}
           <Route
             path="/menu"
