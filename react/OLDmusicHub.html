@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Hub</title>
+    <style>
+        .titleSection{
+            background-color: lightpink;
+            font-family:Arial, Helvetica, sans-serif;
+            border-radius: 16px;
+            position: relative;
+            width: 70%;
+        }
+        .restSections{
+            float: left;
+            border-radius: 16px;
+            position: relative;
+        }
+        .aiSection{
+            
+            border: 5px solid blue;
+            background-color: lightblue;
+            overflow: hidden;
+            padding: 20px;
+            width: 20%;
+            
+        }
+        h1{
+            text-align: center;
+        }
+      h2{
+        position: relative;
+        text-align: center;
+      }
+        .dropdownContent{
+            display:none;
+            position:absolute;
+            background-color: gray;
+            min-width: 160px;
+            overflow: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            
+        }
+       .dropdownContent a{
+        color: black;
+            padding: 12px 12px;
+            text-decoration: none;
+            display: block;
+       }
+        .dropdownContent a:hover{background-color:blue; color: white;}
+        .mainButton{
+            background-color: gray;
+            color: black;
+            padding: 15px;
+            font-size:15px;
+            top: -50px;
+            cursor: pointer;
+            border-radius: 8px;
+            
+        }
+        
+        .mainButton:hover{
+            
+            background-color: darkgray;
+        }
+       .aiButton{
+        position: relative;
+        left: -20px;
+        float: left;
+       }
+        .dropdown{
+            position: relative;
+            display: inline-block;
+        }
+        .playlistSection{
+            background-color: lightsalmon;
+        }
+        .mainTabImage{
+            position: relative;
+            left: 150px;
+            top: -300px;
+            float: left;
+            border-radius: 10px;
+            background-color:aliceblue;
+            margin: 15px;
+        }
+        .sticky{
+            position: sticky;
+        }
+        .searchSection{
+            background-color: powderblue;
+            position: relative;
+            left: -10px;
+            width: 20%;
+        }
+        .aiImage{
+            position: relative;
+            left: 10px;
+        }
+        .mainTabImage:hover{
+            background-color: purple;
+            color: white;
+        }
+        .show{display:block;}
+        .backButton{
+            position: relative;
+            top: -40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="titleSection sticky">
+        <h1>Music hub</h1>
+        <button class="backButton sticy" onclick="location.href='index.html'"><img src="backward icon.jpg" height="50" width="50"></button>
+        <br><br><br>
+        <button class="mainButton" onclick="dropDown()">Menu</button>
+        <div id="dropID2" class="dropdownContent">
+            <a>View your favorites</a>
+            <a>View history</a>
+            <a>Settings</a>
+            </div>
+        </div>
+        <button class="mainTabImage sticky" style="position:relative; left: 200px; top: -150px;"><img src="plusIcon.png" width="50" height="50"><p>Add a widget</p></button>
+            <button class=" mainTabImage sticky" style="position:relative; left: 200px; top: -150px;"><img src="profileIcon.png" width="50" height="50"><p>View profile</p></button>
+            <br>
+            <br>
+            <br>
+    </div>
+    
+    <div class="aiSection sticky restSections">
+        <h2>Ask AI assistant for...</h2>
+        <br>
+        <button class="aiButton">A recommended song</button>
+        <button class="aiButton">A recommended artist</button>
+        <button class="aiButton">A recommended album</button>
+        <br>
+        <img class="aiImage" src="aiMusic.avif" height="100" width="200">
+    </div>
+    <div class=" searchSection restSections">
+        <h2>Search for music</h2>
+
+        <p>What's popular these days</p>
+    </div>
+    <div class="playlistSection restSections">
+        <h2>Your playlists</h2>
+        <button>Make a playlist</button>
+    </div>
+    <div class="restSections" style="background-color: bisque;">
+        <h2>Song history</h2>
+    </div>
+    
+    <script>
+        function dropDown(part){
+            document.getElementById("dropID2").classList.toggle("show");
+           
+        }
+        window.onclick=function(event){
+            if(!event.target.matches('.mainButton')){
+                var dropOptions, count, currOption;
+                 dropOptions=document.getElementsByClassName("dropdownContent");
+                for(count=0; count<dropOptions.length; count++){
+                    currOption=dropOptions[count];
+                    if(currOption.classList.contains('show')){
+                        currOption.classList.remove('show');
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

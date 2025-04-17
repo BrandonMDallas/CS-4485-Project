@@ -1,0 +1,39 @@
+from flask import Flask, jsonify, request
+import yfinance as yf
+import requests
+
+app = Flask(__name__)
+
+# Function to get stock info from Yahoo Finance
+def get_stock_info(ticker):
+    stock = yf.Ticker(ticker)
+    stock_info = stock.info
+    return stock_info
+
+# Function to get stock-related news
+def get_news(ticker):
+    API_KEY = 'YOUR_NEWSAPI_KEY'  # Your NewsAPI key here
+    url = f'https://newsapi.org/v2/everything?q={ticker}&apiKey={API_KEY}'
+    response = requests.get(url)
+    return response.json()
+
+# API endpoint to get stock data
+@app.route('/api/stock_info', methods=['GET'])
+def stock_info():
+    ticker = request.args.get('ticker')
+    if not ticker:
+        return jsonify({'error': 'Ticker is required'}), 400
+    stock_info = get_stock_info(ticker)
+    return jsonify(stock_info)
+
+# API endpoint to get stock news
+@app.route('/api/stock_news', methods=['GET'])
+def stock_news():
+    ticker = request.args.get('ticker')
+    if not ticker:
+        return jsonify({'error': 'Ticker is required'}), 400
+    news = get_news(ticker)
+    return jsonify(news)
+
+if __name__ == '__main__':
+    app.run(debug=True)
