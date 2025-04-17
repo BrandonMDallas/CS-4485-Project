@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
-import './App.css'
+import './src/App.css'
 import 'https://cdn.jsdelivr.net/npm/chart.js'
 import Modal from 'react-bootstrap/Modal'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -13,7 +13,6 @@ import Form from 'react-bootstrap/Form'
 import Dropdown from 'react-bootstrap/Dropdown';
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import MainPage from './MainPage.jsx'
 import {createElement} from 'react';
 import Axios from 'axios';
 import AiFinance from './aiFinance.jsx'
@@ -21,7 +20,7 @@ import ProfilePage from './profilePage.jsx'
 import StocksSettings from './stocksSettings.jsx'
 import { Line } from 'react-chartjs-2';
 import Table from 'react-bootstrap/Table';
-import './App.jsx'
+//import './App.jsx'
 //import OpenAI from "openai";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';

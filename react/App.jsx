@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+/*import axios from 'axios';
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import ReactDOM from 'react-dom/client';
@@ -44,4 +44,4 @@ function App() {
     </Router>
   )
 }
-export default App;
+export default App;*/

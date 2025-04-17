@@ -1,4 +1,5 @@
- import React from 'react'
+    // Example: MyComponent.jsx
+    import React from 'react'
     import 'bootstrap/dist/css/bootstrap.css'
     import 'bootstrap/dist/css/bootstrap.min.css'
     import Tab from 'react-bootstrap/Tab'
@@ -17,8 +18,12 @@ import { HashRouter as Router, Routes, Route } from 'react-router-dom'
 import Carousel from 'react-bootstrap/Carousel';
 import WelcomePage from './welcomePage.jsx'
 import Accordion from 'react-bootstrap/Accordion';
-import App from './StocksPage.jsx'
+import App from './Stocks.jsx'
 import { Link } from 'react-router'
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
     function MyComponent() {
       /*let navigate = useNavigate();
 
@@ -89,16 +94,54 @@ const passwordChange = () =>
      // '/' is default page for routing 
       return (
         <div>
+         
         <div style={{ display: 'flex', flexDirection: 'row' }}>
   
   <img src={picVar} />
   </div>
-  <div style={{ position: 'absolute', left: '10%'}}>
+  <div style={{ position: 'absolute', left: '30%', backgroundColor: 'white',
+  boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px'}}>
       <Link to="/welcome"><img src="https://cdn-icons-png.freepik.com/512/3114/3114883.png" width="50px" height="50px"/></Link> 
       </div>
 
-        <h1 class="display-1" >The-hub</h1>
-        <Tabs
+        <h1 class="bebas-neue-regular" style={{fontSize: '130px'}} >The-hub</h1>
+        <Carousel style={{width: '600px',marginLeft: 'auto', marginRight: 'auto'}}>
+        <Carousel.Item interval={1500}>
+          <img
+          src="https://lh6.googleusercontent.com/proxy/NgkNfPvCY8PgW0Rg2WmgVbky9KaATmj8i2eRoq7kQEdgwd7ygtrAXNZMM2JroWOU5gpODQqVBMzxdHaiEpe7ZxKerkqTsCxSdtlcQ54oe_BzEOI9Z0Wg-R7g6m7h2eu6JS5WPMt7rZuspWTVnD4rSvVGIl8"
+            className="d-block w-100"
+            alt="Image One"
+          />
+          <Carousel.Caption>
+            <h3>Music fact</h3>
+            <p>Details about the fact go here</p>
+          </Carousel.Caption>
+        </Carousel.Item>
+        <Carousel.Item interval={500}>
+          <img
+          src="https://lh6.googleusercontent.com/proxy/NgkNfPvCY8PgW0Rg2WmgVbky9KaATmj8i2eRoq7kQEdgwd7ygtrAXNZMM2JroWOU5gpODQqVBMzxdHaiEpe7ZxKerkqTsCxSdtlcQ54oe_BzEOI9Z0Wg-R7g6m7h2eu6JS5WPMt7rZuspWTVnD4rSvVGIl8"
+            className="d-block w-100"
+            alt="Image Two"
+          />
+          <Carousel.Caption>
+            <h3>Sports fact</h3>
+            <p>Details about the fact go here</p>
+          </Carousel.Caption>
+        </Carousel.Item>
+        <Carousel.Item interval={1500}>
+          <img
+          src={newsImage}
+            className="d-block w-100"
+            alt="Image One"
+          />
+          <Carousel.Caption>
+            <h3>{newsHeader}</h3>
+          </Carousel.Caption>
+        </Carousel.Item>
+      </Carousel>
+      <br></br>
+      <br></br>
+    <Tabs
       defaultActiveKey="mainPage"
       id="uncontrolled-tab-example"
       className="mb-3"
@@ -135,7 +178,7 @@ const passwordChange = () =>
   
       </Tab>
       <Tab eventKey="profile" title="Your Profile">
-      <Accordion defaultActiveKey="0">
+      <Accordion defaultActiveKey="1">
       <Accordion.Item eventKey="0">
         <Accordion.Header>Edit profile</Accordion.Header>
         <Accordion.Body>
@@ -145,7 +188,10 @@ const passwordChange = () =>
       value={username}
       onChange={(e) => setUserName(e.target.value)}/> <Button type="submit" onClick={usernameChange}>Change</Button>
           <p>Change password</p> 
-          <input type="text" id="PasswordInput" /> <Button type="submit">Change</Button>
+          <input type="text" id="EmailInput" 
+      class="form-control"
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}/> <Button type="submit">Change</Button>
           <br />
           <div style={{display: 'inline-flex'}}>
             <div>
@@ -167,22 +213,8 @@ const passwordChange = () =>
       <Stack gap={3}>
         
         
-        <div style={{display: 'inline-flex'}}className="p-2" id="Email">{React.createElement(elementType, {
-        type: elementType === 'input' ? 'text' : null,
-        children: elementType === 'div' ? 'Email goes here' : null,
-      })}
-        <Button variant="outline-secondary" id="button-addon2" onClick={() => changeEmail()}>
-          Edit
-        </Button>
-        </div>
-        <div style={{display: 'inline-flex'}}className="p-2" id="Password">{React.createElement(elementType2, {
-        type: elementType2 === 'input' ? 'text' : null,
-        children: elementType2 === 'div' ? 'Password goes here' : null,
-      })}
-        <Button variant="outline-secondary" id="button-addon2" onClick={() => changePassword()}>
-          Edit
-        </Button>
-        </div>
+        
+       
         <div style={{display: 'inline-flex'}}className="p-2" id="Email">
           
         
@@ -193,55 +225,22 @@ const passwordChange = () =>
       <Tab eventKey="settings" title="Settings">
       <div class="form-check form-switch">
   <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" />
-  <label class="form-check-label" for="flexSwitchCheckChecked">Switch 1</label>
+  <label class="form-check-label" for="flexSwitchCheckChecked">Pages in dark mode</label>
+  <br></br>
+  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" />
+  <label class="form-check-label" for="flexSwitchCheckChecked">AI Assistant On/Off</label>
+<br></br>
+<button>Allow AI Assistant to use some of your information</button>
   
 </div>
-<div class="form-check">
-  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" />
-  <label class="form-check-label" for="defaultCheck1">
-    Check 1
-  </label>
-</div>
+
       </Tab>
     </Tabs>
     
     <br></br>
     <br></br>
     <br></br>
-    <Carousel style={{width: '600px',marginLeft: 'auto', marginRight: 'auto'}}>
-        <Carousel.Item interval={1500}>
-          <img
-          src="https://lh6.googleusercontent.com/proxy/NgkNfPvCY8PgW0Rg2WmgVbky9KaATmj8i2eRoq7kQEdgwd7ygtrAXNZMM2JroWOU5gpODQqVBMzxdHaiEpe7ZxKerkqTsCxSdtlcQ54oe_BzEOI9Z0Wg-R7g6m7h2eu6JS5WPMt7rZuspWTVnD4rSvVGIl8"
-            className="d-block w-100"
-            alt="Image One"
-          />
-          <Carousel.Caption>
-            <h3>Label for first slide</h3>
-            <p>{newsFact}</p>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item interval={500}>
-          <img
-          src="https://lh6.googleusercontent.com/proxy/NgkNfPvCY8PgW0Rg2WmgVbky9KaATmj8i2eRoq7kQEdgwd7ygtrAXNZMM2JroWOU5gpODQqVBMzxdHaiEpe7ZxKerkqTsCxSdtlcQ54oe_BzEOI9Z0Wg-R7g6m7h2eu6JS5WPMt7rZuspWTVnD4rSvVGIl8"
-            className="d-block w-100"
-            alt="Image Two"
-          />
-          <Carousel.Caption>
-            <h3>Label for second slide</h3>
-            <p>Sample Text for Image three</p>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item interval={1500}>
-          <img
-          src={newsImage}
-            className="d-block w-100"
-            alt="Image One"
-          />
-          <Carousel.Caption>
-            <h3>{newsHeader}</h3>
-          </Carousel.Caption>
-        </Carousel.Item>
-      </Carousel>
+    
 
         </div>
       );

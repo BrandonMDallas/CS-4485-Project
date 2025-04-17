@@ -2,6 +2,8 @@ import React from 'react'
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
+import Stocks from '../Stocks'
+import './App.css'
 const App = () => {
   return (
     <BrowserRouter>  
@@ -14,3 +16,4 @@ const App = () => {
 }
 
 export default App
+//        <Route path="/" element={<Stocks />} />
