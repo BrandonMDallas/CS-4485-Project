@@ -28,7 +28,6 @@ const MusicHub = () => {
   const [recommendations, setRecommendations] = useState([]);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  // Fetch AI Recommendations
   useEffect(() => {
     const fetchRecommendations = async () => {
       try {
@@ -49,7 +48,6 @@ const MusicHub = () => {
     fetchRecommendations();
   }, []);
 
-  // Toggle dark mode
   const toggleDarkMode = () => {
     const newMode = !isDarkMode;
     setIsDarkMode(newMode);
@@ -57,7 +55,6 @@ const MusicHub = () => {
     localStorage.setItem("darkMode", JSON.stringify(newMode));
   };
 
-  // Apply saved dark mode on load
   useEffect(() => {
     const savedDarkMode = localStorage.getItem("darkMode");
     if (savedDarkMode !== null) {
@@ -67,7 +64,6 @@ const MusicHub = () => {
     }
   }, []);
 
-  // Handle search function
   const handleSearch = async () => {
     if (searchQuery.trim()) {
       const newSearchHistory = [searchQuery, ...searchHistory.slice(0, 4)];
@@ -98,7 +94,6 @@ const MusicHub = () => {
     }
   };
 
-  // Playlist functions
   const createPlaylist = () => {
     if (newPlaylistName.trim()) {
       const newPlaylist = {
@@ -141,7 +136,6 @@ const MusicHub = () => {
     );
   };
 
-  // Fetch trending songs
   useEffect(() => {
     const fetchTrendingSongs = async () => {
       try {
@@ -173,7 +167,7 @@ const MusicHub = () => {
       <div className="modern-header">
         <div className="header-content">
           <div className="header-left">
-            <h1 className="modern-title">Music Hub</h1>
+            <h1 className="modern-title heading-blue">Music Hub</h1>
             <button
               className="modern-back-button"
               onClick={() => navigate("/")}
@@ -202,9 +196,8 @@ const MusicHub = () => {
 
       <div className="modern-content">
         <div className="main-column">
-          {/* Trending Songs */}
-          <div className="modern-card">
-            <h2 className="modern-section-title">Trending Songs</h2>
+          <div className="modern-card oval-box">
+            <h2 className="modern-section-title heading-blue">Trending Songs</h2>
             <div className="trending-songs">
               {trendingSongs.map((song) => (
                 <div key={song.id} className="song-item">
@@ -241,9 +234,8 @@ const MusicHub = () => {
             </div>
           </div>
 
-          {/* Playlists */}
-          <div className="modern-card">
-            <h2 className="modern-section-title">Your Playlists</h2>
+          <div className="modern-card oval-box">
+            <h2 className="modern-section-title heading-blue">Your Playlists</h2>
             <div className="playlist-creator">
               <input
                 type="text"
@@ -314,9 +306,8 @@ const MusicHub = () => {
         </div>
 
         <div className="sidebar-column">
-          {/* AI Recommendations */}
-          <div className="modern-card">
-            <h2 className="modern-section-title">AI Recommendations</h2>
+          <div className="modern-card oval-box">
+            <h2 className="modern-section-title heading-blue">AI Recommendations</h2>
             <div className="recommendations-section">
               {recommendations.length > 0 ? (
                 <ul className="recommendations-list">
@@ -336,9 +327,8 @@ const MusicHub = () => {
             </div>
           </div>
 
-          {/* Search History */}
-          <div className="modern-card">
-            <h2 className="modern-section-title">Search History</h2>
+          <div className="modern-card oval-box">
+            <h2 className="modern-section-title heading-blue">Search History</h2>
             {searchHistory.length > 0 ? (
               <ul>
                 {searchHistory.map((query, index) => (
@@ -352,10 +342,9 @@ const MusicHub = () => {
             )}
           </div>
 
-          {/* Search Results */}
           {searchResults.length > 0 && (
-            <div className="modern-card">
-              <h2 className="modern-section-title">Search Results</h2>
+            <div className="modern-card oval-box">
+              <h2 className="modern-section-title heading-blue">Search Results</h2>
               <div className="search-results">
                 {searchResults.map((song) => (
                   <div key={song.id} className="song-item">
