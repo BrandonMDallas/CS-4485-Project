@@ -1,0 +1,21 @@
+.section {
+    margin: 1rem 0;
+  }
+  .list {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  .symbol {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  

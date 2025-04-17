@@ -8,6 +8,7 @@ import WelcomePage from "./components/WelcomePage/WelcomePage";
 import RequireAuth from "./components/RequireAuth/RequireAuth";
 import Dashboard from "./components/Dashboard/Dashboard";
 import MusicHub from "./components/MusicHub/MusicHub";
+import StockHub from "./components/StockHub/StockHub";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/musichub" element={<MusicHub />} />
+          <Route path="/stockhub" element={<StockHub />} />
           {/* Protected Routes */}
           <Route
             path="/menu"
