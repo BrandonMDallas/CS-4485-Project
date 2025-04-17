@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./MusicHub.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   FaArrowLeft,
   FaPlus,
-  FaUser,
   FaSearch,
   FaMusic,
   FaEdit,
@@ -14,10 +13,9 @@ import {
   FaMoon,
   FaSun,
 } from "react-icons/fa";
-//Comment
+
 const MusicHub = () => {
   const navigate = useNavigate();
-  const [dropdownVisible, setDropdownVisible] = useState(false);
   const [trendingSongs, setTrendingSongs] = useState([]);
   const [playlists, setPlaylists] = useState([
     { id: 1, name: "My Playlist", songs: [] },
@@ -28,7 +26,9 @@ const MusicHub = () => {
   const [editingPlaylist, setEditingPlaylist] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
+  // Fetch AI Recommendations
   useEffect(() => {
     const fetchRecommendations = async () => {
       try {
@@ -49,26 +49,15 @@ const MusicHub = () => {
     fetchRecommendations();
   }, []);
 
-  //Toggle dropdown menu
-  const toggleDropdown = () => {
-    setDropdownVisible(!dropdownVisible);
-  };
-
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
   // Toggle dark mode
   const toggleDarkMode = () => {
     const newMode = !isDarkMode;
     setIsDarkMode(newMode);
-
-    // Apply dark mode class to body
     document.body.classList.toggle("dark-mode", newMode);
-
-    // Save preference to localStorage
     localStorage.setItem("darkMode", JSON.stringify(newMode));
   };
 
-  // Checking for saved dark mode preference on component mount
+  // Apply saved dark mode on load
   useEffect(() => {
     const savedDarkMode = localStorage.getItem("darkMode");
     if (savedDarkMode !== null) {
@@ -91,7 +80,6 @@ const MusicHub = () => {
         );
         const data = await response.json();
 
-        // Map the search results into a structure suitable for your component
         const searchResultsData = data.results.trackmatches.track.map(
           (song, index) => ({
             id: index + 1,
@@ -101,21 +89,16 @@ const MusicHub = () => {
           })
         );
 
-        console.log("Search API response:", data.results.trackmatches.track);
-        console.log("Formatted search results:", searchResultsData);
-
-        // Update the state with the search results
         setSearchResults(searchResultsData);
       } catch (error) {
         console.error("Error fetching search results", error);
       }
 
-      // Clear the search query input
       setSearchQuery("");
     }
   };
 
-  // Create new playlist
+  // Playlist functions
   const createPlaylist = () => {
     if (newPlaylistName.trim()) {
       const newPlaylist = {
@@ -129,12 +112,10 @@ const MusicHub = () => {
     }
   };
 
-  // Edit playlist
   const editPlaylist = (playlist) => {
     setEditingPlaylist(playlist);
   };
 
-  // Update playlist name
   const updatePlaylistName = (newName) => {
     if (editingPlaylist) {
       const updatedPlaylists = playlists.map((pl) =>
@@ -145,7 +126,6 @@ const MusicHub = () => {
     }
   };
 
-  // Delete playlist
   const deletePlaylist = (playlistId) => {
     const updatedPlaylists = playlists.filter((pl) => pl.id !== playlistId);
     setPlaylists(updatedPlaylists);
@@ -161,12 +141,11 @@ const MusicHub = () => {
     );
   };
 
-  // Fetch trending songs (simulated API call)
+  // Fetch trending songs
   useEffect(() => {
     const fetchTrendingSongs = async () => {
       try {
-        const apiKey = process.env.REACT_APP_LASTFM_API_KEY; // Use API Key
-
+        const apiKey = process.env.REACT_APP_LASTFM_API_KEY;
         const response = await fetch(
           `https://ws.audioscrobbler.com/2.0/?method=chart.gettoptracks&api_key=${apiKey}&format=json`
         );
@@ -213,7 +192,6 @@ const MusicHub = () => {
               <button className="search-button" onClick={handleSearch}>
                 <FaSearch />
               </button>
-
               <button className="dark-mode-toggle" onClick={toggleDarkMode}>
                 {isDarkMode ? <FaSun /> : <FaMoon />}
               </button>
@@ -224,7 +202,7 @@ const MusicHub = () => {
 
       <div className="modern-content">
         <div className="main-column">
-          {/* Trending Songs Section */}
+          {/* Trending Songs */}
           <div className="modern-card">
             <h2 className="modern-section-title">Trending Songs</h2>
             <div className="trending-songs">
@@ -241,8 +219,6 @@ const MusicHub = () => {
                     >
                       <FaPlay />
                     </button>
-
-                    {/* Dropdown to select a playlist and add song */}
                     {playlists.length > 0 && (
                       <select
                         onChange={(e) => {
@@ -265,7 +241,7 @@ const MusicHub = () => {
             </div>
           </div>
 
-          {/* Playlists Section */}
+          {/* Playlists */}
           <div className="modern-card">
             <h2 className="modern-section-title">Your Playlists</h2>
             <div className="playlist-creator">
@@ -284,7 +260,8 @@ const MusicHub = () => {
                 <div key={playlist.id} className="playlist-card">
                   <div className="playlist-details">
                     <h3>
-                      {editingPlaylist && editingPlaylist.id === playlist.id ? (
+                      {editingPlaylist &&
+                      editingPlaylist.id === playlist.id ? (
                         <input
                           type="text"
                           defaultValue={playlist.name}
@@ -311,7 +288,6 @@ const MusicHub = () => {
                     </div>
                   </div>
 
-                  {/* Display Songs in Playlist */}
                   {playlist.songs.length > 0 ? (
                     <ul className="playlist-songs">
                       {playlist.songs.map((song) => (
@@ -338,27 +314,7 @@ const MusicHub = () => {
         </div>
 
         <div className="sidebar-column">
-          {/* User Profile Dropdown */}
-          <div className="menuContainer">
-            <button className="mainButton" onClick={toggleDropdown}>
-              <FaUser /> Profile
-            </button>
-            {dropdownVisible && (
-              <div className="dropdownContent">
-                <Link to="/profile" className="menuLink">
-                  My Profile
-                </Link>
-                <Link to="/settings" className="menuLink">
-                  Settings
-                </Link>
-                <Link to="/logout" className="menuLink">
-                  Logout
-                </Link>
-              </div>
-            )}
-          </div>
-
-          {/* AI Recommendation Section */}
+          {/* AI Recommendations */}
           <div className="modern-card">
             <h2 className="modern-section-title">AI Recommendations</h2>
             <div className="recommendations-section">
@@ -367,7 +323,7 @@ const MusicHub = () => {
                   {recommendations.map((song) => (
                     <li key={song.id} className="recommendation-item">
                       <FaMusic />{" "}
-                      <span className="song-title">{song.title}</span> -
+                      <span className="song-title">{song.title}</span> -{" "}
                       <span className="song-artist">{song.artist}</span>
                     </li>
                   ))}
@@ -396,6 +352,7 @@ const MusicHub = () => {
             )}
           </div>
 
+          {/* Search Results */}
           {searchResults.length > 0 && (
             <div className="modern-card">
               <h2 className="modern-section-title">Search Results</h2>
