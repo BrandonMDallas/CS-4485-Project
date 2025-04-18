@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
-import './src/App.css'
+import './App.css'
 import 'https://cdn.jsdelivr.net/npm/chart.js'
 import Modal from 'react-bootstrap/Modal'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -13,6 +13,7 @@ import Form from 'react-bootstrap/Form'
 import Dropdown from 'react-bootstrap/Dropdown';
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import MainPage from './MainPage.jsx'
 import {createElement} from 'react';
 import Axios from 'axios';
 import AiFinance from './aiFinance.jsx'
@@ -20,7 +21,7 @@ import ProfilePage from './profilePage.jsx'
 import StocksSettings from './stocksSettings.jsx'
 import { Line } from 'react-chartjs-2';
 import Table from 'react-bootstrap/Table';
-//import './App.jsx'
+import './App.jsx'
 //import OpenAI from "openai";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -53,10 +54,11 @@ function StockFunc() {
   const currencyURL="https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=USD&to_currency=JPY&apikey=demo"
   const [eRate, seteRate]=useState("")
   async function getRate(){
-    await Axios.get(`https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=USD&to_currency=JPY&apikey=demo`).then((response)=>{
+    await Axios.get(`https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${currencyName[0]}&to_currency=${currencyName[1]}&apikey=32C6KJ3LT0U5QPAN`).then((response)=>{
       console.log("Currency response data ->", response.data)
       seteRate(response.data['Realtime Currency Exchange Rate']['5. Exchange Rate'])
       console.log("eRate ->", eRate)
+      
     } )
   }
   const graphData=[1, 2, 3, 5, 8, 10, 67, 70];
@@ -483,12 +485,10 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
     }
     let array=[101, 202, 303, 404, 505]
     const [diffArray, setDiffArray]=useState([])
-    const changeDataCond = () => {
-      setDiffArray(...diffArray, array[0])
-      setDiffArray(...diffArray, array[1])
-      setDiffArray(...diffArray, array[2])
-      setDiffArray(...diffArray, array[3])
-      setDiffArray(...diffArray, array[4])
+    const changeDataCond = (index) => {
+     if(index===1){
+      return <p>{dataPoints2[0]-dataPoints2[1]}</p>
+     }
 
     
       
@@ -768,10 +768,10 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
  
    
      <li class="nav-item" style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-      <a style={{backgroundColor: 'lightgray', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}} class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true" onClick={()=>updateData(companies[currentGIndex], 1, "TIME_SERIES_INTRADAY", 1)}>View by hour</a>
-      <a style={{backgroundColor: 'lightgray', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(companies[currentGIndex], 2, "TIME_SERIES_DAILY", 1)}>View by day</a>
-      <a style={{backgroundColor: 'lightgray', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(companies[currentGIndex], 3, "TIME_SERIES_MONTHLY", 1)}>View by month</a>
-      <a style={{backgroundColor: 'lightgray', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(companies[currentGIndex], 4, "TIME_SERIES_ADJUSTED", 1)}>View all data</a>
+      <a style={{backgroundColor: 'white', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}} class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true" onClick={()=>updateData(companies[currentGIndex], 1, "TIME_SERIES_INTRADAY", 1)}>View by recent hours</a>
+      <a style={{backgroundColor: 'white', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(companies[currentGIndex], 2, "TIME_SERIES_DAILY", 1)}>View by recent days</a>
+      <a style={{backgroundColor: 'white', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(companies[currentGIndex], 3, "TIME_SERIES_MONTHLY", 1)}>View by recent dates</a>
+      <a style={{backgroundColor: 'white', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(companies[currentGIndex], 4, "TIME_SERIES_ADJUSTED", 1)}>View all data</a>
 
     </li>
 }
@@ -897,8 +897,9 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
         <div class="card-text">
         <p>
         {dataPoints3[0]}
-        {diffArray[1]}
         </p>
+        
+
         
         
         </div>
@@ -1001,11 +1002,11 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        <Dropdown.Item onClick={()=>setCurrencyName(["American Dollar", currencyName[1]])}>American Dollar</Dropdown.Item>
-        <Dropdown.Item onClick={()=>setCurrencyName(["Pound", currencyName[1]])}>British Pound</Dropdown.Item>
-        <Dropdown.Item onClick={()=>setCurrencyName(["Euro", currencyName[1]])}>Euro</Dropdown.Item>
-        <Dropdown.Item onClick={()=>setCurrencyName(["Canadian Dollar", currencyName[1]])}>Canadian Dollar</Dropdown.Item>
-        <Dropdown.Item onClick={()=>setCurrencyName(["Yen", currencyName[1]])}>Japanese Yen</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setCurrencyName(["USD", currencyName[1]])}>American Dollar</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setCurrencyName(["GBP", currencyName[1]])}>British Pound</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setCurrencyName(["EUR", currencyName[1]])}>Euro</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setCurrencyName(["CAD", currencyName[1]])}>Canadian Dollar</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setCurrencyName(["JPY", currencyName[1]])}>Japanese Yen</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
 <p> to </p>
@@ -1015,11 +1016,11 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        <Dropdown.Item onClick={()=>setCurrencyName([currencyName[0], "American Dollar"])}>American Dollar</Dropdown.Item>
-        <Dropdown.Item onClick={()=>setCurrencyName([currencyName[0], "Pound"])}>British Pound</Dropdown.Item>
-        <Dropdown.Item onClick={()=>setCurrencyName([currencyName[0], "Euro"])}>Euro</Dropdown.Item>
-        <Dropdown.Item onClick={()=>setCurrencyName([currencyName[0], "Canadian Dollar"])}>Canadian Dollar</Dropdown.Item>
-        <Dropdown.Item onClick={()=>setCurrencyName([currencyName[0], "Yen"])}>Japanese Yen</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setCurrencyName([currencyName[0], "USD"])}>American Dollar</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setCurrencyName([currencyName[0], "GBP"])}>British Pound</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setCurrencyName([currencyName[0], "EUR"])}>Euro</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setCurrencyName([currencyName[0], "CAD"])}>Canadian Dollar</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setCurrencyName([currencyName[0], "JPY"])}>Japanese Yen</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
     
@@ -1034,7 +1035,7 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
 <br></br>
 <button onClick={()=>getRate()}>Calculate rate</button>
 <br></br>
-<p>Result: </p>
+<p>Result: {eRate}</p>
     </Card>
     </div>
     </div>
