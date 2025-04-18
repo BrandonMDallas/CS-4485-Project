@@ -4,12 +4,13 @@ import Login from './components/Login/Login';
 import Register from './components/Register/Register';
 import Stocks from '../Stocks'
 import Main from '../MainMenu'
+import Welcome from '../welcomePage'
 import './App.css'
 const App = () => {
   return (
     <BrowserRouter>  
       <Routes>
-        <Route path="/" element={<Main />} />
+        <Route path="/" element={<Welcome />} />
         <Route path="/register" element={<Register />} />
       </Routes>
     </BrowserRouter>
