@@ -38,3 +38,4 @@ const App = () => {
 };
 
 export default App;
+//        <Route path="/" element={<Stocks />} />
