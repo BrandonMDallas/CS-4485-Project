@@ -15,16 +15,30 @@ import {
   FaMoon,
   FaSun,
 } from "react-icons/fa";
+
 const TOP_TRACKS_URL = "/api/lastfm/top-tracks";
 const TRACK_SEARCH_URL = "/api/lastfm/search";
-//Comment
+const SIMILAR_TRACKS_URL = "/api/lastfm/similar-tracks";
+
+// Last.fm API constants
+const LASTFM_API_KEY = "h";
+const LASTFM_API_BASE = "http://ws.audioscrobbler.com/2.0/";
+
 const MusicHub = () => {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [trendingSongs, setTrendingSongs] = useState([]);
   const [playlists, setPlaylists] = useState([
-    { id: 1, name: "My Playlist", songs: [] },
+    { 
+      id: 1, 
+      name: "My Playlist", 
+      songs: [
+        // Test songs for recommendations
+        { id: "1", name: "Starboy", artist: "The Weeknd", url: "https://www.last.fm/music/The+Weeknd+Feat.+Daft+Punk/Starboy/Starboy" },
+        { id: "2", name: "NOKIA", artist: "Drake", url: "https://www.last.fm/music/Drake/_/Nokia" }
+      ] 
+    },
   ]);
   const [newPlaylistName, setNewPlaylistName] = useState("");
   const [searchHistory, setSearchHistory] = useState([]);
@@ -32,28 +46,109 @@ const MusicHub = () => {
   const [editingPlaylist, setEditingPlaylist] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
+  const [selectedPlaylistForRecs, setSelectedPlaylistForRecs] = useState(1); // Default to first playlist
+  const [isLoadingRecs, setIsLoadingRecs] = useState(false);
 
   useEffect(() => {
-    const fetchRecommendations = async () => {
-      try {
-        const response = await axios.get(
-          "https://api.example.com/music/recommendations"
-        );
-        setRecommendations(response.data);
-      } catch (error) {
-        console.error("Error fetching AI recommendations:", error);
-        setRecommendations([
-          { id: 1, title: "AI Song 1", artist: "Artist 1" },
-          { id: 2, title: "AI Song 2", artist: "Artist 2" },
-          { id: 3, title: "AI Song 3", artist: "Artist 3" },
-        ]);
-      }
-    };
-
-    fetchRecommendations();
+    // Initial fetch of recommendations based on the default playlist
+    if (playlists.length > 0) {
+      fetchRecommendationsForPlaylist(playlists[0]);
+    }
   }, []);
 
-  //Toggle dropdown menu
+  // Function to get recommendations based on a playlist
+  const fetchRecommendationsForPlaylist = async (playlist) => {
+    if (!playlist || playlist.songs.length === 0) {
+      setRecommendations([]);
+      return;
+    }
+
+    setIsLoadingRecs(true);
+    
+    try {
+      // Create array of tracks to base recommendations on
+      const trackSeeds = playlist.songs.map(song => ({
+        artist: song.artist,
+        track: song.name
+      }));
+      
+      // Get recommendations from Last.fm API
+      let allRecommendations = [];
+      
+      // Only process up to 3 songs to avoid too many requests
+      const songsToProcess = trackSeeds.slice(0, 3);
+      
+      for (const songSeed of songsToProcess) {
+        const response = await fetchSimilarTracksFromLastFM(songSeed.artist, songSeed.track);
+        if (response && response.length > 0) {
+          allRecommendations = [...allRecommendations, ...response];
+        }
+      }
+      
+      // Remove duplicates and limit to 10 recommendations
+      const uniqueRecs = removeDuplicateRecommendations(allRecommendations);
+      const limitedRecs = uniqueRecs.slice(0, 10);
+      
+      setRecommendations(limitedRecs);
+    } catch (error) {
+      console.error("Error fetching music recommendations:", error);
+      setRecommendations([]);
+    } finally {
+      setIsLoadingRecs(false);
+    }
+  };
+
+  // Helper function to fetch similar tracks from Last.fm API
+  const fetchSimilarTracksFromLastFM = async (artist, track) => {
+    try {
+      // First try using our backend proxy if available
+      try {
+        const url = `${SIMILAR_TRACKS_URL}?artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(track)}`;
+        const response = await axiosPrivate.get(url);
+        return response.data;
+      } catch (proxyError) {
+        console.warn("Backend proxy unavailable, using direct Last.fm API:", proxyError);
+        
+        // Fall back to direct Last.fm API call if backend proxy fails
+        const params = new URLSearchParams({
+          method: 'track.getSimilar',
+          artist: artist,
+          track: track,
+          api_key: LASTFM_API_KEY,
+          format: 'json',
+          limit: 5
+        });
+        
+        const response = await axios.get(`${LASTFM_API_BASE}?${params}`);
+        
+        if (response.data && response.data.similartracks && response.data.similartracks.track) {
+          return response.data.similartracks.track.map(item => ({
+            id: item.mbid || `${item.name}-${item.artist.name}`,
+            name: item.name,
+            artist: item.artist.name,
+            url: item.url
+          }));
+        }
+        return [];
+      }
+    } catch (error) {
+      console.error(`Error fetching similar tracks for ${track} by ${artist}:`, error);
+      return [];
+    }
+  };
+
+  // Helper function to remove duplicate recommendations
+  const removeDuplicateRecommendations = (recommendations) => {
+    const seen = new Set();
+    return recommendations.filter(rec => {
+      const key = `${rec.artist}-${rec.name}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  };
+
+  // Toggle dropdown menu
   const toggleDropdown = () => {
     setDropdownVisible(!dropdownVisible);
   };
@@ -141,19 +236,32 @@ const MusicHub = () => {
   const deletePlaylist = (playlistId) => {
     const updatedPlaylists = playlists.filter((pl) => pl.id !== playlistId);
     setPlaylists(updatedPlaylists);
+    
+    // If the deleted playlist was selected for recommendations, reset to the first available playlist
+    if (selectedPlaylistForRecs === playlistId && updatedPlaylists.length > 0) {
+      setSelectedPlaylistForRecs(updatedPlaylists[0].id);
+      fetchRecommendationsForPlaylist(updatedPlaylists[0]);
+    }
   };
 
   const addSongToPlaylist = (playlistId, song) => {
-    setPlaylists(
-      playlists.map((playlist) =>
-        playlist.id === playlistId
-          ? { ...playlist, songs: [...playlist.songs, song] }
-          : playlist
-      )
+    const updatedPlaylists = playlists.map((playlist) =>
+      playlist.id === playlistId
+        ? { ...playlist, songs: [...playlist.songs, song] }
+        : playlist
     );
+    
+    setPlaylists(updatedPlaylists);
+    
+    // If we're adding to the currently selected playlist for recommendations,
+    // update the recommendations
+    if (playlistId === selectedPlaylistForRecs) {
+      const updatedPlaylist = updatedPlaylists.find(p => p.id === playlistId);
+      fetchRecommendationsForPlaylist(updatedPlaylist);
+    }
   };
 
-  // Fetch trending songs (simulated API call)
+  // Fetch trending songs
   useEffect(() => {
     const fetchTrendingSongs = async () => {
       try {
@@ -167,6 +275,17 @@ const MusicHub = () => {
 
     fetchTrendingSongs();
   }, []);
+
+  // Handle changing which playlist to base recommendations on
+  const handleChangeRecommendationPlaylist = (playlistId) => {
+    const selectedId = Number(playlistId);
+    setSelectedPlaylistForRecs(selectedId);
+    
+    const selectedPlaylist = playlists.find(p => p.id === selectedId);
+    if (selectedPlaylist) {
+      fetchRecommendationsForPlaylist(selectedPlaylist);
+    }
+  };
 
   return (
     <div className="modern-container">
@@ -287,6 +406,13 @@ const MusicHub = () => {
                       >
                         <FaTrash />
                       </button>
+                      <button 
+                        className="modern-button modern-button-primary"
+                        onClick={() => handleChangeRecommendationPlaylist(playlist.id)}
+                        disabled={selectedPlaylistForRecs === playlist.id}
+                      >
+                        Get Recommendations
+                      </button>
                     </div>
                   </div>
 
@@ -339,21 +465,38 @@ const MusicHub = () => {
 
           {/* AI Recommendation Section */}
           <div className="modern-card">
-            <h2 className="modern-section-title">AI Recommendations</h2>
+            <h2 className="modern-section-title">
+              Recommendations Based on{" "}
+              {playlists.find(p => p.id === selectedPlaylistForRecs)?.name || "Your Music"}
+            </h2>
             <div className="recommendations-section">
-              {recommendations.length > 0 ? (
+              {isLoadingRecs ? (
+                <p>Loading recommendations...</p>
+              ) : recommendations.length > 0 ? (
                 <ul className="recommendations-list">
                   {recommendations.map((song) => (
                     <li key={song.id} className="recommendation-item">
                       <FaMusic />{" "}
-                      <span className="song-title">{song.title}</span> -
+                      <span className="song-title">{song.name}</span> -{" "}
                       <span className="song-artist">{song.artist}</span>
+                      <a
+                        href={song.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="play-link"
+                      >
+                        <button className="play-pause-button">
+                          <FaPlay />
+                        </button>
+                      </a>
                     </li>
                   ))}
                 </ul>
               ) : (
                 <p className="no-recommendations">
-                  No recommendations available.
+                  {playlists.find(p => p.id === selectedPlaylistForRecs)?.songs.length === 0
+                    ? "Add songs to your playlist to get recommendations"
+                    : "No recommendations available."}
                 </p>
               )}
             </div>
@@ -385,16 +528,36 @@ const MusicHub = () => {
                       <span>{song.name}</span>
                       <span className="song-artist">{song.artist}</span>
                     </div>
-                    <a
-                      href={song.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="play-link"
-                    >
-                      <button className="play-pause-button">
-                        <FaPlay />
-                      </button>
-                    </a>
+                    <div className="song-actions">
+                      <a
+                        href={song.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="play-link"
+                      >
+                        <button className="play-pause-button">
+                          <FaPlay />
+                        </button>
+                      </a>
+                      
+                      {/* Add to playlist dropdown */}
+                      {playlists.length > 0 && (
+                        <select
+                          onChange={(e) => {
+                            const selectedPlaylistId = Number(e.target.value);
+                            if (selectedPlaylistId)
+                              addSongToPlaylist(selectedPlaylistId, song);
+                          }}
+                        >
+                          <option value="">Add to Playlist</option>
+                          {playlists.map((playlist) => (
+                            <option key={playlist.id} value={playlist.id}>
+                              {playlist.name}
+                            </option>
+                          ))}
+                        </select>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>
