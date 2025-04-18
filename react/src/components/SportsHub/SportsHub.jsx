@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import './SportsHub.css';
 import Scores from './Scores';
-import TeamVideos from './TeamVideos';  // Import TeamVideos Component
-import NewsArticles from './NewsArticles';
+import TeamVideos from '../../TeamVideos';  // Import TeamVideos Component
+import NewsArticles from '../../NewsArticles';
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Button from 'react-bootstrap/Button'

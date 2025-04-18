@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import GameStatsModal from './GameDataModal.jsx';
+import GameStatsModal from '../../GameDataModal.jsx';
 
 const Scores = ({ team }) => {
   const [gamesData, setGamesData] = useState({ completed: [], upcoming: [] });
