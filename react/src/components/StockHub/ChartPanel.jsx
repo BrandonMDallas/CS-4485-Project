@@ -23,18 +23,22 @@ ChartJS.register(
   Legend
 );
 
-export default function ChartPanel({ data, unitLabel }) {
+export default function ChartPanel({
+  labels = [],
+  values = [],
+  unitLabel = "", // add this prop if you want an x‑axis label
+}) {
   const chartData = useMemo(
     () => ({
-      labels: data.labels,
+      labels, // ← use the labels prop
       datasets: [
         {
-          data: data.values,
+          data: values, // ← use the values prop
           borderWidth: 2,
         },
       ],
     }),
-    [data]
+    [labels, values]
   );
 
   const options = useMemo(
