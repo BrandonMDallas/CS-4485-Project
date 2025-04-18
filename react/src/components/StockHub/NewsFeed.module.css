@@ -1,0 +1,8 @@
+.section {
+  margin: 2rem 0;
+}
+.grid {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
