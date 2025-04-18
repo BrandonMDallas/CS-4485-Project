@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import './SportsHub.css';
 import Scores from './Scores';
-import TeamVideos from '../../TeamVideos';  // Import TeamVideos Component
-import NewsArticles from '../../NewsArticles';
+import TeamVideos from './TeamVideos';  // Import TeamVideos Component
+import NewsArticles from './NewsArticles';
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Button from 'react-bootstrap/Button'
@@ -54,75 +54,77 @@ const SportsHub = () => {
   return (
     <div className="modern-container">
       {/* Header Navigation - Modern Redesign */}
-      <header className="modern-header">
-        <div className="header-content">
-          <div className="header-left">
-            <button className="modern-back-button" onClick={() => window.location.href='index.html'}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </button>
-            
-            <div className="d-flex flex-column flex-md-row align-items-start align-items-md-center gap-3">
-                  <h1 className="modern-title mb-0">SportsHub</h1>
-
-                  <nav>
-                    <ul className="nav nav-pills">
-                      <li className="nav-item">
-                        <a className="nav-link active" href="#">NBA</a>
-                      </li>
-                      <li className="nav-item">
-                        <a className="nav-link" href="#">NFL</a>
-                      </li>
-                      <li className="nav-item">
-                        <a className="nav-link" href="#">MLB</a>
-                      </li>
-                    </ul>
-                  </nav>
-                </div>
-
-          </div>
-          
-          <div className="header-right">
-          <button className="btn btn-outline-primary d-flex align-items-center gap-2">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 5V19M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              <span>Add Widget</span>
-            </button>
-            
-            <button className="btn btn-outline-primary d-flex align-items-center gap-2">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M18 20C18 16.6863 15.3137 14 12 14C8.68629 14 6 16.6863 6 20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              <span>Profile</span>
-            </button>
-            
-            <div className="modern-menu-container">
-              <button className={`hamburger-menu ${showDropdown ? 'active' : ''}`} onClick={toggleDropdown}>
-                <span className="hamburger-line"></span>
-                <span className="hamburger-line"></span>
-                <span className="hamburger-line"></span>
+      <header className="sports-hub-header py-2 border-bottom">
+          <div className="container-fluid d-flex justify-content-between align-items-center">
+            <div className="d-flex align-items-center">
+              <button className="btn back-btn me-3" onClick={() => window.location.href='index.html'}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
               </button>
               
-              <div className={`modern-dropdown ${showDropdown ? 'show' : ''}`}>
-                <a href="#" className="dropdown-item">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 7H20M12 12H20M12 17H20M4 7H8M4 12H8M4 17H8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                  <span>My Teams</span>
-                </a>
-                <a href="#" className="dropdown-item" onClick={openSettingsWindow}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>                  </svg>
-                  <span>Settings</span>
-                </a>
+              <h1 className="sports-hub-title fs-4 mb-0 me-4">SportsHub</h1>
+              
+              <nav className="sports-tabs ms-2">
+                <ul className="nav nav-pills">
+                  <li className="nav-item">
+                    <a className="nav-link active px-3 py-1" href="#">NBA</a>
+                  </li>
+                  <li className="nav-item">
+                    <a className="nav-link px-3 py-1" href="#">NFL</a>
+                  </li>
+                  <li className="nav-item">
+                    <a className="nav-link px-3 py-1" href="#">MLB</a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            
+            <div className="d-flex align-items-center">
+              <button className="btn btn-outline-primary me-2 d-flex align-items-center" style={{fontSize: '0.875rem'}}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="me-1">
+                  <path d="M12 5V19M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                <span>Add Sport</span>
+              </button>
+              
+              <button className="btn btn-outline-primary me-2 d-flex align-items-center" style={{fontSize: '0.875rem'}}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="me-1">
+                  <path d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M18 20C18 16.6863 15.3137 14 12 14C8.68629 14 6 16.6863 6 20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                <span>Profile</span>
+              </button>
+              
+              <div className="dropdown">
+                <button 
+                  className={`btn hamburger-btn ${showDropdown ? 'active' : ''}`} 
+                  onClick={toggleDropdown}
+                  aria-expanded={showDropdown}
+                >
+                  <span className="hamburger-line"></span>
+                  <span className="hamburger-line"></span>
+                  <span className="hamburger-line"></span>
+                </button>
+                
+                <div className={`dropdown-menu dropdown-menu-end ${showDropdown ? 'show' : ''}`}>
+                  <a href="#" className="dropdown-item d-flex align-items-center">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="me-2">
+                      <path d="M12 7H20M12 12H20M12 17H20M4 7H8M4 12H8M4 17H8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                    <span>My Teams</span>
+                  </a>
+                  <a href="#" className="dropdown-item d-flex align-items-center" onClick={openSettingsWindow}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="me-2">
+                      <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                    <span>Settings</span>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </header>
+        </header>
       
       {/* Main Content Area - Modern Layout */}
       <main className="modern-content">
