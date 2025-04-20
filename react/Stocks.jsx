@@ -468,7 +468,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
     };
     const getResultMulti = (value, id) =>{
       
-      addLike(value)
+      //addLike(value, value2, value3)
       updateData(value, 5, "TIME_SERIES_INTRADAY", id)
       handleClose2()
       scrollFunc(500)
@@ -504,17 +504,33 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
       const [asS5, setasS5]=useState("")
       const [asC5, setAsC5]=useState("")
       const [asP5, setAsP5]=useState("")
+      const [as6, setAs6]=useState("")
+      const [asC6, setAsC6]=useState("")
+      const [asP6, setAsP6]=useState("")
+      const [as7, setAs7]=useState("")
+      const [asC7, setAsC7]=useState("")
+      const [asP7, setAsP7]=useState("")
+      const [as8, setAs8]=useState("")
+      const [asC8, setAsC8]=useState("")
+      const [asP8, setAsP8]=useState("")
+      const [as9, setAs9]=useState("")
+      const [asC9, setAsC9]=useState("")
+      const [asP9, setAsP9]=useState("")
+      const [as10, setAs10]=useState("")
+      const [asC10, setAsC10]=useState("")
+      const [asP10, setAsP10]=useState("")
       const [diffArray, setDiffArray]=useState([dataPoints2[0]-dataPoints[1], dataPoints3[0]-dataPoints[1], dataPoints4[0]-dataPoints4[1], dataPoints5[0]-dataPoints[1], dataPoints6[0]-dataPoints6[1]])
       async function changeDataCond (){
         await Axios.get(`https://financialmodelingprep.com/api/v3/stock_market/actives?apikey=xN4lrLuDYQNI6EV4mSbwXUZY7xek4Fj7`).then((response)=>{
           const parsedData = JSON.parse(JSON.stringify(response));
           console.log("Most active stocks: ", parsedData)
           console.log("Heres an active NAME: ", parsedData.data[0].name)
-          for (let i = 0; i < 9; i++) {
+          for (let i = 0; i < 20; i++) {
             activeStocks.push(parsedData.data[i].name);
             actStksChanges.push(parsedData.data[i].change)
             actStksPrices.push(parsedData.data[i].price)
             actStksSymbols.push(parsedData.data[i].symbol)
+            
           }
           console.log("ACTIVE STOCKS LIST: ", activeStocks)
           setAs1(activeStocks[0])
@@ -529,18 +545,39 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
           setAs4(activeStocks[3])
           setAsC4(actStksChanges[3])
           setAsP4(actStksPrices[3])
-          setAs5(activeStocks[8])
-          setAsC5(actStksChanges[8])
-          setAsP5(actStksPrices[8])
-          setasS5(actStksSymbols[8])
+          setAs5(activeStocks[4])
+          setAsC5(actStksChanges[4])
+          setAsP5(actStksPrices[4])
+          setasS5(actStksSymbols[4])
+          setAs6(activeStocks[5])
+          setAsC6(actStksChanges[5])
+          setAsP6(actStksPrices[5])
+          setAs7(activeStocks[6])
+          setAsC7(actStksChanges[6])
+          setAsP7(actStksPrices[6])
+          setAs8(activeStocks[7])
+          setAsC8(actStksChanges[7])
+          setAsP8(actStksPrices[7])
+          setAs9(activeStocks[8])
+          setAsC9(actStksChanges[8])
+          setAsP9(actStksPrices[8])
+          setAs10(activeStocks[9])
+          setAsC10(actStksChanges[9])
+          setAsP10(actStksPrices[9])
         }
       )
        }
-       const addLike = (value) => {
+       const addLike = (value, value2, value3) => {
         //Issues here
         let tempArray=list1;
       tempArray.push(value)
       setList1(tempArray)
+      tempArray=list2;
+      tempArray.push(value2)
+      setList2(tempArray)
+      tempArray=list3;
+      tempArray.push(value3)
+      setList3(tempArray)
       setListCount((listCount)=>listCount+1)
       //setList1(tempArray)
       }
@@ -802,10 +839,10 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
                 list1.map((item, index) => {
                   return <div key={index} style={{ boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.6)', borderRadius: '12px', backgroundColor: 'white', margin: '10px' }}>
                   
-                  <label>
+                  <label style={{padding: '10px'}}>
                     <p>{list1[index]}</p>
-                    <p>Symbol: </p>
-                    <p>Price value: </p>
+                    <p>Price value: {list2[index]}</p>
+                    <p>Change: {list3[index]}</p>
                     <button type="button" class="btn btn-primary" onClick={()=>stockListMulti(index, list1[index], 850, "TIME_SERIES_INTRADAY", 0)}>View stock</button>
                   
                   </label>
@@ -951,8 +988,8 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("NKE", 0)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, 'NKE', 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
-          <Button class="buttonSpacing" style={{color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as1, 0)}>Add to list</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, as1, 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as1, asP1, asC1)}>Add to list</Button>
           <br>
           </br></li>
           <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><img src={displayArray[1]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as2}</h5>
@@ -969,7 +1006,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("NKE", 0)}>About</Button>
           <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, 'NKE', 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
-          <Button class="buttonSpacing" style={{color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as2, 1)}>Add to list</Button>
+          <Button class="buttonSpacing" style={{color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as2, asP2, asC2)}>Add to list</Button>
           <br>
           </br></li>
           <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><img src={displayArray[2]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as3}</h5>
@@ -986,7 +1023,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("NKE", 0)}>About</Button>
           <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, 'NKE', 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
-          <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as3, 2)}>Add to list</Button>
+          <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as3, asP3, asC3)}>Add to list</Button>
           <br>
           </br></li>
           <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><img src={displayArray[3]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as4}</h5>
@@ -1002,8 +1039,8 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("NKE", 0)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, 'NKE', 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
-          <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as4, 3)}>Add to list</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, as3, 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as4, asP4, asC4)}>Add to list</Button>
           <br>
           </br></li>
           <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><img src={displayArray[4]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as5}</h5>
@@ -1020,7 +1057,92 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("NKE", 0)}>About</Button>
           <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, 'NKE', 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
-          <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as5, 4)}>Add to list</Button>
+          <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as6, asP6, asC6)}>Add to list</Button>
+          <br>
+          </br></li>
+          <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><img src={displayArray[4]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as6}</h5>
+        
+        <div class="card-text">
+        <p>
+          Price: {asP6}
+          <br />
+          Change: {asC6}
+        </p>
+  
+        
+        
+        </div>
+          <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("NKE", 0)}>About</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, 'NKE', 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as7, asP7, asC7)}>Add to list</Button>
+          <br>
+          </br></li>
+          <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><img src={displayArray[4]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as7}</h5>
+        
+        <div class="card-text">
+        <p>
+          Price: {asP7}
+          <br />
+          Change: {asC7}
+        </p>
+  
+        
+        
+        </div>
+          <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("NKE", 0)}>About</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, 'NKE', 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as7, asP7, asC7)}>Add to list</Button>
+          <br>
+          </br></li>
+          <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><img src={displayArray[4]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as8}</h5>
+        
+        <div class="card-text">
+        <p>
+          Price: {asP8}
+          <br />
+          Change: {asC8}
+        </p>
+  
+        
+        
+        </div>
+          <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("NKE", 0)}>About</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, 'NKE', 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as8, asP8, asC8)}>Add to list</Button>
+          <br>
+          </br></li>
+          <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><img src={displayArray[4]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as9}</h5>
+        
+        <div class="card-text">
+        <p>
+          Price: {asP9}
+          <br />
+          Change: {asC9}
+        </p>
+  
+        
+        
+        </div>
+          <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("NKE", 0)}>About</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, 'NKE', 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as9, asP9, asC9)}>Add to list</Button>
+          <br>
+          </br></li>
+          <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><img src={displayArray[4]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as10}</h5>
+        
+        <div class="card-text">
+        <p>
+          Price: {asP10}
+          <br />
+          Change: {asC10}
+        </p>
+  
+        
+        
+        </div>
+          <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("NKE", 0)}>About</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, 'NKE', 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as10, asP10, asC10)}>Add to list</Button>
           <br>
           </br></li>
   </ul>
@@ -1072,9 +1194,9 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
           <Modal.Footer>
           </Modal.Footer>
         </Modal>
-        <Card style={{width: '100%', height: '30%', flexDirection: 'right'}}>
-          <h3 style={{color: 'blue'}}>Get exchange rates here</h3>
-          <div style={{display: 'flex', gap: '10px'}}>
+        <Card style={{width: '100%', height: '20%', flexDirection: 'right'}}>
+          <h3 style={{color: 'blue'}}>Get current exchange rates here</h3>
+          <div style={{display: 'flex', gap: '10px', position: 'relative', left: '0%'}}>
           <Dropdown>
         <Dropdown.Toggle style={{backgroundColor: 'white', color: 'black', borderColor: 'black'}} variant="success" id="dropdown-basic">
          {currencyName[0]}
@@ -1108,10 +1230,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
   <br></br>
   <br></br>
   <br></br>
-  <br></br>
-  <br></br>
-  <br></br>
-  <br></br>
+  
   <button onClick={()=>getRate()}>Calculate rate</button>
   <br></br>
   <p>Result: {eRate}</p>
@@ -1189,7 +1308,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
       </div>
       <div>
       <h3 style={{color: 'blue'}}>Articles</h3>
-     <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%'}} class="col-lg-4 mb-3 d-flex align-items-stretch">
+     <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', gap: '10px'}} class="col-lg-4 mb-3 d-flex align-items-stretch">
      <Card style={{ width: '18rem' }}>
         <Card.Img variant="top" src={newsImage[0]} />
         <Card.Body>
@@ -1214,7 +1333,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
       
      </div>
      
-     <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%'}} class="col-lg-4 mb-3 d-flex align-items-stretch">
+     <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', gap: '10px'}} class="col-lg-4 mb-3 d-flex align-items-stretch">
      <Card style={{ width: '18rem' }}>
         <Card.Img variant="top" src={newsImage[3]} />
         <Card.Body>
@@ -1239,7 +1358,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
       
      </div>
      <div hidden={isHidden}>
-     <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%'}} class="col-lg-4 mb-3 d-flex align-items-stretch">
+     <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', gap: '10px'}} class="col-lg-4 mb-3 d-flex align-items-stretch">
      <Card style={{ width: '18rem' }}>
         <Card.Img variant="top" src={newsImage[6]} />
         <Card.Body>
@@ -1264,7 +1383,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
       
      </div>
      
-     <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%'}} class="col-lg-4 mb-3 d-flex align-items-stretch">
+     <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', gap: '10px'}} class="col-lg-4 mb-3 d-flex align-items-stretch">
      <Card style={{ width: '18rem' }}>
         <Card.Img variant="top" src={newsImage[9]} />
         <Card.Body>
