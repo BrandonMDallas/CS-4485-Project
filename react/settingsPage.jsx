@@ -20,6 +20,7 @@ import Axios from 'axios';
 import Accordion from 'react-bootstrap/Accordion';
 
 
+
 function stocksSetting() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -62,8 +63,17 @@ function stocksSetting() {
       <br></br>
     <h5>Account information</h5>
     <p>Change email</p>
+    <div style={{display: 'flex'}}>
+    <input type="text" 
+      class="form-control" placeholder='Type new email here...'/> <button type="submit">Change</button>
+    </div>
     
     <p>Change password</p>
+    <div style={{display: 'flex'}}>
+
+    <input type="text" 
+      class="form-control" placeholder='Type new password here...'/> <button type="submit">Change</button>
+    </div>
       </div>
     
    </Card>
