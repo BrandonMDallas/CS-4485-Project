@@ -144,8 +144,8 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
     }
   ])
   const[ques1, setQues1]=useState("What's the purpose of stocks?")
-  const[res1, setRes1]=useState("")
-  const API_KEY=""
+  const[res1, setRes1]=useState("Response will be displayed here.")
+  const API_KEY="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"
   /*const chatConfig={
     role: "system",
     content: "Respond in the form of a paragraph."
@@ -545,6 +545,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
       const [as1, setAs1]=useState("")
       const [asC1, setAsC1]=useState("")
       const [asP1, setAsP1]=useState("")
+      const [asS1, setAsS1]=useState("")
       const [as2, setAs2]=useState("")
       const [asC2, setAsC2]=useState("")
       const [asP2, setAsP2]=useState("")
@@ -590,6 +591,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
           setAs1(activeStocks[0])
           setAsC1(actStksChanges[0])
           setAsP1(actStksPrices[0])
+          setAsS1(actStksSymbols[0])
           setAs2(activeStocks[1])
           setAsC2(actStksChanges[1])
           setAsP2(actStksPrices[1])
@@ -1040,7 +1042,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         
         
         </div>
-          <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("NKE", 0)}>About</Button>
+          <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams(asS1, 0)}>About</Button>
           <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, as1, 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as1, asP1, asC1)}>Add to list</Button>
           <br>
@@ -1057,7 +1059,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         
         
         </div>
-          <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("NKE", 0)}>About</Button>
+          <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams(as2, 0)}>About</Button>
           <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, as2, 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as2, asP2, asC2)}>Add to list</Button>
           <br>
@@ -1074,7 +1076,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         
         
         </div>
-          <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("NKE", 0)}>About</Button>
+          <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams(as3, 0)}>About</Button>
           <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, as3, 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as3, asP3, asC3)}>Add to list</Button>
           <br>
@@ -1091,7 +1093,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         
         
         </div>
-          <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("NKE", 0)}>About</Button>
+          <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams(as4, 0)}>About</Button>
           <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, as4, 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as4, asP4, asC4)}>Add to list</Button>
           <br>
@@ -1108,7 +1110,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         
         
         </div>
-          <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("NKE", 0)}>About</Button>
+          <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams(as5, 0)}>About</Button>
           <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, as5, 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as6, asP6, asC6)}>Add to list</Button>
           <br>
@@ -1125,7 +1127,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         
         
         </div>
-          <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("NKE", 0)}>About</Button>
+          <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams(as6, 0)}>About</Button>
           <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, as6, 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as7, asP7, asC7)}>Add to list</Button>
           <br>
@@ -1230,6 +1232,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
           </Modal.Header>
           <Modal.Body>
             <form onSubmit={sendToAI}>
+              <div style={{display: 'flex'}}>
             <input placeholder='Type a question here...'
         type="text"
         class="form-control"
@@ -1237,7 +1240,12 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         onChange={(e) => setMessageValue(e.target.value)}
       />
       <button onClick={(e)=>chatDo(e)}>Ask</button>
-      <p>Response: {res1}</p>
+      </div>
+      <p fontSize='10px' class="lead">Response</p>
+      <div style={{ backgroundColor: 'white',
+    boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px'}}>
+      <p>{res1}</p>
+      </div>
             </form>
          
          <div class="modal-dialog modal-dialog-scrollable">
