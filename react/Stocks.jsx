@@ -41,6 +41,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 )
 
 
+
 /*const aiClient=new OpenAI({
   apiKey: API_KEY,
   dangerouslyAllowBrowser: true
@@ -50,6 +51,11 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
   //JSX doesn't recognize the for loop, we need to use the map function instead for iterating
   function StockFunc() {
     const [currencyName, setCurrencyName]=useState(["Currency 1", "Currency 2"])
+    const [videoId, setVideoId]=useState("")
+    const [videoId2, setVideoId2]=useState("")
+    const [videoId3, setVideoId3]=useState("")
+    const [videoId4, setVideoId4]=useState("")
+    const [videoId5, setVideoId5]=useState("")
     const currencyURL="https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=USD&to_currency=JPY&apikey=demo"
     const [eRate, seteRate]=useState("")
     async function getRate(){
@@ -58,6 +64,22 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         seteRate(response.data['Realtime Currency Exchange Rate']['5. Exchange Rate'])
         console.log("eRate ->", eRate)
         
+      } )
+    }
+    let videoIds=[]
+    async function getVideos(){
+      await Axios.get(`https://youtube.googleapis.com/youtube/v3/search?key=AIzaSyCZh-67g2M5u0LDKyXYHCTweVp1mjZDisU&part=snippet&q=stocks news`).then((response)=>{
+        const parsedData = JSON.parse(JSON.stringify(response));
+        console.log('From YOUTUBE: ', parsedData)
+        for (let i = 0; i < 5; i++) {
+            videoIds.push(parsedData.data.items[i].id.videoId)
+        }
+  console.log("VIDEO IDS ARRAY: ", videoIds)
+      setVideoId(videoIds[0])
+      setVideoId2(videoIds[1])
+      setVideoId3(videoIds[2])
+      setVideoId4(videoIds[3])
+      setVideoId5(videoIds[4])
       } )
     }
     const graphData=[1, 2, 3, 5, 8, 10, 67, 70];
@@ -241,6 +263,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         getStock(companies[5], 5, "TIME_SERIES_INTRADAY", 6);
         changeDataCond()
         getER()
+        getVideos();
         getNews();
     }, [])
    
@@ -582,9 +605,9 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
       //setList1(tempArray)
       }
        const displayArray = ["https://assets.parqet.com/logos/symbol/"+actStksSymbols[0]+"?format=png", "https://assets.parqet.com/logos/symbol/"+actStksSymbols[1]+"?format=png", "https://assets.parqet.com/logos/symbol/"+actStksSymbols[2]+"?format=png",
-       "https://assets.parqet.com/logos/symbol/"+actStksSymbols[8]+"?format=png", "https://assets.parqet.com/logos/symbol/"+actStksSymbols[4]+"?format=png", 
+       "https://assets.parqet.com/logos/symbol/"+actStksSymbols[3]+"?format=png", "https://assets.parqet.com/logos/symbol/"+actStksSymbols[4]+"?format=png", 
        "https://assets.parqet.com/logos/symbol/"+actStksSymbols[5]+"?format=png", "https://assets.parqet.com/logos/symbol/"+actStksSymbols[6]+"?format=png", 
-     "https://assets.parqet.com/logos/symbol/"+actStksSymbols[8]+"?format=png"];
+     "https://assets.parqet.com/logos/symbol/"+actStksSymbols[7]+"?format=png", "https://assets.parqet.com/logos/symbol/"+actStksSymbols[8]+"?format=png", "https://assets.parqet.com/logos/symbol/"+actStksSymbols[9]+"?format=png"];
        const handleChange = (value) => {
            setInputValue(value)
           //fetchInfo(value)
@@ -764,22 +787,20 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
     boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px', margin: '10px'}}>
       <img src="https://cdn-icons-png.freepik.com/512/3114/3114883.png" width="50px" height="50px"/>
       </div></Link> 
-      <Link to="/stocksSetting"><div style={{ position: 'fixed', right: '2.5%', backgroundColor: 'white',
+      <Link to="/stocksSetting"><div style={{ position: 'fixed', right: '10.5%', backgroundColor: 'white',
     boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px', margin: '10px'}}>
-       <img style={{backgroundColor: 'white'}} src="https://w7.pngwing.com/pngs/953/757/png-transparent-setting-3d-icon.png" width="50px" height="50px"/>
+       <img style={{backgroundColor: 'white'}} src="https://media.istockphoto.com/id/1416937202/vector/settings-or-gear-icon-cog-setting-vector-illustration.jpg?s=612x612&w=0&k=20&c=3vVNW4ssuNPwKUMT5HSMEbUlknZmp5FeEBF1eZTzJYA=" width="50px" height="50px"/>
       <br />Settings
       </div></Link>
-      <Link to="/profilePage"><div style={{ position: 'fixed', right: '7.5%', backgroundColor: 'white',
-    boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px', margin: '10px'}}>
       
-          <img  src="https://cdn-icons-png.flaticon.com/512/9815/9815472.png" width="50px" height="50px"/>
-      <br></br>Profile
-        </div></Link>
       
       </div>
-      <h1 className="modern-title mb-0" style={{fontSize: '60px'}}>StocksHub</h1>
-      </div>
+      <div style={{display: 'flex', gap: '500px'}}>
+      <h1 className="modern-title mb-0" style={{fontSize: '50px', textAlign: 'left'}}>Stocks Hub</h1>
       <p class="lead">Today's date and time: {displayDate} {currTime.toLocaleTimeString()}</p>
+  </div>
+      </div>
+      <br></br>
       <div style={{display: 'flex', gap: '10px'}}>
   
       
@@ -819,6 +840,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
             <Modal.Title>What do you need help with?</Modal.Title>
           </Modal.Header>
           <Modal.Body>
+          
          <Link to="/whatStock"><button>What stock to invest in</button></Link>
          <Link to="/aifinance"> <button>How well I'm doing with my finances so far</button></Link>
           <Link to="/improveStocks"><button>How I can improve my investing</button></Link>
@@ -862,10 +884,10 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
    
      
        <li class="nav-item" style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-        <a style={{backgroundColor: 'white', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}} class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true" onClick={()=>updateData(companies[currentGIndex], 1, "TIME_SERIES_INTRADAY", 1)}>View by recent hours</a>
-        <a style={{backgroundColor: 'white', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(companies[currentGIndex], 2, "TIME_SERIES_DAILY", 1)}>View by recent week</a>
-        <a style={{backgroundColor: 'white', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(companies[currentGIndex], 3, "TIME_SERIES_MONTHLY", 1)}>View by recent dates</a>
-        <a style={{backgroundColor: 'white', color: 'black', borderWidth: '2px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(companies[currentGIndex], 4, "TIME_SERIES_ADJUSTED", 1)}>View all data</a>
+        <a style={{backgroundColor: 'white', color: 'black', borderWidth: '1px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}} class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true" onClick={()=>updateData(companies[currentGIndex], 1, "TIME_SERIES_INTRADAY", 1)}>View by recent hours</a>
+        <a style={{backgroundColor: 'white', color: 'black', borderWidth: '1px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(companies[currentGIndex], 2, "TIME_SERIES_DAILY", 1)}>View by recent week</a>
+        <a style={{backgroundColor: 'white', color: 'black', borderWidth: '1px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(companies[currentGIndex], 3, "TIME_SERIES_MONTHLY", 1)}>View by recent dates</a>
+        <a style={{backgroundColor: 'white', color: 'black', borderWidth: '1px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(companies[currentGIndex], 4, "TIME_SERIES_ADJUSTED", 1)}>View all data</a>
   
       </li>
   }
@@ -1005,7 +1027,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("NKE", 0)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, 'NKE', 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, as2, 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as2, asP2, asC2)}>Add to list</Button>
           <br>
           </br></li>
@@ -1022,7 +1044,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("NKE", 0)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, 'NKE', 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, as3, 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as3, asP3, asC3)}>Add to list</Button>
           <br>
           </br></li>
@@ -1039,7 +1061,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("NKE", 0)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, as3, 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, as4, 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as4, asP4, asC4)}>Add to list</Button>
           <br>
           </br></li>
@@ -1056,11 +1078,11 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("NKE", 0)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, 'NKE', 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, as5, 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as6, asP6, asC6)}>Add to list</Button>
           <br>
           </br></li>
-          <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><img src={displayArray[4]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as6}</h5>
+          <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><img src={displayArray[5]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as6}</h5>
         
         <div class="card-text">
         <p>
@@ -1073,11 +1095,11 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("NKE", 0)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, 'NKE', 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, as6, 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as7, asP7, asC7)}>Add to list</Button>
           <br>
           </br></li>
-          <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><img src={displayArray[4]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as7}</h5>
+          <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><img src={displayArray[6]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as7}</h5>
         
         <div class="card-text">
         <p>
@@ -1090,11 +1112,11 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("NKE", 0)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, 'NKE', 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, as7, 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as7, asP7, asC7)}>Add to list</Button>
           <br>
           </br></li>
-          <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><img src={displayArray[4]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as8}</h5>
+          <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><img src={displayArray[7]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as8}</h5>
         
         <div class="card-text">
         <p>
@@ -1107,11 +1129,11 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("NKE", 0)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, 'NKE', 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, as8, 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as8, asP8, asC8)}>Add to list</Button>
           <br>
           </br></li>
-          <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><img src={displayArray[4]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as9}</h5>
+          <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><img src={displayArray[8]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as9}</h5>
         
         <div class="card-text">
         <p>
@@ -1124,11 +1146,11 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("NKE", 0)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, 'NKE', 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, as9, 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as9, asP9, asC9)}>Add to list</Button>
           <br>
           </br></li>
-          <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><img src={displayArray[4]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as10}</h5>
+          <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><img src={displayArray[9]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as10}</h5>
         
         <div class="card-text">
         <p>
@@ -1141,7 +1163,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams("NKE", 0)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, 'NKE', 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, as10, 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as10, asP10, asC10)}>Add to list</Button>
           <br>
           </br></li>
@@ -1196,7 +1218,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         </Modal>
         <Card style={{width: '100%', height: '20%', flexDirection: 'right'}}>
           <h3 style={{color: 'blue'}}>Get current exchange rates here</h3>
-          <div style={{display: 'flex', gap: '10px', position: 'relative', left: '0%'}}>
+          <div style={{display: 'flex', gap: '10px', position: 'relative', marginLeft: 'auto', marginRight: 'auto'}}>
           <Dropdown>
         <Dropdown.Toggle style={{backgroundColor: 'white', color: 'black', borderColor: 'black'}} variant="success" id="dropdown-basic">
          {currencyName[0]}
@@ -1240,65 +1262,54 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
       <h2>Latest in news</h2>
       <div style={{display: 'flex', gap: '13px'}}>
       <div>
-        <h3 style={{color: 'blue'}}>Videos related to {currentGraph}</h3>
+        <h3 style={{color: 'blue', display: 'block'}}>Videos related to {currentGraph}</h3>
         <div>
         
-        <Card className="text-center">
-        <Card.Header>Featured</Card.Header>
-        <Card.Body>
-          <Card.Title>Special title treatment</Card.Title>
-          <Card.Text>
-            With supporting text below as a natural lead-in to additional content.
-          </Card.Text>
-          <Button variant="primary">Go somewhere</Button>
-        </Card.Body>
-        <Card.Footer className="text-muted">2 days ago</Card.Footer>
-      </Card>
-      <Card className="text-center">
-        <Card.Header>Featured</Card.Header>
-        <Card.Body>
-          <Card.Title>Special title treatment</Card.Title>
-          <Card.Text>
-            With supporting text below as a natural lead-in to additional content.
-          </Card.Text>
-          <Button variant="primary">Go somewhere</Button>
-        </Card.Body>
-        <Card.Footer className="text-muted">2 days ago</Card.Footer>
-      </Card>
-      <Card className="text-center">
-        <Card.Header>Featured</Card.Header>
-        <Card.Body>
-          <Card.Title>Special title treatment</Card.Title>
-          <Card.Text>
-            With supporting text below as a natural lead-in to additional content.
-          </Card.Text>
-          <Button variant="primary">Go somewhere</Button>
-        </Card.Body>
-        <Card.Footer className="text-muted">2 days ago</Card.Footer>
-      </Card>
-      <Card className="text-center">
-        <Card.Header>Featured</Card.Header>
-        <Card.Body>
-          <Card.Title>Special title treatment</Card.Title>
-          <Card.Text>
-            With supporting text below as a natural lead-in to additional content.
-          </Card.Text>
-          <Button variant="primary">Go somewhere</Button>
-        </Card.Body>
-        <Card.Footer className="text-muted">2 days ago</Card.Footer>
-      </Card>
-      <Card className="text-center">
-        <Card.Header>Featured</Card.Header>
-        <Card.Body>
-          <Card.Title>Special title treatment</Card.Title>
-          <Card.Text>
-            With supporting text below as a natural lead-in to additional content.
-          </Card.Text>
-          <Button variant="primary">Go somewhere</Button>
-        </Card.Body>
-        <Card.Footer className="text-muted">2 days ago</Card.Footer>
-      </Card>
-        
+        <iframe
+    width="560"
+    height="315"
+    src={`https://www.youtube.com/embed/${videoId}`}
+    title="YouTube video player"
+    frameBorder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowFullScreen
+  ></iframe>
+  <iframe
+    width="560"
+    height="315"
+    src={`https://www.youtube.com/embed/${videoId2}`}
+    title="YouTube video player"
+    frameBorder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowFullScreen
+  ></iframe>
+  <iframe
+    width="560"
+    height="315"
+    src={`https://www.youtube.com/embed/${videoId3}`}
+    title="YouTube video player"
+    frameBorder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowFullScreen
+  ></iframe>
+  <iframe
+    width="560"
+    height="315"
+    src={`https://www.youtube.com/embed/${videoId4}`}
+    title="YouTube video player"
+    frameBorder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowFullScreen
+  ></iframe>
+  <iframe
+    width="560"
+    height="315"
+    src={`https://www.youtube.com/embed/${videoId5}`}
+    title="YouTube video player"
+    frameBorder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowFullScreen
+  ></iframe>
         
           
        
