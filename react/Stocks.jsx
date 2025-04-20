@@ -17,7 +17,7 @@ import {createElement} from 'react';
 import Axios from 'axios';
 import AiFinance from './aiFinance.jsx'
 import ProfilePage from './profilePage.jsx'
-import StocksSettings from './stocksSettings.jsx'
+import StocksSettings from './settingsPage.jsx'
 import { Line } from 'react-chartjs-2';
 import Table from 'react-bootstrap/Table';
 //import './App.jsx'
@@ -39,8 +39,6 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
   LineElement,
   PointElement,
 )
-
-
 
 /*const aiClient=new OpenAI({
   apiKey: API_KEY,
@@ -140,28 +138,61 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         }
       })
   }
+  const [messageArray, setMessageArray]=useState([
+    {
+      message: ""
+    }
+  ])
   const[ques1, setQues1]=useState("What's the purpose of stocks?")
   const[res1, setRes1]=useState("")
-  const API_KEY="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"
-  const chatDo=(event)=>{
+  const API_KEY=""
+  /*const chatConfig={
+    role: "system",
+    content: "Respond in the form of a paragraph."
+  }
+  const apiRB={
+    "model": "gpt-3.5-turbo",
+    "messages": messageV
+  }*/
+  const [messageValue, setMessageValue]=useState("What is a good sport to play?")
+  async function chatDo(event){
     event.preventDefault()
     const options={
       method: "POST",
+      headers: {
+          "Authorization": `Bearer ${API_KEY}`,
+          "Content-Type": "application/json",  
+      },
+      body: JSON.stringify({
+          model: "gpt-3.5-turbo",
+          messages: [{role: "user", content: messageValue}],
+          max_tokens: 100,  //every text prompt is tokenized
+          
+      })
+  }
+    await fetch("https://api.openai.com/v1/chat/completions", options).then((res)=>{
+      return res.json()
+    }).then((res)=>{
+      console.log("AI SAYS:", res)
+      setRes1(res.choices[0].message.content)
+    })
+    /*const options={
+      method: "POST",
       
       body: JSON.stringify({
-          message: "Why learn about stocks?",
+          message: messageV,
       }),
       headers: {
         "Content-Type": "application/json",  
     }
   }
-    axios.post("http://localhost:8000/route1", options).then((res)=>{
+    axios.post("http://localhost:8000/route1", {messageV}).then((res)=>{
       console.log(res.data.choices[0].message.content)
   
-      setRes1(res.data.choices[0].message.content)
+      setRes1(res.data)
     }).catch((err)=>{
       console.error(err)
-    })
+    })*/
   }
     const [count, setCount] = useState(0)
     const [listCount, setListCount]=useState(0)
@@ -796,7 +827,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
       
       </div>
       <div style={{display: 'flex', gap: '500px'}}>
-      <h1 className="modern-title mb-0" style={{fontSize: '50px', textAlign: 'left'}}>Stocks Hub</h1>
+      <h1 class="quicksand-moreNewsStyle" style={{fontSize: '50px', textAlign: 'left', color: 'blue'}}>StocksHub</h1>
       <p class="lead">Today's date and time: {displayDate} {currTime.toLocaleTimeString()}</p>
   </div>
       </div>
@@ -808,7 +839,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         <div style={{width: '100%'}}>
         <div class="yourSection" style={{ backgroundColor: 'white',
     boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px'}}>
-          <h2>Stock data</h2>
+          <h6 class="h6" style={{ fontWeight: 'bold', fontSize: '30px' }}>Stock data</h6>
           <button variant="primary" onClick={handleShow} style={{ display: 'block', margin:'auto', float: 'right'}}>
           Edit list below
         </button>
@@ -956,7 +987,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
           
           <br></br>
           <div class="card">
-          <h2>View more stocks</h2>
+          <h6 class="h6" style={{ fontWeight: 'bold', fontSize: '30px' }}>View more stocks</h6>
     <div class="card-body">
       Here's a list of some of the currently most active stocks 
     </div>
@@ -1192,18 +1223,18 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         
   
         
-      <button class="aiButton" style={{borderRadius: '8px'}} onClick={handleShow3}><img style={{borderRadius: '8px'}} src="https://static.vecteezy.com/system/resources/previews/004/639/658/non_2x/sun-icon-on-white-background-vector.jpg" width="250px" height="150px"/> <br></br>Ask AI assistant for investing advice</button>
+      <button class="aiButton" style={{borderRadius: '8px'}} onClick={handleShow3}><img style={{borderRadius: '8px'}} src="https://static.vecteezy.com/system/resources/previews/004/639/658/non_2x/sun-icon-on-white-background-vector.jpg" width="250px" height="150px"/> <br></br>Ask AI assistant a question</button>
       <Modal show={show3} onHide={handleClose3}>
           <Modal.Header closeButton>
             <Modal.Title>Ask AI a question</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <form onSubmit={sendToAI}>
-            <input placeholder='Type to search...'
+            <input placeholder='Type a question here...'
         type="text"
         class="form-control"
-        value={inputValue}
-        onChange={(e) => handleChange(e.target.value)}
+        value={messageValue}
+        onChange={(e) => setMessageValue(e.target.value)}
       />
       <button onClick={(e)=>chatDo(e)}>Ask</button>
       <p>Response: {res1}</p>
@@ -1259,7 +1290,9 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
       </Card>
       </div>
       </div>
-      <h2>Latest in news</h2>
+      <br></br>
+      <br></br>
+      <h6 class="h6" style={{ fontWeight: 'bold', fontSize: '30px' }}>Latest in news</h6>
       <div style={{display: 'flex', gap: '13px'}}>
       <div>
         <h3 style={{color: 'blue', display: 'block'}}>Videos related to {currentGraph}</h3>
