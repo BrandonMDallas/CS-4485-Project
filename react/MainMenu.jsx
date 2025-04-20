@@ -24,6 +24,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+
 function MyComponent() {
   /*let navigate = useNavigate();
 
@@ -223,15 +224,68 @@ boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10
   </InputGroup>
   </Tab>
   <Tab eventKey="settings" title="Settings">
-  <div class="form-check form-switch">
-<input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" />
-<label class="form-check-label" for="flexSwitchCheckChecked">Pages in dark mode</label>
-<br></br>
-<input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" />
-<label class="form-check-label" for="flexSwitchCheckChecked">AI Assistant On/Off</label>
-<br></br>
-<button>Allow AI Assistant to use some of your information</button>
+  <div style={{display: 'flex', gap: '20px', height: '500px'}}>
+<Card style={{width: '400px', boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)'}}>
+  <div style={{display: 'flex'}}>
+<img src="https://www.svgrepo.com/show/131974/settings.svg" alt="Logo" width="50" height="50" style={{position: 'relative', top: '0px', left: '0px'}} />
 
+<h3 style={{position: 'relative', marginLeft: '20%', marginRight: '60%'}}>General</h3>
+</div>
+<div style={{textAlign: 'left'}}>
+  <br></br>
+  <br></br>
+  <h5>Page display</h5>
+  <Form>
+  <Form.Check // prettier-ignore
+    type="switch"
+    id="custom-switch"
+    label="Dark mode"
+  />
+  </Form>
+</div>
+</Card>
+<Card style={{width: '400px', boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)'}}>
+<div style={{display: 'flex'}}>
+<img style={{position: 'relative', top: '0px', left: '0px'}} src="https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg" alt="Logo" width="50px" height="50px"/>
+<h3 style={{position: 'relative', marginLeft: '20%', marginRight: '60%'}}>Profile</h3>
+</div>
+<div style={{textAlign: 'left'}}>
+  <br></br>
+  <br></br>
+<h5>Account information</h5>
+<p>Change email</p>
+<div style={{display: 'flex', gap: '3px'}}>
+<input type="text" 
+  class="form-control" placeholder='Type new email here...'/> <button type="submit">Change</button>
+</div>
+
+<p>Change password</p>
+<div style={{display: 'flex', gap: '3px'}}>
+
+<input type="text" 
+  class="form-control" placeholder='Type new password here...'/> <button type="submit">Change</button>
+</div>
+  </div>
+
+</Card>
+<Card style={{width: '400px', boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)'}}>
+<div style={{display: 'flex'}}>
+
+<img src="https://static.vecteezy.com/system/resources/thumbnails/025/785/710/small_2x/cute-robot-head-icon-logo-design-illustration-bot-robotic-logo-for-business-design-template-with-futuristic-flat-black-minimalist-style-isolated-on-white-background-vector.jpg" style={{position: 'relative', top: '0px', left: '0px'}} alt="Logo" width="50px" height="50px" />
+<h3 style={{position: 'relative', marginLeft: '20%', marginRight: '60%'}}>AI Assistant</h3>
+</div>
+<div style={{textAlign: 'left'}}>
+  <br></br>
+<h5>AI functionality</h5>
+<Form>
+  <Form.Check // prettier-ignore
+    type="switch"
+    id="custom-switch"
+    label="On/Off"
+  />
+  </Form>
+  </div>
+</Card>
 </div>
 
   </Tab>
