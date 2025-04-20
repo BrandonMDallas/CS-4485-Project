@@ -33,7 +33,7 @@ function stocksSetting() {
     <h1 class="display-5">Settings for The Hub</h1>
 <br />
     <div style={{display: 'flex', gap: '20px', height: '500px'}}>
-    <Card style={{width: '400px'}}>
+    <Card style={{width: '400px', boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)'}}>
       <div style={{display: 'flex'}}>
     <img src="https://www.svgrepo.com/show/131974/settings.svg" alt="Logo" width="50" height="50" style={{position: 'relative', top: '0px', left: '0px'}} />
 
@@ -52,7 +52,7 @@ function stocksSetting() {
       </Form>
     </div>
    </Card>
-   <Card style={{width: '400px'}}>
+   <Card style={{width: '400px', boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)'}}>
    <div style={{display: 'flex'}}>
    <img style={{position: 'relative', top: '0px', left: '0px'}} src="https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg" alt="Logo" width="50px" height="50px"/>
    <h3 style={{position: 'relative', marginLeft: '20%', marginRight: '60%'}}>Profile</h3>
@@ -67,7 +67,7 @@ function stocksSetting() {
       </div>
     
    </Card>
-   <Card style={{width: '400px'}}>
+   <Card style={{width: '400px', boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)'}}>
    <div style={{display: 'flex'}}>
 
    <img src="https://static.vecteezy.com/system/resources/thumbnails/025/785/710/small_2x/cute-robot-head-icon-logo-design-illustration-bot-robotic-logo-for-business-design-template-with-futuristic-flat-black-minimalist-style-isolated-on-white-background-vector.jpg" style={{position: 'relative', top: '0px', left: '0px'}} alt="Logo" width="50px" height="50px" />
