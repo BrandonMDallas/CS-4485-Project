@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
 import ReactDOM from 'react-dom/client';
 import './src/App.css'
 import 'https://cdn.jsdelivr.net/npm/chart.js'
@@ -102,20 +101,3 @@ function stocksSetting() {
 }
 export default stocksSetting;
 
-/**
- * <div style={{height: '100%', width: '190px', padding: '20px', position: 'fixed', zIndex: '1', top: '0', left:'0', backgroundColor:'lightgray'}}>
-<h2 style={{fontFamily: 'Arial'}}>Settings</h2>
-<br></br>
-<br></br>
-
-<div>
-
-<a style={{padding: '6px 8px 30px 16px', fontSize: '15px', display: 'block'}} class="navbar-brand"> <img src="https://www.svgrepo.com/show/131974/settings.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top" />General</a>
-<a style={{padding: '6px 8px 30px 16px', fontSize: '15px', display: 'block'}} class="navbar-brand"><img src="https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top"/>Profile</a>
-<a style={{padding: '6px 8px 30px 16px', fontSize: '15px', display: 'block'}} class="navbar-brand"><img src="https://png.pngitem.com/pimgs/s/179-1798236_bot-icon-hd-png-download.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top" />AI Assistant</a>
-</div>
-   </div>
-      <div style={{display: 'block', textAlign: 'left'}}>
-        Dark mode
-      </div>
- */
