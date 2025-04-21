@@ -40,6 +40,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
   PointElement,
 )
 
+
 /*const aiClient=new OpenAI({
   apiKey: API_KEY,
   dangerouslyAllowBrowser: true
@@ -207,7 +208,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
   ])
   const[ques1, setQues1]=useState("What's the purpose of stocks?")
   const[res1, setRes1]=useState("Response will be displayed here.")
-  const API_KEY="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"
+  const API_KEY=""
   /*const chatConfig={
     role: "system",
     content: "Respond in the form of a paragraph."
@@ -748,7 +749,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
              srArrayName.push(parsedData.data[i].name)
                srArraySymbol.push(parsedData.data[i].symbol)
           }
-            console.log("PARSED DATA: ", parsedData.data.length)
+            console.log("PARSED DATA: ", parsedData)
         console.log("SEARCH RESULT 1: ", srArrayName)
           console.log("SEARCH RESULT 2: ", srArraySymbol)
           setSrS1(srArrayName[0])
@@ -954,7 +955,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
     boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px'}}>
           <h6 class="h6" style={{ fontWeight: 'bold', fontSize: '30px' }}>Stock data</h6>
           <button variant="primary" onClick={handleShow} style={{ display: 'block', margin:'auto', float: 'right', borderRadius: '10px'}}>
-          Edit list below
+          Edit Favorites List
         </button>
   <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
@@ -999,7 +1000,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
   <br></br>
   <div style={{ borderRadius: "12px", backgroundColor: 'white',
     boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)'}}>
-  <p class="lead" style={{position: 'absolute', left: '32.5%', right: '50%'}}>Your stocks</p><br /><br />
+  <p class="lead" style={{position: 'absolute', left: '32.5%', right: '50%'}}>Favorites List</p><br /><br />
   <div  style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
   {
                 list1.map((item, index) => {
@@ -1101,7 +1102,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
           <br></br>
           <div style={{ backgroundColor: 'white',
     boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px'}}>
-          <h6 class="h6" style={{ fontWeight: 'bold', fontSize: '30px' }}>View more stocks</h6>
+          <h6 class="h6" style={{ fontWeight: 'bold', fontSize: '30px' }}>Top 10 currently active stocks</h6>
     <div class="card-body">
       Here's a list of some of the currently most active stocks 
     </div>
@@ -1133,13 +1134,13 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
           </form>
           <div hidden={searchHidden} class="results-list" >
               {
-                <ul>
-                  <li>{srS1}</li>
-                  <li>{srS2}</li>
-                  <li>{srS3}</li>
-                  <li>{srS4}</li>
-                  <li>{srS5}</li>
-                  <li>{srS6}</li>
+                <ul class="list-group" style={{borderColor: 'black'}}>
+                  <li class="list-group item" style={{display: 'flex'}}>{srS1} <Button onClick={()=>addLike(srS1, 0, 1)}>Add to list</Button></li>
+                  <li class="list-group item" style={{display: 'flex'}}>{srS2} <Button onClick={()=>addLike(srS2, 0, 1)}>Add to list</Button></li>
+                  <li class="list-group item" style={{display: 'flex'}}>{srS3} <Button onClick={()=>addLike(srS3, 0, 1)}>Add to list</Button></li>
+                  <li class="list-group item" style={{display: 'flex'}}>{srS4} <Button onClick={()=>addLike(srS4, 0, 1)}>Add to list</Button></li>
+                  <li class="list-group item" style={{display: 'flex'}}>{srS5} <Button onClick={()=>addLike(srS5, 0, 1)}>Add to list</Button></li>
+                  <li class="list-group item" style={{display: 'flex'}}>{srS6} <Button onClick={()=>addLike(srS6, 0, 1)}>Add to list</Button></li>
                 </ul>
                 /*activeStocks.map((result, index) => {
                   return <div className="searchResult" key={index} onClick={() => getResultMulti(result, srArraySymbol[index])}>{result}</div>
@@ -1369,7 +1370,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
       </div>
       <p fontSize='10px' class="lead">Response</p>
       <div style={{ backgroundColor: 'white',
-    boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px'}}>
+    boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px'}}>
       <p>{res1}</p>
       </div>
             </form>
@@ -1646,7 +1647,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
       
   
      </div>
-     <Link to="/moreNews" onClick={()=>addMoreNews()}><button>View more news</button></Link>
+     <Link to="/moreNews" onClick={()=>addMoreNews()}><button style={{borderRadius: '10px'}}>View more news</button></Link>
      </div>
      <button style={{borderRadius: '10px'}} hidden={isHidden2} onClick={() => changeHidden()}>View more news</button>
      </div>
@@ -1736,4 +1737,3 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
    */
   //For automatic scrolling: window.scrollTo(500, 0);
   export default StockFunc
-  
