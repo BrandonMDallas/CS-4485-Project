@@ -41,6 +41,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 )
 
 function StockFunc() {
+  const [disabledV, setDisabledV]=useState([false, false, false, false, false, false, false, false, false, false])
   const [as1, setAs1]=useState("")
     const [asC1, setAsC1]=useState("")
     const [asP1, setAsP1]=useState("")
@@ -92,7 +93,7 @@ function StockFunc() {
   const currencyURL="https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=USD&to_currency=JPY&apikey=demo"
   const [eRate, seteRate]=useState("")
   async function getRate(){
-    await Axios.get(`https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${currencyName[0]}&to_currency=${currencyName[1]}&apikey=demo`).then((response)=>{
+    await Axios.get(`https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${currencyName[0]}&to_currency=${currencyName[1]}&apikey=32C6KJ3LT0U5QPAN`).then((response)=>{
       console.log("Currency response data ->", response.data)
       seteRate(response.data['Realtime Currency Exchange Rate']['5. Exchange Rate'])
       console.log("eRate ->", eRate)
@@ -101,7 +102,7 @@ function StockFunc() {
   }
   let videoIds=[]
   async function getVideos(){
-    await Axios.get(`https://youtube.googleapis.com/youtube/v3/search?key=demo&part=snippet&q=stocks news`).then((response)=>{
+    await Axios.get(`https://youtube.googleapis.com/youtube/v3/search?key=AIzaSyCZh-67g2M5u0LDKyXYHCTweVp1mjZDisU&part=snippet&q=stocks news`).then((response)=>{
       const parsedData = JSON.parse(JSON.stringify(response));
       console.log('From YOUTUBE: ', parsedData)
       for (let i = 0; i < 5; i++) {
@@ -122,7 +123,7 @@ console.log("VIDEO IDS ARRAY: ", videoIds)
   const [relatedVideoId4, setRelatedVideoId4]=useState("")
   const [relatedVideoId5, setRelatedVideoId5]=useState("")
   async function getRelatedVideos(value){
-    await Axios.get(`https://youtube.googleapis.com/youtube/v3/search?key=demo&part=snippet&q=stocks news ${value}`).then((response)=>{
+    await Axios.get(`https://youtube.googleapis.com/youtube/v3/search?key=AIzaSyCZh-67g2M5u0LDKyXYHCTweVp1mjZDisU&part=snippet&q=stocks news ${value}`).then((response)=>{
       const parsedData = JSON.parse(JSON.stringify(response));
       console.log('From YOUTUBE RELATED: ', parsedData)
       for (let i = 0; i < 5; i++) {
@@ -287,7 +288,7 @@ var volumePoints=[];
     }else if(value3==="TIME_SERIES_MONTHLY"){
       value5="Monthly"
     }
-   await Axios.get(`https://www.alphavantage.co/query?function=${value3}&symbol=${value}&${value4}outputsize=full&apikey=demo`).then((response)=>{
+   await Axios.get(`https://www.alphavantage.co/query?function=${value3}&symbol=${value}&${value4}outputsize=full&apikey=32C6KJ3LT0U5QPAN`).then((response)=>{
     console.log("Response: ", response)
     console.log("value of comp: ", value);
     let array1=[]
@@ -358,7 +359,7 @@ setDataPoints3(array1)
  
   const [descV, setDescV]=useState("")
   async function getComp(value){
-    await Axios.get(`https://www.alphavantage.co/query?function=OVERVIEW&symbol=${value}&apikey=demo`).then((response)=>{
+    await Axios.get(`https://www.alphavantage.co/query?function=OVERVIEW&symbol=${value}&apikey=32C6KJ3LT0U5QPAN`).then((response)=>{
       const parsedData = JSON.parse(JSON.stringify(response));
       setDescV(parsedData.data.Description)
     
@@ -561,7 +562,7 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
   
 
   };
-  const [currentGraph, setCurrentGraph]=useState("general stocks")
+  const [currentGraph, setCurrentGraph]=useState("(no stock has been selected)")
   /*useEffect(()=>{
     getVideos();
   }, [currentGraph])*/
@@ -647,7 +648,7 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
     let tempArray10=[];
 
     async function changeDataCond (){
-      await Axios.get(`https://financialmodelingprep.com/api/v3/stock_market/actives?apikey=demo`).then((response)=>{
+      await Axios.get(`https://financialmodelingprep.com/api/v3/stock_market/actives?apikey=xN4lrLuDYQNI6EV4mSbwXUZY7xek4Fj7`).then((response)=>{
         const parsedData = JSON.parse(JSON.stringify(response));
         console.log("Most active stocks: ", parsedData)
         console.log("Heres an active NAME: ", parsedData.data[0].name)
@@ -666,12 +667,17 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
         setAs2(activeStocks[1])
         setAsC2(actStksChanges[1])
         setAsP2(actStksPrices[1])
+        setAsS2(actStksSymbols[1])
         setAs3(activeStocks[2])
         setAsC3(actStksChanges[2])
         setAsP3(actStksPrices[2])
+        setAsS3(actStksSymbols[2])
+
         setAs4(activeStocks[3])
         setAsC4(actStksChanges[3])
         setAsP4(actStksPrices[3])
+        setAsS4(actStksSymbols[3])
+
         setAs5(activeStocks[4])
         setAsC5(actStksChanges[4])
         setAsP5(actStksPrices[4])
@@ -679,18 +685,28 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
         setAs6(activeStocks[5])
         setAsC6(actStksChanges[5])
         setAsP6(actStksPrices[5])
+        setAsS6(actStksSymbols[5])
+
         setAs7(activeStocks[6])
         setAsC7(actStksChanges[6])
         setAsP7(actStksPrices[6])
+        setAsS7(actStksSymbols[6])
+
         setAs8(activeStocks[7])
         setAsC8(actStksChanges[7])
         setAsP8(actStksPrices[7])
+        setAsS8(actStksSymbols[7])
+
         setAs9(activeStocks[8])
         setAsC9(actStksChanges[8])
         setAsP9(actStksPrices[8])
+        setAsS9(actStksSymbols[8])
+
         setAs10(activeStocks[9])
         setAsC10(actStksChanges[9])
         setAsP10(actStksPrices[9])
+        setAsS10(actStksSymbols[9])
+
         tempArray10=activeStocks;
       }
     )
@@ -732,10 +748,16 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
      const [srS4, setSrS4]=useState("")
      const [srS5, setSrS5]=useState("")
      const [srS6, setSrS6]=useState("")
+     const [srSS1, setSrSS1]=useState("")
+     const [srSS2, setSrSS2]=useState("")
+     const [srSS3, setSrSS3]=useState("")
+     const [srSS4, setSrSS4]=useState("")
+     const [srSS5, setSrSS5]=useState("")
+     const [srSS6, setSrSS6]=useState("")
      async function getSR(event){
       event.preventDefault();
       setSearchHidden(false)
-        await Axios.get(`https://financialmodelingprep.com/api/v3/search?query=${inputValue}&apikey=demo`).then((response)=>{
+        await Axios.get(`https://financialmodelingprep.com/api/v3/search?query=${inputValue}&apikey=xN4lrLuDYQNI6EV4mSbwXUZY7xek4Fj7`).then((response)=>{
           const parsedData = JSON.parse(JSON.stringify(response));
          for (let i = 0; i < parsedData.data.length; i++) {
            srArrayName.push(parsedData.data[i].name)
@@ -750,6 +772,13 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
         setSrS4(srArrayName[3])
         setSrS5(srArrayName[4])
         setSrS6(srArrayName[5])
+
+        setSrSS1(srArraySymbol[0])
+        setSrSS2(srArraySymbol[1])
+        setSrSS3(srArraySymbol[2])
+        setSrSS4(srArraySymbol[3])
+        setSrSS5(srArraySymbol[4])
+        setSrSS6(srArraySymbol[5])
         }
       )
        
@@ -804,7 +833,7 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
   const [lER, setlER]=useState("")
   const [rER, setrER]=useState("")
   async function getER(){
-    await Axios.get("https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=NKE&apikey=demo").then((response)=> {
+    await Axios.get("https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=NKE&apikey=32C6KJ3LT0U5QPAN").then((response)=> {
       try{
         const parsedData = JSON.parse(JSON.stringify(response));
         console.log("Exchange rates", parsedData)
@@ -920,32 +949,46 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
    <div style={{ backgroundColor: 'white',
   boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px'}}>
     <div style={{ display: 'flex', flexDirection: 'row'}}>
-    <Link to="/"><div style={{ position: 'fixed', left: '10%', backgroundColor: 'white',
+    
+    
+    
+    
+    </div>
+    <div style={{display: 'flex', gap: '400px'}}>
+    <div style={{display: 'flex'}}>
+    <Link to="/"><div style={{ backgroundColor: 'white',
   boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px', margin: '10px'}}>
     <img src="https://cdn-icons-png.freepik.com/512/3114/3114883.png" width="50px" height="50px"/>
-    </div></Link> 
-    <Link to="/stocksSetting"><div style={{ position: 'fixed', right: '10.5%', backgroundColor: 'white',
+    </div></Link>
+    <div style={{display: 'flex', gap:'770px'}}>
+ 
+    <h1 class="quicksand-moreNewsStyle" style={{fontSize: '50px', textAlign: 'left', color: 'blue'}}>StocksHub</h1>
+    <Link to="/stocksSetting"><div style={{backgroundColor: 'white',
   boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px', margin: '10px'}}>
      <img style={{backgroundColor: 'white'}} src="https://media.istockphoto.com/id/1416937202/vector/settings-or-gear-icon-cog-setting-vector-illustration.jpg?s=612x612&w=0&k=20&c=3vVNW4ssuNPwKUMT5HSMEbUlknZmp5FeEBF1eZTzJYA=" width="50px" height="50px"/>
     <br />Settings
     </div></Link>
-    
-    
     </div>
-    <div style={{display: 'flex', gap: '500px'}}>
-    <h1 class="quicksand-moreNewsStyle" style={{fontSize: '50px', textAlign: 'left', color: 'blue'}}>StocksHub</h1>
-    <p class="lead">Today's date and time: {displayDate} {currTime.toLocaleTimeString()}</p>
 </div>
     </div>
+    
+
+    </div>
+    <br></br>
+    <p class="lead">Today's date and time: {displayDate} {currTime.toLocaleTimeString()}</p>
     <br></br>
     <div style={{display: 'flex', gap: '10px'}}>
 
     
     
       <div style={{width: '100%'}}>
+        
       <div class="yourSection" style={{ backgroundColor: 'white',
   boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px'}}>
-        <h6 class="h6" style={{ fontWeight: 'bold', fontSize: '30px' }}>Stock viewer</h6>
+
+        <h6 class="h6" style={{ fontWeight: 'bold', fontSize: '30px', marginLeft: 'auto', marginRight: 'auto' }}>Stock viewer</h6>
+        <button style={{borderRadius: '10px'}} onClick={()=>window.scrollTo(0, 1200)}>Start searching for stocks below</button>
+
         <button variant="primary" onClick={handleShow} style={{ display: 'block', margin:'auto', float: 'right', borderRadius: '10px'}}>
         Edit Favorites List
       </button>
@@ -970,7 +1013,7 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
         </Modal.Footer>
       </Modal>
       <button type="button" style={{ display: 'block', margin:'auto', float: 'left', borderRadius: '10px'}} data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" onClick={handleShow4}>
-  Ask AI for further analysis
+  AI Recommender
 </button>
 <Modal show={show4} onHide={handleClose4}>
         <Modal.Header closeButton>
@@ -992,7 +1035,7 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
 <br></br>
 <div style={{ borderRadius: "12px", backgroundColor: 'white',
   boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)'}}>
-<p class="lead" style={{position: 'absolute', left: '32.5%', right: '50%'}}>Favorites List</p><br /><br />
+<p class="lead" style={{textAlign: 'center'}}>Favorites List</p><br /><br />
 <div  style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
 {
               list1.map((item, index) => {
@@ -1014,7 +1057,7 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
             </div>
 <br></br>
 <br></br>
-<p class="lead">Pick a time interval</p>
+<p class="lead">Pick a time span that the graph below will display</p>
 
 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" style={{ display: 'block', margin:'auto', float: 'middle'}}>
 {
@@ -1024,7 +1067,7 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
       <a style={{backgroundColor: 'white', color: 'black', borderWidth: '1px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}} class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true" onClick={()=>updateData(companies[currentGIndex], 1, "TIME_SERIES_INTRADAY", 1)}>View by recent hours</a>
       <a style={{backgroundColor: 'white', color: 'black', borderWidth: '1px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(companies[currentGIndex], 2, "TIME_SERIES_DAILY", 1)}>View by recent week</a>
       <a style={{backgroundColor: 'white', color: 'black', borderWidth: '1px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(companies[currentGIndex], 3, "TIME_SERIES_MONTHLY", 1)}>View by recent dates</a>
-      <a style={{backgroundColor: 'white', color: 'black', borderWidth: '1px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(companies[currentGIndex], 4, "TIME_SERIES_ADJUSTED", 1)}>View all data</a>
+      <a style={{backgroundColor: 'white', color: 'black', borderWidth: '1px', borderStyle: 'solid', borderColor: 'black', margin: '10px'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData(companies[currentGIndex], 4, "TIME_SERIES_ADJUSTED", 1)}>View by furthest dates</a>
 
     </li>
 }
@@ -1041,7 +1084,7 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
         </div>
   </div>
   </div>
-<p class="lead">Extra data about this specific stock</p>
+<p class="lead">Extra data about the displayed stock</p>
   <Table striped="columns">
       <thead>
         <tr>
@@ -1093,10 +1136,13 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
         
         <br></br>
         <div style={{ backgroundColor: 'white',
-  boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px'}}>
+  boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px'}}>
         <h6 class="h6" style={{ fontWeight: 'bold', fontSize: '30px' }}>Top 10 currently active stocks</h6>
   <div class="card-body">
+    <p class="lead">
     Here's a list of some of the currently most active stocks 
+
+    </p>
   </div>
   <br />
   <button style={{borderRadius: '10px'}} onClick={handleShow2}>
@@ -1127,12 +1173,17 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
         <div hidden={searchHidden} class="results-list" >
             {
               <ul class="list-group" style={{borderColor: 'black'}}>
-                <li class="list-group item" style={{display: 'flex'}}>{srS1} <Button onClick={()=>addLike(srS1, 0, 1)}>Add to list</Button></li>
-                <li class="list-group item" style={{display: 'flex'}}>{srS2} <Button onClick={()=>addLike(srS2, 0, 1)}>Add to list</Button></li>
-                <li class="list-group item" style={{display: 'flex'}}>{srS3} <Button onClick={()=>addLike(srS3, 0, 1)}>Add to list</Button></li>
-                <li class="list-group item" style={{display: 'flex'}}>{srS4} <Button onClick={()=>addLike(srS4, 0, 1)}>Add to list</Button></li>
-                <li class="list-group item" style={{display: 'flex'}}>{srS5} <Button onClick={()=>addLike(srS5, 0, 1)}>Add to list</Button></li>
-                <li class="list-group item" style={{display: 'flex'}}>{srS6} <Button onClick={()=>addLike(srS6, 0, 1)}>Add to list</Button></li>
+                <li class="list-group item" style={{display: 'flex'}}>{srS1} {srSS1} <Button onClick={()=>addLike(srS1, 0, 1)}>Add to list</Button></li>
+                <br></br>
+                <li class="list-group item" style={{display: 'flex'}}>{srS2} {srSS2}<Button onClick={()=>addLike(srS2, 0, 1)}>Add to list</Button></li>
+                <br></br>
+                <li class="list-group item" style={{display: 'flex'}}>{srS3} {srSS3}<Button onClick={()=>addLike(srS3, 0, 1)}>Add to list</Button></li>
+                <br></br>
+                <li class="list-group item" style={{display: 'flex'}}>{srS4} {srSS4}<Button onClick={()=>addLike(srS4, 0, 1)}>Add to list</Button></li>
+                <br></br>
+                <li class="list-group item" style={{display: 'flex'}}>{srS5} {srSS5}<Button onClick={()=>addLike(srS5, 0, 1)}>Add to list</Button></li>
+                <br></br>
+                <li class="list-group item" style={{display: 'flex'}}>{srS6} {srSS6}<Button onClick={()=>addLike(srS6, 0, 1)}>Add to list</Button></li>
               </ul>
               /*activeStocks.map((result, index) => {
                 return <div className="searchResult" key={index} onClick={() => getResultMulti(result, srArraySymbol[index])}>{result}</div>
@@ -1149,7 +1200,7 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
       <br />
       <ul class="list-group" >
         
-      <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><img src={displayArray[0]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as1} </h5>
+      <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><h4 style={{color: 'blue'}}>{asS1}</h4><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as1} </h5>
       
       <div class="card-text">
       <p>
@@ -1166,7 +1217,7 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
         <Button class="buttonSpacing" style={{color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as1, asP1, asC1)}>Add to list</Button>
         <br>
         </br></li>
-        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><img src={displayArray[1]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as2}</h5>
+        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><h4 style={{color: 'blue'}}>{asS2}</h4><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as2}</h5>
       
       <div class="card-text">
       <p>
@@ -1183,7 +1234,7 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
         <Button class="buttonSpacing" style={{color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as2, asP2, asC2)}>Add to list</Button>
         <br>
         </br></li>
-        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><img src={displayArray[2]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as3}</h5>
+        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><h4 style={{color: 'blue'}}>{asS3}</h4><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as3}</h5>
       
       <div class="card-text">
       <p>
@@ -1200,7 +1251,7 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
         <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as3, asP3, asC3)}>Add to list</Button>
         <br>
         </br></li>
-        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><img src={displayArray[3]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as4}</h5>
+        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><h4 style={{color: 'blue'}}>{asS4}</h4><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as4}</h5>
       
       <div class="card-text">
       <p>
@@ -1217,7 +1268,7 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
         <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as4, asP4, asC4)}>Add to list</Button>
         <br>
         </br></li>
-        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><img src={displayArray[4]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as5}</h5>
+        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><h4 style={{color: 'blue'}}>{asS5}</h4><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as5}</h5>
       
       <div class="card-text">
       <p>
@@ -1234,7 +1285,7 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
         <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as6, asP6, asC6)}>Add to list</Button>
         <br>
         </br></li>
-        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><img src={displayArray[5]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as6}</h5>
+        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><h4 style={{color: 'blue'}}>{asS6}</h4><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as6}</h5>
       
       <div class="card-text">
       <p>
@@ -1251,7 +1302,7 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
         <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as7, asP7, asC7)}>Add to list</Button>
         <br>
         </br></li>
-        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><img src={displayArray[6]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as7}</h5>
+        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><h4 style={{color: 'blue'}}>{asS7}</h4><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as7}</h5>
       
       <div class="card-text">
       <p>
@@ -1268,7 +1319,7 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
         <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as7, asP7, asC7)}>Add to list</Button>
         <br>
         </br></li>
-        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><img src={displayArray[7]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as8}</h5>
+        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><h4 style={{color: 'blue'}}>{asS8}</h4><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as8}</h5>
       
       <div class="card-text">
       <p>
@@ -1285,7 +1336,7 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
         <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as8, asP8, asC8)}>Add to list</Button>
         <br>
         </br></li>
-        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><img src={displayArray[8]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as9}</h5>
+        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><h4 style={{color: 'blue'}}>{asS9}</h4><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as9}</h5>
       
       <div class="card-text">
       <p>
@@ -1302,7 +1353,7 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
         <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as9, asP9, asC9)}>Add to list</Button>
         <br>
         </br></li>
-        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><img src={displayArray[9]} height="50px" width="50px"/><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as10}</h5>
+        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><h4 style={{color: 'blue'}}>{asS10}</h4><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as10}</h5>
       
       <div class="card-text">
       <p>
@@ -1729,3 +1780,181 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
  */
 //For automatic scrolling: window.scrollTo(500, 0);
 export default StockFunc
+
+/**
+ * <br></br>
+          <p>Source domain: </p>
+          {() => {if(!newsSourceDomain[dSelect]){
+            return(
+              <p>None available</p>
+            )
+          }}}
+ */
+
+/*
+const lineChart = () =>{
+  return <div>
+    <Line 
+    data={{
+      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+      datasets: [
+        {
+          label: 'stock value',
+          data: [12, 19, 3, 5, 2, 3], 
+        },
+      ],
+    }}
+    height={200}
+    width={300}/>
+  </div>
+}
+/*fetch('your_api_endpoint')
+.then(response => response.json())
+.then(data => {
+  // Process data and create chart
+  createChart(data);
+})
+.catch(error => console.error('Error fetching data:', error));
+
+(async function() {
+  const data = [
+    { year: 2010, count: 10 },
+    { year: 2011, count: 20 },
+    { year: 2012, count: 15 },
+    { year: 2013, count: 25 },
+    { year: 2014, count: 22 },
+    { year: 2015, count: 30 },
+    { year: 2016, count: 28 },
+  ];
+
+  new Chart(
+    document.getElementById('acquisitions'),
+    {
+      type: 'bar',
+      data: {
+        labels: data.map(row => row.year),
+        datasets: [
+          {
+            label: 'Acquisitions by year',
+            data: data.map(row => row.count)
+          }
+        ]
+      }
+    }
+  );
+})();
+ 
+
+const SimpleLineChart = () => {
+  return (
+    <LineChart
+      width={500}
+      height={300}
+      data={data}
+      margin={{
+        top: 5,
+        right: 30,
+        left: 20,
+        bottom: 5,
+      }}
+    >
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="name" />
+      <YAxis />
+      <Tooltip />
+      <Legend />
+      <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+    </LineChart>
+  );
+}*/
+//To add elements dynamically in React, it's recommended to manage an 
+// array in the component's state and render elements based on the contents of that array.
+/* fetch("https://catfact.ninja/fact").then((res) =>res.json())
+.then((data)=>{
+  console.log(data);
+});*/
+//Notes: axios shows everytime the component here updates unless you do mounting
+//- How to put variable in a string: use ` instead of " " for the string, ${(const variable goes here)}
+//Use . in axios to get the value of an attribute of an object received
+//-useState({}) or useState(null) is for making an empty object
+// putting a ? before a . of an object means to only access the value of that attribute of that object ONLY IF it's the object
+//isn't null
+/*useEffectAxios.get("https://catfact.ninja/fact").then((res) => {
+  console.log(res.data);
+});*/
+/*useEffect(() => {
+    const getData= async () => {
+      const {data} = await axios.get("http://localhost:5000/api/v1/analytics/revenue/lifetime")
+    console.log(data)
+    }
+    getData()
+  }, []
+<Card style={{ width: '18rem' }}>
+      <Card.Body>
+      <img src="https://logo.clearbit.com/starbucks.com"></img>
+        <Card.Title>Random stock</Card.Title>
+        <Card.Text>
+           Brief description of stock goes here.
+        </Card.Text>
+        <Button variant="primary">View stock</Button>
+      </Card.Body>
+    </Card>
+    <Card style={{ width: '18rem' }}>
+      <Card.Body>
+      <img src="https://logo.clearbit.com/mcdonalds.com"></img>
+        <Card.Title>Random stock</Card.Title>
+        <Card.Text>
+           Brief description of stock goes here.
+        </Card.Text>
+        <Button variant="primary">View stock</Button>
+      </Card.Body>
+    </Card>
+    <Card style={{ width: '18rem' }}>
+      <Card.Body>
+        <Card.Title>Random stock</Card.Title>
+        <Card.Text>
+           Brief description of stock goes here.
+        </Card.Text>
+        <Button variant="primary">Add stock</Button>
+      </Card.Body>
+    </Card>
+    </div>
+    <div style={{ display: 'flex', flexDirection: 'row' }}>
+  <Card style={{ width: '18rem' }}>
+      <Card.Body>
+        <Card.Title>Random stock</Card.Title>
+        <Card.Text>
+           Brief description of stock goes here.
+        </Card.Text>
+        <Button variant="primary">Add stock</Button>
+      </Card.Body>
+    </Card>
+    <Card style={{ width: '18rem' }}>
+      <Card.Body>
+        <Card.Title>Random stock</Card.Title>
+        <Card.Text>
+           Brief description of stock goes here.
+        </Card.Text>
+        <Button variant="primary">Add stock</Button>
+      </Card.Body>
+    </Card>
+    <Card style={{ width: '18rem' }}>
+      <Card.Body>
+        <Card.Title>Random stock</Card.Title>
+        <Card.Text>
+           Brief description of stock goes here.
+        </Card.Text>
+        <Button variant="primary">Add stock</Button>
+      </Card.Body>
+    </Card>
+    <Card style={{ width: '18rem' }}>
+      <Card.Body>
+        <Card.Title>Random stock</Card.Title>
+        <Card.Text>
+           Brief description of stock goes here.
+        </Card.Text>
+        <Button variant="primary">Add stock</Button>
+      </Card.Body>
+    </Card>
+  )*/
+ //import {CategoryScale, Chart as ChartJS, LinearScale, LineElement, PointElement} from 'chart.js'
