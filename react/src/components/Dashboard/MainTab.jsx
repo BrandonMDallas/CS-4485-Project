@@ -15,8 +15,8 @@ export default function MainTab() {
             alt="Sports"
           />
           <div className="card-body">
-            <h5 className="card-title">Sports</h5>
-            <p className="card-text">
+            <h5 className="card-title text-center">Sports</h5>
+            <p className="card-text text-center">
               Catch up with the latest news in sports, players, and teams!
             </p>
             <Link to="/sportsHub" className="btn btn-primary d-block mx-auto">
@@ -33,8 +33,8 @@ export default function MainTab() {
             alt="Music"
           />
           <div className="card-body">
-            <h5 className="card-title">Music</h5>
-            <p className="card-text">
+            <h5 className="card-title text-center">Music</h5>
+            <p className="card-text text-center">
               Listen to the latest and most popular songs currently out there!
             </p>
             <Link to="/musicHub" className="btn btn-primary d-block mx-auto">
@@ -51,8 +51,8 @@ export default function MainTab() {
             alt="Stocks"
           />
           <div className="card-body">
-            <h5 className="card-title">Stocks</h5>
-            <p className="card-text">
+            <h5 className="card-title text-center">Stocks</h5>
+            <p className="card-text text-center">
               View and keep track of stock data from various companies!
             </p>
             <Link to="/stocks" className="btn btn-primary d-block mx-auto">
