@@ -167,13 +167,13 @@ const MusicHub = () => {
       <div className="modern-header">
         <div className="header-content">
           <div className="header-left">
-            <h1 className="modern-title heading-blue">Music Hub</h1>
             <button
               className="modern-back-button"
               onClick={() => navigate("/")}
             >
               <FaArrowLeft />
             </button>
+            <h1 className="modern-title heading-blue">Music Hub</h1>
           </div>
           <div className="header-right">
             <div className="modern-search">
