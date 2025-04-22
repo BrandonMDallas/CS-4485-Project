@@ -22,12 +22,12 @@
   }
   
   .navLink.active {
-    background-color: #4e7ed8 !important;
-    color: #fff !important;
+    background-color: var(--nav-active-bg) !important;
+    color:            var(--nav-active-text) !important;
   }
   
   .navLink:hover {
-    background-color: rgba(78, 126, 216, 0.15);
+    background-color: var(--nav-hover-bg);
     transform: translateY(-2px);
   }
   .tabContent {

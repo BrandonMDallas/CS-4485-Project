@@ -5,7 +5,7 @@ const SettingsTab = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [compactMode, setCompactMode] = useState(false);
-  const [fontSize, setFontSize] = useState(20);
+  const [fontSize, setFontSize] = useState(21);
 
   // Toggle body.dark-mode for global theming
   useEffect(() => {
