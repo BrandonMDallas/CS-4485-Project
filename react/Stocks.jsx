@@ -161,6 +161,7 @@ var timeIntervals=['minutes', 'hours', 'days', 'months', 'years']
 const [list1, setList1] = useState([]);
 const [list2, setList2]=useState([])
 const [list3, setList3]=useState([])
+const [list4, setList4]=useState([asS1, asS2, asS3, asS4, asS5, asS6, asS7, asS8, asS9, asS10])
 var preList1=list1;
  let index=0;
  let variable1="https://assets.parqet.com/logos/symbol/"+companies[0]+"?format=png"
@@ -477,7 +478,7 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
 
     getStock(nameStock, 5, value3, id)
     var xLabel, xSide;
-    var lineColor='green'
+    var lineColor='grey'
     const day=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     const hour=[xPoints[0], xPoints[1], xPoints[2], xPoints[3], xPoints[4], xPoints[5], xPoints[6], xPoints[7], xPoints[8], xPoints[9], xPoints[10], xPoints[11], xPoints[12], xPoints[13], xPoints[14]];
     //console.log('X version', hour)
@@ -504,7 +505,7 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
     }
 
     if((Number(dataPoints[dataPoints.length-1]))<(Number(dataPoints[0]))){
-      lineColor='red'
+      lineColor='grey'
     }
     
       setCharOptions(chartOptions => ({ ...chartOptions, scales: {
@@ -957,16 +958,15 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
     <div style={{display: 'flex', gap: '400px'}}>
     <div style={{display: 'flex'}}>
     <Link to="/"><div style={{ backgroundColor: 'white',
-  boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px', margin: '10px'}}>
-    <img src="https://cdn-icons-png.freepik.com/512/3114/3114883.png" width="50px" height="50px"/>
+   padding: '10px', margin: '20px'}}>
+    <img src="https://cdn-icons-png.flaticon.com/512/81/81037.png" width="20px" height="20px"/>
     </div></Link>
-    <div style={{display: 'flex', gap:'770px'}}>
+    <div style={{display: 'flex', gap:'700px'}}>
  
     <h1 class="quicksand-moreNewsStyle" style={{fontSize: '50px', textAlign: 'left', color: 'blue'}}>StocksHub</h1>
-    <Link to="/stocksSetting"><div style={{backgroundColor: 'white',
-  boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px', margin: '10px'}}>
+    <Link to="/stocksSetting"><div style={{backgroundColor: 'white', borderRadius: '10px', padding: '10px', margin: '10px', display: 'flex'}}>
      <img style={{backgroundColor: 'white'}} src="https://media.istockphoto.com/id/1416937202/vector/settings-or-gear-icon-cog-setting-vector-illustration.jpg?s=612x612&w=0&k=20&c=3vVNW4ssuNPwKUMT5HSMEbUlknZmp5FeEBF1eZTzJYA=" width="50px" height="50px"/>
-    <br />Settings
+    Settings
     </div></Link>
     </div>
 </div>
@@ -978,19 +978,398 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
     <p class="lead">Today's date and time: {displayDate} {currTime.toLocaleTimeString()}</p>
     <br></br>
     <div style={{display: 'flex', gap: '10px'}}>
+    <div class="moreSection" style={{width: '85%'}}>
+        
+        <br></br>
+        <div style={{ backgroundColor: 'white',
+  boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px'}}>
+        <h6 class="h6" style={{ fontWeight: 'bold', fontSize: '30px' }}>Top 10 currently active stocks</h6>
+  <div class="card-body">
+    <p class="lead">
+    Here is a list of some of the most active stocks 
+
+    </p>
+  </div>
+  <br />
+  <button style={{borderRadius: '10px'}} onClick={handleShow2}>
+        Search for additional stocks
+      </button>
+      <br />
+<Modal show={show2} onHide={handleClose2}>
+        <Modal.Header closeButton>
+          <Modal.Title>Find a stock you want</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        <form onSubmit={createRL}>
+        <label>Search for a company
+          <div style={{display: 'flex', gap: '10px'}}>
+        <input 
+        placeholder='Type here to search...'
+      type="text"
+      class="form-control"
+      value={inputValue}
+      onChange={handleChange}
+    /> 
+    <button style={{borderRadius: '10px'}} onClick={(e)=>getSR(e)}>    Search
+    </button>
+    </div>
+        </label>
+        
+        </form>
+        <div hidden={searchHidden} class="results-list" >
+            {
+              <ul class="list-group" style={{borderColor: 'black'}}>
+                <li class="list-group item" style={{display: 'flex'}}>{srS1} {srSS1} <Button onClick={()=>addLike(srS1, 0, 1)}>Save stock</Button></li>
+                <br></br>
+                <li class="list-group item" style={{display: 'flex'}}>{srS2} {srSS2}<Button onClick={()=>addLike(srS2, 0, 1)}>Save stock</Button></li>
+                <br></br>
+                <li class="list-group item" style={{display: 'flex'}}>{srS3} {srSS3}<Button onClick={()=>addLike(srS3, 0, 1)}>Save stock</Button></li>
+                <br></br>
+                <li class="list-group item" style={{display: 'flex'}}>{srS4} {srSS4}<Button onClick={()=>addLike(srS4, 0, 1)}>Save stock</Button></li>
+                <br></br>
+                <li class="list-group item" style={{display: 'flex'}}>{srS5} {srSS5}<Button onClick={()=>addLike(srS5, 0, 1)}>Save stock</Button></li>
+                <br></br>
+                <li class="list-group item" style={{display: 'flex'}}>{srS6} {srSS6}<Button onClick={()=>addLike(srS6, 0, 1)}>Save stock</Button></li>
+              </ul>
+              /*activeStocks.map((result, index) => {
+                return <div className="searchResult" key={index} onClick={() => getResultMulti(result, srArraySymbol[index])}>{result}</div>
+              }
+            )*/}
+        </div>
+        </Modal.Body>
+        
+      
+        <Modal.Footer>
+        
+        </Modal.Footer>
+      </Modal>
+      <br />
+      <ul class="list-group" >
+        
+      <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}>
+      <div style={{display: 'block', textAlign: 'left'}}>
+
+        <h4 style={{color: 'blue'}}>{asS1}</h4><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}> {as1} </h5>
+      
+      <div class="card-text">
+      <p>
+        Price: {asP1}
+        <br />
+        Change: {asC1}
+      </p>
+
+      
+      
+      </div>
+      </div>
+        <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams(asS1, 0)}>About</Button>
+        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(0, asS1, 3000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+        <Button class="buttonSpacing" style={{color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as1, asP1, asC1)}>Save stock</Button>
+        <br>
+        </br></li>
+        <br></br>
+        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}>
+          <div style={{display: 'block', textAlign: 'left'}}>
+          <h4 style={{color: 'blue'}}>{asS2}</h4>
+          <h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>{as2}</h5>
+      
+      <div class="card-text">
+      <p>
+        Price: {asP2}
+        <br />
+        Change: {asC2}
+      </p>
+
+      
+      
+      </div>
+      </div>
+        <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams(asS2, 1)}>About</Button>
+        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, asS2, 3000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+        <Button class="buttonSpacing" style={{color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as2, asP2, asC2)}>Save stock</Button>
+        <br>
+        </br></li>
+        <br></br>
+        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}>
+        <div style={{display: 'block', textAlign: 'left'}}>
+
+          <h4 style={{color: 'blue'}}>{asS3}</h4><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as3}</h5>
+      
+      <div class="card-text">
+      <p>
+        Price: {asP3}
+        <br />
+        Change: {asC3}
+      </p>
+
+      
+      
+      </div>
+      </div>
+        <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams(asS3, 2)}>About</Button>
+        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(2, asS3, 3000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+        <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as3, asP3, asC3)}>Save stock</Button>
+        <br>
+        </br></li>
+        <br></br>
+        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}>
+        <div style={{display: 'block', textAlign: 'left'}}>
+
+          <h4 style={{color: 'blue'}}>{asS4}</h4><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as4}</h5>
+      
+      <div class="card-text">
+      <p>
+        Price: {asP4}
+        <br />
+        Change: {asC4}
+      </p>
+
+      
+      
+      </div>
+      </div>
+
+        <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams(asS4, 3)}>About</Button>
+        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(3, asS4, 3000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+        <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as4, asP4, asC4)}>Save stock</Button>
+        <br>
+        </br></li>
+        <br></br>
+        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}>
+        <div style={{display: 'block', textAlign: 'left'}}>
+
+          <h4 style={{color: 'blue'}}>{asS5}</h4><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as5}</h5>
+      
+      <div class="card-text">
+      <p>
+        Price: {asP5}
+        <br />
+        Change: {asC5}
+      </p>
+
+      
+      
+      </div>
+      </div>
+        <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams(asS5, 4)}>About</Button>
+        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(4, asS5, 3000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+        <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as6, asP6, asC6)}>Save stock</Button>
+        <br>
+        </br></li>
+        <br></br>
+        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}>
+          
+        <div style={{display: 'block', textAlign: 'left'}}>
+
+          <h4 style={{color: 'blue'}}>{asS6}</h4><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as6}</h5>
+      
+      <div class="card-text">
+      <p>
+        Price: {asP6}
+        <br />
+        Change: {asC6}
+      </p>
+
+      
+      
+      </div>
+      </div>
+        <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams(asS6, 5)}>About</Button>
+        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(5, asS6, 3000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+        <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as7, asP7, asC7)}>Save stock</Button>
+        <br>
+        </br></li>
+        <br></br>
+        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}>
+        <div style={{display: 'block', textAlign: 'left'}}>
+
+          
+          <h4 style={{color: 'blue'}}>{asS7}</h4><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as7}</h5>
+      
+      <div class="card-text">
+      <p>
+        Price: {asP7}
+        <br />
+        Change: {asC7}
+      </p>
+
+      
+      
+      </div>
+      </div>
+        <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams(asS7, 6)}>About</Button>
+        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(6, asS7, 3000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+        <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as7, asP7, asC7)}>Save stock</Button>
+        <br>
+        </br></li>
+        <br></br>
+        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}>
+        <div style={{display: 'block', textAlign: 'left'}}>
+
+          
+          <h4 style={{color: 'blue'}}>{asS8}</h4><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as8}</h5>
+      
+      <div class="card-text">
+      <p>
+        Price: {asP8}
+        <br />
+        Change: {asC8}
+      </p>
+
+      
+      
+      </div>
+      </div>
+        <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams(asS8, 7)}>About</Button>
+        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(7, asS8, 3000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+        <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as8, asP8, asC8)}>Save stock</Button>
+        <br>
+        </br></li>
+        <br></br>
+        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}>          <div style={{display: 'block', textAlign: 'left'}}>
+        <h4 style={{color: 'blue'}}>{asS9}</h4><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as9}</h5>
+      
+      <div class="card-text">
+      <p>
+        Price: {asP9}
+        <br />
+        Change: {asC9}
+      </p>
+
+      
+      
+      </div>
+      </div>
+        <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams(asS9, 8)}>About</Button>
+        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(8, asS9, 3000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+        <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as9, asP9, asC9)}>Save stock</Button>
+        <br>
+        </br></li>
+        <br></br>
+        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}>          <div style={{display: 'block', textAlign: 'left'}}>
+        <h4 style={{color: 'blue'}}>{asS10}</h4><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as10}</h5>
+      
+      <div class="card-text">
+      <p>
+        Price: {asP10}
+        <br />
+        Change: {asC10}
+      </p>
+
+      
+      
+      </div>
+      </div>
+        <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams(asS10, 9)}>About</Button>
+        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(9, asS10, 3000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+        <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as10, asP10, asC10)}>Save stock</Button>
+        <br>
+        </br></li>
+</ul>
+      
+  
+    <Modal show={show5} onHide={handleClose5}>
+        <Modal.Header closeButton>
+          <Modal.Title>About this stock: {companies[dSelect]}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        Information goes here
+        </Modal.Body>
+        <Modal.Footer>
+        <Button variant="primary">View stock</Button>
+        <Button variant="primary">Save stock</Button>
+        </Modal.Footer>
+      </Modal>
+</div>
+
+    </div>
+    <div style={{height: '450px', width: '450px'}}>
+    <button class="aiButton" style={{borderRadius: '8px', borderColor: 'black',
+  boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.76)'}} onClick={handleShow3}><img style={{borderRadius: '10px'}} src="https://static.vecteezy.com/system/resources/previews/004/639/658/non_2x/sun-icon-on-white-background-vector.jpg" width="50%" height="50%"/> <br></br>Click here to ask AI assistant a question</button>
+    <Card style={{ backgroundColor: 'white',
+  boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px'}}>
+        <h3 style={{color: 'black'}}>Get current exchange rates here</h3>
+        <div style={{display: 'flex', gap: '10px', position: 'relative', marginLeft: 'auto', marginRight: 'auto'}}>
+        <Dropdown>
+      <Dropdown.Toggle style={{backgroundColor: 'white', color: 'black', borderColor: 'black'}} variant="success" id="dropdown-basic">
+       {currencyName[0]}
+      </Dropdown.Toggle>
+
+      <Dropdown.Menu>
+        <Dropdown.Item onClick={()=>setCurrencyName(["USD", currencyName[1]])}>American Dollar</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setCurrencyName(["GBP", currencyName[1]])}>British Pound</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setCurrencyName(["EUR", currencyName[1]])}>Euro</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setCurrencyName(["CAD", currencyName[1]])}>Canadian Dollar</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setCurrencyName(["JPY", currencyName[1]])}>Japanese Yen</Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
+<p> to </p>
+<Dropdown>
+      <Dropdown.Toggle style={{backgroundColor: 'white', color: 'black', borderColor: 'black'}}  variant="success" id="dropdown-basic">
+       {currencyName[1]}
+      </Dropdown.Toggle>
+
+      <Dropdown.Menu>
+        <Dropdown.Item onClick={()=>setCurrencyName([currencyName[0], "USD"])}>American Dollar</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setCurrencyName([currencyName[0], "GBP"])}>British Pound</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setCurrencyName([currencyName[0], "EUR"])}>Euro</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setCurrencyName([currencyName[0], "CAD"])}>Canadian Dollar</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setCurrencyName([currencyName[0], "JPY"])}>Japanese Yen</Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
+    
+</div>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+
+<button style={{borderRadius: '10px'}} onClick={()=>getRate()}>Calculate rate</button>
+<br></br>
+<p>Result: {eRate}</p>
+    </Card>
+</div>
+
+    </div>
+    <br></br>
+    <br></br>
+    <div style={{ borderRadius: "12px", backgroundColor: 'white',
+  boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', padding: '15px'}}>
+        <h6 class="h6" style={{ fontWeight: 'bold', fontSize: '30px' }}>Saved stocks go here...</h6>
+
+<br /><br />
+<div  style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+{
+              list1.map((item, index) => {
+                return <div key={index} style={{ boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.6)', borderRadius: '12px', backgroundColor: 'white', margin: '10px' }}>
+                
+                <label style={{padding: '10px'}}>
+                  <p>{list1[index]}</p>
+                  <p>Price value: {list2[index]}</p>
+                  <p>Change: {list3[index]}</p>
+                  <button style={{borderRadius: '10px'}} type="button" class="btn btn-primary" onClick={()=>stockListMulti(index, list4[index], 3000, "TIME_SERIES_INTRADAY", 0)}>View stock</button>
+                
+                </label>
+              </div>
+              }
+            )}
+            </div>
+</div>
+<br></br>
+<br></br>
+    <div style={{display: 'flex', gap: '10px', width: '100%', height: '1000px'}}>
 
     
     
-      <div style={{width: '100%'}}>
+      <div style={{width: '1000px'}}>
         
       <div class="yourSection" style={{ backgroundColor: 'white',
   boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px'}}>
 
         <h6 class="h6" style={{ fontWeight: 'bold', fontSize: '30px', marginLeft: 'auto', marginRight: 'auto' }}>Stock viewer</h6>
-        <button style={{borderRadius: '10px'}} onClick={()=>window.scrollTo(0, 1200)}>Start searching for stocks below</button>
 
         <button variant="primary" onClick={handleShow} style={{ display: 'block', margin:'auto', float: 'right', borderRadius: '10px'}}>
-        Edit Favorites List
+        Edit saved list of stocks above
       </button>
 <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -1013,7 +1392,7 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
         </Modal.Footer>
       </Modal>
       <button type="button" style={{ display: 'block', margin:'auto', float: 'left', borderRadius: '10px'}} data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" onClick={handleShow4}>
-  AI Recommender
+  Get recommendations from AI
 </button>
 <Modal show={show4} onHide={handleClose4}>
         <Modal.Header closeButton>
@@ -1033,26 +1412,7 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
 
 <br></br>
 <br></br>
-<div style={{ borderRadius: "12px", backgroundColor: 'white',
-  boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)'}}>
-<p class="lead" style={{textAlign: 'center'}}>Favorites List</p><br /><br />
-<div  style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-{
-              list1.map((item, index) => {
-                return <div key={index} style={{ boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.6)', borderRadius: '12px', backgroundColor: 'white', margin: '10px' }}>
-                
-                <label style={{padding: '10px'}}>
-                  <p>{list1[index]}</p>
-                  <p>Price value: {list2[index]}</p>
-                  <p>Change: {list3[index]}</p>
-                  <button style={{borderRadius: '10px'}} type="button" class="btn btn-primary" onClick={()=>stockListMulti(index, list1[index], 850, "TIME_SERIES_INTRADAY", 0)}>View stock</button>
-                
-                </label>
-              </div>
-              }
-            )}
-            </div>
-</div>
+
 
             </div>
 <br></br>
@@ -1132,262 +1492,7 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
 <br></br>
 <div>
   
-    <div class="moreSection" style={{width: '133%'}}>
-        
-        <br></br>
-        <div style={{ backgroundColor: 'white',
-  boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px'}}>
-        <h6 class="h6" style={{ fontWeight: 'bold', fontSize: '30px' }}>Top 10 currently active stocks</h6>
-  <div class="card-body">
-    <p class="lead">
-    Here's a list of some of the currently most active stocks 
-
-    </p>
-  </div>
-  <br />
-  <button style={{borderRadius: '10px'}} onClick={handleShow2}>
-        Search for a stock
-      </button>
-      <br />
-<Modal show={show2} onHide={handleClose2}>
-        <Modal.Header closeButton>
-          <Modal.Title>Find a stock you want</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-        <form onSubmit={createRL}>
-        <label>Search for a company
-          <div style={{display: 'flex', gap: '10px'}}>
-        <input 
-        placeholder='Type here to search...'
-      type="text"
-      class="form-control"
-      value={inputValue}
-      onChange={handleChange}
-    /> 
-    <button style={{borderRadius: '10px'}} onClick={(e)=>getSR(e)}>    Search
-    </button>
-    </div>
-        </label>
-        
-        </form>
-        <div hidden={searchHidden} class="results-list" >
-            {
-              <ul class="list-group" style={{borderColor: 'black'}}>
-                <li class="list-group item" style={{display: 'flex'}}>{srS1} {srSS1} <Button onClick={()=>addLike(srS1, 0, 1)}>Add to list</Button></li>
-                <br></br>
-                <li class="list-group item" style={{display: 'flex'}}>{srS2} {srSS2}<Button onClick={()=>addLike(srS2, 0, 1)}>Add to list</Button></li>
-                <br></br>
-                <li class="list-group item" style={{display: 'flex'}}>{srS3} {srSS3}<Button onClick={()=>addLike(srS3, 0, 1)}>Add to list</Button></li>
-                <br></br>
-                <li class="list-group item" style={{display: 'flex'}}>{srS4} {srSS4}<Button onClick={()=>addLike(srS4, 0, 1)}>Add to list</Button></li>
-                <br></br>
-                <li class="list-group item" style={{display: 'flex'}}>{srS5} {srSS5}<Button onClick={()=>addLike(srS5, 0, 1)}>Add to list</Button></li>
-                <br></br>
-                <li class="list-group item" style={{display: 'flex'}}>{srS6} {srSS6}<Button onClick={()=>addLike(srS6, 0, 1)}>Add to list</Button></li>
-              </ul>
-              /*activeStocks.map((result, index) => {
-                return <div className="searchResult" key={index} onClick={() => getResultMulti(result, srArraySymbol[index])}>{result}</div>
-              }
-            )*/}
-        </div>
-        </Modal.Body>
-        
-      
-        <Modal.Footer>
-        
-        </Modal.Footer>
-      </Modal>
-      <br />
-      <ul class="list-group" >
-        
-      <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><h4 style={{color: 'blue'}}>{asS1}</h4><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as1} </h5>
-      
-      <div class="card-text">
-      <p>
-        Price: {asP1}
-        <br />
-        Change: {asC1}
-      </p>
-
-      
-      
-      </div>
-        <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams(asS1, 0)}>About</Button>
-        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(0, asS1, 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
-        <Button class="buttonSpacing" style={{color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as1, asP1, asC1)}>Add to list</Button>
-        <br>
-        </br></li>
-        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><h4 style={{color: 'blue'}}>{asS2}</h4><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as2}</h5>
-      
-      <div class="card-text">
-      <p>
-        Price: {asP2}
-        <br />
-        Change: {asC2}
-      </p>
-
-      
-      
-      </div>
-        <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams(asS2, 1)}>About</Button>
-        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, asS2, 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
-        <Button class="buttonSpacing" style={{color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as2, asP2, asC2)}>Add to list</Button>
-        <br>
-        </br></li>
-        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><h4 style={{color: 'blue'}}>{asS3}</h4><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as3}</h5>
-      
-      <div class="card-text">
-      <p>
-        Price: {asP3}
-        <br />
-        Change: {asC3}
-      </p>
-
-      
-      
-      </div>
-        <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams(asS3, 2)}>About</Button>
-        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(2, asS3, 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
-        <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as3, asP3, asC3)}>Add to list</Button>
-        <br>
-        </br></li>
-        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><h4 style={{color: 'blue'}}>{asS4}</h4><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as4}</h5>
-      
-      <div class="card-text">
-      <p>
-        Price: {asP4}
-        <br />
-        Change: {asC4}
-      </p>
-
-      
-      
-      </div>
-        <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams(asS4, 3)}>About</Button>
-        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(3, asS4, 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
-        <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as4, asP4, asC4)}>Add to list</Button>
-        <br>
-        </br></li>
-        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><h4 style={{color: 'blue'}}>{asS5}</h4><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as5}</h5>
-      
-      <div class="card-text">
-      <p>
-        Price: {asP5}
-        <br />
-        Change: {asC5}
-      </p>
-
-      
-      
-      </div>
-        <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams(asS5, 4)}>About</Button>
-        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(4, asS5, 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
-        <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as6, asP6, asC6)}>Add to list</Button>
-        <br>
-        </br></li>
-        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><h4 style={{color: 'blue'}}>{asS6}</h4><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as6}</h5>
-      
-      <div class="card-text">
-      <p>
-        Price: {asP6}
-        <br />
-        Change: {asC6}
-      </p>
-
-      
-      
-      </div>
-        <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams(asS6, 5)}>About</Button>
-        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(5, asS6, 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
-        <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as7, asP7, asC7)}>Add to list</Button>
-        <br>
-        </br></li>
-        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><h4 style={{color: 'blue'}}>{asS7}</h4><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as7}</h5>
-      
-      <div class="card-text">
-      <p>
-        Price: {asP7}
-        <br />
-        Change: {asC7}
-      </p>
-
-      
-      
-      </div>
-        <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams(asS7, 6)}>About</Button>
-        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(6, asS7, 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
-        <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as7, asP7, asC7)}>Add to list</Button>
-        <br>
-        </br></li>
-        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><h4 style={{color: 'blue'}}>{asS8}</h4><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as8}</h5>
-      
-      <div class="card-text">
-      <p>
-        Price: {asP8}
-        <br />
-        Change: {asC8}
-      </p>
-
-      
-      
-      </div>
-        <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams(asS8, 7)}>About</Button>
-        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(7, asS8, 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
-        <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as8, asP8, asC8)}>Add to list</Button>
-        <br>
-        </br></li>
-        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><h4 style={{color: 'blue'}}>{asS9}</h4><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as9}</h5>
-      
-      <div class="card-text">
-      <p>
-        Price: {asP9}
-        <br />
-        Change: {asC9}
-      </p>
-
-      
-      
-      </div>
-        <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams(asS9, 8)}>About</Button>
-        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(8, asS9, 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
-        <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as9, asP9, asC9)}>Add to list</Button>
-        <br>
-        </br></li>
-        <li class="list-group-item" style={{ display: 'flex', flexDirection: 'row', padding: '20px'}}><h4 style={{color: 'blue'}}>{asS10}</h4><h5 class="card-title" style={{margin: '15px', marginLeft: '5px'}}>       {as10}</h5>
-      
-      <div class="card-text">
-      <p>
-        Price: {asP10}
-        <br />
-        Change: {asC10}
-      </p>
-
-      
-      
-      </div>
-        <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '290px'}} onClick={() => compParams(asS10, 9)}>About</Button>
-        <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(9, asS10, 500, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
-        <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '10px'}}  onClick={()=>addLike(as10, asP10, asC10)}>Add to list</Button>
-        <br>
-        </br></li>
-</ul>
-      
   
-    <Modal show={show5} onHide={handleClose5}>
-        <Modal.Header closeButton>
-          <Modal.Title>About this stock: {companies[dSelect]}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-        Information goes here
-        </Modal.Body>
-        <Modal.Footer>
-        <Button variant="primary">View stock</Button>
-        <Button variant="primary">Add to list</Button>
-        </Modal.Footer>
-      </Modal>
-</div>
-
-    </div>
    
     </div>
     </div>
@@ -1395,7 +1500,6 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
       
 
       
-    <button class="aiButton" style={{borderRadius: '8px'}} onClick={handleShow3}><img style={{borderRadius: '10px'}} src="https://static.vecteezy.com/system/resources/previews/004/639/658/non_2x/sun-icon-on-white-background-vector.jpg" width="250px" height="150px"/> <br></br>Ask AI assistant a question</button>
     <Modal show={show3} onHide={handleClose3}>
         <Modal.Header closeButton>
           <Modal.Title>Ask AI a question</Modal.Title>
@@ -1425,48 +1529,7 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
         <Modal.Footer>
         </Modal.Footer>
       </Modal>
-      <Card style={{ backgroundColor: 'white',
-  boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px'}}>
-        <h3 style={{color: 'black'}}>Get current exchange rates here</h3>
-        <div style={{display: 'flex', gap: '10px', position: 'relative', marginLeft: 'auto', marginRight: 'auto'}}>
-        <Dropdown>
-      <Dropdown.Toggle style={{backgroundColor: 'white', color: 'black', borderColor: 'black'}} variant="success" id="dropdown-basic">
-       {currencyName[0]}
-      </Dropdown.Toggle>
-
-      <Dropdown.Menu>
-        <Dropdown.Item onClick={()=>setCurrencyName(["USD", currencyName[1]])}>American Dollar</Dropdown.Item>
-        <Dropdown.Item onClick={()=>setCurrencyName(["GBP", currencyName[1]])}>British Pound</Dropdown.Item>
-        <Dropdown.Item onClick={()=>setCurrencyName(["EUR", currencyName[1]])}>Euro</Dropdown.Item>
-        <Dropdown.Item onClick={()=>setCurrencyName(["CAD", currencyName[1]])}>Canadian Dollar</Dropdown.Item>
-        <Dropdown.Item onClick={()=>setCurrencyName(["JPY", currencyName[1]])}>Japanese Yen</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
-<p> to </p>
-<Dropdown>
-      <Dropdown.Toggle style={{backgroundColor: 'white', color: 'black', borderColor: 'black'}}  variant="success" id="dropdown-basic">
-       {currencyName[1]}
-      </Dropdown.Toggle>
-
-      <Dropdown.Menu>
-        <Dropdown.Item onClick={()=>setCurrencyName([currencyName[0], "USD"])}>American Dollar</Dropdown.Item>
-        <Dropdown.Item onClick={()=>setCurrencyName([currencyName[0], "GBP"])}>British Pound</Dropdown.Item>
-        <Dropdown.Item onClick={()=>setCurrencyName([currencyName[0], "EUR"])}>Euro</Dropdown.Item>
-        <Dropdown.Item onClick={()=>setCurrencyName([currencyName[0], "CAD"])}>Canadian Dollar</Dropdown.Item>
-        <Dropdown.Item onClick={()=>setCurrencyName([currencyName[0], "JPY"])}>Japanese Yen</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
-    
-</div>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-
-<button style={{borderRadius: '10px'}} onClick={()=>getRate()}>Calculate rate</button>
-<br></br>
-<p>Result: {eRate}</p>
-    </Card>
+      
     </div>
     </div>
     <br></br>
@@ -1780,181 +1843,3 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
  */
 //For automatic scrolling: window.scrollTo(500, 0);
 export default StockFunc
-
-/**
- * <br></br>
-          <p>Source domain: </p>
-          {() => {if(!newsSourceDomain[dSelect]){
-            return(
-              <p>None available</p>
-            )
-          }}}
- */
-
-/*
-const lineChart = () =>{
-  return <div>
-    <Line 
-    data={{
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-      datasets: [
-        {
-          label: 'stock value',
-          data: [12, 19, 3, 5, 2, 3], 
-        },
-      ],
-    }}
-    height={200}
-    width={300}/>
-  </div>
-}
-/*fetch('your_api_endpoint')
-.then(response => response.json())
-.then(data => {
-  // Process data and create chart
-  createChart(data);
-})
-.catch(error => console.error('Error fetching data:', error));
-
-(async function() {
-  const data = [
-    { year: 2010, count: 10 },
-    { year: 2011, count: 20 },
-    { year: 2012, count: 15 },
-    { year: 2013, count: 25 },
-    { year: 2014, count: 22 },
-    { year: 2015, count: 30 },
-    { year: 2016, count: 28 },
-  ];
-
-  new Chart(
-    document.getElementById('acquisitions'),
-    {
-      type: 'bar',
-      data: {
-        labels: data.map(row => row.year),
-        datasets: [
-          {
-            label: 'Acquisitions by year',
-            data: data.map(row => row.count)
-          }
-        ]
-      }
-    }
-  );
-})();
- 
-
-const SimpleLineChart = () => {
-  return (
-    <LineChart
-      width={500}
-      height={300}
-      data={data}
-      margin={{
-        top: 5,
-        right: 30,
-        left: 20,
-        bottom: 5,
-      }}
-    >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-      <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-    </LineChart>
-  );
-}*/
-//To add elements dynamically in React, it's recommended to manage an 
-// array in the component's state and render elements based on the contents of that array.
-/* fetch("https://catfact.ninja/fact").then((res) =>res.json())
-.then((data)=>{
-  console.log(data);
-});*/
-//Notes: axios shows everytime the component here updates unless you do mounting
-//- How to put variable in a string: use ` instead of " " for the string, ${(const variable goes here)}
-//Use . in axios to get the value of an attribute of an object received
-//-useState({}) or useState(null) is for making an empty object
-// putting a ? before a . of an object means to only access the value of that attribute of that object ONLY IF it's the object
-//isn't null
-/*useEffectAxios.get("https://catfact.ninja/fact").then((res) => {
-  console.log(res.data);
-});*/
-/*useEffect(() => {
-    const getData= async () => {
-      const {data} = await axios.get("http://localhost:5000/api/v1/analytics/revenue/lifetime")
-    console.log(data)
-    }
-    getData()
-  }, []
-<Card style={{ width: '18rem' }}>
-      <Card.Body>
-      <img src="https://logo.clearbit.com/starbucks.com"></img>
-        <Card.Title>Random stock</Card.Title>
-        <Card.Text>
-           Brief description of stock goes here.
-        </Card.Text>
-        <Button variant="primary">View stock</Button>
-      </Card.Body>
-    </Card>
-    <Card style={{ width: '18rem' }}>
-      <Card.Body>
-      <img src="https://logo.clearbit.com/mcdonalds.com"></img>
-        <Card.Title>Random stock</Card.Title>
-        <Card.Text>
-           Brief description of stock goes here.
-        </Card.Text>
-        <Button variant="primary">View stock</Button>
-      </Card.Body>
-    </Card>
-    <Card style={{ width: '18rem' }}>
-      <Card.Body>
-        <Card.Title>Random stock</Card.Title>
-        <Card.Text>
-           Brief description of stock goes here.
-        </Card.Text>
-        <Button variant="primary">Add stock</Button>
-      </Card.Body>
-    </Card>
-    </div>
-    <div style={{ display: 'flex', flexDirection: 'row' }}>
-  <Card style={{ width: '18rem' }}>
-      <Card.Body>
-        <Card.Title>Random stock</Card.Title>
-        <Card.Text>
-           Brief description of stock goes here.
-        </Card.Text>
-        <Button variant="primary">Add stock</Button>
-      </Card.Body>
-    </Card>
-    <Card style={{ width: '18rem' }}>
-      <Card.Body>
-        <Card.Title>Random stock</Card.Title>
-        <Card.Text>
-           Brief description of stock goes here.
-        </Card.Text>
-        <Button variant="primary">Add stock</Button>
-      </Card.Body>
-    </Card>
-    <Card style={{ width: '18rem' }}>
-      <Card.Body>
-        <Card.Title>Random stock</Card.Title>
-        <Card.Text>
-           Brief description of stock goes here.
-        </Card.Text>
-        <Button variant="primary">Add stock</Button>
-      </Card.Body>
-    </Card>
-    <Card style={{ width: '18rem' }}>
-      <Card.Body>
-        <Card.Title>Random stock</Card.Title>
-        <Card.Text>
-           Brief description of stock goes here.
-        </Card.Text>
-        <Button variant="primary">Add stock</Button>
-      </Card.Body>
-    </Card>
-  )*/
- //import {CategoryScale, Chart as ChartJS, LinearScale, LineElement, PointElement} from 'chart.js'
