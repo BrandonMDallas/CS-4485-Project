@@ -1,4 +1,3 @@
-// src/components/NewsFeed.jsx
 import React, { useEffect, useState } from "react";
 import { Card, Button } from "react-bootstrap";
 import styles from "./NewsFeed.module.css";
@@ -20,15 +19,20 @@ export default function NewsFeed() {
 
   return (
     <section className={styles.section}>
-      <h2>Latest in News</h2>
+      <h2 className={styles.heading}>Latest News</h2>
       <div className={styles.grid}>
         {articles.map((a, i) => (
-          <Card key={i} style={{ width: "18rem" }}>
-            <Card.Img variant="top" src={a.banner_image} />
-            <Card.Body>
-              <Card.Title>{a.title}</Card.Title>
-              <Card.Text>{a.summary}</Card.Text>
-              <Button>More</Button>
+          <Card key={i} className={styles.cardWrapper}>
+            <Card.Img
+              variant="top"
+              src={a.banner_image}
+              alt=""
+              className={styles.image}
+            />
+            <Card.Body className={styles.body}>
+              <Card.Title className={styles.title}>{a.title}</Card.Title>
+              <Card.Text className={styles.summary}>{a.summary}</Card.Text>
+              <Button className={styles.moreButton}>Read More</Button>
             </Card.Body>
           </Card>
         ))}

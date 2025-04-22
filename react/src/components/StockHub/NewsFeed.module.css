@@ -1,8 +1,79 @@
 .section {
-  margin: 2rem 0;
+  margin: 3rem auto;
+  padding: 2rem;
+  max-width: 1200px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
 }
+
+.heading {
+  text-align: center;
+  font-family: 'Nunito', sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
 .grid {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.cardWrapper {
+  border: none;                /* remove bootstrap border */
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.cardWrapper:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.body {
+  padding: 1rem;
+}
+
+.title {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 0.75rem;
+}
+
+.summary {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  color: #555;
+  height: 4.5rem;             /* clamp summary length */
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.moreButton {
+  width: 100%;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background-color: #4e7ed8;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 0;
+  transition: background-color 0.2s ease;
+}
+
+.moreButton:hover {
+  background-color: #3b63b3;
 }
