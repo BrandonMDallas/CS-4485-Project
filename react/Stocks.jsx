@@ -39,7 +39,6 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
   LineElement,
   PointElement,
 )
-
 function StockFunc() {
   const [disabledV, setDisabledV]=useState([false, false, false, false, false, false, false, false, false, false])
   const [as1, setAs1]=useState("")
@@ -964,10 +963,10 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
     <div style={{display: 'flex', gap:'700px'}}>
  
     <h1 class="quicksand-moreNewsStyle" style={{fontSize: '50px', textAlign: 'left', color: 'blue'}}>StocksHub</h1>
-    <Link to="/stocksSetting"><div style={{backgroundColor: 'white', borderRadius: '10px', padding: '10px', margin: '10px', display: 'flex'}}>
-     <img style={{backgroundColor: 'white'}} src="https://media.istockphoto.com/id/1416937202/vector/settings-or-gear-icon-cog-setting-vector-illustration.jpg?s=612x612&w=0&k=20&c=3vVNW4ssuNPwKUMT5HSMEbUlknZmp5FeEBF1eZTzJYA=" width="50px" height="50px"/>
-    Settings
-    </div></Link>
+    <Link to="/stocksSetting"><Button style={{backgroundColor: 'white', borderRadius: '10px', borderColor: 'blue', padding: '10px', margin: '10px', display: 'flex', color: 'blue', gap: '10px'}}>
+     <img style={{backgroundColor: 'white'}} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBHv5z_Di_dQ6KiFL407ObyIy3jRRsRQvnubEol1araq9chmjaZYY0I6Hv6Zla9Qm5LMc&usqp=CAU" width="20px" height="20px"/>
+    <p>Settings</p>
+    </Button></Link>
     </div>
 </div>
     </div>
