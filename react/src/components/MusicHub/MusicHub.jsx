@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "../../api/axios";
 import useAxiosPrivate from "../../api/useAxiosPrivate";
 import "./MusicHub.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import {
   FaArrowLeft,
   FaPlus,
@@ -12,6 +12,7 @@ import {
   FaTrash,
   FaPlay,
   FaMoon,
+  FaUser,
   FaSun,
 } from "react-icons/fa";
 
@@ -26,16 +27,27 @@ const LASTFM_API_BASE = "http://ws.audioscrobbler.com/2.0/";
 const MusicHub = () => {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
+  const [dropdownVisible, setDropdownVisible] = useState(false);
   const [trendingSongs, setTrendingSongs] = useState([]);
   const [playlists, setPlaylists] = useState([
-    { 
-      id: 1, 
-      name: "My Playlist", 
+    {
+      id: 1,
+      name: "My Playlist",
       songs: [
         // Test songs for recommendations
-        { id: "1", name: "Starboy", artist: "The Weeknd", url: "https://www.last.fm/music/The+Weeknd+Feat.+Daft+Punk/Starboy/Starboy" },
-        { id: "2", name: "NOKIA", artist: "Drake", url: "https://www.last.fm/music/Drake/_/Nokia" }
-      ] 
+        {
+          id: "1",
+          name: "Starboy",
+          artist: "The Weeknd",
+          url: "https://www.last.fm/music/The+Weeknd+Feat.+Daft+Punk/Starboy/Starboy",
+        },
+        {
+          id: "2",
+          name: "NOKIA",
+          artist: "Drake",
+          url: "https://www.last.fm/music/Drake/_/Nokia",
+        },
+      ],
     },
   ]);
   const [newPlaylistName, setNewPlaylistName] = useState("");
@@ -62,31 +74,34 @@ const MusicHub = () => {
     }
 
     setIsLoadingRecs(true);
-    
+
     try {
       // Create array of tracks to base recommendations on
-      const trackSeeds = playlist.songs.map(song => ({
+      const trackSeeds = playlist.songs.map((song) => ({
         artist: song.artist,
-        track: song.name
+        track: song.name,
       }));
-      
+
       // Get recommendations from Last.fm API
       let allRecommendations = [];
-      
+
       // Only process up to 3 songs to avoid too many requests
       const songsToProcess = trackSeeds.slice(0, 3);
-      
+
       for (const songSeed of songsToProcess) {
-        const response = await fetchSimilarTracksFromLastFM(songSeed.artist, songSeed.track);
+        const response = await fetchSimilarTracksFromLastFM(
+          songSeed.artist,
+          songSeed.track
+        );
         if (response && response.length > 0) {
           allRecommendations = [...allRecommendations, ...response];
         }
       }
-      
+
       // Remove duplicates and limit to 10 recommendations
       const uniqueRecs = removeDuplicateRecommendations(allRecommendations);
       const limitedRecs = uniqueRecs.slice(0, 10);
-      
+
       setRecommendations(limitedRecs);
     } catch (error) {
       console.error("Error fetching music recommendations:", error);
@@ -101,36 +116,48 @@ const MusicHub = () => {
     try {
       // First try using our backend proxy if available
       try {
-        const url = `${SIMILAR_TRACKS_URL}?artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(track)}`;
+        const url = `${SIMILAR_TRACKS_URL}?artist=${encodeURIComponent(
+          artist
+        )}&track=${encodeURIComponent(track)}`;
         const response = await axiosPrivate.get(url);
         return response.data;
       } catch (proxyError) {
-        console.warn("Backend proxy unavailable, using direct Last.fm API:", proxyError);
-        
+        console.warn(
+          "Backend proxy unavailable, using direct Last.fm API:",
+          proxyError
+        );
+
         // Fall back to direct Last.fm API call if backend proxy fails
         const params = new URLSearchParams({
-          method: 'track.getSimilar',
+          method: "track.getSimilar",
           artist: artist,
           track: track,
           api_key: LASTFM_API_KEY,
-          format: 'json',
-          limit: 5
+          format: "json",
+          limit: 5,
         });
-        
+
         const response = await axios.get(`${LASTFM_API_BASE}?${params}`);
-        
-        if (response.data && response.data.similartracks && response.data.similartracks.track) {
-          return response.data.similartracks.track.map(item => ({
+
+        if (
+          response.data &&
+          response.data.similartracks &&
+          response.data.similartracks.track
+        ) {
+          return response.data.similartracks.track.map((item) => ({
             id: item.mbid || `${item.name}-${item.artist.name}`,
             name: item.name,
             artist: item.artist.name,
-            url: item.url
+            url: item.url,
           }));
         }
         return [];
       }
     } catch (error) {
-      console.error(`Error fetching similar tracks for ${track} by ${artist}:`, error);
+      console.error(
+        `Error fetching similar tracks for ${track} by ${artist}:`,
+        error
+      );
       return [];
     }
   };
@@ -138,7 +165,7 @@ const MusicHub = () => {
   // Helper function to remove duplicate recommendations
   const removeDuplicateRecommendations = (recommendations) => {
     const seen = new Set();
-    return recommendations.filter(rec => {
+    return recommendations.filter((rec) => {
       const key = `${rec.artist}-${rec.name}`;
       if (seen.has(key)) return false;
       seen.add(key);
@@ -223,7 +250,7 @@ const MusicHub = () => {
   const deletePlaylist = (playlistId) => {
     const updatedPlaylists = playlists.filter((pl) => pl.id !== playlistId);
     setPlaylists(updatedPlaylists);
-    
+
     // If the deleted playlist was selected for recommendations, reset to the first available playlist
     if (selectedPlaylistForRecs === playlistId && updatedPlaylists.length > 0) {
       setSelectedPlaylistForRecs(updatedPlaylists[0].id);
@@ -237,13 +264,13 @@ const MusicHub = () => {
         ? { ...playlist, songs: [...playlist.songs, song] }
         : playlist
     );
-    
+
     setPlaylists(updatedPlaylists);
-    
+
     // If we're adding to the currently selected playlist for recommendations,
     // update the recommendations
     if (playlistId === selectedPlaylistForRecs) {
-      const updatedPlaylist = updatedPlaylists.find(p => p.id === playlistId);
+      const updatedPlaylist = updatedPlaylists.find((p) => p.id === playlistId);
       fetchRecommendationsForPlaylist(updatedPlaylist);
     }
   };
@@ -267,8 +294,8 @@ const MusicHub = () => {
   const handleChangeRecommendationPlaylist = (playlistId) => {
     const selectedId = Number(playlistId);
     setSelectedPlaylistForRecs(selectedId);
-    
-    const selectedPlaylist = playlists.find(p => p.id === selectedId);
+
+    const selectedPlaylist = playlists.find((p) => p.id === selectedId);
     if (selectedPlaylist) {
       fetchRecommendationsForPlaylist(selectedPlaylist);
     }
@@ -309,7 +336,9 @@ const MusicHub = () => {
       <div className="modern-content">
         <div className="main-column">
           <div className="modern-card oval-box">
-            <h2 className="modern-section-title heading-blue">Trending Songs</h2>
+            <h2 className="modern-section-title heading-blue">
+              Trending Songs
+            </h2>
             <div className="trending-songs">
               {trendingSongs.map((song) => (
                 <div key={song.id} className="song-item">
@@ -347,7 +376,9 @@ const MusicHub = () => {
           </div>
 
           <div className="modern-card oval-box">
-            <h2 className="modern-section-title heading-blue">Your Playlists</h2>
+            <h2 className="modern-section-title heading-blue">
+              Your Playlists
+            </h2>
             <div className="playlist-creator">
               <input
                 type="text"
@@ -364,8 +395,7 @@ const MusicHub = () => {
                 <div key={playlist.id} className="playlist-card">
                   <div className="playlist-details">
                     <h3>
-                      {editingPlaylist &&
-                      editingPlaylist.id === playlist.id ? (
+                      {editingPlaylist && editingPlaylist.id === playlist.id ? (
                         <input
                           type="text"
                           defaultValue={playlist.name}
@@ -389,9 +419,11 @@ const MusicHub = () => {
                       >
                         <FaTrash />
                       </button>
-                      <button 
+                      <button
                         className="modern-button modern-button-primary"
-                        onClick={() => handleChangeRecommendationPlaylist(playlist.id)}
+                        onClick={() =>
+                          handleChangeRecommendationPlaylist(playlist.id)
+                        }
                         disabled={selectedPlaylistForRecs === playlist.id}
                       >
                         Get Recommendations
@@ -449,7 +481,8 @@ const MusicHub = () => {
           <div className="modern-card">
             <h2 className="modern-section-title">
               Recommendations Based on{" "}
-              {playlists.find(p => p.id === selectedPlaylistForRecs)?.name || "Your Music"}
+              {playlists.find((p) => p.id === selectedPlaylistForRecs)?.name ||
+                "Your Music"}
             </h2>
             <div className="recommendations-section">
               {isLoadingRecs ? (
@@ -476,7 +509,8 @@ const MusicHub = () => {
                 </ul>
               ) : (
                 <p className="no-recommendations">
-                  {playlists.find(p => p.id === selectedPlaylistForRecs)?.songs.length === 0
+                  {playlists.find((p) => p.id === selectedPlaylistForRecs)
+                    ?.songs.length === 0
                     ? "Add songs to your playlist to get recommendations"
                     : "No recommendations available."}
                 </p>
@@ -485,7 +519,9 @@ const MusicHub = () => {
           </div>
 
           <div className="modern-card oval-box">
-            <h2 className="modern-section-title heading-blue">Search History</h2>
+            <h2 className="modern-section-title heading-blue">
+              Search History
+            </h2>
             {searchHistory.length > 0 ? (
               <ul>
                 {searchHistory.map((query, index) => (
@@ -501,7 +537,9 @@ const MusicHub = () => {
 
           {searchResults.length > 0 && (
             <div className="modern-card oval-box">
-              <h2 className="modern-section-title heading-blue">Search Results</h2>
+              <h2 className="modern-section-title heading-blue">
+                Search Results
+              </h2>
               <div className="search-results">
                 {searchResults.map((song) => (
                   <div key={song.id} className="song-item">
@@ -520,7 +558,7 @@ const MusicHub = () => {
                           <FaPlay />
                         </button>
                       </a>
-                      
+
                       {/* Add to playlist dropdown */}
                       {playlists.length > 0 && (
                         <select
