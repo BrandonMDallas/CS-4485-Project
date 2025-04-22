@@ -16,12 +16,10 @@ const SettingsTab = () => {
   const [compactMode, setCompactMode] = useState(false);
   const [fontSize, setFontSize] = useState(21);
 
-  // Toggle body.dark-mode for global theming
   useEffect(() => {
     document.body.classList.toggle("dark-mode", darkMode);
   }, [darkMode]);
 
-  // 2) Save to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem("darkMode", darkMode);
   }, [darkMode]);
