@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from "react";
 import styles from "./SettingsTab.module.css";
 
+const getInitialDarkMode = () => {
+  const stored = localStorage.getItem("darkMode");
+  if (stored !== null) {
+    return stored === "true";
+  }
+
+  return window.matchMedia("(prefers-color-scheme: dark)").matches;
+};
+
 const SettingsTab = () => {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(getInitialDarkMode);
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [compactMode, setCompactMode] = useState(false);
   const [fontSize, setFontSize] = useState(21);
@@ -10,6 +19,11 @@ const SettingsTab = () => {
   // Toggle body.dark-mode for global theming
   useEffect(() => {
     document.body.classList.toggle("dark-mode", darkMode);
+  }, [darkMode]);
+
+  // 2) Save to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("darkMode", darkMode);
   }, [darkMode]);
 
   // Adjust root font‑size
