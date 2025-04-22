@@ -10,7 +10,7 @@
     font-size: 2rem;        
     font-weight: 600;       
     margin: 0 0 1.5rem;     
-    color: #333;            
+    color: var(--text);            
     letter-spacing: 0.5px;  
   }
   .navLink {
@@ -51,6 +51,8 @@
     width: 18rem;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
+    background-color: var(--card-bg);
+    color: var(--text);
   }
   
   .mainCard:hover {
