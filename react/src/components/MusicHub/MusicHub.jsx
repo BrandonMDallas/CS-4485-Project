@@ -280,13 +280,12 @@ const MusicHub = () => {
     const fetchTrendingSongs = async () => {
       try {
         const response = await axiosPrivate.get(TOP_TRACKS_URL);
-        console.log(response.data);
-        setTrendingSongs(response.data);
+        setTrendingSongs(response.data.slice(0, 10));
       } catch (error) {
         console.error("Failed to fetch trending songs", error);
       }
     };
-
+  
     fetchTrendingSongs();
   }, []);
 
