@@ -12,7 +12,7 @@ const getInitialDarkMode = () => {
 
 const SettingsTab = () => {
   const [darkMode, setDarkMode] = useState(getInitialDarkMode);
-  const [emailNotifications, setEmailNotifications] = useState(true);
+  const [emailNotifications, setEmailNotifications] = useState(false);
   const [compactMode, setCompactMode] = useState(false);
   const [fontSize, setFontSize] = useState(21);
 

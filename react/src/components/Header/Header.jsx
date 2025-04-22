@@ -1,14 +1,20 @@
 // src/components/Header/Header.jsx
 import React, { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import AuthContext from "../../context/AuthProvider";
 import styles from "./Header.module.css";
 
 const Header = () => {
-  const { auth } = useContext(AuthContext);
+  const { auth, setAuth } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  // if logged in, home goes to dashboard, otherwise to welcome (“/”)
   const homePath = auth?.accessToken ? "/dashboard" : "/";
+
+  const handleLogout = () => {
+    setAuth({});
+    // after clearing auth, navigate home
+    navigate("/");
+  };
 
   return (
     <header className={styles.header}>
@@ -43,6 +49,21 @@ const Header = () => {
               }
             >
               StocksHub
+            </NavLink>
+
+            {/* now Log Out is a NavLink too */}
+            <NavLink
+              to="/"
+              onClick={handleLogout}
+              className={({ isActive }) => {
+                const base = isActive
+                  ? `${styles.link} ${styles.active}`
+                  : styles.link;
+                // always include logout class for styling
+                return `${base} ${styles.logout}`;
+              }}
+            >
+              Log Out
             </NavLink>
           </>
         ) : (

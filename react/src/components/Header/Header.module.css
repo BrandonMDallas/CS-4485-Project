@@ -27,3 +27,7 @@
   .active {
     color: var(--accent-hover);
   }
+  
+  .nav a.logout:hover {
+    color: red;
+  }
