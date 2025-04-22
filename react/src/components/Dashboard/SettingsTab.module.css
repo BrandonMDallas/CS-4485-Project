@@ -1,0 +1,42 @@
+/* src/components/SettingsTab.module.css */
+.settingsContainer {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    background-color: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  }
+  
+  .title {
+    font-size: 1.5rem;
+    margin-bottom: 1.25rem;
+    text-align: center;
+  }
+  
+  .settingItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  
+  .label {
+    font-weight: 500;
+  }
+  
+  /* Global dark-mode overrides—add these into your global CSS (e.g. index.css): */
+  body.dark-mode {
+    background-color: #121212;
+    color: #f1f1f1;
+  }
+  
+  body.dark-mode .dashboardContainer {
+    background-color: #1e1e1e;
+  }
+  
+  body.dark-mode .settingsContainer {
+    background-color: #1e1e1e;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+  }
+  
