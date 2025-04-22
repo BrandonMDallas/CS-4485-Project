@@ -1,3 +1,4 @@
+// ChartPanel.jsx
 import React, { useMemo } from "react";
 import {
   Chart as ChartJS,
@@ -26,29 +27,40 @@ ChartJS.register(
 export default function ChartPanel({
   labels = [],
   values = [],
-  unitLabel = "", // add this prop if you want an x‑axis label
+  unitLabel = "",
+  symbol = "", // ← new prop
 }) {
   const chartData = useMemo(
     () => ({
-      labels, // ← use the labels prop
+      labels,
       datasets: [
         {
-          data: values, // ← use the values prop
+          label: symbol, // ← show selected symbol in legend
+          data: values,
           borderWidth: 2,
         },
       ],
     }),
-    [labels, values]
+    [labels, values, symbol]
   );
 
   const options = useMemo(
     () => ({
+      plugins: {
+        legend: {
+          display: Boolean(symbol),
+        },
+        title: {
+          display: Boolean(symbol),
+          text: symbol ? `Price history for ${symbol}` : "",
+        },
+      },
       scales: {
         x: { title: { display: true, text: unitLabel } },
         y: { title: { display: true, text: "Value" }, beginAtZero: true },
       },
     }),
-    [unitLabel]
+    [unitLabel, symbol]
   );
 
   return (
