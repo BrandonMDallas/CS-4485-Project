@@ -52,12 +52,12 @@ export default function StockHub() {
           />
         </div>
 
-        <div className={styles.tabsWrapper}>
-          <IntervalTabs onSelect={handleInterval} />
-        </div>
-
         <div className={styles.chartWrapper}>
           <ChartPanel labels={labels} values={values} />
+        </div>
+
+        <div className={styles.tabsWrapper}>
+          <IntervalTabs onSelect={handleInterval} />
         </div>
 
         <div className={styles.newsWrapper}>
