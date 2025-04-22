@@ -457,25 +457,6 @@ const MusicHub = () => {
         </div>
 
         <div className="sidebar-column">
-          {/* User Profile Dropdown */}
-          <div className="menuContainer">
-            <button className="mainButton" onClick={toggleDropdown}>
-              <FaUser /> Profile
-            </button>
-            {dropdownVisible && (
-              <div className="dropdownContent">
-                <Link to="/profile" className="menuLink">
-                  My Profile
-                </Link>
-                <Link to="/settings" className="menuLink">
-                  Settings
-                </Link>
-                <Link to="/logout" className="menuLink">
-                  Logout
-                </Link>
-              </div>
-            )}
-          </div>
 
           {/* AI Recommendation Section */}
           <div className="modern-card">
