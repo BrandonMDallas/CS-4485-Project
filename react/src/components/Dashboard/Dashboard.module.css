@@ -1,5 +1,6 @@
 .dashboardContainer {
-    background-color: #f1f3f5;
+    background-color: var(--bg);
+    color: var(--text);
     font-family: 'Nunito', sans-serif;
     min-height: 100vh;
     padding: 2rem;

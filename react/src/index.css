@@ -58,3 +58,15 @@ body {
     color: red;
     margin-left: 0.25rem;
 }
+:root {
+    --bg: #f1f3f5;
+    --text: #333;
+    --card-bg: #fff;
+  }
+  
+  body.dark-mode {
+    --bg: #121212;
+    --text: #f1f1f1;
+    --card-bg: #1e1e1e;
+  }
+  
