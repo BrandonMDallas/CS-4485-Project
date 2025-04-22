@@ -3,7 +3,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
-    background: #fff;
+    background: var(--header-bg);
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   }
   
@@ -16,7 +16,7 @@
   
   .nav a {
     margin-left: 1.5rem;
-    color: var(--text-color);
+    color: var(--text);
     text-decoration: none;
     font-weight: 500;
   }
@@ -26,4 +26,8 @@
   
   .active {
     color: var(--accent-hover);
+  }
+  
+  .nav a.logout:hover {
+    color: red;
   }

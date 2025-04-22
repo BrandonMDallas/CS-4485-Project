@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
 import ReactDOM from 'react-dom/client';
-import './App.css'
+import './src/App.css'
 import 'https://cdn.jsdelivr.net/npm/chart.js'
 import Modal from 'react-bootstrap/Modal'
-import {FaSearch} from "react-icons/fa"
+//import {FaSearch} from "react-icons/fa"
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'
-import MainMenu from './MainMenu.jsx'
-import Stocks from './StocksPage.jsx'
+//import MainMenu from './MainMenu.jsx'
+import Stocks from './Stocks.jsx'
 import {createElement} from 'react';
 import {Chart as ChartJS, LinearScale, LineElement, CategoryScale, PointElement} from 'chart.js'
 import {Line} from 'react-chartjs-2'

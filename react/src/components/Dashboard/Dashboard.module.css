@@ -1,0 +1,73 @@
+.dashboardContainer {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    padding: 2rem;
+  }
+  .hero {
+    text-align: center;
+    font-size: 2rem;        
+    font-weight: 600;       
+    margin: 0 0 1.5rem;     
+    color: var(--text);            
+    letter-spacing: 0.5px;  
+  }
+  .navLink {
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 2rem;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .navLink.active {
+    background-color: var(--nav-active-bg) !important;
+    color:            var(--nav-active-text) !important;
+  }
+  
+  .navLink:hover {
+    background-color: var(--nav-hover-bg);
+    transform: translateY(-2px);
+  }
+  .tabContent {
+    display: flex;
+    flex-direction: column;
+    gap: 30rem;
+    align-items: center;
+  }
+
+  .tabContent > .tab-pane {
+    padding: 1rem;
+    max-width: 900px;
+  }
+  .cardRow {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .mainCard {
+    width: 18rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    background-color: var(--card-bg);
+    color: var(--text);
+  }
+  
+  .mainCard:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+  }
+  .card {
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+  }
+  
