@@ -1,13 +1,11 @@
-// src/components/StockHub.jsx
 import React, { useState } from "react";
 import StockList from "./StockList";
 import IntervalTabs from "./IntervalTabs";
 import ChartPanel from "./ChartPanel";
-
 import NewsFeed from "./NewsFeed";
 import useAxiosPrivate from "../../api/useAxiosPrivate";
 
-const STOCK_DATA_URL = "/api/alphavantage/stock-data";
+import styles from "./StockHub.module.css";
 
 export default function StockHub() {
   const axiosPrivate = useAxiosPrivate();
@@ -34,27 +32,38 @@ export default function StockHub() {
     console.log(unit);
     /*…*/
   };
+
   const handleRemove = (symbol) => {
     setYourStocks((prev) => prev.filter((s) => s !== symbol));
     /*…*/
   };
-  const handleAbout = (symbol) => alert(`Info about ${symbol}`);
 
   return (
-    <main style={{ padding: "1rem" }}>
-      <h1>StockHub</h1>
+    <main className={styles.container}>
+      <h1 className={styles.header}>StocksHub</h1>
 
-      <StockList
-        stocks={yourStocks}
-        onView={handleView}
-        onRemove={handleRemove}
-        onAdd={handleAdd}
-      />
+      <div className={styles.hub}>
+        <div className={styles.stockListWrapper}>
+          <StockList
+            stocks={yourStocks}
+            onView={handleView}
+            onRemove={handleRemove}
+            onAdd={handleAdd}
+          />
+        </div>
 
-      <IntervalTabs onSelect={handleInterval} />
-      <ChartPanel labels={labels} values={values} />
+        <div className={styles.tabsWrapper}>
+          <IntervalTabs onSelect={handleInterval} />
+        </div>
 
-      <NewsFeed />
+        <div className={styles.chartWrapper}>
+          <ChartPanel labels={labels} values={values} />
+        </div>
+
+        <div className={styles.newsWrapper}>
+          <NewsFeed />
+        </div>
+      </div>
     </main>
   );
 }
