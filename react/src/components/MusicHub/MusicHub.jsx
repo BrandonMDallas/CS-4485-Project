@@ -457,7 +457,7 @@ const MusicHub = () => {
         </div>
 
         <div className="sidebar-column">
-
+          {/*Example commment*/}
           {/* AI Recommendation Section */}
           <div className="modern-card">
             <h2 className="modern-section-title">
