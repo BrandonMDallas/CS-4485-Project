@@ -35,7 +35,7 @@ export default function StockHub() {
     /*…*/
   };
   const handleRemove = (symbol) => {
-    console.log(symbol);
+    setYourStocks((prev) => prev.filter((s) => s !== symbol));
     /*…*/
   };
   const handleAbout = (symbol) => alert(`Info about ${symbol}`);

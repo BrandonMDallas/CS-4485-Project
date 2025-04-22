@@ -1,6 +1,7 @@
 package com.cs4485.group2.widgetapp.alphavantage.controller;
 
 import com.cs4485.group2.widgetapp.alphavantage.model.AlphaVantageResponse;
+import com.cs4485.group2.widgetapp.alphavantage.model.SymbolSearchResponse;
 import com.cs4485.group2.widgetapp.alphavantage.service.AlphaVantageService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,5 +53,14 @@ public class AlphaVantageController {
     @GetMapping("/commodity-data")
     public AlphaVantageResponse getCommodityData(@RequestParam String symbol) {
         return alphaVantageService.getCommodityData(symbol);
+    }
+
+    /**
+     * Endpoint to search tickers by keyword.
+     * Example: GET /api/alphavantage/symbol-search?keywords=apple
+     */
+    @GetMapping("/symbol-search")
+    public SymbolSearchResponse symbolSearch(@RequestParam String keywords) {
+        return alphaVantageService.searchSymbols(keywords);
     }
 }
