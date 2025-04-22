@@ -4,7 +4,7 @@ import styles from "./Dashboard.module.css";
 export default function MainTab() {
   return (
     <>
-      <h2 className={styles.hero}>What would you like to do today?</h2>
+      <h2 className={styles.hero}>Dashboard</h2>
 
       <div className={styles.cardRow}>
         <div className={`card ${styles.mainCard}`}>
@@ -55,7 +55,7 @@ export default function MainTab() {
             <p className="card-text text-center">
               View and keep track of stock data from various companies!
             </p>
-            <Link to="/stocks" className="btn btn-primary d-block mx-auto">
+            <Link to="/stockhub" className="btn btn-primary d-block mx-auto">
               Visit
             </Link>
           </div>

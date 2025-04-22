@@ -1,21 +1,64 @@
+/* src/components/StockList.module.css */
+
+/* Section wrapper */
 .section {
-    margin: 1rem 0;
-  }
-  .list {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-  .card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0.5rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  .symbol {
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-  }
-  
+  margin: 1rem 0;
+} /* :contentReference[oaicite:0]{index=0}&#8203;:contentReference[oaicite:1]{index=1} */
+
+/* Main list of stock cards */
+.list {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+} /* :contentReference[oaicite:2]{index=2}&#8203;:contentReference[oaicite:3]{index=3} */
+
+/* Individual stock card */
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+} /* :contentReference[oaicite:4]{index=4}&#8203;:contentReference[oaicite:5]{index=5} */
+
+/* Stock symbol inside card */
+.symbol {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+} /* :contentReference[oaicite:6]{index=6}&#8203;:contentReference[oaicite:7]{index=7} */
+
+/* Unified search/add row */
+.searchSection {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* “Add” button next to the search input */
+.addBtn {
+  flex-shrink: 0;
+}
+
+/* Search results list inside modal */
+.searchResults {
+  list-style: none;
+  padding: 0;
+  max-height: 150px;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+}
+
+/* Individual search result entry */
+.resultItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.25rem 0;
+}
+
+/* Existing-stock list item inside modal */
+.item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
