@@ -1,5 +1,10 @@
 .container {
-    width: 100%;
-    max-width: 600px;
-    margin: auto;
-  }
+  width: 100%;
+  max-width: 800px;               /* make it wider */
+  height: 400px;                  /* set a fixed height */
+  margin: 2rem auto;              /* add vertical breathing room */
+  padding: 1rem;                  /* inner padding */
+  background: #fff;               /* white background */
+  border-radius: 8px;             /* rounded corners */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);  /* subtle lift */
+}
