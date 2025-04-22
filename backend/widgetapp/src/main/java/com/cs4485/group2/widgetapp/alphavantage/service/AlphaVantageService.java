@@ -1,6 +1,7 @@
 package com.cs4485.group2.widgetapp.alphavantage.service;
 
 import com.cs4485.group2.widgetapp.alphavantage.model.AlphaVantageResponse;
+import com.cs4485.group2.widgetapp.alphavantage.model.SymbolSearchResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
@@ -68,5 +69,20 @@ public class AlphaVantageService {
         String url = String.format("%s?function=%s&symbol=%s&apikey=%s", baseUrl, function, symbol, apiKey);
         ResponseEntity<AlphaVantageResponse> response = restTemplate.getForEntity(url, AlphaVantageResponse.class);
         return response.getBody();
+    }
+
+    /**
+     * Searches for symbols via AlphaVantage’s SYMBOL_SEARCH endpoint.
+     * @param keywords ticker or company name fragment
+     */
+    public SymbolSearchResponse searchSymbols(String keywords) {
+        String function = "SYMBOL_SEARCH";
+        String url = String.format(
+                "%s?function=%s&keywords=%s&apikey=%s",
+                baseUrl, function, keywords, apiKey
+        );
+        ResponseEntity<SymbolSearchResponse> resp =
+                restTemplate.getForEntity(url, SymbolSearchResponse.class);
+        return resp.getBody();
     }
 }

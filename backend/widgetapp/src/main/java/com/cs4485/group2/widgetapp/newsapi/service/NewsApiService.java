@@ -6,13 +6,16 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.Map;
 
 @Service
 public class NewsApiService {
 
     private final RestTemplate restTemplate;
     private final String apiKey;
-    private final String baseUrl = "https://newsapi.org/v2/top-headlines";
+    private final String baseUrl = "https://newsapi.org/v2";
 
     public NewsApiService(RestTemplateBuilder restTemplateBuilder,
                           @Value("${NEWSAPI_API_KEY}") String apiKey) {
@@ -27,7 +30,11 @@ public class NewsApiService {
      * @return the parsed response from NewsAPI
      */
     public NewsApiResponse getTopHeadlines(String country) {
-        String url = String.format("%s?country=%s&apiKey=%s", baseUrl, country, apiKey);
+        String url = UriComponentsBuilder
+                .fromHttpUrl(baseUrl + "/top-headlines")
+                .queryParam("country", country)
+                .queryParam("apiKey", apiKey)
+                .toUriString();
         ResponseEntity<NewsApiResponse> response = restTemplate.getForEntity(url, NewsApiResponse.class);
         return response.getBody();
     }
@@ -40,7 +47,12 @@ public class NewsApiService {
      * @return the parsed response from NewsAPI
      */
     public NewsApiResponse getTopHeadlinesByCategory(String country, String category) {
-        String url = String.format("%s?country=%s&category=%s&apiKey=%s", baseUrl, country, category, apiKey);
+        String url = UriComponentsBuilder
+                .fromHttpUrl(baseUrl + "/top-headlines")
+                .queryParam("country", country)
+                .queryParam("category", category)
+                .queryParam("apiKey", apiKey)
+                .toUriString();
         ResponseEntity<NewsApiResponse> response = restTemplate.getForEntity(url, NewsApiResponse.class);
         return response.getBody();
     }
@@ -53,8 +65,29 @@ public class NewsApiService {
      * @return the parsed response from NewsAPI
      */
     public NewsApiResponse getHeadlinesByKeyword(String country, String keyword) {
-        String url = String.format("%s?country=%s&q=%s&apiKey=%s", baseUrl, country, keyword, apiKey);
+        String url = UriComponentsBuilder
+                .fromHttpUrl(baseUrl + "/top-headlines")
+                .queryParam("country", country)
+                .queryParam("q", keyword)
+                .queryParam("apiKey", apiKey)
+                .toUriString();
         ResponseEntity<NewsApiResponse> response = restTemplate.getForEntity(url, NewsApiResponse.class);
         return response.getBody();
     }
+
+    /**
+     * GET https://newsapi.org/v2/everything?[any params]&apiKey={apiKey}
+     */
+    public NewsApiResponse getEverything(Map<String, String> clientParams) {
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromHttpUrl(baseUrl + "/everything")
+                .queryParam("apiKey", apiKey);
+
+        clientParams.forEach(builder::queryParam);
+
+        String url = builder.toUriString();
+        ResponseEntity<NewsApiResponse> response = restTemplate.getForEntity(url, NewsApiResponse.class);
+        return response.getBody();
+    }
+
 }
