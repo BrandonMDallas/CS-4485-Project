@@ -1,81 +1,104 @@
-/* src/components/StockList.module.css */
-
-/* Section wrapper */
 .section {
-  margin: 1rem 0;
-} 
-
-/* Main list of stock cards */
-.list {
+  margin: 2rem 0 3rem;
   display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-} 
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.section h2 {
+  margin-bottom: 1rem;
+}
+.section > button {
+  margin-bottom: 2rem;
+}
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  row-gap: 2rem;     /* more space between rows */
+  column-gap: 1rem;  /* existing horizontal gap */
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
 
-/* Individual stock card */
 .card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-} 
-
-/* Stock symbol inside card */
-.symbol {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-} 
-
-/* Unified search/add row */
-.searchSection {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-/* “Add” button next to the search input */
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  margin-bottom: 0.75rem;
+}
+
+.symbol {
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+}
+
+/* stretch card buttons */
+.card button {
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+.searchSection {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
 .addBtn {
   flex-shrink: 0;
 }
 
-/* Search results list inside modal */
+/* results list */
 .searchResults {
   list-style: none;
   padding: 0;
-  max-height: 150px;
+  max-height: 200px;
   overflow-y: auto;
+  width: 100%;
+  max-width: 400px;
   margin-bottom: 1rem;
 }
 
-/* Individual search result entry */
 .resultItem {
   display: flex;
   justify-content: space-between;
-  padding: 0.25rem 0;
+  padding: 0.5rem 0;
+  width: 100%;
+  border-bottom: 1px solid #eee;
 }
 
-/* Existing-stock list item inside modal */
 .item {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
+  align-items: center;            /* vertical align */
+  justify-content: space-between; /* keep sym & button apart */
+  width: 100%;
+  max-width: 400px;               /* same as .searchResults or searchSection */
+  margin: 0 auto 0.75rem;         /* center and space below */
 }
 
-.card {
+.modalContent {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-/* new logo styling */
-.logo {
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
-  margin-bottom: 0.5rem;
 }
