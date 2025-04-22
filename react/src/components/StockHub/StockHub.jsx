@@ -1,3 +1,4 @@
+// StockHub.jsx
 import React, { useState } from "react";
 import StockList from "./StockList";
 import IntervalTabs from "./IntervalTabs";
@@ -22,7 +23,6 @@ export default function StockHub() {
       const resp = await axiosPrivate.get(STOCK_DATA_URL, {
         params: { symbol },
       });
-      console.log(resp.data);
       const series = resp.data["Time Series (Daily)"] || {};
       const dates = Object.keys(series).slice(0, 30).reverse();
       const prices = dates.map((date) => parseFloat(series[date]["4. close"]));
@@ -45,13 +45,12 @@ export default function StockHub() {
   };
 
   const handleInterval = (unit) => {
-    console.log(unit);
+    console.log("Selected interval:", unit);
     /*…*/
   };
 
   const handleRemove = (symbol) => {
     setYourStocks((prev) => prev.filter((s) => s !== symbol));
-    /*…*/
   };
 
   return (
@@ -68,12 +67,12 @@ export default function StockHub() {
           />
         </div>
 
+        {/* Combined chart + tabs wrapper */}
         <div className={styles.chartWrapper}>
           <ChartPanel labels={labels} values={values} symbol={selectedSymbol} />
-        </div>
-
-        <div className={styles.tabsWrapper}>
-          <IntervalTabs onSelect={handleInterval} />
+          <div className={styles.tabsWrapper}>
+            <IntervalTabs onSelect={handleInterval} />
+          </div>
         </div>
 
         <div className={styles.newsWrapper}>

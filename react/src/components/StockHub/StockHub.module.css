@@ -24,10 +24,7 @@
     gap: 2rem;
   }
   
-  /* Card wrappers for each sub‑section */
   .stockListWrapper,
-  .tabsWrapper,
-  .chartWrapper,
   .newsWrapper {
     background: #fff;
     padding: 1.5rem;
@@ -35,13 +32,22 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
   
-  /* Center the chart */
+  /* Combined Chart + Tabs */
   .chartWrapper {
     display: flex;
-    justify-content: center;
+    flex-direction: column;    /* stack chart and tabs */
+    align-items: center;       /* center both horizontally */
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
   
-  /* Tweak the h2 inside NewsFeed */
+  .tabsWrapper {
+    width: 100%;
+    margin-top: 1.5rem;
+  }
+  
   .newsWrapper h2 {
     margin-bottom: 1rem;
   }
