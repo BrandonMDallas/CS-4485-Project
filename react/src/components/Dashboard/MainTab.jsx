@@ -19,7 +19,7 @@ export default function MainTab() {
             <p className="card-text">
               Catch up with the latest news in sports, players, and teams!
             </p>
-            <Link to="/sportsHub" className="btn btn-primary">
+            <Link to="/sportsHub" className="btn btn-primary d-block mx-auto">
               Visit
             </Link>
           </div>
@@ -37,7 +37,7 @@ export default function MainTab() {
             <p className="card-text">
               Listen to the latest and most popular songs currently out there!
             </p>
-            <Link to="/musicHub" className="btn btn-primary">
+            <Link to="/musicHub" className="btn btn-primary d-block mx-auto">
               Visit
             </Link>
           </div>
@@ -55,7 +55,7 @@ export default function MainTab() {
             <p className="card-text">
               View and keep track of stock data from various companies!
             </p>
-            <Link to="/stocks" className="btn btn-primary">
+            <Link to="/stocks" className="btn btn-primary d-block mx-auto">
               Visit
             </Link>
           </div>
