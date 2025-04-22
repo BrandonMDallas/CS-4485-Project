@@ -3,7 +3,15 @@
     min-height: 100vh;
     padding: 2rem;
   }
-  
+  .hero {
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 2rem;        /* Bigger than default */
+    font-weight: 600;       /* Semi‑bold */
+    margin: 0 0 1.5rem;     /* Space below */
+    color: #333;            /* Dark gray for better contrast */
+    letter-spacing: 0.5px;  /* A little breathing room */
+  }
   .navLink {
     font-weight: 500;
     font-size: 1rem;
@@ -37,6 +45,16 @@
     justify-content: center;
     gap: 1.5rem;
     flex-wrap: wrap;
+  }
+  .mainCard {
+    width: 18rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .mainCard:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
   }
   .card {
     border: none;

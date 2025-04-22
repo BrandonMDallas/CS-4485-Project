@@ -4,11 +4,10 @@ import styles from "./Dashboard.module.css";
 export default function MainTab() {
   return (
     <>
-      <h2 style={{ textAlign: "center", fontFamily: "sans-serif" }}>
-        What would you like to do today?
-      </h2>
+      <h2 className={styles.hero}>What would you like to do today?</h2>
+
       <div className={styles.cardRow}>
-        <div className="card" style={{ width: "18rem" }}>
+        <div className={`card ${styles.mainCard}`}>
           <img
             src="https://w0.peakpx.com/wallpaper/286/926/HD-wallpaper-lebron-james-los-angeles-lakers-nba-famous-basketball-players-american-basketball-player-art-purple-stone-background-usa-basketball.jpg"
             height="45%"
@@ -26,7 +25,7 @@ export default function MainTab() {
           </div>
         </div>
 
-        <div className="card" style={{ width: "18rem" }}>
+        <div className={`card ${styles.mainCard}`}>
           <img
             src="https://storage.googleapis.com/research-production/1/2024/06/RS064-Socially-Motivated-Music-Recommendation_1_Without-Logo.png"
             height="45%"
@@ -44,7 +43,7 @@ export default function MainTab() {
           </div>
         </div>
 
-        <div className="card" style={{ width: "18rem" }}>
+        <div className={`card ${styles.mainCard}`}>
           <img
             src="https://www.analyticssteps.com/backend/media/thumbnail/8517708/4201790_1646043215_What%20are%20StocksArtboard%201%20(1).jpg"
             height="45%"
