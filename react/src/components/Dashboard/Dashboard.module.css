@@ -21,11 +21,23 @@
     background-color: rgba(78, 126, 216, 0.15);
     transform: translateY(-2px);
   }
-  
+  .tabContent {
+    display: flex;
+    flex-direction: column;
+    gap: 30rem;
+    align-items: center;
+  }
+
   .tabContent > .tab-pane {
     padding: 1rem;
+    max-width: 900px;
   }
-  
+  .cardRow {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
   .card {
     border: none;
     border-radius: 1rem;
