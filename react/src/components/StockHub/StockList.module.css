@@ -3,14 +3,14 @@
 /* Section wrapper */
 .section {
   margin: 1rem 0;
-} /* :contentReference[oaicite:0]{index=0}&#8203;:contentReference[oaicite:1]{index=1} */
+} 
 
 /* Main list of stock cards */
 .list {
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
-} /* :contentReference[oaicite:2]{index=2}&#8203;:contentReference[oaicite:3]{index=3} */
+} 
 
 /* Individual stock card */
 .card {
@@ -20,13 +20,13 @@
   padding: 0.5rem;
   border: 1px solid #ddd;
   border-radius: 4px;
-} /* :contentReference[oaicite:4]{index=4}&#8203;:contentReference[oaicite:5]{index=5} */
+} 
 
 /* Stock symbol inside card */
 .symbol {
   font-weight: bold;
   margin-bottom: 0.5rem;
-} /* :contentReference[oaicite:6]{index=6}&#8203;:contentReference[oaicite:7]{index=7} */
+} 
 
 /* Unified search/add row */
 .searchSection {
@@ -60,5 +60,22 @@
 .item {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* new logo styling */
+.logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
   margin-bottom: 0.5rem;
 }

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import StockList from "./StockList";
 import IntervalTabs from "./IntervalTabs";
 import ChartPanel from "./ChartPanel";
+
 import NewsFeed from "./NewsFeed";
 import useAxiosPrivate from "../../api/useAxiosPrivate";
 
@@ -37,7 +38,6 @@ export default function StockHub() {
     console.log(symbol);
     /*…*/
   };
-  const handleInvest = (symbol) => alert(`Invest in ${symbol}`);
   const handleAbout = (symbol) => alert(`Info about ${symbol}`);
 
   return (
@@ -48,7 +48,6 @@ export default function StockHub() {
         stocks={yourStocks}
         onView={handleView}
         onRemove={handleRemove}
-        onInvest={handleInvest}
         onAdd={handleAdd}
       />
 
