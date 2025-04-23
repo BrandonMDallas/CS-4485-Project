@@ -1,4 +1,4 @@
-// SportsHub.jsx with modern UI/UX
+// SportsHub.jsx with modern UI/UX and chatbot
 import React, { useState, useEffect } from 'react';
 import './SportsHub.css';
 import Scores from './Scores';
@@ -17,6 +17,13 @@ const SportsHub = () => {
   
   // State for selected team (hardcoded for now)
   const [selectedTeam, setSelectedTeam] = useState('Lakers');
+
+  // State for chatbot
+  const [chatMessages, setChatMessages] = useState([
+    { sender: 'bot', text: 'Hi there! I\'m your Sports Assistant. Ask me anything about your favorite teams, players, or games!' }
+  ]);
+  const [userInput, setUserInput] = useState('');
+  const [showChat, setShowChat] = useState(false);
   
   // Function to toggle dropdown
   const toggleDropdown = () => {
@@ -39,6 +46,54 @@ const SportsHub = () => {
   // Function to change selected team
   const changeTeam = (team) => {
     setSelectedTeam(team);
+    // Add a chatbot message when team changes
+    const newMessage = { 
+      sender: 'bot', 
+      text: `Team changed to ${team}! I can provide you with the latest ${team} news and stats. What would you like to know?` 
+    };
+    setChatMessages([...chatMessages, newMessage]);
+  };
+
+  // Function to handle chatbot input submission
+  const handleChatSubmit = (e) => {
+    e.preventDefault();
+    if (!userInput.trim()) return;
+
+    // Add user message to chat
+    const newUserMessage = { sender: 'user', text: userInput };
+    setChatMessages([...chatMessages, newUserMessage]);
+    
+    // Process and generate response
+    setTimeout(() => {
+      const botResponse = generateBotResponse(userInput, selectedTeam);
+      setChatMessages(prevMessages => [...prevMessages, { sender: 'bot', text: botResponse }]);
+    }, 600);
+    
+    setUserInput('');
+  };
+
+  // Function to generate bot responses based on input
+  const generateBotResponse = (input, team) => {
+    input = input.toLowerCase();
+    
+    if (input.includes('score') || input.includes('game') || input.includes('result')) {
+      return `The latest ${team} game ended 112-104. They're scheduled to play again this weekend.`;
+    } else if (input.includes('player') || input.includes('roster') || input.includes('team member')) {
+      return `${team} has several star players in their roster. Would you like me to list the key players?`;
+    } else if (input.includes('stats') || input.includes('statistics')) {
+      return `${team} is currently ranked 3rd in their division with a record of 24-14.`;
+    } else if (input.includes('news') || input.includes('update')) {
+      return `The latest news for ${team}: Their star player has recovered from injury and will play in the next game.`;
+    } else if (input.includes('hi') || input.includes('hello') || input.includes('hey')) {
+      return `Hey there! How can I help you with ${team} information today?`;
+    } else {
+      return `I'm not sure about that regarding ${team}. Would you like to know about their recent games, players, or stats?`;
+    }
+  };
+
+  // Toggle chat window
+  const toggleChat = () => {
+    setShowChat(!showChat);
   };
   
   // Adding event listener for window clicks (equivalent to window.onclick)
@@ -182,7 +237,7 @@ const SportsHub = () => {
         
         {/* Sidebar Column - AI Assistant and Team Following */}
         <div className="sidebar-column">
-          {/* AI Assistant Section */}
+          {/* AI Assistant Section - Now with Chatbot */}
           <section className="modern-card ai-assistant">
             <h2 className="modern-section-title">AI Assistant</h2>
             <div className="assistant-content">
@@ -200,11 +255,91 @@ const SportsHub = () => {
                 </svg>
               </div>
               <div className="assistant-actions">
-                <button className="modern-button assistant-button">
-                  Get Recommendations
+                <button className="modern-button assistant-button" onClick={toggleChat}>
+                  {showChat ? 'Close Chat' : 'Chat with Assistant'}
                 </button>
               </div>
             </div>
+            
+            {/* Chatbot Interface - iOS style with wider message bar */}
+            {showChat && (
+              <div className="chatbot-container mt-3">
+                {/* Chat messages area */}
+                <div className="chat-messages p-3 border rounded" style={{
+                  height: '250px', 
+                  overflowY: 'auto', 
+                  backgroundColor: '#f0f0f0', /* Light gray background similar to iOS */
+                  backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.7) 100%)',
+                  width: '100%' /* Ensure full width */
+                }}>
+                  {chatMessages.map((msg, index) => (
+                    <div key={index} className={`chat-message ${msg.sender === 'user' ? 'user-message text-end mb-3' : 'bot-message mb-3'}`}>
+                      <div 
+                        className={`message-bubble d-inline-block p-2 rounded-3`} 
+                        style={{
+                          maxWidth: '75%', /* Slightly reduced to ensure messages fit */
+                          textAlign: 'left',
+                          backgroundColor: msg.sender === 'user' ? '#1982FC' : '#e5e5ea', /* iOS-like colors */
+                          color: msg.sender === 'user' ? 'white' : 'black',
+                          borderRadius: '18px',
+                          padding: '8px 12px',
+                          boxShadow: '0 1px 1px rgba(0,0,0,0.1)',
+                          marginLeft: msg.sender === 'bot' ? '0' : 'auto',
+                          marginRight: msg.sender === 'user' ? '0' : 'auto',
+                          position: 'relative',
+                          wordBreak: 'break-word' /* Ensures long words don't overflow */
+                        }}
+                      >
+                        {msg.text}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                
+                {/* Input form - wider input with flexible layout */}
+                <form 
+                  onSubmit={handleChatSubmit} 
+                  className="chat-input-form mt-2" 
+                  style={{
+                    display: 'flex',
+                    width: '100%' /* Full width form */
+                  }}
+                >
+                  <input 
+                    type="text" 
+                    className="form-control"
+                    placeholder="Ask about sports, teams, or players..." 
+                    value={userInput}
+                    onChange={(e) => setUserInput(e.target.value)}
+                    style={{
+                      borderRadius: '20px',
+                      padding: '10px 50px',
+                      border: '1px solid #ccc',
+                      flexGrow: 1 /* This makes the input field take up all available space */
+                    }}
+                  />
+                  <button 
+                    type="submit" 
+                    className="btn btn-primary ms-2"
+                    style={{
+                      borderRadius: '50%',
+                      width: '40px',
+                      height: '40px',
+                      minWidth: '40px', /* Ensures the button doesn't shrink */
+                      padding: '0',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      flexShrink: 0 /* Prevents button from shrinking */
+                    }}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </button>
+                </form>
+              </div>
+            )}
           </section>
           
           {/* Team Following Section */}
@@ -234,6 +369,27 @@ const SportsHub = () => {
           </section>
         </div>
       </main>
+
+      {/* Add responsive styles for mobile devices */}
+      <style jsx>{`
+        @media (max-width: 768px) {
+          .modern-content {
+            flex-direction: column;
+          }
+          
+          .main-column, .sidebar-column {
+            width: 100%;
+          }
+          
+          .sidebar-column {
+            margin-top: 1rem;
+          }
+          
+          .chatbot-container {
+            width: 100%;
+          }
+        }
+      `}</style>
     </div>
   );
 };
