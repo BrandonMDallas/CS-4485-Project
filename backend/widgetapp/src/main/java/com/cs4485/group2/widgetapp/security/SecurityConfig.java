@@ -49,6 +49,8 @@ public class SecurityConfig {
         ).authorizeHttpRequests(authz ->
                 authz.requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/lastfm/**").permitAll()
+                        .requestMatchers("/api/alphavantage/**").permitAll()
+                        .requestMatchers("/api/**").permitAll()
                         .anyRequest().authenticated()
         ).httpBasic(withDefaults());
 

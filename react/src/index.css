@@ -58,3 +58,23 @@ body {
     color: red;
     margin-left: 0.25rem;
 }
+:root {
+    --bg: #f1f3f5;
+    --text: #333;
+    --card-bg: #fff;
+    --header-bg: #fff;
+    --nav-active-bg: #4e7ed8;
+    --nav-active-text: #fff;
+    --nav-hover-bg: rgba(78, 126, 216, 0.15);
+  }
+  
+  body.dark-mode {
+    --bg: #121212;
+    --text: #f1f1f1;
+    --header-bg: #1E1E1E;
+    --card-bg: #1e1e1e;
+    --nav-active-bg: #2563eb;        
+    --nav-active-text: #e5e7eb;     
+    --nav-hover-bg: rgba(37, 99, 235, 0.15);
+  }
+  
