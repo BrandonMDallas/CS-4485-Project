@@ -17,7 +17,7 @@ const App = () => {
       <Layout>
         <Routes>
           {/* Public Routes */}
-          <Route path="/" element={<Welcome />} />
+          <Route path="/" element={<WelcomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
