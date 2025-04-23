@@ -17,12 +17,12 @@ const App = () => {
       <Layout>
         <Routes>
           {/* Public Routes */}
-          <Route path="/" element={<WelcomePage />} />
+          <Route path="/" element={<Welcome />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/musichub" element={<MusicHub />} />
-          <Route path="/stockhub" element={<StockHub />} />
+          <Route path="/stockhub" element={<Stocks />} />
           <Route path="/SportsHub" element={<SportsHub />} />
           {/* Protected Routes */}
           <Route
