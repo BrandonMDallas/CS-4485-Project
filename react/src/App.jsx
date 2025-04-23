@@ -10,7 +10,7 @@ import Dashboard from "./components/Dashboard/Dashboard";
 import MusicHub from "./components/MusicHub/MusicHub";
 import StockHub from "./components/StockHub/StockHub";
 import SportsHub from "./components/SportsHub/SportsHub";
-
+import Stocks from './components/StockHub/StocksPage'
 const App = () => {
   return (
     <BrowserRouter>
