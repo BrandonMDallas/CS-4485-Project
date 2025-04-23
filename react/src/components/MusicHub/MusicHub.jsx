@@ -396,6 +396,24 @@ const MusicHub = () => {
     }
   };
 
+  // Add this function to your MusicHub component
+  const addRecommendationToPlaylist = (playlistId, song) => {
+    // Same functionality as addSongToPlaylist but for recommendations
+    const updatedPlaylists = playlists.map((playlist) =>
+      playlist.id === playlistId
+        ? { ...playlist, songs: [...playlist.songs, song] }
+        : playlist
+    );
+    setPlaylists(updatedPlaylists);
+    
+    // Optional: If we're adding to the currently selected playlist for recommendations,
+    // update the recommendations to include songs related to this new addition
+    if (playlistId === selectedPlaylistForRecs) {
+      const updatedPlaylist = updatedPlaylists.find((p) => p.id === playlistId);
+      fetchRecommendationsForPlaylist(updatedPlaylist);
+    }
+  };
+
   // Fetch trending songs
   useEffect(() => {
     const fetchTrendingSongs = async () => {
@@ -595,16 +613,38 @@ const MusicHub = () => {
                       <FaMusic />{" "}
                       <span className="song-title">{song.name}</span> -{" "}
                       <span className="song-artist">{song.artist}</span>
-                      <a
-                        href={song.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="play-link"
-                      >
-                        <button className="play-pause-button">
-                          <FaPlay />
-                        </button>
-                      </a>
+                      <div className="recommendation-actions">
+                        <a
+                          href={song.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="play-link"
+                        >
+                          <button className="play-pause-button">
+                            <FaPlay />
+                          </button>
+                        </a>
+                        
+                        {/* Add to playlist dropdown */}
+                        {playlists.length > 0 && (
+                          <select
+                            onChange={(e) => {
+                              const selectedPlaylistId = Number(e.target.value);
+                              if (selectedPlaylistId)
+                                addRecommendationToPlaylist(selectedPlaylistId, song);
+                              e.target.value = ""; // Reset dropdown after selection
+                            }}
+                            defaultValue=""
+                          >
+                            <option value="">Add to Playlist</option>
+                            {playlists.map((playlist) => (
+                              <option key={playlist.id} value={playlist.id}>
+                                {playlist.name}
+                              </option>
+                            ))}
+                          </select>
+                        )}
+                      </div>
                     </li>
                   ))}
                 </ul>
