@@ -21,34 +21,15 @@ const TRACK_SEARCH_URL = "/api/lastfm/search";
 const SIMILAR_TRACKS_URL = "/api/lastfm/similar-tracks";
 
 // Last.fm API constants
-const LASTFM_API_KEY = "h";
+const LASTFM_API_KEY = import.meta.env.VITE_LASTFM_API_KEY;
 const LASTFM_API_BASE = "http://ws.audioscrobbler.com/2.0/";
-
 const MusicHub = () => {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [trendingSongs, setTrendingSongs] = useState([]);
   const [playlists, setPlaylists] = useState([
-    {
-      id: 1,
-      name: "My Playlist",
-      songs: [
-        // Test songs for recommendations
-        {
-          id: "1",
-          name: "Starboy",
-          artist: "The Weeknd",
-          url: "https://www.last.fm/music/The+Weeknd+Feat.+Daft+Punk/Starboy/Starboy",
-        },
-        {
-          id: "2",
-          name: "NOKIA",
-          artist: "Drake",
-          url: "https://www.last.fm/music/Drake/_/Nokia",
-        },
-      ],
-    },
+    
   ]);
   const [newPlaylistName, setNewPlaylistName] = useState("");
   const [searchHistory, setSearchHistory] = useState([]);
@@ -72,37 +53,81 @@ const MusicHub = () => {
       setRecommendations([]);
       return;
     }
-
+  
     setIsLoadingRecs(true);
-
+  
     try {
       // Create array of tracks to base recommendations on
       const trackSeeds = playlist.songs.map((song) => ({
         artist: song.artist,
         track: song.name,
+        id: song.id
       }));
-
+  
       // Get recommendations from Last.fm API
-      let allRecommendations = [];
-
-      // Only process up to 3 songs to avoid too many requests
-      const songsToProcess = trackSeeds.slice(0, 3);
-
-      for (const songSeed of songsToProcess) {
-        const response = await fetchSimilarTracksFromLastFM(
-          songSeed.artist,
-          songSeed.track
-        );
-        if (response && response.length > 0) {
-          allRecommendations = [...allRecommendations, ...response];
+      let recommendationsMap = new Map(); // Map to store recommendations per song
+      let failedSongs = [];
+  
+      // Process all songs in the playlist
+      for (const songSeed of trackSeeds) {
+        try {
+          // First try with original track name
+          let response = await fetchSimilarTracksFromLastFM(
+            songSeed.artist,
+            songSeed.track
+          );
+          
+          // If no results, try alternative search formats
+          if (!response || response.length === 0) {
+            console.log(`No recommendations found for "${songSeed.track}" by ${songSeed.artist}, trying alternatives...`);
+            
+            // Try removing "featuring" and anything after it
+            if (songSeed.track.toLowerCase().includes("feat")) {
+              const simplifiedTrack = songSeed.track.replace(/\s+(feat\.?|featuring)\s+.*/i, '').trim();
+              console.log(`Trying simplified track name: "${simplifiedTrack}"`);
+              response = await fetchSimilarTracksFromLastFM(songSeed.artist, simplifiedTrack);
+            }
+            
+            // If still no results, try with just the artist
+            if (!response || response.length === 0) {
+              console.log(`Still no recommendations, trying artist-only search for ${songSeed.artist}`);
+              response = await fetchArtistTopTracksFromLastFM(songSeed.artist);
+            }
+          }
+          
+          if (response && response.length > 0) {
+            recommendationsMap.set(songSeed.id, response);
+            console.log(`Got ${response.length} recommendations for "${songSeed.track}" by ${songSeed.artist}`);
+          } else {
+            failedSongs.push(songSeed);
+            console.log(`Failed to get any recommendations for "${songSeed.track}" by ${songSeed.artist}`);
+          }
+        } catch (error) {
+          console.error(`Error fetching recommendations for ${songSeed.track}:`, error);
+          failedSongs.push(songSeed);
         }
       }
-
-      // Remove duplicates and limit to 10 recommendations
-      const uniqueRecs = removeDuplicateRecommendations(allRecommendations);
-      const limitedRecs = uniqueRecs.slice(0, 10);
-
-      setRecommendations(limitedRecs);
+  
+      console.log(`Got recommendations for ${recommendationsMap.size} out of ${trackSeeds.length} songs`);
+      
+      if (failedSongs.length > 0) {
+        console.log(`Failed to get recommendations for ${failedSongs.length} songs:`, failedSongs);
+      }
+  
+      // If we have no recommendations at all
+      if (recommendationsMap.size === 0) {
+        console.log("No recommendations found for any songs in the playlist");
+        // Fallback to getting general recommendations
+        const fallbackRecs = await fetchGeneralRecommendations();
+        setRecommendations(fallbackRecs);
+        setIsLoadingRecs(false);
+        return;
+      }
+  
+      // Use round-robin selection to get an equal number of recommendations from each song
+      const finalRecommendations = selectRecommendationsRoundRobin(recommendationsMap, 10);
+      
+      setRecommendations(finalRecommendations);
     } catch (error) {
       console.error("Error fetching music recommendations:", error);
       setRecommendations([]);
@@ -110,7 +135,103 @@ const MusicHub = () => {
       setIsLoadingRecs(false);
     }
   };
-
+  
+  // New helper function to fetch artist's top tracks as a fallback
+  const fetchArtistTopTracksFromLastFM = async (artist) => {
+    try {
+      // First try using our backend proxy if available
+      try {
+        const url = `/api/lastfm/artist-top-tracks?artist=${encodeURIComponent(artist)}`;
+        const response = await axiosPrivate.get(url);
+        return response.data;
+      } catch (proxyError) {
+        console.warn("Backend proxy unavailable for artist tracks, using direct Last.fm API:", proxyError);
+  
+        // Fall back to direct Last.fm API call
+        const params = new URLSearchParams({
+          method: "artist.getTopTracks",
+          artist: artist,
+          api_key: LASTFM_API_KEY,
+          format: "json",
+          limit: 5,
+        });
+  
+        const response = await axios.get(`${LASTFM_API_BASE}?${params}`);
+  
+        if (response.data && response.data.toptracks && response.data.toptracks.track) {
+          return response.data.toptracks.track.map((item) => ({
+            id: item.mbid || `${item.name}-${artist}`,
+            name: item.name,
+            artist: artist,
+            url: item.url,
+          }));
+        }
+        return [];
+      }
+    } catch (error) {
+      console.error(`Error fetching top tracks for artist ${artist}:`, error);
+      return [];
+    }
+  };
+  
+  // Fallback function to get general music recommendations
+  const fetchGeneralRecommendations = async () => {
+    try {
+      const response = await axiosPrivate.get(TOP_TRACKS_URL);
+      return response.data.slice(0, 10);
+    } catch (error) {
+      console.error("Failed to fetch general recommendations", error);
+      return [];
+    }
+  };
+  
+  // Helper function to select recommendations in a round-robin fashion
+  const selectRecommendationsRoundRobin = (recommendationsMap, totalLimit) => {
+    const allSongIds = Array.from(recommendationsMap.keys());
+    let finalRecommendations = [];
+    let currentIndex = 0;
+    let recommendationIndices = new Map(); // Track which recommendation we're at for each song
+    
+    // Initialize indices
+    allSongIds.forEach(songId => recommendationIndices.set(songId, 0));
+    
+    // Round-robin selection
+    while (finalRecommendations.length < totalLimit) {
+      const songId = allSongIds[currentIndex];
+      const recommendations = recommendationsMap.get(songId);
+      const recIndex = recommendationIndices.get(songId);
+      
+      // If we have a recommendation at this index
+      if (recIndex < recommendations.length) {
+        const recommendation = recommendations[recIndex];
+        
+        // Check if this recommendation is already in our list
+        const isDuplicate = finalRecommendations.some(
+          rec => rec.name === recommendation.name && rec.artist === recommendation.artist
+        );
+        
+        if (!isDuplicate) {
+          finalRecommendations.push(recommendation);
+        }
+        
+        // Increment the index for this song
+        recommendationIndices.set(songId, recIndex + 1);
+      }
+      
+      // Move to the next song
+      currentIndex = (currentIndex + 1) % allSongIds.length;
+      
+      // Safety check - if we've gone through all songs at all indices and can't find any more
+      // recommendations, break out of the loop
+      if (finalRecommendations.length === 0 || 
+          (finalRecommendations.length > 0 && 
+           allSongIds.every(songId => recommendationIndices.get(songId) >= recommendationsMap.get(songId).length))) {
+        break;
+      }
+    }
+    
+    return finalRecommendations;
+  };
   // Helper function to fetch similar tracks from Last.fm API
   const fetchSimilarTracksFromLastFM = async (artist, track) => {
     try {
