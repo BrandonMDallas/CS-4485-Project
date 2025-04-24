@@ -16,6 +16,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import MainPage from '../Dashboard/Dashboard.jsx'
 import {createElement} from 'react';
 import Axios from 'axios';
+import './moreNews.jsx'
 //import AiFinance from './aiFinance.jsx'
 //import ProfilePage from './profilePage.jsx'
 //import StocksSettings from './stocksSettings.jsx'
@@ -1462,10 +1463,9 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
   }
                 
   </ul>
-  <form className='add-form'>
-    <div>
-  <div>
-    <div>
+    <div style={{width: '1000px'}}>
+  <div style={{width: '1000px'}}>
+    <div style={{width: '1000px'}}>
      <p class="lead" >Graph of {currentGraph}</p> 
     <Line
     data={chartData} options={chartOptions}>
@@ -1516,7 +1516,6 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         </tbody>
       </Table>
   
-  </form>
   </div>
   <br></br>
   <div>
@@ -1542,7 +1541,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         value={messageValue}
         onChange={(e) => setMessageValue(e.target.value)}
       />
-      <button style={{borderRadius: '10px'}} onClick={(e)=>chatDo(e)}>Ask</button>
+      <Button style={{borderRadius: '10px'}} onClick={(e)=>chatDo(e)}>Ask</Button>
       </div>
       <p fontSize='10px' class="lead">Response</p>
       <div style={{ backgroundColor: 'white',
@@ -1788,9 +1787,9 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
       
   
      </div>
-     <Link to="/moreNews" onClick={()=>addMoreNews()}><button style={{borderRadius: '10px'}}>View more news</button></Link>
+     <Link to="/stockNews" onClick={()=>addMoreNews()}><button className="btn btn-outline-primary me-2 d-flex align-items-center" style={{borderRadius: '10px'}}>View more news</button></Link>
      </div>
-     <button style={{borderRadius: '10px'}} hidden={isHidden2} onClick={() => changeHidden()}>View more news</button>
+     <button style={{borderRadius: '10px'}} className="btn btn-outline-primary me-2 d-flex align-items-center" hidden={isHidden2} onClick={() => changeHidden()}>View more news</button>
      </div>
      
      </div>

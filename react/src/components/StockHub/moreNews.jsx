@@ -4,12 +4,11 @@ import Card from 'react-bootstrap/Card';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
-import Stocks from './StocksPage.jsx'
 //import './App.css'
 import axios from 'axios';
 import Axios from 'axios';
 import Modal from 'react-bootstrap/Modal'
-
+import Stocks from './StocksPage.jsx'
 export const moreNews = () => {
    
      const [companyName, setCompanyName]=useState("")
@@ -72,7 +71,7 @@ const handleShow = (value) => {
     <div style={{ justifyContent: 'center', 
       alignItems: 'center'}}>
     <div style={{display: 'flex'}}>
-    <Link to="/stocks"><div style={{ position: 'fixed', left: '7%', top: '2%', zIndex: '2', backgroundColor: 'white',
+    <Link to="/stockhub"><div style={{ position: 'fixed', left: '7%', top: '2%', zIndex: '2', backgroundColor: 'white',
   boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px'}}>
     <img src="https://cdn-icons-png.freepik.com/512/3114/3114883.png" width="50px" height="50px"/>
     </div></Link> 
@@ -81,9 +80,10 @@ const handleShow = (value) => {
     </div>
     <div>
     <h1 style={{color: 'blue', backgroundColor: 'white',
-  boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', textAlign: 'left'}} class="quicksand-moreNewsStyle" >More Stocks News</h1>
+  boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', textAlign: 'left', fontSize: '30px'}}  className="sports-hub-title fs-4 mb-0 me-4" >More Stocks News</h1>
 
     </div>
+    <br />
     <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>More about this news</Modal.Title>
