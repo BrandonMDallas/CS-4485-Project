@@ -21,11 +21,12 @@ import Axios from 'axios';
 import { Line } from 'react-chartjs-2';
 import Table from 'react-bootstrap/Table';
 //import './App.jsx'
-import OpenAI from "openai";
+//import OpenAI from "openai";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './moreNews.jsx'
+import AIStockRecommendationTool from './AIStockRecommendationTool';
 //import Extranews from './moreNews.jsx'
 //secure -> environment variable
 //openai api: max_tokens is proportional to brain power (bigger request means more tokens)
@@ -867,7 +868,7 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
     })
   }
   async function getNews(){
-    await Axios.get("https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=AAPL&apikey=demo").then((response)=> {
+    await Axios.get("https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=AAPL&apikey=32C6KJ3LT0U5QPAN").then((response)=> {
       try{
         const parsedData = JSON.parse(JSON.stringify(response));
         console.log("Raw news", response)
@@ -1406,9 +1407,10 @@ data={dataPoints} options={chartOptions} height={200} width={200}>
         <Modal.Footer>
         </Modal.Footer>
       </Modal>
-      <button type="button" style={{ display: 'block', margin:'auto', float: 'left', borderRadius: '10px'}} data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" onClick={handleShow4}>
-  Get recommendations from AI
-</button>
+      <AIStockRecommendationTool 
+  userStocks={list1} 
+  setUserStocks={(newStocks) => setList1(newStocks)} 
+/>
 <Modal show={show4} onHide={handleClose4}>
         <Modal.Header closeButton>
           <Modal.Title>What do you need help with?</Modal.Title>

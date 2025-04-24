@@ -10,14 +10,14 @@ import Dashboard from "./components/Dashboard/Dashboard";
 import MusicHub from "./components/MusicHub/MusicHub";
 import StockHub from "./components/StockHub/StockHub";
 import SportsHub from "./components/SportsHub/SportsHub";
-import Stocks from './components/StockHub/StocksPage'
+import Stocks from './components/StockHub/StocksPage.jsx'
 const App = () => {
   return (
     <BrowserRouter>
       <Layout>
         <Routes>
           {/* Public Routes */}
-          <Route path="/" element={<Welcome />} />
+          <Route path="/" element={<WelcomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
