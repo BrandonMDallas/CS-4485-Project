@@ -55,41 +55,7 @@ const ProfileTab = () => {
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
-      <InputGroup className="mb-3">
-        <Stack gap={3}>
-          <div style={{ display: "inline-flex" }} className="p-2" id="Email">
-            {React.createElement(elementType, {
-              type: elementType === "input" ? "text" : null,
-              children: elementType === "div" ? "Email goes here" : null,
-            })}
-            <Button
-              variant="outline-secondary"
-              id="button-addon2"
-              onClick={() => changeEmail()}
-            >
-              Edit
-            </Button>
-          </div>
-          <div style={{ display: "inline-flex" }} className="p-2" id="Password">
-            {React.createElement(elementType2, {
-              type: elementType2 === "input" ? "text" : null,
-              children: elementType2 === "div" ? "Password goes here" : null,
-            })}
-            <Button
-              variant="outline-secondary"
-              id="button-addon2"
-              onClick={() => changePassword()}
-            >
-              Edit
-            </Button>
-          </div>
-          <div
-            style={{ display: "inline-flex" }}
-            className="p-2"
-            id="Email"
-          ></div>
-        </Stack>
-      </InputGroup>
+      
     </>
   );
 };
