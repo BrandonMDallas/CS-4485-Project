@@ -27,6 +27,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './moreNews.jsx'
+
 //import Extranews from './moreNews.jsx'
 //secure -> environment variable
 //openai api: max_tokens is proportional to brain power (bigger request means more tokens)
@@ -39,8 +40,6 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
   LineElement,
   PointElement,
 )
-
-
 /*const aiClient=new OpenAI({
   apiKey: API_KEY,
   dangerouslyAllowBrowser: true
@@ -219,7 +218,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
     "model": "gpt-3.5-turbo",
     "messages": messageV
   }*/
-  const [messageValue, setMessageValue]=useState("What is a good sport to play?")
+  const [messageValue, setMessageValue]=useState("")
   async function chatDo(event){
     event.preventDefault()
     const options={
@@ -978,11 +977,11 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
       </div></Link>
       <div style={{display: 'flex', gap:'700px'}}>
    
-      <h1 class="quicksand-moreNewsStyle" style={{fontSize: '50px', textAlign: 'left', color: 'blue'}}>StocksHub</h1>
-      <Link to="/settingsPage"><Button style={{backgroundColor: 'white', borderRadius: '10px', borderColor: 'blue', padding: '10px', margin: '10px', display: 'flex', color: 'blue', gap: '10px', height: '50px'}}>
+      <h1  className="sports-hub-title fs-4 mb-0 me-4" style={{fontSize: '70px', textAlign: 'left'}}>StocksHub</h1>
+      <Link to="/settingsPage"><button className="btn btn-outline-primary me-2 d-flex align-items-center" style={{padding: '10px', margin: '10px', display: 'flex', color: 'blue', gap: '10px', height: '50px'}}>
        <img style={{backgroundColor: 'white'}} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBHv5z_Di_dQ6KiFL407ObyIy3jRRsRQvnubEol1araq9chmjaZYY0I6Hv6Zla9Qm5LMc&usqp=CAU" width="20px" height="20px"/>
       <p>Settings</p>
-      </Button></Link>
+      </button></Link>
       </div>
   </div>
       </div>
@@ -1006,7 +1005,8 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
       </p>
     </div>
     <br />
-    <button style={{borderRadius: '10px'}} onClick={handleShow2}>
+    
+    <button className="btn btn-outline-primary me-2 d-flex align-items-center" style={{borderRadius: '10px'}} onClick={handleShow2}>
           Search for additional stocks
         </button>
         <br />
@@ -1299,8 +1299,19 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
   
       </div>
       <div style={{height: '450px', width: '450px'}}>
-      <button class="aiButton" style={{borderRadius: '8px', borderColor: 'black',
-    boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.76)'}} onClick={handleShow3}><img style={{borderRadius: '10px'}} src="https://static.vecteezy.com/system/resources/previews/004/639/658/non_2x/sun-icon-on-white-background-vector.jpg" width="50%" height="50%"/> <br></br>Click here to ask AI assistant a question</button>
+        <div style={{backgroundColor: 'lightblue', borderRadius: '8px', borderColor: 'black', boxShadow: '5px 5px 10px rgba(21, 61, 219, 0.76)'}}>
+        <h3 style={{color: 'black'}}>AI Assistant</h3>
+        <img style={{borderRadius: '10px'}} src="https://static.vecteezy.com/system/resources/previews/004/639/658/non_2x/sun-icon-on-white-background-vector.jpg" width="50%" height="50%"/> <br></br>
+<button className="modern-button assistant-button" style={{backgroundColor: 'blue'}} onClick={handleShow3}>
+                Click here to ask AI assistant a question
+                </button>
+                <br></br>
+                <button type="button" style={{backgroundColor: 'blue'}} className="modern-button assistant-button" onClick={handleShow4}>
+    Get recommendations from AI
+  </button>
+        </div>
+      
+
       <br></br>
       <br></br>
       <Card style={{ backgroundColor: 'white',
@@ -1341,7 +1352,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
   <br></br>
   <br></br>
   
-  <button style={{borderRadius: '10px'}} onClick={()=>getRate()}>Calculate rate</button>
+  <button className="btn btn-outline-primary me-2 d-flex align-items-center" style={{borderRadius: '10px'}} onClick={()=>getRate()}><div style={{textAlign: 'center'}}>Calculate rate</div></button>
   <br></br>
   <p>Result: {eRate}</p>
       </Card>
@@ -1386,7 +1397,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
   
           <h6 class="h6" style={{ fontWeight: 'bold', fontSize: '30px', marginLeft: 'auto', marginRight: 'auto' }}>Stock viewer</h6>
   
-          <button variant="primary" onClick={handleShow} style={{ display: 'block', margin:'auto', float: 'right', borderRadius: '10px'}}>
+          <button variant="primary" className="btn btn-outline-primary me-2 d-flex align-items-center" onClick={handleShow} style={{ display: 'block', margin:'auto', float: 'right', borderRadius: '10px'}}>
           Edit saved list of stocks above
         </button>
   <Modal show={show} onHide={handleClose}>
@@ -1409,18 +1420,18 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
           <Modal.Footer>
           </Modal.Footer>
         </Modal>
-        <button type="button" style={{ display: 'block', margin:'auto', float: 'left', borderRadius: '10px'}} data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" onClick={handleShow4}>
-    Get recommendations from AI
-  </button>
+        
   <Modal show={show4} onHide={handleClose4}>
           <Modal.Header closeButton>
             <Modal.Title>What do you need help with?</Modal.Title>
           </Modal.Header>
           <Modal.Body>
           
-         <Link to="/whatStock"><button style={{borderRadius: '10px'}}>What stock to invest in</button></Link>
-         <Link to="/aifinance"> <button style={{borderRadius: '10px'}}>How well I'm doing with my finances so far</button></Link>
-          <Link to="/improveStocks"><button style={{borderRadius: '10px'}}>How I can improve my investing</button></Link>
+         <Link to="/whatStock"><Button style={{borderRadius: '10px'}}>What stock to invest in</Button></Link>
+         <br></br>
+         <Link to="/aifinance"> <Button style={{borderRadius: '10px'}}>How well I'm doing with my finances so far</Button></Link>
+         <br></br>
+          <Link to="/improveStocks"><Button style={{borderRadius: '10px'}}>How I can improve my investing</Button></Link>
           </Modal.Body>
           <Modal.Footer>
           </Modal.Footer>
