@@ -36,7 +36,9 @@ const Dashboard = () => {
 
   return (
     <>
-    <Carousel style={{width: '600px',marginLeft: 'auto', marginRight: 'auto'}}>
+    
+      <Container fluid className={styles.dashboardContainer}>
+      <Carousel style={{width: '600px',marginLeft: 'auto', marginRight: 'auto'}}>
         <Carousel.Item interval={1500}>
           <img
           src="https://lh6.googleusercontent.com/proxy/NgkNfPvCY8PgW0Rg2WmgVbky9KaATmj8i2eRoq7kQEdgwd7ygtrAXNZMM2JroWOU5gpODQqVBMzxdHaiEpe7ZxKerkqTsCxSdtlcQ54oe_BzEOI9Z0Wg-R7g6m7h2eu6JS5WPMt7rZuspWTVnD4rSvVGIl8"
@@ -70,7 +72,8 @@ const Dashboard = () => {
           </Carousel.Caption>
         </Carousel.Item>
       </Carousel>
-      <Container fluid className={styles.dashboardContainer}>
+      <br></br>
+      <br></br>
       <Tab.Container defaultActiveKey="main">
         <Nav variant="pills" className="justify-content-center mb-4">
           <Nav.Item>
