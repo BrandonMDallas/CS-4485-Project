@@ -979,9 +979,8 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
       <div style={{display: 'flex', gap:'700px'}}>
    
       <h1  className="sports-hub-title fs-4 mb-0 me-4" style={{fontSize: '70px', textAlign: 'left'}}>StocksHub</h1>
-      <Link to="/settingsPage"><button className="btn btn-outline-primary me-2 d-flex align-items-center" style={{padding: '10px', margin: '10px', display: 'flex', color: 'blue', gap: '10px', height: '50px'}}>
-       <img style={{backgroundColor: 'white'}} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBHv5z_Di_dQ6KiFL407ObyIy3jRRsRQvnubEol1araq9chmjaZYY0I6Hv6Zla9Qm5LMc&usqp=CAU" width="20px" height="20px"/>
-      <p>Settings</p>
+      <Link to="/settingsPage"><button className="btn btn-outline-primary me-2 d-flex align-items-center">
+      Settings
       </button></Link>
       </div>
   </div>
@@ -1026,7 +1025,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         value={inputValue}
         onChange={handleChange}
       /> 
-      <button style={{borderRadius: '10px'}} onClick={(e)=>getSR(e)}>    Search
+      <button style={{borderRadius: '10px'}} className="btn btn-outline-primary me-2 d-flex align-items-center" onClick={(e)=>getSR(e)}>    Search
       </button>
       </div>
           </label>
