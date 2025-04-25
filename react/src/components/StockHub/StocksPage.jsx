@@ -41,6 +41,8 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
   LineElement,
   PointElement,
 )
+const API_KEY="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"
+
 /*const aiClient=new OpenAI({
   apiKey: API_KEY,
   dangerouslyAllowBrowser: true
@@ -210,7 +212,6 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
   ])
   const[ques1, setQues1]=useState("What's the purpose of stocks?")
   const[res1, setRes1]=useState("Response will be displayed here.")
-  const API_KEY="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"
   /*const chatConfig={
     role: "system",
     content: "Respond in the form of a paragraph."
@@ -962,6 +963,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
     </div>*/
           return(
       <>
+      <br />
      <div style={{ backgroundColor: 'white',
     boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px'}}>
       <div style={{ display: 'flex', flexDirection: 'row'}}>
@@ -1078,7 +1080,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         </div>
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', marginLeft: '15px', height: '50px', position: 'absolute', top: '17px', right: '311px'}} onClick={() => compParams(asS1, 0)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', top: '2px', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(0, asS1, 3000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', top: '2px', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(0, asS1, 3950, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{color: 'white', margin: '15px', height: '50px', position: 'absolute', top: '2px', right: '2px'}}  onClick={()=>addLike(as1, asP1, asC1, asS1)}>Save stock</Button>
           <br>
           </br></li>
@@ -1100,7 +1102,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         </div>
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '296px', top: '2px'}} onClick={() => compParams(asS2, 1)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', top: '2px', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, asS2, 3000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', top: '2px', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, asS2, 3950, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '2px', top: '2px'}}  onClick={()=>addLike(as2, asP2, asC2, asS2)}>Save stock</Button>
           <br>
           </br></li>
@@ -1122,7 +1124,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         </div>
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '296px', top: '2px'}} onClick={() => compParams(asS3, 2)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(2, asS3, 3000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(2, asS3, 3950, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', top: '2px', right: '2px'}}  onClick={()=>addLike(as3, asP3, asC3, asS3)}>Save stock</Button>
           <br>
           </br></li>
@@ -1145,7 +1147,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         </div>
   
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '296px', top: '2px'}} onClick={() => compParams(asS4, 3)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(3, asS4, 3000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(3, asS4, 3950, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '2px', top: '2px'}}  onClick={()=>addLike(as4, asP4, asC4, asS4)}>Save stock</Button>
           <br>
           </br></li>
@@ -1167,7 +1169,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         </div>
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '296px', top: '2px'}} onClick={() => compParams(asS5, 4)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(4, asS5, 3000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(4, asS5, 3950, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '2px', top: '2px'}}  onClick={()=>addLike(as5, asP5, asC5, asS5)}>Save stock</Button>
           <br>
           </br></li>
@@ -1190,7 +1192,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         </div>
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '296px', top: '2px'}} onClick={() => compParams(asS6, 5)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(5, asS6, 3000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(5, asS6, 3950, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '2px', top: '2px'}}  onClick={()=>addLike(as6, asP6, asC6, asS6)}>Save stock</Button>
           <br>
           </br></li>
@@ -1213,7 +1215,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         </div>
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', top: '2px', right: '296px'}} onClick={() => compParams(asS7, 6)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(6, asS7, 3000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(6, asS7, 3950, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '2px', top: '2px'}}  onClick={()=>addLike(as7, asP7, asC7, asS7)}>Save stock</Button>
           <br>
           </br></li>
@@ -1236,7 +1238,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         </div>
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '296px', top: '2px'}} onClick={() => compParams(asS8, 7)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(7, asS8, 3000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(7, asS8, 3950, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '2px', top: '2px'}}  onClick={()=>addLike(as8, asP8, asC8, asS8)}>Save stock</Button>
           <br>
           </br></li>
@@ -1256,7 +1258,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         </div>
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '296px', top: '2px'}} onClick={() => compParams(asS9, 8)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(8, asS9, 3000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(8, asS9, 3950, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '2px', top: '2px'}}  onClick={()=>addLike(as9, asP9, asC9, asS9)}>Save stock</Button>
           <br>
           </br></li>
@@ -1276,7 +1278,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         </div>
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '296px', top: '2px'}} onClick={() => compParams(asS10, 9)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(9, asS10, 3000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(9, asS10, 3950, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '2px', top: '2px'}}  onClick={()=>addLike(as10, asP10, asC10, asS10)}>Save stock</Button>
           <br>
           </br></li>
@@ -1377,7 +1379,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
                     <p>Symbol: {list4[index]}</p>
                     <p>Price value: {list2[index]}</p>
                     <p>Change: {list3[index]}</p>
-                    <button style={{borderRadius: '10px'}} type="button" class="btn btn-primary" onClick={()=>stockListMulti(index, list4[index], 3000, "TIME_SERIES_INTRADAY", 0)}>View stock</button>
+                    <button style={{borderRadius: '10px'}} type="button" class="btn btn-primary" onClick={()=>stockListMulti(index, list4[index], 3950, "TIME_SERIES_INTRADAY", 0)}>View stock</button>
                   
                   </label>
                 </div>
@@ -1533,7 +1535,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
             <Modal.Title>Ask AI a question</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <form onSubmit={sendToAI}>
+            <form onSubmit={sendToAI} >
               <div style={{display: 'flex'}}>
             <input placeholder='Type a question here...'
         type="text"
