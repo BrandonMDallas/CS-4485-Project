@@ -11,21 +11,21 @@ import MusicHub from "./components/MusicHub/MusicHub";
 import StockHub from "./components/StockHub/StockHub";
 import SportsHub from "./components/SportsHub/SportsHub";
 import Stocks from './components/StockHub/StocksPage.jsx'
-import Settings from '../settingsPage.jsx'
+import Settings from './components/Dashboard/SettingsTab.jsx'
 const App = () => {
   return (
     <BrowserRouter>
       <Layout>
         <Routes>
           {/* Public Routes */}
-          <Route path="/" element={<Welcome />} />
+          <Route path="/" element={<WelcomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/musichub" element={<MusicHub />} />
           <Route path="/stockhub" element={<Stocks />} />
           <Route path="/SportsHub" element={<SportsHub />} />
-          <Route path="/stocksSetting" element={<Settings />} />
+          <Route path="/settingsPage" element={<Settings />} />
           {/* Protected Routes */}
           <Route
             path="/menu"

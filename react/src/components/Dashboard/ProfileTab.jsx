@@ -20,7 +20,7 @@ const ProfileTab = () => {
   };
   return (
     <>
-      <Accordion defaultActiveKey="0">
+      <Accordion defaultActiveKey="1">
         <Accordion.Item eventKey="0">
           <Accordion.Header>Edit profile</Accordion.Header>
           <Accordion.Body>
