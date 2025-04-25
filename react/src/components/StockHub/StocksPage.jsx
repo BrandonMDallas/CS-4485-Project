@@ -23,7 +23,6 @@ import './moreNews.jsx'
 import { Line } from 'react-chartjs-2';
 import Table from 'react-bootstrap/Table';
 //import './App.jsx'
-import OpenAI from "openai";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
