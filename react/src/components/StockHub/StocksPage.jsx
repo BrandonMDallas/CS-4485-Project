@@ -23,13 +23,11 @@ import './moreNews.jsx'
 import { Line } from 'react-chartjs-2';
 import Table from 'react-bootstrap/Table';
 //import './App.jsx'
-//import OpenAI from "openai";
+import OpenAI from "openai";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './moreNews.jsx'
-import AIStockRecommendationTool from './AIStockRecommendationTool';
-
 
 //import Extranews from './moreNews.jsx'
 //secure -> environment variable
@@ -612,44 +610,6 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         setdSelect(value);
   
       }
-    })
-  }
-  async function getNews(){
-    await Axios.get("https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=AAPL&apikey=32C6KJ3LT0U5QPAN").then((response)=> {
-      try{
-        const parsedData = JSON.parse(JSON.stringify(response));
-        console.log("Raw news", response)
-       
-        const newArray1 = [...newsHeader];
-        const newArray2 = [...newsBody];
-        const newArray3 = [...newsImage];
-        const newArray4 = [...newsSentiment];
-        const newArray5 = [...newsSource];
-        const newArray6 = [...newsSourceDomain];
-
-        for (let i = 0; i < 12; i++) {
-          newArray1.push(response.data.feed[i].title);
-          newArray2.push(response.data.feed[i].summary);
-          newArray3.push(response.data.feed[i].banner_image);
-          newArray4.push(response.data.feed[i].overall_sentiment_score);
-          newArray5.push(response.data.feed[i].source);
-          newArray6.push(response.data.feed[i].url)
-        }
-        setNewsHeader(newArray1);
-        setNewsBody(newArray2);
-        setNewsImage(newArray3);
-        setNewsSentiment(newArray4);
-        setNewsSource(newArray5);
-        setNewsSourceDomain(newArray6);
-        /*const tempArray=[...newsHeader]
-        tempArray.map((index, item)=>{
-          
-          tempArray[index]=response.data.feed[index].title
-        })
-        setNewsHeader(tempArray)*/
-      }catch(error){
-        console.error('Error with API:', error);
-
       const handleShow6 = (value) => {
         setShow6(true);
         setdSelect(value);
@@ -1340,12 +1300,14 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
   
       </div>
       <div style={{height: '450px', width: '450px'}}>
-        <div style={{backgroundColor: 'lightblue', borderRadius: '8px', borderColor: 'black', boxShadow: '5px 5px 10px rgba(21, 61, 219, 0.76)'}}>
+        <div style={{backgroundColor: 'lightblue', borderRadius: '8px', borderColor: 'black', boxShadow: '5px 5px 10px rgba(21, 61, 219, 0.76)', padding: '10px'}}>
         <h3 style={{color: 'black'}}>AI Assistant</h3>
         <img style={{borderRadius: '10px'}} src="https://static.vecteezy.com/system/resources/previews/004/639/658/non_2x/sun-icon-on-white-background-vector.jpg" width="50%" height="50%"/> <br></br>
+<br></br>
 <button className="modern-button assistant-button" style={{backgroundColor: 'blue'}} onClick={handleShow3}>
                 Click here to ask AI assistant a question
                 </button>
+                <br></br>
                 <br></br>
                 <button type="button" style={{backgroundColor: 'blue'}} className="modern-button assistant-button" onClick={handleShow4}>
     Get recommendations from AI
@@ -1353,7 +1315,6 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         </div>
       
 
-      <br></br>
       <br></br>
       <Card style={{ backgroundColor: 'white',
     boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px'}}>
@@ -1566,44 +1527,6 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
       </div>
       <div>
         
-      <div class="yourSection" style={{ backgroundColor: 'white',
-  boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px'}}>
-
-        <h6 class="h6" style={{ fontWeight: 'bold', fontSize: '30px', marginLeft: 'auto', marginRight: 'auto' }}>Stock viewer</h6>
-
-        <button variant="primary" onClick={handleShow} style={{ display: 'block', margin:'auto', float: 'right', borderRadius: '10px'}}>
-        Edit saved list of stocks above
-      </button>
-<Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Select what stocks you want to remove</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-        {
-              list1.map((item, index) => {
-                return <div key={index} class="form-check">
-                
-                <label class="form-check-label" for="flexCheckDefault">
-                  <p>{list1[index]}</p>
-                  <button type="button" style={{borderRadius: '10px'}} class="btn btn-danger" onClick={() => removeLike(index)}>Remove item</button>
-                </label>
-              </div>
-              }
-            )}
-        </Modal.Body>
-        <Modal.Footer>
-        </Modal.Footer>
-      </Modal>
-      <AIStockRecommendationTool 
-  userStocks={list1} 
-  setUserStocks={(newStocks) => setList1(newStocks)} 
-/>
-<Modal show={show4} onHide={handleClose4}>
-        <Modal.Header closeButton>
-          <Modal.Title>What do you need help with?</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-
   
         
       <Modal show={show3} onHide={handleClose3}>
@@ -2133,3 +2056,5 @@ const SimpleLineChart = () => {
     </Card>
   )*/
  //import {CategoryScale, Chart as ChartJS, LinearScale, LineElement, PointElement} from 'chart.js'
+
+
