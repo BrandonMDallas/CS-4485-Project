@@ -28,10 +28,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './moreNews.jsx'
 
-//import Extranews from './moreNews.jsx'
-//secure -> environment variable
-//openai api: max_tokens is proportional to brain power (bigger request means more tokens)
-//.trim() MIGHT get rid of anything in the front or the end of your text
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import { CgEnter } from 'react-icons/cg';
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);ChartJS.register(
