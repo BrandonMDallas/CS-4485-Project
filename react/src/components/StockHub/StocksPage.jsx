@@ -23,11 +23,13 @@ import './moreNews.jsx'
 import { Line } from 'react-chartjs-2';
 import Table from 'react-bootstrap/Table';
 //import './App.jsx'
-import OpenAI from "openai";
+//import OpenAI from "openai";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './moreNews.jsx'
+import AIStockRecommendationTool from './AIStockRecommendationTool';
+
 
 //import Extranews from './moreNews.jsx'
 //secure -> environment variable
@@ -610,6 +612,44 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
         setdSelect(value);
   
       }
+    })
+  }
+  async function getNews(){
+    await Axios.get("https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=AAPL&apikey=32C6KJ3LT0U5QPAN").then((response)=> {
+      try{
+        const parsedData = JSON.parse(JSON.stringify(response));
+        console.log("Raw news", response)
+       
+        const newArray1 = [...newsHeader];
+        const newArray2 = [...newsBody];
+        const newArray3 = [...newsImage];
+        const newArray4 = [...newsSentiment];
+        const newArray5 = [...newsSource];
+        const newArray6 = [...newsSourceDomain];
+
+        for (let i = 0; i < 12; i++) {
+          newArray1.push(response.data.feed[i].title);
+          newArray2.push(response.data.feed[i].summary);
+          newArray3.push(response.data.feed[i].banner_image);
+          newArray4.push(response.data.feed[i].overall_sentiment_score);
+          newArray5.push(response.data.feed[i].source);
+          newArray6.push(response.data.feed[i].url)
+        }
+        setNewsHeader(newArray1);
+        setNewsBody(newArray2);
+        setNewsImage(newArray3);
+        setNewsSentiment(newArray4);
+        setNewsSource(newArray5);
+        setNewsSourceDomain(newArray6);
+        /*const tempArray=[...newsHeader]
+        tempArray.map((index, item)=>{
+          
+          tempArray[index]=response.data.feed[index].title
+        })
+        setNewsHeader(tempArray)*/
+      }catch(error){
+        console.error('Error with API:', error);
+
       const handleShow6 = (value) => {
         setShow6(true);
         setdSelect(value);
@@ -1526,6 +1566,44 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
       </div>
       <div>
         
+      <div class="yourSection" style={{ backgroundColor: 'white',
+  boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px'}}>
+
+        <h6 class="h6" style={{ fontWeight: 'bold', fontSize: '30px', marginLeft: 'auto', marginRight: 'auto' }}>Stock viewer</h6>
+
+        <button variant="primary" onClick={handleShow} style={{ display: 'block', margin:'auto', float: 'right', borderRadius: '10px'}}>
+        Edit saved list of stocks above
+      </button>
+<Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Select what stocks you want to remove</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        {
+              list1.map((item, index) => {
+                return <div key={index} class="form-check">
+                
+                <label class="form-check-label" for="flexCheckDefault">
+                  <p>{list1[index]}</p>
+                  <button type="button" style={{borderRadius: '10px'}} class="btn btn-danger" onClick={() => removeLike(index)}>Remove item</button>
+                </label>
+              </div>
+              }
+            )}
+        </Modal.Body>
+        <Modal.Footer>
+        </Modal.Footer>
+      </Modal>
+      <AIStockRecommendationTool 
+  userStocks={list1} 
+  setUserStocks={(newStocks) => setList1(newStocks)} 
+/>
+<Modal show={show4} onHide={handleClose4}>
+        <Modal.Header closeButton>
+          <Modal.Title>What do you need help with?</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+
   
         
       <Modal show={show3} onHide={handleClose3}>
