@@ -1059,7 +1059,7 @@ const API_KEY=""
           <label>Search for a company
             <div style={{display: 'flex', gap: '10px'}}>
           <input 
-          placeholder='Type here to search...'
+          placeholder='Type here...'
         type="text"
         class="form-control"
         value={inputValue}
