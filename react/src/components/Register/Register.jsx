@@ -7,7 +7,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import axios from "../../api/axios";
+import api from "../../api/apiClient";
 import styles from "./Register.module.css";
 import { useNavigate } from "react-router-dom";
 
@@ -62,7 +62,7 @@ const Register = () => {
       return;
     }
     try {
-      const response = await axios.post(
+      const response = await api.post(
         REGISTER_URL,
         JSON.stringify({ username: user, password: pwd }),
         {
