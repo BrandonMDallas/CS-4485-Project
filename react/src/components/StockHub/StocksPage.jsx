@@ -98,7 +98,7 @@ const API_KEY=""
     const currencyURL="https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=USD&to_currency=JPY&apikey=demo"
     const [eRate, seteRate]=useState("")
     async function getRate(){
-      await Axios.get(`https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${currencyName[0]}&to_currency=${currencyName[1]}&apikey=32C6KJ3LT0U5QPAN`).then((response)=>{
+      await Axios.get(`https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${currencyName[0]}&to_currency=${currencyName[1]}&apikey=7RZVY7KZE49Y3X1S`).then((response)=>{
         console.log("Currency response data ->", response.data)
         seteRate(response.data['Realtime Currency Exchange Rate']['5. Exchange Rate'])
         console.log("eRate ->", eRate)
@@ -293,7 +293,7 @@ const API_KEY=""
       }else if(value3==="TIME_SERIES_MONTHLY"){
         value5="Monthly"
       }
-     await Axios.get(`https://www.alphavantage.co/query?function=${value3}&symbol=${value}&${value4}outputsize=full&apikey=32C6KJ3LT0U5QPAN`).then((response)=>{
+     await Axios.get(`https://www.alphavantage.co/query?function=${value3}&symbol=${value}&${value4}outputsize=full&apikey=7RZVY7KZE49Y3X1S`).then((response)=>{
       console.log("Response: ", response)
       console.log("value of comp: ", value);
       let array1=[]
@@ -364,7 +364,7 @@ const API_KEY=""
    
     const [descV, setDescV]=useState("")
     async function getComp(value){
-      await Axios.get(`https://www.alphavantage.co/query?function=OVERVIEW&symbol=${value}&apikey=32C6KJ3LT0U5QPAN`).then((response)=>{
+      await Axios.get(`https://www.alphavantage.co/query?function=OVERVIEW&symbol=${value}&apikey=7RZVY7KZE49Y3X1S`).then((response)=>{
         const parsedData = JSON.parse(JSON.stringify(response));
         setDescV(parsedData.data.Description)
       
@@ -845,7 +845,7 @@ const API_KEY=""
     const [lER, setlER]=useState("")
     const [rER, setrER]=useState("")
     async function getER(){
-      await Axios.get("https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=NKE&apikey=32C6KJ3LT0U5QPAN").then((response)=> {
+      await Axios.get("https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=NKE&apikey=7RZVY7KZE49Y3X1S").then((response)=> {
         try{
           const parsedData = JSON.parse(JSON.stringify(response));
           console.log("Exchange rates", parsedData)
@@ -957,7 +957,7 @@ const API_KEY=""
           </div>
     </div>*/
           return(
-      <>
+      <div style={{padding: '20px'}}>
       <br />
      <div style={{ backgroundColor: 'white',
     boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px'}}>
@@ -973,10 +973,28 @@ const API_KEY=""
      padding: '10px', margin: '20px'}}>
       <img src="https://cdn-icons-png.flaticon.com/512/81/81037.png" width="20px" height="20px"/>
       </div></Link>
-      <div style={{display: 'flex', gap:'700px'}}>
+      <div style={{display: 'flex', gap:'360px'}}>
    
-      <h1  className="sports-hub-title fs-4 mb-0 me-4" style={{fontSize: '70px', textAlign: 'left'}}>StocksHub</h1>
-      <Link to="/settingsPage"><button className="btn btn-outline-primary me-2 d-flex align-items-center">
+      <h1  className="sports-hub-title fs-4 mb-0 me-4" style={{fontSize: '150px', textAlign: 'left'}}>StocksHub</h1>
+      <div style={{display: 'block', textAlign: 'center'}}>
+        <p class="lead">Browse the page by section</p>
+      <ul class="nav nav-pills">
+  <li class="nav-item">
+    <a class="nav-link" aria-current="page" href="#listSection">Top 10 stocks</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#savedList">Saved stocks</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#viewerSection">Stock viewer</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#newsSection">Stock news</a>
+  </li>
+</ul>
+      </div>
+      
+      <Link to="/settingsPage" style={{position: 'relative', right: '10px'}}><button className="btn btn-outline-primary me-2 d-flex align-items-center">
       Settings
       </button></Link>
       </div>
@@ -989,7 +1007,23 @@ const API_KEY=""
       <p class="lead">Today's date and time: {displayDate} {currTime.toLocaleTimeString()}</p>
       <br></br>
       <div style={{display: 'flex', gap: '20px'}}>
-      <div class="moreSection" style={{width: '85%'}}>
+      <ul class="nav flex-column" style={{position: 'fixed', right: '3%', bottom: '30%', backgroundColor: 'white',
+    boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '15px'}}>
+        Navigation menu
+        <li class="nav-item">
+    <a class="nav-link" aria-current="page" href="#listSection">Top 10 stocks</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#savedList">Saved stocks</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#viewerSection">Stock viewer</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#newsSection">Stock news</a>
+  </li>
+</ul>
+      <div class="moreSection" id="listSection" style={{width: '65%'}}>
           
           <br></br>
           <div style={{ backgroundColor: 'white',
@@ -1295,8 +1329,8 @@ const API_KEY=""
   </div>
   
       </div>
-      <div style={{height: '450px', width: '450px'}}>
-        <div style={{backgroundColor: 'lightblue', borderRadius: '8px', borderColor: 'black', boxShadow: '5px 5px 10px rgba(21, 61, 219, 0.76)', padding: '10px'}}>
+      <div style={{height: '450px', width: '400px'}}>
+        <div style={{backgroundColor: 'lightblue', borderRadius: '8px', borderColor: 'black', boxShadow: '5px 5px 10px rgba(21, 61, 219, 0.76)', padding: '10px', textAlign: 'center'}}>
         <h3 style={{color: 'black'}}>AI Assistant</h3>
         <img style={{borderRadius: '10px'}} src="https://cdn.dribbble.com/userupload/22460781/file/original-73dfd4921f8852c03728693bee46deb0.gif" width="50%" height="50%"/> <br></br>
 <br></br>
@@ -1313,8 +1347,8 @@ const API_KEY=""
 
       <br></br>
       <Card style={{ backgroundColor: 'white',
-    boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px'}}>
-          <h3 style={{color: 'black'}}>Get current exchange rates here</h3>
+    boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px'}}>
+          <h3 style={{color: 'black', textAlign: 'center'}}>Get current exchange rates here</h3>
           <div style={{display: 'flex', gap: '10px', position: 'relative', marginLeft: 'auto', marginRight: 'auto'}}>
           <Dropdown>
         <Dropdown.Toggle style={{backgroundColor: 'white', color: 'black', borderColor: 'black'}} variant="success" id="dropdown-basic">
@@ -1354,13 +1388,15 @@ const API_KEY=""
   <br></br>
   <p>Result: {eRate}</p>
       </Card>
+      
+
   </div>
   
       </div>
       <br></br>
       <br></br>
-      <div style={{ borderRadius: "12px", backgroundColor: 'white',
-    boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', padding: '15px'}}>
+      <div id="savedList" style={{ borderRadius: "12px", backgroundColor: 'white',
+    boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', padding: '15px', width: '80%'}}>
           <h6 class="h6" style={{ fontWeight: 'bold', fontSize: '30px' }}>Saved stocks go here...</h6>
   
   <br /><br />
@@ -1388,10 +1424,10 @@ const API_KEY=""
   
       
       
-        <div style={{width: '1500px'}}>
+        <div style={{width: '120%'}}>
           
-        <div class="yourSection" style={{ backgroundColor: 'white',
-    boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px'}}>
+        <div id="viewerSection" class="yourSection" style={{ backgroundColor: 'white',
+    boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px', width: '80%'}}>
   
           <h6 class="h6" style={{ fontWeight: 'bold', fontSize: '30px', marginLeft: 'auto', marginRight: 'auto' }}>Stock viewer</h6>
   
@@ -1565,8 +1601,13 @@ const API_KEY=""
       <br></br>
       <br></br>
       <br></br>
-      <div style={{ backgroundColor: 'white',
-    boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px', width: '1500px', position: 'absolute', marginLeft: 'auto', marginRight: 'auto'}}>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <div id="newsSection" style={{ backgroundColor: 'white',
+    boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px', position: 'absolute', marginLeft: 'auto', marginRight: 'auto', width: '73%'}}>
       <h6 class="h6" style={{ fontWeight: 'bold', fontSize: '30px' }}>Latest in news</h6>
       <div style={{display: 'flex', gap: '13px'}}>
       <div>
@@ -1818,7 +1859,7 @@ const API_KEY=""
             <Button onClick={() => goToSite(dSelect)}>Visit source site</Button>
           </Modal.Footer>
         </Modal>
-      </>
+      </div>
     )
   }
   /**
