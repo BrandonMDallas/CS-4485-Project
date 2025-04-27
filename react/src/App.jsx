@@ -10,8 +10,8 @@ import Dashboard from "./components/Dashboard/Dashboard";
 import MusicHub from "./components/MusicHub/MusicHub";
 import StockHub from "./components/StockHub/StockHub";
 import SportsHub from "./components/SportsHub/SportsHub";
-import Stocks from './components/StockHub/StocksPage.jsx'
-import Settings from './components/Dashboard/SettingsTab.jsx'
+import Stocks from "./components/StockHub/StocksPage.jsx";
+import Settings from "./components/Dashboard/SettingsTab.jsx";
 const App = () => {
   return (
     <BrowserRouter>

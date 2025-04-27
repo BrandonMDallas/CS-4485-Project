@@ -1,4 +1,4 @@
-
+/*
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -264,7 +264,7 @@ color: white;
   
 }
 
-/* Create four equal columns that sits next to each other */
+
 .columnWelcome {
   
     float: left;
@@ -468,3 +468,4 @@ color: white;
 .dark-mode button:hover {
   background-color: #777;
 }
+*/
