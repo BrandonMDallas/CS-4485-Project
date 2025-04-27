@@ -973,10 +973,12 @@ const API_KEY=""
      padding: '10px', margin: '20px'}}>
       <img src="https://cdn-icons-png.flaticon.com/512/81/81037.png" width="20px" height="20px"/>
       </div></Link>
-      <div style={{display: 'flex', gap:'390px'}}>
+      <div style={{display: 'flex', gap:'360px'}}>
    
       <h1  className="sports-hub-title fs-4 mb-0 me-4" style={{fontSize: '120px', textAlign: 'left'}}>StocksHub</h1>
-      <ul class="nav nav-pills nav-justified">
+      <div style={{display: 'block', textAlign: 'center'}}>
+        <p class="lead">Browse the page by section</p>
+      <ul class="nav nav-pills">
   <li class="nav-item">
     <a class="nav-link" aria-current="page" href="#listSection">Top 10 stocks</a>
   </li>
@@ -990,6 +992,8 @@ const API_KEY=""
     <a class="nav-link" href="#newsSection">Stock news</a>
   </li>
 </ul>
+      </div>
+      
       <Link to="/settingsPage"><button className="btn btn-outline-primary me-2 d-flex align-items-center">
       Settings
       </button></Link>
