@@ -975,7 +975,7 @@ const API_KEY=""
       </div></Link>
       <div style={{display: 'flex', gap:'360px'}}>
    
-      <h1  className="sports-hub-title fs-4 mb-0 me-4" style={{fontSize: '120px', textAlign: 'left'}}>StocksHub</h1>
+      <h1  className="sports-hub-title fs-4 mb-0 me-4" style={{fontSize: '150px', textAlign: 'left'}}>StocksHub</h1>
       <div style={{display: 'block', textAlign: 'center'}}>
         <p class="lead">Browse the page by section</p>
       <ul class="nav nav-pills">
@@ -1007,7 +1007,23 @@ const API_KEY=""
       <p class="lead">Today's date and time: {displayDate} {currTime.toLocaleTimeString()}</p>
       <br></br>
       <div style={{display: 'flex', gap: '20px'}}>
-      <div class="moreSection" id="listSection" style={{width: '85%'}}>
+      <ul class="nav flex-column" style={{position: 'fixed', right: '3%', bottom: '30%', backgroundColor: 'white',
+    boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '15px'}}>
+        Navigation menu
+        <li class="nav-item">
+    <a class="nav-link" aria-current="page" href="#listSection">Top 10 stocks</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#savedList">Saved stocks</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#viewerSection">Stock viewer</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#newsSection">Stock news</a>
+  </li>
+</ul>
+      <div class="moreSection" id="listSection" style={{width: '65%'}}>
           
           <br></br>
           <div style={{ backgroundColor: 'white',
@@ -1372,13 +1388,15 @@ const API_KEY=""
   <br></br>
   <p>Result: {eRate}</p>
       </Card>
+      
+
   </div>
   
       </div>
       <br></br>
       <br></br>
       <div id="savedList" style={{ borderRadius: "12px", backgroundColor: 'white',
-    boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', padding: '15px'}}>
+    boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', padding: '15px', width: '80%'}}>
           <h6 class="h6" style={{ fontWeight: 'bold', fontSize: '30px' }}>Saved stocks go here...</h6>
   
   <br /><br />
@@ -1409,7 +1427,7 @@ const API_KEY=""
         <div style={{width: '120%'}}>
           
         <div id="viewerSection" class="yourSection" style={{ backgroundColor: 'white',
-    boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px'}}>
+    boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px', width: '80%'}}>
   
           <h6 class="h6" style={{ fontWeight: 'bold', fontSize: '30px', marginLeft: 'auto', marginRight: 'auto' }}>Stock viewer</h6>
   
@@ -1589,7 +1607,7 @@ const API_KEY=""
       <br></br>
       <br></br>
       <div id="newsSection" style={{ backgroundColor: 'white',
-    boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px', position: 'absolute', marginLeft: 'auto', marginRight: 'auto', width: '93%'}}>
+    boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px', position: 'absolute', marginLeft: 'auto', marginRight: 'auto', width: '73%'}}>
       <h6 class="h6" style={{ fontWeight: 'bold', fontSize: '30px' }}>Latest in news</h6>
       <div style={{display: 'flex', gap: '13px'}}>
       <div>
