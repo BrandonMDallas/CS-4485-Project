@@ -994,7 +994,7 @@ const API_KEY=""
 </ul>
       </div>
       
-      <Link to="/settingsPage"><button className="btn btn-outline-primary me-2 d-flex align-items-center">
+      <Link to="/settingsPage" style={{position: 'relative', right: '10px'}}><button className="btn btn-outline-primary me-2 d-flex align-items-center">
       Settings
       </button></Link>
       </div>
@@ -1314,7 +1314,7 @@ const API_KEY=""
   
       </div>
       <div style={{height: '450px', width: '400px'}}>
-        <div style={{backgroundColor: 'lightblue', borderRadius: '8px', borderColor: 'black', boxShadow: '5px 5px 10px rgba(21, 61, 219, 0.76)', padding: '10px'}}>
+        <div style={{backgroundColor: 'lightblue', borderRadius: '8px', borderColor: 'black', boxShadow: '5px 5px 10px rgba(21, 61, 219, 0.76)', padding: '10px', textAlign: 'center'}}>
         <h3 style={{color: 'black'}}>AI Assistant</h3>
         <img style={{borderRadius: '10px'}} src="https://cdn.dribbble.com/userupload/22460781/file/original-73dfd4921f8852c03728693bee46deb0.gif" width="50%" height="50%"/> <br></br>
 <br></br>
@@ -1332,7 +1332,7 @@ const API_KEY=""
       <br></br>
       <Card style={{ backgroundColor: 'white',
     boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px'}}>
-          <h3 style={{color: 'black'}}>Get current exchange rates here</h3>
+          <h3 style={{color: 'black', textAlign: 'center'}}>Get current exchange rates here</h3>
           <div style={{display: 'flex', gap: '10px', position: 'relative', marginLeft: 'auto', marginRight: 'auto'}}>
           <Dropdown>
         <Dropdown.Toggle style={{backgroundColor: 'white', color: 'black', borderColor: 'black'}} variant="success" id="dropdown-basic">
