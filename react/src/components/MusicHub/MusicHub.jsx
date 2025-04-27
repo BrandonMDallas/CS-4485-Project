@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import api from "../../api/apiClient";
-import { API_ROUTES } from "../../config/constants";
+import {
+  API_ROUTES,
+  DEFAULT_BASE_URL,
+  DEFAULT_PYTHON_BASE_URL,
+} from "../../config/constants";
 import axios from "../../api/axios";
 import useAxiosPrivate from "../../api/useAxiosPrivate";
 import "./MusicHub.css";
@@ -47,7 +51,6 @@ const MusicHub = () => {
     }
   }, []);
 
-  // Function to get recommendations based on a playlist
   const fetchRecommendationsForPlaylist = async (playlist) => {
     if (!playlist || playlist.songs.length === 0) {
       setRecommendations([]);
@@ -55,102 +58,34 @@ const MusicHub = () => {
     }
 
     setIsLoadingRecs(true);
-
     try {
-      // Create array of tracks to base recommendations on
-      const trackSeeds = playlist.songs.map((song) => ({
-        artist: song.artist,
-        track: song.name,
-        id: song.id,
+      const payload = {
+        songs: playlist.songs.map((s) => ({
+          track: s.name,
+          artist: s.artist,
+        })),
+      };
+
+      // One POST to your Flask endpoint
+      api.setBaseURL(DEFAULT_PYTHON_BASE_URL);
+      const res = await api.post(
+        `${DEFAULT_PYTHON_BASE_URL}${API_ROUTES.RECOMMENDED_TRACKS}`,
+        payload
+      );
+      api.setBaseURL(DEFAULT_BASE_URL);
+      // Map to UI shape
+      const recs = res.data.recommendations.map((r, idx) => ({
+        id: `${r.track}-${r.artist}-${idx}`,
+        name: r.track,
+        artist: r.artist,
+        url: `https://www.last.fm/music/${encodeURIComponent(
+          r.artist
+        )}/_/${encodeURIComponent(r.track)}`,
       }));
 
-      // Get recommendations from Last.fm API
-      let recommendationsMap = new Map(); // Map to store recommendations per song
-      let failedSongs = [];
-
-      // Process all songs in the playlist
-      for (const songSeed of trackSeeds) {
-        try {
-          // First try with original track name
-          let response = await fetchSimilarTracksFromLastFM(
-            songSeed.artist,
-            songSeed.track
-          );
-
-          // If no results, try alternative search formats
-          if (!response || response.length === 0) {
-            console.log(
-              `No recommendations found for "${songSeed.track}" by ${songSeed.artist}, trying alternatives...`
-            );
-
-            // Try removing "featuring" and anything after it
-            if (songSeed.track.toLowerCase().includes("feat")) {
-              const simplifiedTrack = songSeed.track
-                .replace(/\s+(feat\.?|featuring)\s+.*/i, "")
-                .trim();
-              console.log(`Trying simplified track name: "${simplifiedTrack}"`);
-              response = await fetchSimilarTracksFromLastFM(
-                songSeed.artist,
-                simplifiedTrack
-              );
-            }
-
-            // If still no results, try with just the artist
-            if (!response || response.length === 0) {
-              console.log(
-                `Still no recommendations, trying artist-only search for ${songSeed.artist}`
-              );
-              response = await fetchArtistTopTracksFromLastFM(songSeed.artist);
-            }
-          }
-
-          if (response && response.length > 0) {
-            recommendationsMap.set(songSeed.id, response);
-            console.log(
-              `Got ${response.length} recommendations for "${songSeed.track}" by ${songSeed.artist}`
-            );
-          } else {
-            failedSongs.push(songSeed);
-            console.log(
-              `Failed to get any recommendations for "${songSeed.track}" by ${songSeed.artist}`
-            );
-          }
-        } catch (error) {
-          console.error(
-            `Error fetching recommendations for ${songSeed.track}:`,
-            error
-          );
-          failedSongs.push(songSeed);
-        }
-      }
-
-      console.log(
-        `Got recommendations for ${recommendationsMap.size} out of ${trackSeeds.length} songs`
-      );
-
-      if (failedSongs.length > 0) {
-        console.log(
-          `Failed to get recommendations for ${failedSongs.length} songs:`,
-          failedSongs
-        );
-      }
-
-      // If we have no recommendations at all
-      if (recommendationsMap.size === 0) {
-        console.log("No recommendations found for any songs in the playlist");
-        // Fallback to getting general recommendations
-        const fallbackRecs = await fetchGeneralRecommendations();
-        setRecommendations(fallbackRecs);
-        setIsLoadingRecs(false);
-        return;
-      }
-
-      // Use round-robin selection to get an equal number of recommendations from each song
-      const finalRecommendations = selectRecommendationsRoundRobin(recommendationsMap, 5);
-
-      setRecommendations(finalRecommendations);
-    } catch (error) {
-      console.error("Error fetching music recommendations:", error);
+      setRecommendations(recs);
+    } catch (err) {
+      console.error("Error fetching recommendations:", err);
       setRecommendations([]);
     } finally {
       setIsLoadingRecs(false);
