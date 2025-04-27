@@ -991,6 +991,9 @@ const API_KEY=""
   <li class="nav-item">
     <a class="nav-link" href="#newsSection">Stock news</a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" aria-current="page" href="#currExchSection">Exchange rates</a>
+  </li>
 </ul>
       </div>
       
@@ -1007,11 +1010,17 @@ const API_KEY=""
       <p class="lead">Today's date and time: {displayDate} {currTime.toLocaleTimeString()}</p>
       <br></br>
       <div style={{display: 'flex', gap: '20px'}}>
-      <ul class="nav flex-column" style={{position: 'fixed', right: '3%', bottom: '30%', backgroundColor: 'white',
+      <ul class="nav flex-column" style={{position: 'fixed', right: '1.5%', bottom: '30%', backgroundColor: 'white',
     boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '15px'}}>
         Navigation menu
         <li class="nav-item">
     <a class="nav-link" aria-current="page" href="#listSection">Top 10 stocks</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" aria-current="page" href="#aiSection">AI assistant</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" aria-current="page" href="#currExchSection">Exchange rates</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="#savedList">Saved stocks</a>
@@ -1330,7 +1339,7 @@ const API_KEY=""
   
       </div>
       <div style={{height: '450px', width: '400px'}}>
-        <div style={{backgroundColor: 'lightblue', borderRadius: '8px', borderColor: 'black', boxShadow: '5px 5px 10px rgba(21, 61, 219, 0.76)', padding: '10px', textAlign: 'center'}}>
+        <div id="aiSection" style={{backgroundColor: 'lightblue', borderRadius: '8px', borderColor: 'black', boxShadow: '5px 5px 10px rgba(21, 61, 219, 0.76)', padding: '10px', textAlign: 'center'}}>
         <h3 style={{color: 'black'}}>AI Assistant</h3>
         <img style={{borderRadius: '10px'}} src="https://cdn.dribbble.com/userupload/22460781/file/original-73dfd4921f8852c03728693bee46deb0.gif" width="50%" height="50%"/> <br></br>
 <br></br>
@@ -1346,7 +1355,7 @@ const API_KEY=""
       
 
       <br></br>
-      <Card style={{ backgroundColor: 'white',
+      <Card id="currExchSection" style={{ backgroundColor: 'white',
     boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px'}}>
           <h3 style={{color: 'black', textAlign: 'center'}}>Get current exchange rates here</h3>
           <div style={{display: 'flex', gap: '10px', position: 'relative', marginLeft: 'auto', marginRight: 'auto'}}>
