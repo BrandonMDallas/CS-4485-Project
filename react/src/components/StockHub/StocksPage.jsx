@@ -1402,7 +1402,7 @@ const API_KEY=""
   
       
       
-        <div style={{width: '1500px'}}>
+        <div style={{width: '120%'}}>
           
         <div id="viewerSection" class="yourSection" style={{ backgroundColor: 'white',
     boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px'}}>
@@ -1585,7 +1585,7 @@ const API_KEY=""
       <br></br>
       <br></br>
       <div id="newsSection" style={{ backgroundColor: 'white',
-    boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px', width: '1500px', position: 'absolute', marginLeft: 'auto', marginRight: 'auto'}}>
+    boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px', position: 'absolute', marginLeft: 'auto', marginRight: 'auto', width: '93%'}}>
       <h6 class="h6" style={{ fontWeight: 'bold', fontSize: '30px' }}>Latest in news</h6>
       <div style={{display: 'flex', gap: '13px'}}>
       <div>
