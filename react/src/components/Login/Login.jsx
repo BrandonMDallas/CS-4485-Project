@@ -1,10 +1,12 @@
 import React from "react";
 import { useRef, useState, useEffect, useContext } from "react";
 import AuthContext from "../../context/AuthProvider";
-import axios from "../../api/axios";
+import { createAPI } from "../../api/apiFactory";
+import { API_ROUTES } from "../../config/constants";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import styles from "./Login.module.css";
 const LOGIN_URL = "/api/auth/login";
+const api = createAPI();
 
 const Login = () => {
   const { setAuth } = useContext(AuthContext);
@@ -33,8 +35,8 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        LOGIN_URL,
+      const response = await api.post(
+        API_ROUTES.LOGIN,
         JSON.stringify({ username: username, password: password }),
         {
           headers: { "Content-Type": "application/json" },
