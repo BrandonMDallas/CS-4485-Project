@@ -49,7 +49,7 @@ def get_news(ticker, api_key=NEWSAPI_KEY):
 
 
 # Route: Music recommendations
-@app.route("/recommend", methods=["POST"])
+@app.route("/api/lastfm/recommend", methods=["POST"])
 def recommend():
     user_songs = request.json.get("songs", [])
     normalized_input = set(

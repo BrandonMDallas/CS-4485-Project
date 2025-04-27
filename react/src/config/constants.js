@@ -6,5 +6,7 @@ export const API_ROUTES = {
     TOP_TRACKS: "/api/lastfm/top-tracks",
     TRACK_SEARCH: "/api/lastfm/search",
     SIMILAR_TRACKS: "/api/lastfm/similar-tracks",
-    NEWS_EVERYTHING: "/api/newsapi/everything"
+    NEWS_EVERYTHING: "/api/newsapi/everything",
+    //Python Route
+    RECOMMENDED_TRACKS: "/api/lastfm/recommend"
   };
