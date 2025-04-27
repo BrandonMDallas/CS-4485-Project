@@ -125,7 +125,7 @@ const MusicHub = () => {
       }
   
       // Use round-robin selection to get an equal number of recommendations from each song
-      const finalRecommendations = selectRecommendationsRoundRobin(recommendationsMap, 10);
+      const finalRecommendations = selectRecommendationsRoundRobin(recommendationsMap, 5);
       
       setRecommendations(finalRecommendations);
     } catch (error) {
@@ -332,7 +332,7 @@ const MusicHub = () => {
         console.log("Raw search results:", response.data);
 
         // Update the state with the search results
-        setSearchResults(response.data);
+        setSearchResults(response.data.slice(0, 3));
       } catch (error) {
         console.error("Error fetching search results", error);
       }
@@ -532,18 +532,20 @@ const MusicHub = () => {
               {playlists.map((playlist) => (
                 <div key={playlist.id} className="playlist-card">
                   <div className="playlist-details">
-                    <h3>
+                    {/* Fixed: Display playlist name in its own container above actions */}
+                    <div className="playlist-name-container">
                       {editingPlaylist && editingPlaylist.id === playlist.id ? (
                         <input
                           type="text"
                           defaultValue={playlist.name}
                           onBlur={(e) => updatePlaylistName(e.target.value)}
                           autoFocus
+                          className="edit-playlist-name"
                         />
                       ) : (
-                        playlist.name
+                        <h3 className="playlist-name">{playlist.name}</h3>
                       )}
-                    </h3>
+                    </div>
                     <div className="playlist-actions">
                       <button
                         className="modern-button modern-button-outline"
@@ -595,10 +597,9 @@ const MusicHub = () => {
         </div>
 
         <div className="sidebar-column">
-          {/*Example commment*/}
-          {/* AI Recommendation Section */}
-          <div className="modern-card">
-            <h2 className="modern-section-title">
+          {/* AI Recommendation Section - Updated to match trending songs styling */}
+          <div className="modern-card oval-box">
+            <h2 className="modern-section-title heading-blue">
               Recommendations Based on{" "}
               {playlists.find((p) => p.id === selectedPlaylistForRecs)?.name ||
                 "Your Music"}
@@ -607,25 +608,20 @@ const MusicHub = () => {
               {isLoadingRecs ? (
                 <p>Loading recommendations...</p>
               ) : recommendations.length > 0 ? (
-                <ul className="recommendations-list">
+                <div className="trending-songs">
                   {recommendations.map((song) => (
-                    <li key={song.id} className="recommendation-item">
-                      <FaMusic />{" "}
-                      <span className="song-title">{song.name}</span> -{" "}
-                      <span className="song-artist">{song.artist}</span>
-                      <div className="recommendation-actions">
-                        <a
-                          href={song.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="play-link"
+                    <div key={song.id} className="song-item">
+                      <div className="song-info">
+                        <span>{song.name}</span>
+                        <span className="song-artist">{song.artist}</span>
+                      </div>
+                      <div className="song-actions">
+                        <button
+                          className="play-pause-button"
+                          onClick={() => window.open(song.url, "_blank")}
                         >
-                          <button className="play-pause-button">
-                            <FaPlay />
-                          </button>
-                        </a>
-                        
-                        {/* Add to playlist dropdown */}
+                          <FaPlay />
+                        </button>
                         {playlists.length > 0 && (
                           <select
                             onChange={(e) => {
@@ -645,9 +641,9 @@ const MusicHub = () => {
                           </select>
                         )}
                       </div>
-                    </li>
+                    </div>
                   ))}
-                </ul>
+                </div>
               ) : (
                 <p className="no-recommendations">
                   {playlists.find((p) => p.id === selectedPlaylistForRecs)
@@ -659,12 +655,13 @@ const MusicHub = () => {
             </div>
           </div>
 
-          <div className="modern-card oval-box">
+          {/* Fixed: Ensure search history and results stay within sidebar width */}
+          <div className="modern-card oval-box search-sidebar-card">
             <h2 className="modern-section-title heading-blue">
               Search History
             </h2>
             {searchHistory.length > 0 ? (
-              <ul>
+              <ul className="search-history-list">
                 {searchHistory.map((query, index) => (
                   <li key={index} className="history-item">
                     {query}
@@ -677,11 +674,11 @@ const MusicHub = () => {
           </div>
 
           {searchResults.length > 0 && (
-            <div className="modern-card oval-box">
+            <div className="modern-card oval-box search-sidebar-card">
               <h2 className="modern-section-title heading-blue">
                 Search Results
               </h2>
-              <div className="search-results">
+              <div className="trending-songs">
                 {searchResults.map((song) => (
                   <div key={song.id} className="song-item">
                     <div className="song-info">
@@ -689,16 +686,12 @@ const MusicHub = () => {
                       <span className="song-artist">{song.artist}</span>
                     </div>
                     <div className="song-actions">
-                      <a
-                        href={song.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="play-link"
+                      <button
+                        className="play-pause-button"
+                        onClick={() => window.open(song.url, "_blank")}
                       >
-                        <button className="play-pause-button">
-                          <FaPlay />
-                        </button>
-                      </a>
+                        <FaPlay />
+                      </button>
 
                       {/* Add to playlist dropdown */}
                       {playlists.length > 0 && (
