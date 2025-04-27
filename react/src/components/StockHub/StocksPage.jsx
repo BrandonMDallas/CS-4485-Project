@@ -98,7 +98,7 @@ const API_KEY=""
     const currencyURL="https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=USD&to_currency=JPY&apikey=demo"
     const [eRate, seteRate]=useState("")
     async function getRate(){
-      await Axios.get(`https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${currencyName[0]}&to_currency=${currencyName[1]}&apikey=32C6KJ3LT0U5QPAN`).then((response)=>{
+      await Axios.get(`https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${currencyName[0]}&to_currency=${currencyName[1]}&apikey=7RZVY7KZE49Y3X1S`).then((response)=>{
         console.log("Currency response data ->", response.data)
         seteRate(response.data['Realtime Currency Exchange Rate']['5. Exchange Rate'])
         console.log("eRate ->", eRate)
@@ -293,7 +293,7 @@ const API_KEY=""
       }else if(value3==="TIME_SERIES_MONTHLY"){
         value5="Monthly"
       }
-     await Axios.get(`https://www.alphavantage.co/query?function=${value3}&symbol=${value}&${value4}outputsize=full&apikey=32C6KJ3LT0U5QPAN`).then((response)=>{
+     await Axios.get(`https://www.alphavantage.co/query?function=${value3}&symbol=${value}&${value4}outputsize=full&apikey=7RZVY7KZE49Y3X1S`).then((response)=>{
       console.log("Response: ", response)
       console.log("value of comp: ", value);
       let array1=[]
@@ -364,7 +364,7 @@ const API_KEY=""
    
     const [descV, setDescV]=useState("")
     async function getComp(value){
-      await Axios.get(`https://www.alphavantage.co/query?function=OVERVIEW&symbol=${value}&apikey=32C6KJ3LT0U5QPAN`).then((response)=>{
+      await Axios.get(`https://www.alphavantage.co/query?function=OVERVIEW&symbol=${value}&apikey=7RZVY7KZE49Y3X1S`).then((response)=>{
         const parsedData = JSON.parse(JSON.stringify(response));
         setDescV(parsedData.data.Description)
       
@@ -845,7 +845,7 @@ const API_KEY=""
     const [lER, setlER]=useState("")
     const [rER, setrER]=useState("")
     async function getER(){
-      await Axios.get("https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=NKE&apikey=32C6KJ3LT0U5QPAN").then((response)=> {
+      await Axios.get("https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=NKE&apikey=7RZVY7KZE49Y3X1S").then((response)=> {
         try{
           const parsedData = JSON.parse(JSON.stringify(response));
           console.log("Exchange rates", parsedData)
@@ -957,7 +957,7 @@ const API_KEY=""
           </div>
     </div>*/
           return(
-      <>
+      <div style={{padding: '20px'}}>
       <br />
      <div style={{ backgroundColor: 'white',
     boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px'}}>
@@ -973,9 +973,9 @@ const API_KEY=""
      padding: '10px', margin: '20px'}}>
       <img src="https://cdn-icons-png.flaticon.com/512/81/81037.png" width="20px" height="20px"/>
       </div></Link>
-      <div style={{display: 'flex', gap:'450px'}}>
+      <div style={{display: 'flex', gap:'390px'}}>
    
-      <h1  className="sports-hub-title fs-4 mb-0 me-4" style={{fontSize: '70px', textAlign: 'left'}}>StocksHub</h1>
+      <h1  className="sports-hub-title fs-4 mb-0 me-4" style={{fontSize: '120px', textAlign: 'left'}}>StocksHub</h1>
       <ul class="nav nav-pills nav-justified">
   <li class="nav-item">
     <a class="nav-link" aria-current="page" href="#listSection">Top 10 stocks</a>
@@ -1309,7 +1309,7 @@ const API_KEY=""
   </div>
   
       </div>
-      <div style={{height: '450px', width: '450px'}}>
+      <div style={{height: '450px', width: '400px'}}>
         <div style={{backgroundColor: 'lightblue', borderRadius: '8px', borderColor: 'black', boxShadow: '5px 5px 10px rgba(21, 61, 219, 0.76)', padding: '10px'}}>
         <h3 style={{color: 'black'}}>AI Assistant</h3>
         <img style={{borderRadius: '10px'}} src="https://cdn.dribbble.com/userupload/22460781/file/original-73dfd4921f8852c03728693bee46deb0.gif" width="50%" height="50%"/> <br></br>
@@ -1327,7 +1327,7 @@ const API_KEY=""
 
       <br></br>
       <Card style={{ backgroundColor: 'white',
-    boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px'}}>
+    boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px'}}>
           <h3 style={{color: 'black'}}>Get current exchange rates here</h3>
           <div style={{display: 'flex', gap: '10px', position: 'relative', marginLeft: 'auto', marginRight: 'auto'}}>
           <Dropdown>
@@ -1571,6 +1571,11 @@ const API_KEY=""
         
       </div>
       </div>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
       <br></br>
       <br></br>
       <br></br>
@@ -1832,7 +1837,7 @@ const API_KEY=""
             <Button onClick={() => goToSite(dSelect)}>Visit source site</Button>
           </Modal.Footer>
         </Modal>
-      </>
+      </div>
     )
   }
   /**
