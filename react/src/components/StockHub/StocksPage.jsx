@@ -822,11 +822,17 @@ const API_KEY=""
        console.log(response.json());
   
   }}, [])*/
+  const [isVisible, setIsVisible] = useState(true);
+
+  const handleClick = () => {
+    setIsVisible(false);
+  };
       const [isHidden, setHidden]=useState(true);
       const [isHidden2, setHidden2]=useState(false);
       const [isHidden3, setHidden3]=useState(false);
       const [searchHidden, setSearchHidden]=useState(true);
       const changeHidden = () =>{
+        handleClick()
         setHidden(false)
         setHidden2(true)
       }
@@ -1577,7 +1583,7 @@ const API_KEY=""
           <Modal.Body>
             <form onSubmit={sendToAI} >
               <div style={{display: 'flex'}}>
-            <input placeholder='Type a question here...'
+            <input placeholder='Type here...'
         type="text"
         class="form-control"
         value={messageValue}
@@ -1836,7 +1842,9 @@ const API_KEY=""
      </div>
      <Link to="/stockNews" onClick={()=>addMoreNews()}><button className="btn btn-outline-primary me-2 d-flex align-items-center" style={{borderRadius: '10px'}}>View more news</button></Link>
      </div>
-     <button style={{borderRadius: '10px'}} className="btn btn-outline-primary me-2 d-flex align-items-center" hidden={isHidden2} onClick={() => changeHidden()}>View more news</button>
+     {isVisible && (
+     <button id="specialButton" style={{borderRadius: '10px'}} className="btn btn-outline-primary me-2 d-flex align-items-center" hidden={isHidden2} onClick={() => changeHidden()}>View more news</button>
+     )}
      </div>
      
      </div>
