@@ -1583,7 +1583,7 @@ const API_KEY=""
           <Modal.Body>
             <form onSubmit={sendToAI} >
               <div style={{display: 'flex'}}>
-            <input placeholder='Type a question here...'
+            <input placeholder='Type here...'
         type="text"
         class="form-control"
         value={messageValue}
