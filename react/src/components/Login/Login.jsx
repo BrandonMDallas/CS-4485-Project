@@ -1,12 +1,11 @@
 import React from "react";
 import { useRef, useState, useEffect, useContext } from "react";
 import AuthContext from "../../context/AuthProvider";
-import { createAPI } from "../../api/apiFactory";
+import api from "../../api/apiClient";
 import { API_ROUTES } from "../../config/constants";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import styles from "./Login.module.css";
 const LOGIN_URL = "/api/auth/login";
-const api = createAPI();
 
 const Login = () => {
   const { setAuth } = useContext(AuthContext);
