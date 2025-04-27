@@ -7,13 +7,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import axios from "../../api/axios";
+import { createAPI } from "../../api/apiFactory";
 import styles from "./Register.module.css";
 import { useNavigate } from "react-router-dom";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const REGISTER_URL = "/api/auth/register";
+const api = createAPI();
 
 const Register = () => {
   const navigate = useNavigate();
@@ -62,7 +63,7 @@ const Register = () => {
       return;
     }
     try {
-      const response = await axios.post(
+      const response = await api.post(
         REGISTER_URL,
         JSON.stringify({ username: user, password: pwd }),
         {
