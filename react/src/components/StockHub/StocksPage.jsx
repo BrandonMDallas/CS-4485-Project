@@ -973,9 +973,23 @@ const API_KEY=""
      padding: '10px', margin: '20px'}}>
       <img src="https://cdn-icons-png.flaticon.com/512/81/81037.png" width="20px" height="20px"/>
       </div></Link>
-      <div style={{display: 'flex', gap:'700px'}}>
+      <div style={{display: 'flex', gap:'450px'}}>
    
       <h1  className="sports-hub-title fs-4 mb-0 me-4" style={{fontSize: '70px', textAlign: 'left'}}>StocksHub</h1>
+      <ul class="nav nav-pills nav-justified">
+  <li class="nav-item">
+    <a class="nav-link" aria-current="page" href="#listSection">Top 10 stocks</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#savedList">Saved stocks</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#viewerSection">Stock viewer</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#newsSection">Stock news</a>
+  </li>
+</ul>
       <Link to="/settingsPage"><button className="btn btn-outline-primary me-2 d-flex align-items-center">
       Settings
       </button></Link>
@@ -989,7 +1003,7 @@ const API_KEY=""
       <p class="lead">Today's date and time: {displayDate} {currTime.toLocaleTimeString()}</p>
       <br></br>
       <div style={{display: 'flex', gap: '20px'}}>
-      <div class="moreSection" style={{width: '85%'}}>
+      <div class="moreSection" id="listSection" style={{width: '85%'}}>
           
           <br></br>
           <div style={{ backgroundColor: 'white',
@@ -1359,7 +1373,7 @@ const API_KEY=""
       </div>
       <br></br>
       <br></br>
-      <div style={{ borderRadius: "12px", backgroundColor: 'white',
+      <div id="savedList" style={{ borderRadius: "12px", backgroundColor: 'white',
     boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', padding: '15px'}}>
           <h6 class="h6" style={{ fontWeight: 'bold', fontSize: '30px' }}>Saved stocks go here...</h6>
   
@@ -1390,7 +1404,7 @@ const API_KEY=""
       
         <div style={{width: '1500px'}}>
           
-        <div class="yourSection" style={{ backgroundColor: 'white',
+        <div id="viewerSection" class="yourSection" style={{ backgroundColor: 'white',
     boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px'}}>
   
           <h6 class="h6" style={{ fontWeight: 'bold', fontSize: '30px', marginLeft: 'auto', marginRight: 'auto' }}>Stock viewer</h6>
@@ -1565,7 +1579,7 @@ const API_KEY=""
       <br></br>
       <br></br>
       <br></br>
-      <div style={{ backgroundColor: 'white',
+      <div id="newsSection" style={{ backgroundColor: 'white',
     boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px', width: '1500px', position: 'absolute', marginLeft: 'auto', marginRight: 'auto'}}>
       <h6 class="h6" style={{ fontWeight: 'bold', fontSize: '30px' }}>Latest in news</h6>
       <div style={{display: 'flex', gap: '13px'}}>
