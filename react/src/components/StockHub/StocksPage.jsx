@@ -182,7 +182,8 @@ const API_KEY=""
   const todayDate = new Date();
     const displayDate = todayDate.toLocaleDateString();
   const scrollFunc = (value) => {
-    window.scrollTo(0, value);
+    const locationV = document.getElementById(value);
+    locationV.scrollIntoView({ behavior: 'smooth' }); 
   }
   
   
@@ -988,7 +989,7 @@ const API_KEY=""
         </div>
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', marginLeft: '15px', height: '50px', position: 'absolute', top: '17px', right: '311px'}} onClick={() => compParams(asS1, 0)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', top: '2px', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(0, asS1, 4000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', top: '2px', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(0, asS1, 'viewerSection', "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{color: 'white', margin: '15px', height: '50px', position: 'absolute', top: '2px', right: '2px'}}  onClick={()=>addLike(as1, asP1, asC1, asS1)}>Save stock</Button>
           <br>
           </br></li>
@@ -1010,7 +1011,7 @@ const API_KEY=""
         </div>
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '296px', top: '2px'}} onClick={() => compParams(asS2, 1)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', top: '2px', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, asS2, 4000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', top: '2px', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, asS2, 'viewerSection', "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '2px', top: '2px'}}  onClick={()=>addLike(as2, asP2, asC2, asS2)}>Save stock</Button>
           <br>
           </br></li>
@@ -1032,7 +1033,7 @@ const API_KEY=""
         </div>
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '296px', top: '2px'}} onClick={() => compParams(asS3, 2)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(2, asS3, 4000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(2, asS3, 'viewerSection', "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', top: '2px', right: '2px'}}  onClick={()=>addLike(as3, asP3, asC3, asS3)}>Save stock</Button>
           <br>
           </br></li>
@@ -1055,7 +1056,7 @@ const API_KEY=""
         </div>
   
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '296px', top: '2px'}} onClick={() => compParams(asS4, 3)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(3, asS4, 4000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(3, asS4, 'viewerSection', "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '2px', top: '2px'}}  onClick={()=>addLike(as4, asP4, asC4, asS4)}>Save stock</Button>
           <br>
           </br></li>
@@ -1077,7 +1078,7 @@ const API_KEY=""
         </div>
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '296px', top: '2px'}} onClick={() => compParams(asS5, 4)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(4, asS5, 4000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(4, asS5, 'viewerSection', "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '2px', top: '2px'}}  onClick={()=>addLike(as5, asP5, asC5, asS5)}>Save stock</Button>
           <br>
           </br></li>
@@ -1100,7 +1101,7 @@ const API_KEY=""
         </div>
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '296px', top: '2px'}} onClick={() => compParams(asS6, 5)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(5, asS6, 4000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(5, asS6, 'viewerSection', "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '2px', top: '2px'}}  onClick={()=>addLike(as6, asP6, asC6, asS6)}>Save stock</Button>
           <br>
           </br></li>
@@ -1123,7 +1124,7 @@ const API_KEY=""
         </div>
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', top: '2px', right: '296px'}} onClick={() => compParams(asS7, 6)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(6, asS7, 4000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(6, asS7, 'viewerSection', "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '2px', top: '2px'}}  onClick={()=>addLike(as7, asP7, asC7, asS7)}>Save stock</Button>
           <br>
           </br></li>
@@ -1146,7 +1147,7 @@ const API_KEY=""
         </div>
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '296px', top: '2px'}} onClick={() => compParams(asS8, 7)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(7, asS8, 4000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(7, asS8, 'viewerSection', "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '2px', top: '2px'}}  onClick={()=>addLike(as8, asP8, asC8, asS8)}>Save stock</Button>
           <br>
           </br></li>
@@ -1166,7 +1167,7 @@ const API_KEY=""
         </div>
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '296px', top: '2px'}} onClick={() => compParams(asS9, 8)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(8, asS9, 4000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(8, asS9, 'viewerSection', "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '2px', top: '2px'}}  onClick={()=>addLike(as9, asP9, asC9, asS9)}>Save stock</Button>
           <br>
           </br></li>
@@ -1186,7 +1187,7 @@ const API_KEY=""
         </div>
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '296px', top: '2px'}} onClick={() => compParams(asS10, 9)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(9, asS10, 4000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(9, asS10, 'viewerSection', "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '2px', top: '2px'}}  onClick={()=>addLike(as10, asP10, asC10, asS10)}>Save stock</Button>
           <br>
           </br></li>
@@ -1289,7 +1290,7 @@ const API_KEY=""
                     <p>Symbol: {list4[index]}</p>
                     <p>Price value: {list2[index]}</p>
                     <p>Change: {list3[index]}</p>
-                    <button style={{borderRadius: '10px'}} type="button" class="btn btn-primary" onClick={()=>stockListMulti(index, list4[index], 4050, "TIME_SERIES_INTRADAY", 0)}>View stock</button>
+                    <button style={{borderRadius: '10px'}} type="button" class="btn btn-primary" onClick={()=>stockListMulti(index, list4[index], 'viewerSection', "TIME_SERIES_INTRADAY", 0)}>View stock</button>
                   
                   </label>
                 </div>
