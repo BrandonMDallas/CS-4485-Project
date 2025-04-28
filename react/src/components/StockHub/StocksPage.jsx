@@ -160,13 +160,12 @@ const API_KEY=""
   const ctx = document.getElementById("myChart");
   var theList=['company1', 'company2', 'company3']
   var timeIntervals=['minutes', 'hours', 'days', 'months', 'years']
-  /*{ id: 1, company: 'company1', graphData: ['Value 1'] },
-          { id: 2, company: 'company2', graphData: 'Value 2' },
-          { id: 3, company: 'company3', graphData: 'Value 3' }, */
+  
   const [list1, setList1] = useState([]);
   const [list2, setList2]=useState([])
   const [list3, setList3]=useState([])
   const [list4, setList4]=useState([])
+  const [list5, setList5]=useState([])
   var preList1=list1;
    let index=0;
    let variable1="https://assets.parqet.com/logos/symbol/"+companies[0]+"?format=png"
@@ -409,28 +408,7 @@ const API_KEY=""
       }
   
   })
-    /*function LineGenerator (value) {
-      const smallPoints=[]
-      //getStock(value, 1)
-  
-      /*setChartData2({
-        ...chartData2,
-        labels: xSide,
-        datasets: [{
-          ...chartData2.datasets[0],data: dataPoints,
-          borderColor: lineColor
-        }]
-      });*/
-     // return(
-        /*<>
-        <Line
-  data={dataPoints} options={chartOptions} height={200} width={200}>
-  </Line>
-  </>
-      )
-    }*/
-    
-   /* */
+   
    const aiChat = async() => {   //Since this is an async function
     const inputData ={
       method: "POST",
@@ -477,23 +455,14 @@ const API_KEY=""
       handleShow7()
     }
     const updateData = (nameStock, value, value3, id) => {
-     
-      //setDynamicData(setArr)
-  
+       
       getStock(nameStock, 5, value3, id)
       var xLabel, xSide;
       var lineColor='green'
       const day=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
       const hour=[xPoints[0], xPoints[1], xPoints[2], xPoints[3], xPoints[4], xPoints[5], xPoints[6], xPoints[7], xPoints[8], xPoints[9], xPoints[10], xPoints[11], xPoints[12], xPoints[13], xPoints[14]];
-      //console.log('X version', hour)
       const month=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
-      //const year=['']
-     // const arrayPoints=setArr.map(stri => parseFloat(stri));
-      //console.log('Points version', arrayPoints)
-      //const newData = chartData2.datasets[0].data.map((item, index) => Math.floor(parseFloat(dataPoints[index])));
-     /* if(setArr[0]>setArr[setArr.length-1]){
-        lineColor='red';
-            }*/
+     
       if(value===1){
         xSide=hour
         xLabel='Specific time'
@@ -535,45 +504,13 @@ const API_KEY=""
           ...chartData.datasets[0],data: dataPoints,
           borderColor: lineColor
         }]
-      })
-         
-          
-       /**
-       *  async function changeDataCond (){
-        await Axios.get(`https://financialmodelingprep.com/api/v3/search?query=${value}&apikey=xN4lrLuDYQNI6EV4mSbwXUZY7xek4Fj7`).then((response)=>{
-          const parsedData = JSON.parse(JSON.stringify(response));
-          console.log("Most active stocks: ", parsedData)
-          console.log("Heres an active NAME: ", parsedData.data[0].name)
-          for (let i = 0; i < 20; i++) {
-            activeStocks.push(parsedData.data[i].name);
-            actStksChanges.push(parsedData.data[i].change)
-            actStksPrices.push(parsedData.data[i].price)
-            actStksSymbols.push(parsedData.data[i].symbol)
-            
-          }
-         
-        }
-      )
-       }
-       */
-    /*  setChartData({
-        ...chartData,
-        labels: xSide,
-        datasets: [{
-          ...chartData.datasets[0],data: dataPoints[0],
-          borderColor: lineColor
-        }]
-      });*/
-    
-  
+      })  
     };
     const [currentGraph, setCurrentGraph]=useState("IBM")
     const [currentSymbol, setCurrentSymbol]=useState("IBM")
-    /*useEffect(()=>{
-      getVideos();
-    }, [currentGraph])*/
+    
     const stockListMulti = (numberID, value, value2, value3, id) => {
-      setCurrentGraph(companies[numberID])
+      setCurrentGraph(value)
       getRelatedVideos(value)
       setGIndex(numberID)
       updateData(value, 2, value3, id)
@@ -613,13 +550,6 @@ const API_KEY=""
       }
       const sendToAI = () => {
         console.log("Request: ", inputValue)
-       /* fetch("https://jsonplaceholder.typicode.com/posts").then((response) => response.json()).then((json) => {
-          const results = json.filter((postV)=>{
-            return value && user && user.name && user.name.toLowerCase().includes(value)
-          })
-          setResultList(results)
-          }
-        );*/
       }
       const handleClose5=() => setShow5(false)
       const addbutton = (index) => {
@@ -629,7 +559,6 @@ const API_KEY=""
   
     const getResultMulti = (value, id) =>{
      
-      //addLike(value, value2, value3)
       updateData(value, 5, "TIME_SERIES_INTRADAY", id)
       handleClose2()
       scrollFunc(500)
@@ -717,9 +646,8 @@ const API_KEY=""
         }
       )
        }
-       
+       const [topCount, setTopCount]=useState(0)
        const addLike = (value, value2, value3, value4) => {
-        //Issues here
         let tempArray=list1;
       tempArray.push(value)
       setList1(tempArray)
@@ -733,7 +661,7 @@ const API_KEY=""
       tempArray=list4;
       tempArray.push(value4)
       setList4(tempArray)
-      //setList1(tempArray)
+      setTopCount(topCount+1)
       }
        const displayArray = ["https://assets.parqet.com/logos/symbol/"+actStksSymbols[0]+"?format=png", "https://assets.parqet.com/logos/symbol/"+actStksSymbols[1]+"?format=png", "https://assets.parqet.com/logos/symbol/"+actStksSymbols[2]+"?format=png",
        "https://assets.parqet.com/logos/symbol/"+actStksSymbols[3]+"?format=png", "https://assets.parqet.com/logos/symbol/"+actStksSymbols[4]+"?format=png", 
@@ -743,11 +671,6 @@ const API_KEY=""
           
        
            setInputValue(event.target.value)
-           //console.log(inputValue)
-           /*
-          const filteredElements = activeStocks.filter(item => item.toLowerCase().includes(inputValue));
-          console.log('SEARCH ELEMENTS: ', filteredElements)
-          setResultList(filteredElements)*/
        }
        let srArrayName=[]
        let srArraySymbol=[]
@@ -796,32 +719,13 @@ const API_KEY=""
          
        }
        const handleShow2 = () => setShow2(true);
-  //Ex: var employeeLabel=[], employeeSalaryData=[], employeeAgeData=[]
     let baseurl="https://dummy.restapiexample.com/api/v1/employees/employee";
     const response=async () => {await fetch(baseurl)};
     const LineChartData=async () => {await response.json()}
-    /*useEffect(() => {
-      Axios.get(`${baseurl}`).then((response)=> {
-    setGraphSet(response.data.employee_salary)});
-    }, [])*/
+    
     console.log(LineChartData);
     const apiKey="";
-   // const baseURL = "https://proxy.cors.sh/"+"http://www.randomnumberapi.com/api/v1.0/random?min=100&max=1000&count=5";
-    /*useEffect(() => {
-      const getData= async () => {
-        await fetch(`${baseURL}`, {
-          method: "GET",
-          mode: "cors",
-         headers: {
-          Authorization: `Bearer: ${token}`,
-          "Content-Type": "application/json",
-         },
-          body: JSON.stringify(data),
-      });
-      
-       console.log(response.json());
-  
-  }}, [])*/
+   
   const [isVisible, setIsVisible] = useState(true);
 
   const handleClick = () => {
@@ -896,22 +800,11 @@ const API_KEY=""
           setNewsSentiment(newArray4);
           setNewsSource(newArray5);
           setNewsSourceDomain(newArray6);
-          /*const tempArray=[...newsHeader]
-          tempArray.map((index, item)=>{
-            
-            tempArray[index]=response.data.feed[index].title
-          })
-          setNewsHeader(tempArray)*/
         }catch(error){
           console.error('Error with API:', error);
         }
       })
     }
-    
-     // setNewsHeader(response.data.feed.title)
-     // setNewsImage(response.data.feed.banner_image)
-     // setNewsBody(response.data.feed.summary)
-      //console.log(newsImage)
       
       const goToSite = (value) => {
         window.open(newsSourceDomain[value]);
@@ -924,10 +817,6 @@ const API_KEY=""
         
       }, [listCount])
     }
-    /*const visitClick = () =>{
-      window.open(newsSourceDomain[dSelect]);
-  
-    }*/
     const addGraph = () => {
       setGraphSet([...graphSet, {
         type: 'line',
@@ -946,22 +835,6 @@ const API_KEY=""
         }
       }]);
     };
-   /* const showGraphs = () => {
-      {graphSet.map((graphSet, index) => (
-        <li key={index}>{graphSet}</li>
-      ))}
-    }*/
-   /*
-   <div class="col">
-    <div>
-    <LineChart />
-          </div>
-    </div>
-    <div class="col">
-    <div>
-    <LineChart />
-          </div>
-    </div>*/
           return(
       <div style={{padding: '20px'}}>
       <br />
@@ -1092,10 +965,7 @@ const API_KEY=""
                   <br></br>
                   <li class="list-group item"><div style={{display: 'flex', gap: '10px'}}>{srarrayA[5]}{srarrayA2[5]}<Button onClick={()=>addLike(srS6, 0, 1, srSS6)}>Save stock</Button></div></li>
                 </ul>
-                /*activeStocks.map((result, index) => {
-                  return <div className="searchResult" key={index} onClick={() => getResultMulti(result, srArraySymbol[index])}>{result}</div>
                 }
-              )*/}
           </div>
           </Modal.Body>
           
@@ -1124,7 +994,7 @@ const API_KEY=""
         </div>
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', marginLeft: '15px', height: '50px', position: 'absolute', top: '17px', right: '311px'}} onClick={() => compParams(asS1, 0)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', top: '2px', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(0, asS1, 3950, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', top: '2px', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(0, asS1, 4000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{color: 'white', margin: '15px', height: '50px', position: 'absolute', top: '2px', right: '2px'}}  onClick={()=>addLike(as1, asP1, asC1, asS1)}>Save stock</Button>
           <br>
           </br></li>
@@ -1146,7 +1016,7 @@ const API_KEY=""
         </div>
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '296px', top: '2px'}} onClick={() => compParams(asS2, 1)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', top: '2px', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, asS2, 3950, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', top: '2px', right: '150px'}}  variant="primary" onClick={() =>stockListMulti(1, asS2, 4000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '2px', top: '2px'}}  onClick={()=>addLike(as2, asP2, asC2, asS2)}>Save stock</Button>
           <br>
           </br></li>
@@ -1168,7 +1038,7 @@ const API_KEY=""
         </div>
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '296px', top: '2px'}} onClick={() => compParams(asS3, 2)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(2, asS3, 3950, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(2, asS3, 4000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', top: '2px', right: '2px'}}  onClick={()=>addLike(as3, asP3, asC3, asS3)}>Save stock</Button>
           <br>
           </br></li>
@@ -1191,7 +1061,7 @@ const API_KEY=""
         </div>
   
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '296px', top: '2px'}} onClick={() => compParams(asS4, 3)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(3, asS4, 3950, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(3, asS4, 4000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '2px', top: '2px'}}  onClick={()=>addLike(as4, asP4, asC4, asS4)}>Save stock</Button>
           <br>
           </br></li>
@@ -1213,7 +1083,7 @@ const API_KEY=""
         </div>
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '296px', top: '2px'}} onClick={() => compParams(asS5, 4)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(4, asS5, 3950, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(4, asS5, 4000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '2px', top: '2px'}}  onClick={()=>addLike(as5, asP5, asC5, asS5)}>Save stock</Button>
           <br>
           </br></li>
@@ -1236,7 +1106,7 @@ const API_KEY=""
         </div>
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '296px', top: '2px'}} onClick={() => compParams(asS6, 5)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(5, asS6, 3950, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(5, asS6, 4000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '2px', top: '2px'}}  onClick={()=>addLike(as6, asP6, asC6, asS6)}>Save stock</Button>
           <br>
           </br></li>
@@ -1259,7 +1129,7 @@ const API_KEY=""
         </div>
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', top: '2px', right: '296px'}} onClick={() => compParams(asS7, 6)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(6, asS7, 3950, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(6, asS7, 4000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '2px', top: '2px'}}  onClick={()=>addLike(as7, asP7, asC7, asS7)}>Save stock</Button>
           <br>
           </br></li>
@@ -1282,7 +1152,7 @@ const API_KEY=""
         </div>
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '296px', top: '2px'}} onClick={() => compParams(asS8, 7)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(7, asS8, 3950, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(7, asS8, 4000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '2px', top: '2px'}}  onClick={()=>addLike(as8, asP8, asC8, asS8)}>Save stock</Button>
           <br>
           </br></li>
@@ -1302,7 +1172,7 @@ const API_KEY=""
         </div>
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '296px', top: '2px'}} onClick={() => compParams(asS9, 8)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(8, asS9, 3950, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(8, asS9, 4000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '2px', top: '2px'}}  onClick={()=>addLike(as9, asP9, asC9, asS9)}>Save stock</Button>
           <br>
           </br></li>
@@ -1322,7 +1192,7 @@ const API_KEY=""
         </div>
         </div>
           <Button class="buttonSpacing" variant="primary" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '296px', top: '2px'}} onClick={() => compParams(asS10, 9)}>About</Button>
-          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(9, asS10, 3950, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
+          <Button class="buttonSpacing" style={{margin: '15px', height: '50px', position: 'absolute', right: '150px', top: '2px'}}  variant="primary" onClick={() =>stockListMulti(9, asS10, 4000, "TIME_SERIES_INTRADAY", 2)}>View stock</Button>
           <Button class="buttonSpacing" style={{ color: 'white', margin: '15px', height: '50px', position: 'absolute', right: '2px', top: '2px'}}  onClick={()=>addLike(as10, asP10, asC10, asS10)}>Save stock</Button>
           <br>
           </br></li>
@@ -1425,7 +1295,7 @@ const API_KEY=""
                     <p>Symbol: {list4[index]}</p>
                     <p>Price value: {list2[index]}</p>
                     <p>Change: {list3[index]}</p>
-                    <button style={{borderRadius: '10px'}} type="button" class="btn btn-primary" onClick={()=>stockListMulti(index, list4[index], 3950, "TIME_SERIES_INTRADAY", 0)}>View stock</button>
+                    <button style={{borderRadius: '10px'}} type="button" class="btn btn-primary" onClick={()=>stockListMulti(index, list4[index], 4050, "TIME_SERIES_INTRADAY", 0)}>View stock</button>
                   
                   </label>
                 </div>
@@ -1879,236 +1749,10 @@ const API_KEY=""
       </div>
     )
   }
-  /**
-   * <div>
-      {
-        return(
-          <>
-        {(() => {
-          for(let count=0; count<30; count++){
-            return(
-              <>
-              <Card style={{ width: '18rem' }}>
-          <Card.Img variant="top" src={newsImage[11]} />
-          <Card.Body>
-            <Card.Title>{newsHeader[11]}</Card.Title>
-            <Card.Text>
-              {newsBody[11]}
-            </Card.Text>
-            <Button variant="primary" onClick={() => handleShow6(11)} >More information</Button>
-          </Card.Body>
-        </Card>
-        </>
-            )
-          }
-        )
-        })}
-        </>
-      }
-      </div>
-   */
-  /**
-   * plugins: {
-        title: {
-           display: true,
-           text: companies[0],
-           color: 'navy',
-           position: 'top',
-           align: 'center',
-           font: {
-              weight: 'bold'
-           },
-           padding: 8,
-           fullSize: true,
-        }
-     },
-   */
-  /**
-   * <a style={{backgroundColor: 'lightgray', color: 'black', borderColor: 'black'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData([100, 200, 300, 160, 200, 10, 10], 3)}>3 days</a>
-        <a style={{backgroundColor: 'lightgray', color: 'black', borderColor: 'black'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData([100, 200, 300, 160, 200, 10, 10], 4)}>1 week</a>
-        <a style={{backgroundColor: 'lightgray', color: 'black', borderColor: 'black'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData([100, 200, 300, 160, 200, 10, 10], 5)}>1 month</a>
-        <a style={{backgroundColor: 'lightgray', color: 'black', borderColor: 'black'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData([100, 200, 300, 160, 200, 10, 10], 5)}>3 months</a>
-        <a style={{backgroundColor: 'lightgray', color: 'black', borderColor: 'black'}}class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"onClick={()=>updateData([100, 200, 300, 160, 200, 10, 10], 5)}>12 months</a>
-   */
-  //For automatic scrolling: window.scrollTo(500, 0);
+  
+  
   export default StockFunc
 
-/**
- * <br></br>
-          <p>Source domain: </p>
-          {() => {if(!newsSourceDomain[dSelect]){
-            return(
-              <p>None available</p>
-            )
-          }}}
- */
 
-/*
-const lineChart = () =>{
-  return <div>
-    <Line 
-    data={{
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-      datasets: [
-        {
-          label: 'stock value',
-          data: [12, 19, 3, 5, 2, 3], 
-        },
-      ],
-    }}
-    height={200}
-    width={300}/>
-  </div>
-}
-/*fetch('your_api_endpoint')
-.then(response => response.json())
-.then(data => {
-  // Process data and create chart
-  createChart(data);
-})
-.catch(error => console.error('Error fetching data:', error));
-
-(async function() {
-  const data = [
-    { year: 2010, count: 10 },
-    { year: 2011, count: 20 },
-    { year: 2012, count: 15 },
-    { year: 2013, count: 25 },
-    { year: 2014, count: 22 },
-    { year: 2015, count: 30 },
-    { year: 2016, count: 28 },
-  ];
-
-  new Chart(
-    document.getElementById('acquisitions'),
-    {
-      type: 'bar',
-      data: {
-        labels: data.map(row => row.year),
-        datasets: [
-          {
-            label: 'Acquisitions by year',
-            data: data.map(row => row.count)
-          }
-        ]
-      }
-    }
-  );
-})();
- 
-
-const SimpleLineChart = () => {
-  return (
-    <LineChart
-      width={500}
-      height={300}
-      data={data}
-      margin={{
-        top: 5,
-        right: 30,
-        left: 20,
-        bottom: 5,
-      }}
-    >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-      <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-    </LineChart>
-  );
-}*/
-//To add elements dynamically in React, it's recommended to manage an 
-// array in the component's state and render elements based on the contents of that array.
-/* fetch("https://catfact.ninja/fact").then((res) =>res.json())
-.then((data)=>{
-  console.log(data);
-});*/
-//Notes: axios shows everytime the component here updates unless you do mounting
-//- How to put variable in a string: use ` instead of " " for the string, ${(const variable goes here)}
-//Use . in axios to get the value of an attribute of an object received
-//-useState({}) or useState(null) is for making an empty object
-// putting a ? before a . of an object means to only access the value of that attribute of that object ONLY IF it's the object
-//isn't null
-/*useEffectAxios.get("https://catfact.ninja/fact").then((res) => {
-  console.log(res.data);
-});*/
-/*useEffect(() => {
-    const getData= async () => {
-      const {data} = await axios.get("http://localhost:5000/api/v1/analytics/revenue/lifetime")
-    console.log(data)
-    }
-    getData()
-  }, []
-<Card style={{ width: '18rem' }}>
-      <Card.Body>
-      <img src="https://logo.clearbit.com/starbucks.com"></img>
-        <Card.Title>Random stock</Card.Title>
-        <Card.Text>
-           Brief description of stock goes here.
-        </Card.Text>
-        <Button variant="primary">View stock</Button>
-      </Card.Body>
-    </Card>
-    <Card style={{ width: '18rem' }}>
-      <Card.Body>
-      <img src="https://logo.clearbit.com/mcdonalds.com"></img>
-        <Card.Title>Random stock</Card.Title>
-        <Card.Text>
-           Brief description of stock goes here.
-        </Card.Text>
-        <Button variant="primary">View stock</Button>
-      </Card.Body>
-    </Card>
-    <Card style={{ width: '18rem' }}>
-      <Card.Body>
-        <Card.Title>Random stock</Card.Title>
-        <Card.Text>
-           Brief description of stock goes here.
-        </Card.Text>
-        <Button variant="primary">Add stock</Button>
-      </Card.Body>
-    </Card>
-    </div>
-    <div style={{ display: 'flex', flexDirection: 'row' }}>
-  <Card style={{ width: '18rem' }}>
-      <Card.Body>
-        <Card.Title>Random stock</Card.Title>
-        <Card.Text>
-           Brief description of stock goes here.
-        </Card.Text>
-        <Button variant="primary">Add stock</Button>
-      </Card.Body>
-    </Card>
-    <Card style={{ width: '18rem' }}>
-      <Card.Body>
-        <Card.Title>Random stock</Card.Title>
-        <Card.Text>
-           Brief description of stock goes here.
-        </Card.Text>
-        <Button variant="primary">Add stock</Button>
-      </Card.Body>
-    </Card>
-    <Card style={{ width: '18rem' }}>
-      <Card.Body>
-        <Card.Title>Random stock</Card.Title>
-        <Card.Text>
-           Brief description of stock goes here.
-        </Card.Text>
-        <Button variant="primary">Add stock</Button>
-      </Card.Body>
-    </Card>
-    <Card style={{ width: '18rem' }}>
-      <Card.Body>
-        <Card.Title>Random stock</Card.Title>
-        <Card.Text>
-           Brief description of stock goes here.
-        </Card.Text>
-        <Button variant="primary">Add stock</Button>
-      </Card.Body>
-    </Card>
-  )*/
- //import {CategoryScale, Chart as ChartJS, LinearScale, LineElement, PointElement} from 'chart.js'
 
 
