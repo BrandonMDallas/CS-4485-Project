@@ -1,9 +1,10 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import requests
 import yfinance as yf
 
 app = Flask(__name__)
-
+CORS(app)
 # API Keys
 LASTFM_API_KEY = "62b9031fea3ec7c3eacf6c6163d55e28"
 NEWSAPI_KEY = "YOUR_NEWSAPI_KEY"
@@ -14,16 +15,27 @@ NEWSAPI_KEY = "YOUR_NEWSAPI_KEY"
 def get_similar_tracks(song, artist, api_key=LASTFM_API_KEY, limit=5):
     url = "http://ws.audioscrobbler.com/2.0/"
     params = {
-        "method": "track.getsimilar",
+        "method": "track.getSimilar",
         "track": song,
         "artist": artist,
+        "autocorrect": 1,  # try to fix minor typos
         "api_key": api_key,
         "format": "json",
         "limit": limit,
     }
+    print("URL:", url, params)
     response = requests.get(url, params=params)
     data = response.json()
+    if "error" in data:
+        raise RuntimeError(f"Last.fm API error {data['error']}: {data['message']}")
+    print("Raw response:", data)
 
+    print(song)
+    print(artist)
+    response = requests.get(url, params=params)
+    data = response.json()
+    print("Printing data: ")
+    print(data)
     if "similartracks" in data and "track" in data["similartracks"]:
         return [
             (t["name"], t["artist"]["name"]) for t in data["similartracks"]["track"]
@@ -49,8 +61,9 @@ def get_news(ticker, api_key=NEWSAPI_KEY):
 
 
 # Route: Music recommendations
-@app.route("/recommend", methods=["POST"])
+@app.route("/api/lastfm/recommend", methods=["POST"])
 def recommend():
+    print(request.json)
     user_songs = request.json.get("songs", [])
     normalized_input = set(
         (s["track"].lower(), s["artist"].lower()) for s in user_songs
@@ -67,6 +80,8 @@ def recommend():
                 recommendations.add((rec_track, rec_artist))
 
     result = [{"track": t, "artist": a} for t, a in sorted(recommendations)]
+    print(result)
+    print(jsonify({"recommendations": result}))
     return jsonify({"recommendations": result})
 
 
