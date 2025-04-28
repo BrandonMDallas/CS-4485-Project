@@ -856,7 +856,7 @@ const API_KEY=""
    
       <h1  className="sports-hub-title fs-4 mb-0 me-4" style={{fontSize: '150px', textAlign: 'left'}}>StocksHub</h1>
       <div style={{display: 'block', textAlign: 'center'}}>
-        <p class="lead">Browse the page by section</p>
+        <p class="lead">Browse this page by section</p>
       <ul class="nav nav-pills">
   <li class="nav-item">
     <a class="nav-link" aria-current="page" href="#listSection">Top 10 stocks</a>
@@ -953,17 +953,17 @@ const API_KEY=""
           <div hidden={searchHidden} class="results-list" >
               {
                 <ul class="list-group" style={{borderColor: 'black'}}>
-                  <li class="list-group item"><div style={{display: 'flex', gap: '10px'}}>{srarrayA[0]}{srarrayA2[0]} <Button onClick={()=>addLike(srS1, 0, 1, srSS1)}>Save stock</Button></div></li>
+                  <li class="list-group item"><div style={{display: 'flex', gap: '10px'}}>{srarrayA[0]}{srarrayA2[0]} <Button onClick={()=>addLike(srS1, '-', '-', srSS1)}>Save stock</Button></div></li>
                   <br></br>
-                  <li class="list-group item"><div style={{display: 'flex', gap: '10px'}}>{srarrayA[1]}{srarrayA2[1]}<Button onClick={()=>addLike(srS2, 0, 1, srSS2)}>Save stock</Button></div></li>
+                  <li class="list-group item"><div style={{display: 'flex', gap: '10px'}}>{srarrayA[1]}{srarrayA2[1]}<Button onClick={()=>addLike(srS2, '-', '-', srSS2)}>Save stock</Button></div></li>
                   <br></br>
-                  <li class="list-group item"><div style={{display: 'flex', gap: '10px'}}>{srarrayA[2]}{srarrayA2[2]}<Button onClick={()=>addLike(srS3, 0, 1, srSS3)}>Save stock</Button></div></li>
+                  <li class="list-group item"><div style={{display: 'flex', gap: '10px'}}>{srarrayA[2]}{srarrayA2[2]}<Button onClick={()=>addLike(srS3, '-', '-', srSS3)}>Save stock</Button></div></li>
                   <br></br>
-                  <li class="list-group item"><div style={{display: 'flex', gap: '10px'}}>{srarrayA[3]}{srarrayA2[3]}<Button onClick={()=>addLike(srS4, 0, 1, srSS4)}>Save stock</Button></div></li>
+                  <li class="list-group item"><div style={{display: 'flex', gap: '10px'}}>{srarrayA[3]}{srarrayA2[3]}<Button onClick={()=>addLike(srS4, '-', '-', srSS4)}>Save stock</Button></div></li>
                   <br></br>
-                  <li class="list-group item" ><div style={{display: 'flex', gap: '10px'}}>{srarrayA[4]}{srarrayA2[4]}<Button onClick={()=>addLike(srS5, 0, 1, srSS5)}>Save stock</Button></div></li>
+                  <li class="list-group item" ><div style={{display: 'flex', gap: '10px'}}>{srarrayA[4]}{srarrayA2[4]}<Button onClick={()=>addLike(srS5, '-', '-', srSS5)}>Save stock</Button></div></li>
                   <br></br>
-                  <li class="list-group item"><div style={{display: 'flex', gap: '10px'}}>{srarrayA[5]}{srarrayA2[5]}<Button onClick={()=>addLike(srS6, 0, 1, srSS6)}>Save stock</Button></div></li>
+                  <li class="list-group item"><div style={{display: 'flex', gap: '10px'}}>{srarrayA[5]}{srarrayA2[5]}<Button onClick={()=>addLike(srS6, '-', '-', srSS6)}>Save stock</Button></div></li>
                 </ul>
                 }
           </div>
