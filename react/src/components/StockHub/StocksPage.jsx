@@ -472,10 +472,10 @@ const API_KEY=""
         xLabel='Specific time'
       }else if(value===2){
         xSide=day
-        xLabel='Days'
+        xLabel='Specific date'
       }else if(value===3){
         xSide=month
-        xLabel='Months'
+        xLabel='Specific date'
       }else if(value===4){
         xSide=[xPoints[650], xPoints[600], xPoints[500], xPoints[400], xPoints[300], xPoints[200], xPoints[100], xPoints[0]]
         xLabel='Specific date'
