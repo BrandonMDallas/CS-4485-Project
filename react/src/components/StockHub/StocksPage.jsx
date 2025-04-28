@@ -719,12 +719,6 @@ const API_KEY=""
          
        }
        const handleShow2 = () => setShow2(true);
-    let baseurl="https://dummy.restapiexample.com/api/v1/employees/employee";
-    const response=async () => {await fetch(baseurl)};
-    const LineChartData=async () => {await response.json()}
-    
-    console.log(LineChartData);
-    const apiKey="";
    
   const [isVisible, setIsVisible] = useState(true);
 
