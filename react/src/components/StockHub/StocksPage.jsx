@@ -17,6 +17,7 @@ import MainPage from '../Dashboard/Dashboard.jsx'
 import {createElement} from 'react';
 import Axios from 'axios';
 import './moreNews.jsx'
+import './AIStockRecommendationTool.jsx'
 //import AiFinance from './aiFinance.jsx'
 //import ProfilePage from './profilePage.jsx'
 //import StocksSettings from './stocksSettings.jsx'
@@ -30,6 +31,7 @@ import './moreNews.jsx'
 
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import { CgEnter } from 'react-icons/cg';
+import AIStockRecommendationTool from './AIStockRecommendationTool.jsx';
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -455,6 +457,7 @@ const API_KEY=""
       }
       handleShow7()
     }
+    const [userStocks, setUserStocks]=useState([])
     const updateData = (nameStock, value, value3, id) => {
        
       getStock(nameStock, 5, value3, id)
@@ -847,7 +850,7 @@ const API_KEY=""
      padding: '10px', margin: '20px'}}>
       <img src="https://cdn-icons-png.flaticon.com/512/81/81037.png" width="20px" height="20px"/>
       </div></Link>
-      <div style={{display: 'flex', gap:'360px'}}>
+      <div style={{display: 'flex', gap:'220px'}}>
    
       <h1  className="sports-hub-title fs-4 mb-0 me-4" style={{fontSize: '150px', textAlign: 'left'}}>StocksHub</h1>
       <div style={{display: 'block', textAlign: 'center'}}>
@@ -864,6 +867,9 @@ const API_KEY=""
   </li>
   <li class="nav-item">
     <a class="nav-link" href="#newsSection">Stock news</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#videoSection">Specific video news</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" aria-current="page" href="#currExchSection">Exchange rates</a>
@@ -884,7 +890,7 @@ const API_KEY=""
       <p class="lead">Today's date and time: {displayDate} {currTime.toLocaleTimeString()}</p>
       <br></br>
       <div style={{display: 'flex', gap: '20px'}}>
-      <ul class="nav flex-column" style={{position: 'fixed', right: '1.5%', bottom: '30%', backgroundColor: 'white',
+      <ul class="nav flex-column" style={{position: 'fixed', right: '0.7%', bottom: '18%', backgroundColor: 'white',
     boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '15px'}}>
         Navigation menu
         <li class="nav-item">
@@ -904,6 +910,9 @@ const API_KEY=""
   </li>
   <li class="nav-item">
     <a class="nav-link" href="#newsSection">Stock news</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#videoSection">Specific video news</a>
   </li>
 </ul>
       <div class="moreSection" id="listSection" style={{width: '65%'}}>
@@ -1219,9 +1228,8 @@ const API_KEY=""
                 </button>
                 <br></br>
                 <br></br>
-                <button type="button" style={{backgroundColor: 'blue'}} className="modern-button assistant-button" onClick={handleShow4}>
-    Get recommendations from AI
-  </button>
+                <AIStockRecommendationTool />
+  
         </div>
       
 
@@ -1544,7 +1552,7 @@ const API_KEY=""
        
         </div>
         
-        <div>
+        <div id="videoSection">
         <h3 style={{color: 'blue', display: 'block'}}>Videos related to {currentGraph}</h3>
         <div>
         

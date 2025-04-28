@@ -461,8 +461,8 @@ const AIStockRecommendationTool = ({ userStocks = [], setUserStocks }) => {
       {/* Button to open recommendation modal */}
       <button 
         type="button" 
-        style={{ display: 'block', margin: 'auto', float: 'left', borderRadius: '10px'}} 
-        className="btn btn-primary"
+        style={{ display: 'block', margin: 'auto', float: 'middle', borderRadius: '10px', backgroundColor: 'blue'}} 
+        className="modern-button assistant-button" 
         data-toggle="tooltip" 
         data-placement="bottom" 
         title="Get AI Stock Recommendations"
