@@ -16,7 +16,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import MainPage from '../Dashboard/Dashboard.jsx'
 import {createElement} from 'react';
 import Axios from 'axios';
-import './moreStocksNews.jsx'
+//import './moreStocksNews.jsx'
 import './AIStockRecommendationTool.jsx'
 //import AiFinance from './aiFinance.jsx'
 //import ProfilePage from './profilePage.jsx'
@@ -784,7 +784,7 @@ const API_KEY=""
           const newArray5 = [...newsSource];
           const newArray6 = [...newsSourceDomain];
   
-          for (let i = 0; i < 12; i++) {
+          for (let i = 0; i < 20; i++) {
             newArray1.push(response.data.feed[i].title);
             newArray2.push(response.data.feed[i].summary);
             newArray3.push(response.data.feed[i].banner_image);
@@ -1713,7 +1713,110 @@ const API_KEY=""
       
   
      </div>
-     <Link to="/stockNews" onClick={()=>addMoreNews()}><button className="btn btn-outline-primary me-2 d-flex align-items-center" style={{borderRadius: '10px'}}>View more news</button></Link>
+     <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', gap: '10px'}} class="col-lg-4 mb-3 d-flex align-items-stretch">
+     <Card style={{ width: '18rem' }}>
+        <Card.Img variant="top" src={newsImage[11]} />
+        <Card.Body>
+          <Card.Title>{newsHeader[11]}</Card.Title>
+          <Card.Text>
+            {newsBody[11]}
+          </Card.Text>
+          <Button variant="primary" onClick={() => handleShow6(9)} >More information</Button>
+        </Card.Body>
+      </Card>
+  
+      <Card style={{ width: '18rem' }}>
+        <Card.Img variant="top" src={newsImage[12]} />
+        <Card.Body>
+          <Card.Title>{newsHeader[12]}</Card.Title>
+          <Card.Text>
+            {newsBody[12]}
+          </Card.Text>
+          <Button variant="primary" onClick={() => handleShow6(10)} >More information</Button>
+        </Card.Body>
+      </Card>
+      
+      
+  
+     </div>
+     <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', gap: '10px'}} class="col-lg-4 mb-3 d-flex align-items-stretch">
+     <Card style={{ width: '18rem' }}>
+        <Card.Img variant="top" src={newsImage[13]} />
+        <Card.Body>
+          <Card.Title>{newsHeader[13]}</Card.Title>
+          <Card.Text>
+            {newsBody[13]}
+          </Card.Text>
+          <Button variant="primary" onClick={() => handleShow6(9)} >More information</Button>
+        </Card.Body>
+      </Card>
+  
+      <Card style={{ width: '18rem' }}>
+        <Card.Img variant="top" src={newsImage[14]} />
+        <Card.Body>
+          <Card.Title>{newsHeader[14]}</Card.Title>
+          <Card.Text>
+            {newsBody[14]}
+          </Card.Text>
+          <Button variant="primary" onClick={() => handleShow6(10)} >More information</Button>
+        </Card.Body>
+      </Card>
+      
+      
+  
+     </div>
+     <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', gap: '10px'}} class="col-lg-4 mb-3 d-flex align-items-stretch">
+     <Card style={{ width: '18rem' }}>
+        <Card.Img variant="top" src={newsImage[15]} />
+        <Card.Body>
+          <Card.Title>{newsHeader[15]}</Card.Title>
+          <Card.Text>
+            {newsBody[15]}
+          </Card.Text>
+          <Button variant="primary" onClick={() => handleShow6(9)} >More information</Button>
+        </Card.Body>
+      </Card>
+  
+      <Card style={{ width: '18rem' }}>
+        <Card.Img variant="top" src={newsImage[16]} />
+        <Card.Body>
+          <Card.Title>{newsHeader[16]}</Card.Title>
+          <Card.Text>
+            {newsBody[16]}
+          </Card.Text>
+          <Button variant="primary" onClick={() => handleShow6(10)} >More information</Button>
+        </Card.Body>
+      </Card>
+      
+      
+  
+     </div>
+     <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', gap: '10px'}} class="col-lg-4 mb-3 d-flex align-items-stretch">
+     <Card style={{ width: '18rem' }}>
+        <Card.Img variant="top" src={newsImage[17]} />
+        <Card.Body>
+          <Card.Title>{newsHeader[17]}</Card.Title>
+          <Card.Text>
+            {newsBody[17]}
+          </Card.Text>
+          <Button variant="primary" onClick={() => handleShow6(9)} >More information</Button>
+        </Card.Body>
+      </Card>
+  
+      <Card style={{ width: '18rem' }}>
+        <Card.Img variant="top" src={newsImage[18]} />
+        <Card.Body>
+          <Card.Title>{newsHeader[18]}</Card.Title>
+          <Card.Text>
+            {newsBody[18]}
+          </Card.Text>
+          <Button variant="primary" onClick={() => handleShow6(10)} >More information</Button>
+        </Card.Body>
+      </Card>
+      
+      
+  
+     </div>
      </div>
      {isVisible && (
      <button id="specialButton" style={{borderRadius: '10px'}} className="btn btn-outline-primary me-2 d-flex align-items-center" hidden={isHidden2} onClick={() => changeHidden()}>View more news</button>
