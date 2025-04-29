@@ -466,15 +466,15 @@ const API_KEY=""
       const day=[xPoints[0], xPoints[1], xPoints[2], xPoints[3], xPoints[4], xPoints[5], xPoints[6]]
       const hour=[xPoints[0], xPoints[1], xPoints[2], xPoints[3], xPoints[4], xPoints[5], xPoints[6], xPoints[7], xPoints[8], xPoints[9], xPoints[10], xPoints[11], xPoints[12], xPoints[13], xPoints[14]];
       const month=[xPoints[0], xPoints[1], xPoints[2], xPoints[3], xPoints[4], xPoints[5], xPoints[6], xPoints[7], xPoints[8], xPoints[9], xPoints[10], xPoints[11]]
-     
       if(value===1){
-        xSide=hour
+
+        xSide=hour.slice().reverse()
         xLabel='Specific time'
       }else if(value===2){
-        xSide=day
+        xSide=day.slice().reverse()
         xLabel='Specific date'
       }else if(value===3){
-        xSide=month
+        xSide=month.slice().reverse()
         xLabel='Specific date'
       }else if(value===4){
         xSide=[xPoints[650], xPoints[600], xPoints[500], xPoints[400], xPoints[300], xPoints[200], xPoints[100], xPoints[0]]
@@ -505,7 +505,7 @@ const API_KEY=""
         ...chartData,
         labels: xSide,
         datasets: [{
-          ...chartData.datasets[0],data: revArray,
+          ...chartData.datasets[0],data: dataPoints,
           borderColor: lineColor
         }]
       })  
