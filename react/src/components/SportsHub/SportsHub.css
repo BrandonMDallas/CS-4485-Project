@@ -15,6 +15,19 @@
   --border-radius: 12px;
   --shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
   --transition: all 0.5s ease;
+  html, body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
+  }
+  
+  .modern-container, 
+  .modern-container * {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+  
+  /* This ensures Bootstrap components inherit the font */
+  .btn, .nav-link, .dropdown-item, h1, h2, h3, h4, h5, h6, p, span, div {
+    font-family: inherit;
+  }
 }
 
 * {
@@ -1284,4 +1297,126 @@ color: white;
 .video-card .card-body {
   padding: 0.5rem;
 }
+
+}
+
+.assistant-gif {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.assistant-avatar {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+  background-color: transparent;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+
+.sports-hub-header {
+  background-color: #fff;
+  padding: 10px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.sports-hub-title {
+  color: #0d6efd;
+  font-weight: 600;
+  margin-right: 1rem !important;
+  white-space: nowrap;
+}
+
+.sports-tabs {
+  flex-grow: 1;
+}
+
+.sports-tabs .nav-pills {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.sports-tabs .nav-link {
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.add-sport-btn {
+  display: flex;
+  align-items: center;
+  padding: 0.35rem 0.8rem;
+  white-space: nowrap;
+  border-radius: 6px;
+}
+
+@media (max-width: 768px) {
+  .container-fluid {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  
+  .sports-hub-title {
+    font-size: 1.1rem !important;
+  }
+  
+  .sports-tabs .nav-link {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+  }
+  
+  .add-sport-btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem !important;
+  }
+
+}
+/* Improve spacing between header and content */
+.sports-hub-header {
+  background-color: #fff;
+  padding: 10px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin-bottom: 15px; /* This adds spacing below the header */
+}
+
+/* Add space above the main content containers */
+.modern-content {
+  margin-top: 15px; /* Additional top margin for the entire content area */
+}
+
+/* Add more space above the team info banner */
+.team-banner {
+  margin-top: 5px;
+}
+
+/* Style for the main content box with the Currently Viewing section */
+.team-banner {
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  background-color: white;
+}
+
+/* Style for the AI Assistant panel to match spacing */
+.ai-assistant {
+  border-radius: 12px;
+  margin-top: 10px;
+}
+
+/* Adjust spacing for responsive layouts */
+@media (max-width: 768px) {
+  .sports-hub-header {
+    margin-bottom: 15px;
+  }
+  
+  .modern-content {
+    margin-top: 10px;
+  }
 }

@@ -1,9 +1,11 @@
-// SportsHub.jsx with modern UI/UX and chatbot
+// SportsHub.jsx with dynamic Quick Select functionality
 import React, { useState, useEffect } from 'react';
 import './SportsHub.css';
+import aiGifImage from './AIGif.gif';
 import Scores from './Scores';
-import TeamVideos from './TeamVideos';  // Import TeamVideos Component
+import TeamVideos from './TeamVideos';
 import NewsArticles from './NewsArticles';
+import FollowTeams from './FollowTeams';
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Button from 'react-bootstrap/Button'
@@ -15,8 +17,23 @@ const SportsHub = () => {
   // State for dropdown menu
   const [showDropdown, setShowDropdown] = useState(false);
   
-  // State for selected team (hardcoded for now)
+  // State for active sport tab
+  const [activeSport, setActiveSport] = useState('NBA');
+  
+  // State for selected team
   const [selectedTeam, setSelectedTeam] = useState('Lakers');
+
+  // State for followed teams
+  const [followedTeams, setFollowedTeams] = useState([
+    'Los Angeles Lakers', 'Dallas Mavericks', 'Texas Rangers', 'Dallas Cowboys'
+  ]);
+
+  // State for quick select teams for each sport
+  const [quickSelectTeams, setQuickSelectTeams] = useState({
+    NBA: ['Lakers', 'Warriors', 'Celtics'],
+    NFL: ['Cowboys', 'Chiefs', 'Eagles'],
+    MLB: ['Yankees', 'Dodgers', 'Red Sox']
+  });
 
   // State for chatbot
   const [chatMessages, setChatMessages] = useState([
@@ -24,6 +41,14 @@ const SportsHub = () => {
   ]);
   const [userInput, setUserInput] = useState('');
   const [showChat, setShowChat] = useState(false);
+  
+  // Function to update quick select teams for a specific sport
+  const updateQuickSelect = (sport, teams) => {
+    setQuickSelectTeams(prev => ({
+      ...prev,
+      [sport]: teams.length > 0 ? teams.slice(0, 3) : prev[sport]
+    }));
+  };
   
   // Function to toggle dropdown
   const toggleDropdown = () => {
@@ -54,6 +79,31 @@ const SportsHub = () => {
     setChatMessages([...chatMessages, newMessage]);
   };
 
+  // Function to handle following a new team
+  const handleTeamFollow = (team) => {
+    if (!followedTeams.includes(team)) {
+      setFollowedTeams([...followedTeams, team]);
+    }
+  };
+
+  // Function to handle removing a team from followed teams
+  const handleTeamRemove = (team) => {
+    setFollowedTeams(followedTeams.filter(t => t !== team));
+  };
+
+  // Function to handle sport tab change
+  const handleSportChange = (sport) => {
+    setActiveSport(sport);
+    // Set default team for the selected sport to the first quick select team
+    setSelectedTeam(quickSelectTeams[sport][0]);
+    // Add a chatbot message when sport changes
+    const newMessage = { 
+      sender: 'bot', 
+      text: `Switched to ${sport}! I can help you with ${sport} information. What would you like to know about the ${quickSelectTeams[sport][0]}?` 
+    };
+    setChatMessages([...chatMessages, newMessage]);
+  };
+
   // Function to handle chatbot input submission
   const handleChatSubmit = (e) => {
     e.preventDefault();
@@ -65,7 +115,7 @@ const SportsHub = () => {
     
     // Process and generate response
     setTimeout(() => {
-      const botResponse = generateBotResponse(userInput, selectedTeam);
+      const botResponse = generateBotResponse(userInput, selectedTeam, activeSport);
       setChatMessages(prevMessages => [...prevMessages, { sender: 'bot', text: botResponse }]);
     }, 600);
     
@@ -73,7 +123,7 @@ const SportsHub = () => {
   };
 
   // Function to generate bot responses based on input
-  const generateBotResponse = (input, team) => {
+  const generateBotResponse = (input, team, sport) => {
     input = input.toLowerCase();
     
     if (input.includes('score') || input.includes('game') || input.includes('result')) {
@@ -85,7 +135,7 @@ const SportsHub = () => {
     } else if (input.includes('news') || input.includes('update')) {
       return `The latest news for ${team}: Their star player has recovered from injury and will play in the next game.`;
     } else if (input.includes('hi') || input.includes('hello') || input.includes('hey')) {
-      return `Hey there! How can I help you with ${team} information today?`;
+      return `Hey there! How can I help you with ${sport} information today?`;
     } else {
       return `I'm not sure about that regarding ${team}. Would you like to know about their recent games, players, or stats?`;
     }
@@ -110,76 +160,70 @@ const SportsHub = () => {
     <div className="modern-container">
       {/* Header Navigation - Modern Redesign */}
       <header className="sports-hub-header py-2 border-bottom">
-          <div className="container-fluid d-flex justify-content-between align-items-center">
-            <div className="d-flex align-items-center">
-              <button className="btn back-btn me-3" onClick={() => window.location.href='index.html'}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </button>
-              
-              <h1 className="sports-hub-title fs-4 mb-0 me-4">SportsHub</h1>
-              
-              <nav className="sports-tabs ms-2">
-                <ul className="nav nav-pills">
-                  <li className="nav-item">
-                    <a className="nav-link active px-3 py-1" href="#">NBA</a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link px-3 py-1" href="#">NFL</a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link px-3 py-1" href="#">MLB</a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
+        <div className="container-fluid d-flex align-items-center">
+          {/* Left side with back button, title and navigation tabs */}
+          <div className="d-flex align-items-center flex-grow-1">
+            <button className="btn back-btn me-3" onClick={() => window.location.href='index.html'}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
             
-            <div className="d-flex align-items-center">
-              <button className="btn btn-outline-primary me-2 d-flex align-items-center" style={{fontSize: '0.875rem'}}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="me-1">
-                  <path d="M12 5V19M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                <span>Add Sport</span>
-              </button>
-              
-              <button className="btn btn-outline-primary me-2 d-flex align-items-center" style={{fontSize: '0.875rem'}}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="me-1">
-                  <path d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M18 20C18 16.6863 15.3137 14 12 14C8.68629 14 6 16.6863 6 20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                <span>Profile</span>
-              </button>
-              
-              <div className="dropdown">
-                <button 
-                  className={`btn hamburger-btn ${showDropdown ? 'active' : ''}`} 
-                  onClick={toggleDropdown}
-                  aria-expanded={showDropdown}
-                >
-                  <span className="hamburger-line"></span>
-                  <span className="hamburger-line"></span>
-                  <span className="hamburger-line"></span>
-                </button>
-                
-                <div className={`dropdown-menu dropdown-menu-end ${showDropdown ? 'show' : ''}`}>
-                  <a href="#" className="dropdown-item d-flex align-items-center">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="me-2">
-                      <path d="M12 7H20M12 12H20M12 17H20M4 7H8M4 12H8M4 17H8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                    <span>My Teams</span>
+            <h1 className="sports-hub-title fs-4 mb-0 me-4">SportsHub</h1>
+            
+            <nav className="sports-tabs ms-1">
+              <ul className="nav nav-pills">
+                <li className="nav-item">
+                  <a 
+                    className={`nav-link ${activeSport === 'NBA' ? 'active' : ''} px-3 py-1`}
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleSportChange('NBA');
+                    }}
+                  >
+                    NBA
                   </a>
-                  <a href="#" className="dropdown-item d-flex align-items-center" onClick={openSettingsWindow}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="me-2">
-                      <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                    <span>Settings</span>
+                </li>
+                <li className="nav-item">
+                  <a 
+                    className={`nav-link ${activeSport === 'NFL' ? 'active' : ''} px-3 py-1`}
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleSportChange('NFL');
+                    }}
+                  >
+                    NFL
                   </a>
-                </div>
-              </div>
-            </div>
+                </li>
+                <li className="nav-item">
+                  <a 
+                    className={`nav-link ${activeSport === 'MLB' ? 'active' : ''} px-3 py-1`}
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleSportChange('MLB');
+                    }}
+                  >
+                    MLB
+                  </a>
+                </li>
+              </ul>
+            </nav>
           </div>
-        </header>
+          
+          {/* Right side with add sport button */}
+          <div className="ms-auto">
+            <button className="btn btn-outline-primary add-sport-btn" style={{fontSize: '0.875rem'}}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="me-1">
+                <path d="M12 5V19M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <span>Add Sport</span>
+            </button>
+          </div>
+        </div>
+      </header>
       
       {/* Main Content Area - Modern Layout */}
       <main className="modern-content">
@@ -191,29 +235,36 @@ const SportsHub = () => {
             <div className="team-selection">
               <p>Quick Select:</p>
               <div className="team-buttons">
-                <button className="btn btn-sm btn-outline-primary" onClick={() => changeTeam('Lakers')}>Lakers</button>
-                <button className="btn btn-sm btn-outline-primary" onClick={() => changeTeam('Warriors')}>Warriors</button>
-                <button className="btn btn-sm btn-outline-primary" onClick={() => changeTeam('Celtics')}>Celtics</button>
+                {quickSelectTeams[activeSport].map((team) => (
+                  <button 
+                    key={team}
+                    className={`btn btn-sm ${selectedTeam === team ? 'btn-primary' : 'btn-outline-primary'}`} 
+                    onClick={() => changeTeam(team)}
+                  >
+                    {team}
+                  </button>
+                ))}
               </div>
             </div>
           </section>
           
+
           {/* News Section */}
           <section className="modern-card news-section">
             <h2 className="modern-section-title">Team News</h2>
-            <NewsArticles team={selectedTeam} />
+            <NewsArticles team={selectedTeam} sport={activeSport} />
           </section>
           
           {/* Video Section */}
           <section className="modern-card video-section">
             <h2 className="modern-section-title">Team Videos</h2>
-            <TeamVideos team={selectedTeam} />
+            <TeamVideos team={selectedTeam} sport={activeSport} />
           </section>
           
           {/* Scores Section */}
           <section className="modern-card news-section">
             <h2 className="modern-section-title">Latest Scores</h2>
-            <Scores team={selectedTeam} />
+            <Scores team={selectedTeam} sport={activeSport} />
             <div className="modern-panel">
               <h3 className="panel-title">Latest Events</h3>
               <div className="events-list">
@@ -242,17 +293,18 @@ const SportsHub = () => {
             <h2 className="modern-section-title">AI Assistant</h2>
             <div className="assistant-content">
               <div className="assistant-avatar">
-                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M12 2V4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M12 20V22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M4.93 4.93L6.34 6.34" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M17.66 17.66L19.07 19.07" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M2 12H4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M20 12H22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M4.93 19.07L6.34 17.66" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M17.66 6.34L19.07 4.93" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+                {/* Using the imported AIGif.gif image instead of SVG */}
+                <img 
+                  src={aiGifImage} 
+                  alt="AI Assistant animated icon" 
+                  className="assistant-gif"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    borderRadius: '50%'
+                  }}
+                />
               </div>
               <div className="assistant-actions">
                 <button className="modern-button assistant-button" onClick={toggleChat}>
@@ -342,31 +394,15 @@ const SportsHub = () => {
             )}
           </section>
           
-          {/* Team Following Section */}
-          <section className="modern-card team-following">
-            <h2 className="modern-section-title">Follow Teams</h2>
-            <div className="modern-search">
-              <input type="text" placeholder="Type team name here..." name="search" />
-              <button type="submit" className="search-button">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </button>
-            </div>
-            <div className="team-info">
-              <h3 className="team-section-title">Your Teams</h3>
-              <div className="team-list">
-                <div className="team-item active">
-                  <span>{selectedTeam}</span>
-                  <button className="btn btn-sm btn-outline-danger">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </section>
+          {/* Team Following Section - Using the updated FollowTeams component */}
+          <FollowTeams 
+            activeSport={activeSport}
+            onTeamFollow={handleTeamFollow}
+            followedTeams={followedTeams}
+            onTeamRemove={handleTeamRemove}
+            onTeamSelect={changeTeam}
+            updateQuickSelect={updateQuickSelect}
+          />
         </div>
       </main>
 
