@@ -16,7 +16,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import MainPage from '../Dashboard/Dashboard.jsx'
 import {createElement} from 'react';
 import Axios from 'axios';
-import './moreNews.jsx'
+import './moreStocksNews.jsx'
 import './AIStockRecommendationTool.jsx'
 //import AiFinance from './aiFinance.jsx'
 //import ProfilePage from './profilePage.jsx'
@@ -27,7 +27,7 @@ import Table from 'react-bootstrap/Table';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import './moreNews.jsx'
+import './moreStocksNews.jsx'
 
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import { CgEnter } from 'react-icons/cg';
