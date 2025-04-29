@@ -484,7 +484,7 @@ const API_KEY=""
       if((Number(dataPoints[dataPoints.length-1]))<(Number(dataPoints[0]))){
         lineColor='green'
       }
-      
+      const revArray=dataPoints.slice().reverse();
         setCharOptions(chartOptions => ({ ...chartOptions, scales: {
           x: {
             title: {
@@ -505,7 +505,7 @@ const API_KEY=""
         ...chartData,
         labels: xSide,
         datasets: [{
-          ...chartData.datasets[0],data: dataPoints,
+          ...chartData.datasets[0],data: revArray,
           borderColor: lineColor
         }]
       })  
