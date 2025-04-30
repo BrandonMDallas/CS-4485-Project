@@ -9,6 +9,7 @@ import axios from "../../api/axios";
 import useAxiosPrivate from "../../api/useAxiosPrivate";
 import "./MusicHub.css";
 import { useNavigate, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import {
   FaArrowLeft,
   FaPlus,
@@ -240,12 +241,11 @@ const MusicHub = () => {
       <div className="modern-header">
         <div className="header-content">
           <div className="header-left">
-            <button
-              className="modern-back-button"
-              onClick={() => navigate("/")}
-            >
-              <FaArrowLeft />
-            </button>
+            <NavLink to="/dashboard">
+              <button className="modern-back-button">
+                <FaArrowLeft />
+              </button>
+            </NavLink>
             <h1 className="modern-title heading-blue">Music Hub</h1>
           </div>
           <div className="header-right">
