@@ -157,5 +157,5 @@ const TeamVideos = ({ team }) => {
     </div>
   );
 };
-
+ 
 export default TeamVideos;

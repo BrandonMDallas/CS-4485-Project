@@ -11,7 +11,7 @@ const Scores = ({ team }) => {
   const [showModal, setShowModal] = useState(false);
   const [gameStatsLoading, setGameStatsLoading] = useState(false);
 
-  const apiKey = "h";
+  const apiKey = "b8a466d2aa934ef1881a9cf9b70a3560";
   const teamNameToCode = {
     "Hawks": "ATL",
     "Celtics": "BOS",
@@ -392,7 +392,6 @@ const Scores = ({ team }) => {
 
   return (
     <div className="modern-panel">
-      <h2 className="mb-4">Latest Scores</h2>
       {error && <div className="alert alert-warning mb-4">{error}</div>}
       <ul className="nav nav-tabs mb-4">
         <li className="nav-item">
