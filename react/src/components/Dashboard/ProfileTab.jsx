@@ -24,7 +24,7 @@ const ProfileTab = () => {
         <Accordion.Item eventKey="0">
           <Accordion.Header>Edit profile</Accordion.Header>
           <Accordion.Body>
-            <p>Change email</p>
+            <p>Change Username</p>
             <input
               type="text"
               id="EmailInput"
@@ -38,24 +38,9 @@ const ProfileTab = () => {
             <p>Change password</p>
             <input type="text" id="PasswordInput" />{" "}
             <Button type="submit">Change</Button>
-            <br />
-            <div style={{ display: "inline-flex" }}>
-              <div>
-                <p style={{ fontSize: "15px" }}>Current pic</p>
-              </div>
-              <div>
-                <Form.Group controlId="formFile" className="mb-3">
-                  <Form.Label>Edit profile pic</Form.Label>
-                  <img />
-                  <Form.Control type="file" />
-                </Form.Group>
-                <Button>Use pic</Button>
-              </div>
-            </div>
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
-      
     </>
   );
 };

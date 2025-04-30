@@ -49,38 +49,6 @@ const SettingsTab = () => {
         </div>
       </div>
 
-      {/* Email Notifications */}
-      <div className={styles.settingItem}>
-        <label htmlFor="emailNotifSwitch" className={styles.label}>
-          Email Notifications
-        </label>
-        <div className="form-check form-switch">
-          <input
-            id="emailNotifSwitch"
-            type="checkbox"
-            className="form-check-input"
-            checked={emailNotifications}
-            onChange={() => setEmailNotifications((prev) => !prev)}
-          />
-        </div>
-      </div>
-
-      {/* Compact Mode */}
-      <div className={styles.settingItem}>
-        <label htmlFor="compactModeSwitch" className={styles.label}>
-          Compact Mode
-        </label>
-        <div className="form-check form-switch">
-          <input
-            id="compactModeSwitch"
-            type="checkbox"
-            className="form-check-input"
-            checked={compactMode}
-            onChange={() => setCompactMode((prev) => !prev)}
-          />
-        </div>
-      </div>
-
       {/* Font Size Slider */}
       <div className={styles.settingItem}>
         <label htmlFor="fontSizeRange" className={styles.label}>
