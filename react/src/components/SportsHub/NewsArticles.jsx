@@ -32,13 +32,25 @@ const NewsArticles = ({ team }) => {
     );
   };
 
+  const cleanTeam = (team) => {
+    const parts = team.split(" ");
+
+    const count = parts.length == 2 ? 1 : Math.min(2, parts.length);
+
+    const partsArr = parts.slice(-count);
+
+    return partsArr.length > 1 ? partsArr.join(" ") : partsArr[0];
+  };
+
   useEffect(() => {
     const fetchArticles = async () => {
       try {
         const apiKey = "dd5aee5d09f640748e280fde6759f8a6";
         if (!apiKey) throw new Error("API key not found");
 
-        const rawQuery = `+${team} +team`;
+        const cleanTeamName = cleanTeam(team);
+        console.log(cleanTeamName);
+        const rawQuery = `+${cleanTeamName} +team`;
 
         const params = new URLSearchParams({
           q: rawQuery,
@@ -56,6 +68,7 @@ const NewsArticles = ({ team }) => {
 
         const url = `${NEWS_URL}?${params}`;
 
+        console.log(url);
         const response = await axiosPrivate.get(url);
 
         const data = response.data;
