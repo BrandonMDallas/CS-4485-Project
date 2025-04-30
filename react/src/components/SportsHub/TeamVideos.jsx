@@ -27,7 +27,7 @@ const TeamVideos = ({ team }) => {
         if (!apiKey) throw new Error("API key not found");
         
         const response = await fetch(
-          `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=6&q=${team}+basketball+highlights&type=video&key=${apiKey}`
+          `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=6&q=${team}+latest+team+highlights&type=video&key=${apiKey}`
         );
         
         if (!response.ok) throw new Error("Failed to fetch videos");
@@ -141,7 +141,7 @@ const TeamVideos = ({ team }) => {
           </div>
           
           <div className="text-center">
-            <a href={`https://www.youtube.com/results?search_query=${team}+basketball+highlights`} 
+            <a href={`https://www.youtube.com/results?search_query=${team}+latest+team+highlights`} 
                className="btn btn-outline-primary btn-sm" 
                target="_blank" 
                rel="noopener noreferrer">
