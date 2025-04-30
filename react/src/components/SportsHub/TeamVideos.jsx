@@ -23,7 +23,7 @@ const TeamVideos = ({ team }) => {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const apiKey = "AIzaSyAVyY60PgE5vyGK8TF_rKVy5uKxUm9v2OA";
+        const apiKey = "AIzaSyD29R_YAsInijJ2pyDhg1lmzQNCK2P2FDc";
         if (!apiKey) throw new Error("API key not found");
         
         const response = await fetch(
