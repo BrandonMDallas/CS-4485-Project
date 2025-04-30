@@ -12,6 +12,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
+import { NavLink } from "react-router-dom";
 
 const SportsHub = () => {
   // State for dropdown menu
@@ -204,27 +205,25 @@ const SportsHub = () => {
         <div className="container-fluid d-flex align-items-center">
           {/* Left side with back button, title and navigation tabs */}
           <div className="d-flex align-items-center flex-grow-1">
-            <button
-              className="btn back-btn me-3"
-              onClick={() => (window.location.href = "index.html")}
-            >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M15 18L9 12L15 6"
-                  stroke="currentColor"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-
+            <NavLink to="/dashboard">
+              <button className="btn back-btn me-3">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15 18L9 12L15 6"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </NavLink>
             <h1 className="sports-hub-title fs-4 mb-0 me-4">SportsHub</h1>
 
             <nav className="sports-tabs ms-1">
