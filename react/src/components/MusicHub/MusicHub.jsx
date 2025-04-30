@@ -45,7 +45,6 @@ const MusicHub = () => {
   const [isLoadingRecs, setIsLoadingRecs] = useState(false);
 
   useEffect(() => {
-    // Initial fetch of recommendations based on the default playlist
     if (playlists.length > 0) {
       fetchRecommendationsForPlaylist(playlists[0]);
     }
@@ -66,14 +65,12 @@ const MusicHub = () => {
         })),
       };
 
-      // One POST to your Flask endpoint
       api.setBaseURL(DEFAULT_PYTHON_BASE_URL);
       const res = await api.post(
         `${DEFAULT_PYTHON_BASE_URL}${API_ROUTES.RECOMMENDED_TRACKS}`,
         payload
       );
-      api.setBaseURL(DEFAULT_BASE_URL);
-      // Map to UI shape
+
       const recs = res.data.recommendations.map((r, idx) => ({
         id: `${r.track}-${r.artist}-${idx}`,
         name: r.track,
@@ -88,183 +85,9 @@ const MusicHub = () => {
       console.error("Error fetching recommendations:", err);
       setRecommendations([]);
     } finally {
+      api.setBaseURL(DEFAULT_BASE_URL);
       setIsLoadingRecs(false);
     }
-  };
-
-  // New helper function to fetch artist's top tracks as a fallback
-  const fetchArtistTopTracksFromLastFM = async (artist) => {
-    try {
-      // First try using our backend proxy if available
-      try {
-        const url = `/api/lastfm/artist-top-tracks?artist=${encodeURIComponent(
-          artist
-        )}`;
-        const response = await axiosPrivate.get(url);
-        return response.data;
-      } catch (proxyError) {
-        console.warn(
-          "Backend proxy unavailable for artist tracks, using direct Last.fm API:",
-          proxyError
-        );
-
-        // Fall back to direct Last.fm API call
-        const params = new URLSearchParams({
-          method: "artist.getTopTracks",
-          artist: artist,
-          api_key: LASTFM_API_KEY,
-          format: "json",
-          limit: 5,
-        });
-
-        const response = await axios.get(`${LASTFM_API_BASE}?${params}`);
-
-        if (
-          response.data &&
-          response.data.toptracks &&
-          response.data.toptracks.track
-        ) {
-          return response.data.toptracks.track.map((item) => ({
-            id: item.mbid || `${item.name}-${artist}`,
-            name: item.name,
-            artist: artist,
-            url: item.url,
-          }));
-        }
-        return [];
-      }
-    } catch (error) {
-      console.error(`Error fetching top tracks for artist ${artist}:`, error);
-      return [];
-    }
-  };
-
-  // Fallback function to get general music recommendations
-  const fetchGeneralRecommendations = async () => {
-    try {
-      const response = await api.get(API_ROUTES.TOP_TRACKS);
-      return response.data.slice(0, 10);
-    } catch (error) {
-      console.error("Failed to fetch general recommendations", error);
-      return [];
-    }
-  };
-
-  // Helper function to select recommendations in a round-robin fashion
-  const selectRecommendationsRoundRobin = (recommendationsMap, totalLimit) => {
-    const allSongIds = Array.from(recommendationsMap.keys());
-    let finalRecommendations = [];
-    let currentIndex = 0;
-    let recommendationIndices = new Map(); // Track which recommendation we're at for each song
-
-    // Initialize indices
-    allSongIds.forEach((songId) => recommendationIndices.set(songId, 0));
-
-    // Round-robin selection
-    while (finalRecommendations.length < totalLimit) {
-      const songId = allSongIds[currentIndex];
-      const recommendations = recommendationsMap.get(songId);
-      const recIndex = recommendationIndices.get(songId);
-
-      // If we have a recommendation at this index
-      if (recIndex < recommendations.length) {
-        const recommendation = recommendations[recIndex];
-
-        // Check if this recommendation is already in our list
-        const isDuplicate = finalRecommendations.some(
-          (rec) =>
-            rec.name === recommendation.name &&
-            rec.artist === recommendation.artist
-        );
-
-        if (!isDuplicate) {
-          finalRecommendations.push(recommendation);
-        }
-
-        // Increment the index for this song
-        recommendationIndices.set(songId, recIndex + 1);
-      }
-
-      // Move to the next song
-      currentIndex = (currentIndex + 1) % allSongIds.length;
-
-      // Safety check - if we've gone through all songs at all indices and can't find any more
-      // recommendations, break out of the loop
-      if (
-        finalRecommendations.length === 0 ||
-        (finalRecommendations.length > 0 &&
-          allSongIds.every(
-            (songId) =>
-              recommendationIndices.get(songId) >=
-              recommendationsMap.get(songId).length
-          ))
-      ) {
-        break;
-      }
-    }
-
-    return finalRecommendations;
-  };
-  // Helper function to fetch similar tracks from Last.fm API
-  const fetchSimilarTracksFromLastFM = async (artist, track) => {
-    try {
-      // First try using our backend proxy if available
-      try {
-        const url = `${SIMILAR_TRACKS_URL}?artist=${encodeURIComponent(
-          artist
-        )}&track=${encodeURIComponent(track)}`;
-        const response = await axiosPrivate.get(url);
-        return response.data;
-      } catch (proxyError) {
-        console.warn(
-          "Backend proxy unavailable, using direct Last.fm API:",
-          proxyError
-        );
-
-        // Fall back to direct Last.fm API call if backend proxy fails
-        const params = new URLSearchParams({
-          method: "track.getSimilar",
-          artist: artist,
-          track: track,
-          api_key: LASTFM_API_KEY,
-          format: "json",
-          limit: 5,
-        });
-
-        const response = await axios.get(`${LASTFM_API_BASE}?${params}`);
-
-        if (
-          response.data &&
-          response.data.similartracks &&
-          response.data.similartracks.track
-        ) {
-          return response.data.similartracks.track.map((item) => ({
-            id: item.mbid || `${item.name}-${item.artist.name}`,
-            name: item.name,
-            artist: item.artist.name,
-            url: item.url,
-          }));
-        }
-        return [];
-      }
-    } catch (error) {
-      console.error(
-        `Error fetching similar tracks for ${track} by ${artist}:`,
-        error
-      );
-      return [];
-    }
-  };
-
-  // Helper function to remove duplicate recommendations
-  const removeDuplicateRecommendations = (recommendations) => {
-    const seen = new Set();
-    return recommendations.filter((rec) => {
-      const key = `${rec.artist}-${rec.name}`;
-      if (seen.has(key)) return false;
-      seen.add(key);
-      return true;
-    });
   };
 
   // Toggle dropdown menu
