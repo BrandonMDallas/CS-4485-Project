@@ -1,84 +1,95 @@
 // SportsHub.jsx with properly sized AI Assistant section
-import React, { useState, useEffect, useRef } from 'react';
-import './SportsHub.css';
-import aiGifImage from './AIGif.gif';
-import Scores from './Scores';
-import TeamVideos from './TeamVideos';
-import NewsArticles from './NewsArticles';
-import FollowTeams from './FollowTeams';
-import AIAssistant from './AiAssistant';
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import Button from 'react-bootstrap/Button'
-import Card from 'react-bootstrap/Card'
-import Form from 'react-bootstrap/Form'
-
+import React, { useState, useEffect, useRef } from "react";
+import "./SportsHub.css";
+import aiGifImage from "./AIGif.gif";
+import Scores from "./Scores";
+import TeamVideos from "./TeamVideos";
+import NewsArticles from "./NewsArticles";
+import FollowTeams from "./FollowTeams";
+import AIAssistant from "./AiAssistant";
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
+import Form from "react-bootstrap/Form";
 
 const SportsHub = () => {
   // State for dropdown menu
   const [showDropdown, setShowDropdown] = useState(false);
-  
+
   // State for active sport tab
-  const [activeSport, setActiveSport] = useState('NBA');
-  
+  const [activeSport, setActiveSport] = useState("NBA");
+
   // State for selected team
-  const [selectedTeam, setSelectedTeam] = useState('Lakers');
+  const [selectedTeam, setSelectedTeam] = useState("Lakers");
 
   // State for followed teams
   const [followedTeams, setFollowedTeams] = useState([
-    'Los Angeles Lakers', 'Dallas Mavericks', 'Texas Rangers', 'Dallas Cowboys'
+    "Los Angeles Lakers",
+    "Dallas Mavericks",
+    "Texas Rangers",
+    "Dallas Cowboys",
   ]);
 
   // State for quick select teams for each sport
   const [quickSelectTeams, setQuickSelectTeams] = useState({
-    NBA: ['Lakers', 'Warriors', 'Celtics'],
-    NFL: ['Cowboys', 'Chiefs', 'Eagles'],
-    MLB: ['Yankees', 'Dodgers', 'Red Sox']
+    NBA: ["Lakers", "Warriors", "Celtics"],
+    NFL: ["Cowboys", "Chiefs", "Eagles"],
+    MLB: ["Yankees", "Dodgers", "Red Sox"],
   });
 
   // State for chatbot
   const [chatMessages, setChatMessages] = useState([
-    { sender: 'bot', text: 'Hi there! I\'m your Sports Assistant. Ask me anything about your favorite teams, players, or games!' }
+    {
+      sender: "bot",
+      text: "Hi there! I'm your Sports Assistant. Ask me anything about your favorite teams, players, or games!",
+    },
   ]);
-  const [userInput, setUserInput] = useState('');
+  const [userInput, setUserInput] = useState("");
   const [showChat, setShowChat] = useState(true); // Default to showing chat
-  
+
   // Ref for scrolling to bottom of messages
   const messagesEndRef = useRef(null);
-  
+
   // Function to update quick select teams for a specific sport
   const updateQuickSelect = (sport, teams) => {
-    setQuickSelectTeams(prev => ({
+    setQuickSelectTeams((prev) => ({
       ...prev,
-      [sport]: teams.length > 0 ? teams.slice(0, 3) : prev[sport]
+      [sport]: teams.length > 0 ? teams.slice(0, 3) : prev[sport],
     }));
   };
-  
+
   // Function to toggle dropdown
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
-  
+
   // Function to handle window click to close dropdown
   const handleWindowClick = (event) => {
-    if (!event.target.matches('.hamburger-menu') && 
-        !event.target.matches('.hamburger-line')) {
+    if (
+      !event.target.matches(".hamburger-menu") &&
+      !event.target.matches(".hamburger-line")
+    ) {
       setShowDropdown(false);
     }
   };
-  
+
   // Function to open settings window
   const openSettingsWindow = () => {
-    window.open('sportsSettings.html', 'Settings Window Sports', 'top=100, left=100, width=400, height=500, status=1');
+    window.open(
+      "sportsSettings.html",
+      "Settings Window Sports",
+      "top=100, left=100, width=400, height=500, status=1"
+    );
   };
-  
+
   // Function to change selected team
   const changeTeam = (team) => {
     setSelectedTeam(team);
     // Add a chatbot message when team changes
-    const newMessage = { 
-      sender: 'bot', 
-      text: `Team changed to ${team}! I can provide you with the latest ${team} news and stats. What would you like to know?` 
+    const newMessage = {
+      sender: "bot",
+      text: `Team changed to ${team}! I can provide you with the latest ${team} news and stats. What would you like to know?`,
     };
     setChatMessages([...chatMessages, newMessage]);
   };
@@ -92,7 +103,7 @@ const SportsHub = () => {
 
   // Function to handle removing a team from followed teams
   const handleTeamRemove = (team) => {
-    setFollowedTeams(followedTeams.filter(t => t !== team));
+    setFollowedTeams(followedTeams.filter((t) => t !== team));
   };
 
   // Function to handle sport tab change
@@ -101,9 +112,9 @@ const SportsHub = () => {
     // Set default team for the selected sport to the first quick select team
     setSelectedTeam(quickSelectTeams[sport][0]);
     // Add a chatbot message when sport changes
-    const newMessage = { 
-      sender: 'bot', 
-      text: `Switched to ${sport}! I can help you with ${sport} information. What would you like to know about the ${quickSelectTeams[sport][0]}?` 
+    const newMessage = {
+      sender: "bot",
+      text: `Switched to ${sport}! I can help you with ${sport} information. What would you like to know about the ${quickSelectTeams[sport][0]}?`,
     };
     setChatMessages([...chatMessages, newMessage]);
   };
@@ -114,31 +125,50 @@ const SportsHub = () => {
     if (!userInput.trim()) return;
 
     // Add user message to chat
-    const newUserMessage = { sender: 'user', text: userInput };
+    const newUserMessage = { sender: "user", text: userInput };
     setChatMessages([...chatMessages, newUserMessage]);
-    
+
     // Process and generate response
     setTimeout(() => {
-      const botResponse = generateBotResponse(userInput, selectedTeam, activeSport);
-      setChatMessages(prevMessages => [...prevMessages, { sender: 'bot', text: botResponse }]);
+      const botResponse = generateBotResponse(
+        userInput,
+        selectedTeam,
+        activeSport
+      );
+      setChatMessages((prevMessages) => [
+        ...prevMessages,
+        { sender: "bot", text: botResponse },
+      ]);
     }, 600);
-    
-    setUserInput('');
+
+    setUserInput("");
   };
 
   // Function to generate bot responses based on input
   const generateBotResponse = (input, team, sport) => {
     input = input.toLowerCase();
-    
-    if (input.includes('score') || input.includes('game') || input.includes('result')) {
+
+    if (
+      input.includes("score") ||
+      input.includes("game") ||
+      input.includes("result")
+    ) {
       return `The latest ${team} game ended 112-104. They're scheduled to play again this weekend.`;
-    } else if (input.includes('player') || input.includes('roster') || input.includes('team member')) {
+    } else if (
+      input.includes("player") ||
+      input.includes("roster") ||
+      input.includes("team member")
+    ) {
       return `${team} has several star players in their roster. Would you like me to list the key players?`;
-    } else if (input.includes('stats') || input.includes('statistics')) {
+    } else if (input.includes("stats") || input.includes("statistics")) {
       return `${team} is currently ranked 3rd in their division with a record of 24-14.`;
-    } else if (input.includes('news') || input.includes('update')) {
+    } else if (input.includes("news") || input.includes("update")) {
       return `The latest news for ${team}: Their star player has recovered from injury and will play in the next game.`;
-    } else if (input.includes('hi') || input.includes('hello') || input.includes('hey')) {
+    } else if (
+      input.includes("hi") ||
+      input.includes("hello") ||
+      input.includes("hey")
+    ) {
       return `Hey there! How can I help you with ${sport} information today?`;
     } else {
       return `I'm not sure about that regarding ${team}. Would you like to know about their recent games, players, or stats?`;
@@ -149,24 +179,24 @@ const SportsHub = () => {
   const toggleChat = () => {
     setShowChat(!showChat);
   };
-  
+
   // Scroll to bottom of messages when new ones are added
   useEffect(() => {
     if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [chatMessages]);
-  
+
   // Adding event listener for window clicks (equivalent to window.onclick)
   useEffect(() => {
-    window.addEventListener('click', handleWindowClick);
-    
+    window.addEventListener("click", handleWindowClick);
+
     // Cleanup the event listener on component unmount
     return () => {
-      window.removeEventListener('click', handleWindowClick);
+      window.removeEventListener("click", handleWindowClick);
     };
   }, []);
-  
+
   return (
     <div className="modern-container">
       {/* Header Navigation - Modern Redesign */}
@@ -174,47 +204,68 @@ const SportsHub = () => {
         <div className="container-fluid d-flex align-items-center">
           {/* Left side with back button, title and navigation tabs */}
           <div className="d-flex align-items-center flex-grow-1">
-            <button className="btn back-btn me-3" onClick={() => window.location.href='index.html'}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+            <button
+              className="btn back-btn me-3"
+              onClick={() => (window.location.href = "index.html")}
+            >
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M15 18L9 12L15 6"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
             </button>
-            
+
             <h1 className="sports-hub-title fs-4 mb-0 me-4">SportsHub</h1>
-            
+
             <nav className="sports-tabs ms-1">
               <ul className="nav nav-pills">
                 <li className="nav-item">
-                  <a 
-                    className={`nav-link ${activeSport === 'NBA' ? 'active' : ''} px-3 py-1`}
+                  <a
+                    className={`nav-link ${
+                      activeSport === "NBA" ? "active" : ""
+                    } px-3 py-1`}
                     href="#"
                     onClick={(e) => {
                       e.preventDefault();
-                      handleSportChange('NBA');
+                      handleSportChange("NBA");
                     }}
                   >
                     NBA
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a 
-                    className={`nav-link ${activeSport === 'NFL' ? 'active' : ''} px-3 py-1`}
+                  <a
+                    className={`nav-link ${
+                      activeSport === "NFL" ? "active" : ""
+                    } px-3 py-1`}
                     href="#"
                     onClick={(e) => {
                       e.preventDefault();
-                      handleSportChange('NFL');
+                      handleSportChange("NFL");
                     }}
                   >
                     NFL
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a 
-                    className={`nav-link ${activeSport === 'MLB' ? 'active' : ''} px-3 py-1`}
+                  <a
+                    className={`nav-link ${
+                      activeSport === "MLB" ? "active" : ""
+                    } px-3 py-1`}
                     href="#"
                     onClick={(e) => {
                       e.preventDefault();
-                      handleSportChange('MLB');
+                      handleSportChange("MLB");
                     }}
                   >
                     MLB
@@ -223,33 +274,29 @@ const SportsHub = () => {
               </ul>
             </nav>
           </div>
-          
-          {/* Right side with add sport button */}
-          <div className="ms-auto">
-            <button className="btn btn-outline-primary add-sport-btn" style={{fontSize: '0.875rem'}}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="me-1">
-                <path d="M12 5V19M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              <span>Add Sport</span>
-            </button>
-          </div>
         </div>
       </header>
-      
+
       {/* Main Content Area - Modern Layout */}
       <main className="modern-content">
         {/* Main Column - News and Videos */}
         <div className="main-column">
           {/* Team Info Banner */}
           <section className="modern-card team-banner">
-            <h2 className="modern-section-title">Currently Viewing: {selectedTeam}</h2>
+            <h2 className="modern-section-title">
+              Currently Viewing: {selectedTeam}
+            </h2>
             <div className="team-selection">
               <p>Quick Select:</p>
               <div className="team-buttons">
                 {quickSelectTeams[activeSport].map((team) => (
-                  <button 
+                  <button
                     key={team}
-                    className={`btn btn-sm ${selectedTeam === team ? 'btn-primary' : 'btn-outline-primary'}`} 
+                    className={`btn btn-sm ${
+                      selectedTeam === team
+                        ? "btn-primary"
+                        : "btn-outline-primary"
+                    }`}
                     onClick={() => changeTeam(team)}
                   >
                     {team}
@@ -258,7 +305,7 @@ const SportsHub = () => {
               </div>
             </div>
           </section>
-          
+
           {/* Scores Section */}
           <section className="modern-card news-section">
             <h2 className="modern-section-title">Latest Scores</h2>
@@ -270,247 +317,260 @@ const SportsHub = () => {
             <h2 className="modern-section-title">Team News</h2>
             <NewsArticles team={selectedTeam} sport={activeSport} />
           </section>
-          
+
           {/* Video Section */}
           <section className="modern-card video-section">
             <h2 className="modern-section-title">Team Videos</h2>
             <TeamVideos team={selectedTeam} sport={activeSport} />
           </section>
-          
         </div>
-        
+
         {/* Sidebar Column - AI Assistant and Team Following */}
         <div className="sidebar-column">
-            <section className="ai-assistant-card">
-              <h2 className="ai-assistant-title">AI Assistant</h2>
-              <div className="ai-assistant-content">
-                <div className="assistant-avatar-container">
-                  <img 
-                    src={aiGifImage}
-                    alt="AI Assistant" 
-                    className="assistant-avatar"
-                  />
-                </div>
-                
-                <button 
-                  className="chat-button" 
-                  onClick={toggleChat}
-                >
-                  {showChat ? 'Close Chat' : 'Chat with Assistant'}
-                </button>
-                
-                {showChat && (
-                  <div className="chat-container">
-                    <div className="chat-messages-container">
-                      {chatMessages.map((message, index) => (
-                        <div key={index} className={`message ${message.sender}-message`}>
-                          <div className="message-content">
-                            {message.text}
-                          </div>
-                        </div>
-                      ))}
-                      <div ref={messagesEndRef} /> {/* Empty div for scrolling to bottom */}
-                    </div>
-                    
-                    <form onSubmit={handleChatSubmit} className="chat-input-container">
-                      <input 
-                        type="text" 
-                        value={userInput}
-                        onChange={(e) => setUserInput(e.target.value)}
-                        placeholder="Type your message..."
-                        className="chat-input"
-                      />
-                      <button type="submit" className="send-button">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                      </button>
-                    </form>
-                  </div>
-                )}
+          <section className="ai-assistant-card">
+            <h2 className="ai-assistant-title">AI Assistant</h2>
+            <div className="ai-assistant-content">
+              <div className="assistant-avatar-container">
+                <img
+                  src={aiGifImage}
+                  alt="AI Assistant"
+                  className="assistant-avatar"
+                />
               </div>
-              
-              {/* Styling for AI Assistant matching latest screenshot */}
-              <style jsx>{`
-                .ai-assistant-card {
-                  background: #4060E0;
-                  color: white;
-                  border-radius: 12px;
-                  padding: 20px;
-                  display: flex;
-                  flex-direction: column;
-                  margin-bottom: 20px;
-                  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-                  height: ${showChat ? 'auto' : '230px'};
-                  overflow: hidden;
-                  transition: height 0.3s ease;
-                }
-                
-                .ai-assistant-title {
-                  font-size: 18px;
-                  font-weight: 600;
-                  margin-top: 0;
-                  margin-bottom: 16px;
-                  padding-bottom: 12px;
-                  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-                }
-                
-                .ai-assistant-content {
-                  display: flex;
-                  flex-direction: column;
-                  align-items: center;
-                  justify-content: center;
-                  height: 100%;
-                  gap: 25px;
-                }
-                
-                .assistant-avatar-container {
-                  width: 90px;
-                  height: 90px;
-                  border-radius: 50%;
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                }
-                
-                .assistant-avatar {
-                  width: 100%;
-                  height: 100x%;
-                  object-fit: contain;
-                }
-                
-                .chat-button {
-                  width: 100%;
-                  padding: 12px;
-                  background-color: rgba(255, 255, 255, 0.15);
-                  color: white;
-                  border: none;
-                  border-radius: 8px;
-                  font-size: 16px;
-                  font-weight: 500;
-                  cursor: pointer;
-                  transition: background-color 0.2s;
-                }
-                
-                .chat-button:hover {
-                  background-color: rgba(255, 255, 255, 0.25);
-                }
-                
-                .chat-container {
-                  width: 100%;
-                  background-color: rgba(255, 255, 255, 0.05);
-                  border-radius: 10px;
-                  display: flex;
-                  flex-direction: column;
-                  overflow: hidden;
-                  margin-top: 10px;
-                }
-                
-                .chat-messages-container {
-                  padding: 12px;
-                  height: 180px;
-                  overflow-y: auto;
-                  display: flex;
-                  flex-direction: column;
-                  scrollbar-width: thin;
-                  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
-                }
-                
-                .chat-messages-container::-webkit-scrollbar {
-                  width: 5px;
-                }
-                
-                .chat-messages-container::-webkit-scrollbar-track {
-                  background: transparent;
-                }
-                
-                .chat-messages-container::-webkit-scrollbar-thumb {
-                  background-color: rgba(255, 255, 255, 0.3);
-                  border-radius: 20px;
-                }
-                
-                .message {
-                  margin-bottom: 10px;
-                  max-width: 90%;
-                }
-                
-                .bot-message {
-                  align-self: flex-start;
-                }
-                
-                .user-message {
-                  align-self: flex-end;
-                }
-                
-                .message-content {
-                  padding: 10px 15px;
-                  border-radius: 18px;
-                  font-size: 14px;
-                  line-height: 1.4;
-                }
-                
-                .bot-message .message-content {
-                  background-color: rgba(255, 255, 255, 0.1);
-                  color: white;
-                  border-top-left-radius: 4px;
-                }
-                
-                .user-message .message-content {
-                  background-color: white;
-                  color: #333;
-                  border-top-right-radius: 4px;
-                }
-                
-                .chat-input-container {
-                  display: flex;
-                  padding: 10px;
-                  background-color: rgba(255, 255, 255, 0.05);
-                  border-top: 1px solid rgba(255, 255, 255, 0.1);
-                }
-                
-                .chat-input {
-                  flex-grow: 1;
-                  padding: 12px 15px;
-                  border: none;
-                  border-radius: 20px;
-                  background-color: rgba(255, 255, 255, 0.1);
-                  color: white;
-                  margin-right: 8px;
-                  font-size: 14px;
-                }
-                
-                .chat-input::placeholder {
-                  color: rgba(255, 255, 255, 0.6);
-                }
-                
-                .chat-input:focus {
-                  outline: none;
-                  background-color: rgba(255, 255, 255, 0.15);
-                }
-                
-                .send-button {
-                  width: 36px;
-                  height: 36px;
-                  border-radius: 50%;
-                  border: none;
-                  background-color: white;
-                  color: #4366E3;
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                  cursor: pointer;
-                }
-                
-                .send-button svg {
-                  width: 16px;
-                  height: 16px;
-                  color: #4366E3;
-                }
-              `}</style>
-            </section>
+
+              <button className="chat-button" onClick={toggleChat}>
+                {showChat ? "Close Chat" : "Chat with Assistant"}
+              </button>
+
+              {showChat && (
+                <div className="chat-container">
+                  <div className="chat-messages-container">
+                    {chatMessages.map((message, index) => (
+                      <div
+                        key={index}
+                        className={`message ${message.sender}-message`}
+                      >
+                        <div className="message-content">{message.text}</div>
+                      </div>
+                    ))}
+                    <div ref={messagesEndRef} />{" "}
+                    {/* Empty div for scrolling to bottom */}
+                  </div>
+
+                  <form
+                    onSubmit={handleChatSubmit}
+                    className="chat-input-container"
+                  >
+                    <input
+                      type="text"
+                      value={userInput}
+                      onChange={(e) => setUserInput(e.target.value)}
+                      placeholder="Type your message..."
+                      className="chat-input"
+                    />
+                    <button type="submit" className="send-button">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </button>
+                  </form>
+                </div>
+              )}
+            </div>
+
+            {/* Styling for AI Assistant matching latest screenshot */}
+            <style jsx>{`
+              .ai-assistant-card {
+                background: #4060e0;
+                color: white;
+                border-radius: 12px;
+                padding: 20px;
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 20px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+                height: ${showChat ? "auto" : "230px"};
+                overflow: hidden;
+                transition: height 0.3s ease;
+              }
+
+              .ai-assistant-title {
+                font-size: 18px;
+                font-weight: 600;
+                margin-top: 0;
+                margin-bottom: 16px;
+                padding-bottom: 12px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+              }
+
+              .ai-assistant-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+                gap: 25px;
+              }
+
+              .assistant-avatar-container {
+                width: 90px;
+                height: 90px;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              }
+
+              .assistant-avatar {
+                width: 100%;
+                height: 100x%;
+                object-fit: contain;
+              }
+
+              .chat-button {
+                width: 100%;
+                padding: 12px;
+                background-color: rgba(255, 255, 255, 0.15);
+                color: white;
+                border: none;
+                border-radius: 8px;
+                font-size: 16px;
+                font-weight: 500;
+                cursor: pointer;
+                transition: background-color 0.2s;
+              }
+
+              .chat-button:hover {
+                background-color: rgba(255, 255, 255, 0.25);
+              }
+
+              .chat-container {
+                width: 100%;
+                background-color: rgba(255, 255, 255, 0.05);
+                border-radius: 10px;
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+                margin-top: 10px;
+              }
+
+              .chat-messages-container {
+                padding: 12px;
+                height: 180px;
+                overflow-y: auto;
+                display: flex;
+                flex-direction: column;
+                scrollbar-width: thin;
+                scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+              }
+
+              .chat-messages-container::-webkit-scrollbar {
+                width: 5px;
+              }
+
+              .chat-messages-container::-webkit-scrollbar-track {
+                background: transparent;
+              }
+
+              .chat-messages-container::-webkit-scrollbar-thumb {
+                background-color: rgba(255, 255, 255, 0.3);
+                border-radius: 20px;
+              }
+
+              .message {
+                margin-bottom: 10px;
+                max-width: 90%;
+              }
+
+              .bot-message {
+                align-self: flex-start;
+              }
+
+              .user-message {
+                align-self: flex-end;
+              }
+
+              .message-content {
+                padding: 10px 15px;
+                border-radius: 18px;
+                font-size: 14px;
+                line-height: 1.4;
+              }
+
+              .bot-message .message-content {
+                background-color: rgba(255, 255, 255, 0.1);
+                color: white;
+                border-top-left-radius: 4px;
+              }
+
+              .user-message .message-content {
+                background-color: white;
+                color: #333;
+                border-top-right-radius: 4px;
+              }
+
+              .chat-input-container {
+                display: flex;
+                padding: 10px;
+                background-color: rgba(255, 255, 255, 0.05);
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+              }
+
+              .chat-input {
+                flex-grow: 1;
+                padding: 12px 15px;
+                border: none;
+                border-radius: 20px;
+                background-color: rgba(255, 255, 255, 0.1);
+                color: white;
+                margin-right: 8px;
+                font-size: 14px;
+              }
+
+              .chat-input::placeholder {
+                color: rgba(255, 255, 255, 0.6);
+              }
+
+              .chat-input:focus {
+                outline: none;
+                background-color: rgba(255, 255, 255, 0.15);
+              }
+
+              .send-button {
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                border: none;
+                background-color: white;
+                color: #4366e3;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+              }
+
+              .send-button svg {
+                width: 16px;
+                height: 16px;
+                color: #4366e3;
+              }
+            `}</style>
+          </section>
 
           {/* Team Following Section - Using the updated FollowTeams component */}
-          <FollowTeams 
+          <FollowTeams
             activeSport={activeSport}
             onTeamFollow={handleTeamFollow}
             followedTeams={followedTeams}
@@ -529,37 +589,38 @@ const SportsHub = () => {
           min-height: 100vh;
           background-color: #f8f9fa;
         }
-        
+
         .modern-content {
           display: flex;
           padding: 1.5rem;
           gap: 1.5rem;
         }
-        
+
         .main-column {
           flex: 1;
           display: flex;
           flex-direction: column;
           gap: 1.5rem;
         }
-        
+
         .sidebar-column {
           width: 300px;
           display: flex;
           flex-direction: column;
           gap: 1.5rem;
         }
-        
+
         @media (max-width: 768px) {
           .modern-content {
             flex-direction: column;
             padding: 1rem;
           }
-          
-          .main-column, .sidebar-column {
+
+          .main-column,
+          .sidebar-column {
             width: 100%;
           }
-          
+
           .sidebar-column {
             margin-top: 1rem;
           }
