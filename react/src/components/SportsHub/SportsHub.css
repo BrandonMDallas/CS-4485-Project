@@ -1420,3 +1420,142 @@ color: white;
     margin-top: 10px;
   }
 }
+
+/* Add these CSS styles to fix the video section layout */
+
+/* Main container styling with fixed width */
+.modern-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* Make content layout use grid with fixed columns */
+.modern-content {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(300px, 1fr);
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* Set max width for main content column */
+.main-column {
+  width: 100%;
+  min-width: 0; /* Helps with overflow handling */
+  overflow: hidden; /* Prevent content from spilling out */
+}
+
+/* Fix sidebar width */
+.sidebar-column {
+  width: 100%;
+  min-width: 300px;
+  max-width: 350px;
+}
+
+/* Video container styling */
+.video-section {
+  width: 100%;
+  overflow: hidden; /* Hide overflow */
+}
+
+/* Main video responsive container */
+.main-video {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 aspect ratio */
+  margin-bottom: 15px;
+  overflow: hidden;
+}
+
+.main-video iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Video thumbnails grid with fixed sizing */
+.video-thumbnails {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.video-thumbnail {
+  width: 100%;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  border-radius: 8px;
+  position: relative;
+}
+
+.video-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Video title with fixed height to prevent layout shifts */
+.video-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 5px 0;
+  height: 2.4em; /* Fixed height for 2 lines of text */
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.video-date {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+/* YouTube button consistent styling */
+.view-more-btn {
+  width: 100%;
+  text-align: center;
+  padding: 8px;
+  margin: 10px 0;
+  background-color: transparent;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  color: #212529;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.view-more-btn:hover {
+  background-color: #f8f9fa;
+}
+
+/* Make sure content sections maintain consistent width */
+.content-section {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .modern-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .sidebar-column {
+    min-width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .video-thumbnails {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+

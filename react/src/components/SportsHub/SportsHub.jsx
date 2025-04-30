@@ -1,11 +1,12 @@
-// SportsHub.jsx with dynamic Quick Select functionality
-import React, { useState, useEffect } from 'react';
+// SportsHub.jsx with properly sized AI Assistant section
+import React, { useState, useEffect, useRef } from 'react';
 import './SportsHub.css';
 import aiGifImage from './AIGif.gif';
 import Scores from './Scores';
 import TeamVideos from './TeamVideos';
 import NewsArticles from './NewsArticles';
 import FollowTeams from './FollowTeams';
+import AIAssistant from './AiAssistant';
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Button from 'react-bootstrap/Button'
@@ -40,7 +41,10 @@ const SportsHub = () => {
     { sender: 'bot', text: 'Hi there! I\'m your Sports Assistant. Ask me anything about your favorite teams, players, or games!' }
   ]);
   const [userInput, setUserInput] = useState('');
-  const [showChat, setShowChat] = useState(false);
+  const [showChat, setShowChat] = useState(true); // Default to showing chat
+  
+  // Ref for scrolling to bottom of messages
+  const messagesEndRef = useRef(null);
   
   // Function to update quick select teams for a specific sport
   const updateQuickSelect = (sport, teams) => {
@@ -146,6 +150,13 @@ const SportsHub = () => {
     setShowChat(!showChat);
   };
   
+  // Scroll to bottom of messages when new ones are added
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [chatMessages]);
+  
   // Adding event listener for window clicks (equivalent to window.onclick)
   useEffect(() => {
     window.addEventListener('click', handleWindowClick);
@@ -248,6 +259,11 @@ const SportsHub = () => {
             </div>
           </section>
           
+          {/* Scores Section */}
+          <section className="modern-card news-section">
+            <h2 className="modern-section-title">Latest Scores</h2>
+            <Scores team={selectedTeam} sport={activeSport} />
+          </section>
 
           {/* News Section */}
           <section className="modern-card news-section">
@@ -261,139 +277,238 @@ const SportsHub = () => {
             <TeamVideos team={selectedTeam} sport={activeSport} />
           </section>
           
-          {/* Scores Section */}
-          <section className="modern-card news-section">
-            <h2 className="modern-section-title">Latest Scores</h2>
-            <Scores team={selectedTeam} sport={activeSport} />
-            <div className="modern-panel">
-              <h3 className="panel-title">Latest Events</h3>
-              <div className="events-list">
-                <p className="no-events">No events found</p>
-              </div>
-            </div>
-            
-            <div className="modern-panel">
-              <h3 className="panel-title">Search Events</h3>
-              <div className="modern-search">
-                <input type="text" placeholder="Type here..." name="search" />
-                <button type="submit" className="search-button">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </section>
         </div>
         
         {/* Sidebar Column - AI Assistant and Team Following */}
         <div className="sidebar-column">
-          {/* AI Assistant Section - Now with Chatbot */}
-          <section className="modern-card ai-assistant">
-            <h2 className="modern-section-title">AI Assistant</h2>
-            <div className="assistant-content">
-              <div className="assistant-avatar">
-                {/* Using the imported AIGif.gif image instead of SVG */}
-                <img 
-                  src={aiGifImage} 
-                  alt="AI Assistant animated icon" 
-                  className="assistant-gif"
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    borderRadius: '50%'
-                  }}
-                />
-              </div>
-              <div className="assistant-actions">
-                <button className="modern-button assistant-button" onClick={toggleChat}>
-                  {showChat ? 'Close Chat' : 'Chat with Assistant'}
-                </button>
-              </div>
-            </div>
-            
-            {/* Chatbot Interface - iOS style with wider message bar */}
-            {showChat && (
-              <div className="chatbot-container mt-3">
-                {/* Chat messages area */}
-                <div className="chat-messages p-3 border rounded" style={{
-                  height: '250px', 
-                  overflowY: 'auto', 
-                  backgroundColor: '#f0f0f0', /* Light gray background similar to iOS */
-                  backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.7) 100%)',
-                  width: '100%' /* Ensure full width */
-                }}>
-                  {chatMessages.map((msg, index) => (
-                    <div key={index} className={`chat-message ${msg.sender === 'user' ? 'user-message text-end mb-3' : 'bot-message mb-3'}`}>
-                      <div 
-                        className={`message-bubble d-inline-block p-2 rounded-3`} 
-                        style={{
-                          maxWidth: '75%', /* Slightly reduced to ensure messages fit */
-                          textAlign: 'left',
-                          backgroundColor: msg.sender === 'user' ? '#1982FC' : '#e5e5ea', /* iOS-like colors */
-                          color: msg.sender === 'user' ? 'white' : 'black',
-                          borderRadius: '18px',
-                          padding: '8px 12px',
-                          boxShadow: '0 1px 1px rgba(0,0,0,0.1)',
-                          marginLeft: msg.sender === 'bot' ? '0' : 'auto',
-                          marginRight: msg.sender === 'user' ? '0' : 'auto',
-                          position: 'relative',
-                          wordBreak: 'break-word' /* Ensures long words don't overflow */
-                        }}
-                      >
-                        {msg.text}
-                      </div>
-                    </div>
-                  ))}
+            <section className="ai-assistant-card">
+              <h2 className="ai-assistant-title">AI Assistant</h2>
+              <div className="ai-assistant-content">
+                <div className="assistant-avatar-container">
+                  <img 
+                    src={aiGifImage}
+                    alt="AI Assistant" 
+                    className="assistant-avatar"
+                  />
                 </div>
                 
-                {/* Input form - wider input with flexible layout */}
-                <form 
-                  onSubmit={handleChatSubmit} 
-                  className="chat-input-form mt-2" 
-                  style={{
-                    display: 'flex',
-                    width: '100%' /* Full width form */
-                  }}
+                <button 
+                  className="chat-button" 
+                  onClick={toggleChat}
                 >
-                  <input 
-                    type="text" 
-                    className="form-control"
-                    placeholder="Ask about sports, teams, or players..." 
-                    value={userInput}
-                    onChange={(e) => setUserInput(e.target.value)}
-                    style={{
-                      borderRadius: '20px',
-                      padding: '10px 50px',
-                      border: '1px solid #ccc',
-                      flexGrow: 1 /* This makes the input field take up all available space */
-                    }}
-                  />
-                  <button 
-                    type="submit" 
-                    className="btn btn-primary ms-2"
-                    style={{
-                      borderRadius: '50%',
-                      width: '40px',
-                      height: '40px',
-                      minWidth: '40px', /* Ensures the button doesn't shrink */
-                      padding: '0',
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      flexShrink: 0 /* Prevents button from shrinking */
-                    }}
-                  >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </button>
-                </form>
+                  {showChat ? 'Close Chat' : 'Chat with Assistant'}
+                </button>
+                
+                {showChat && (
+                  <div className="chat-container">
+                    <div className="chat-messages-container">
+                      {chatMessages.map((message, index) => (
+                        <div key={index} className={`message ${message.sender}-message`}>
+                          <div className="message-content">
+                            {message.text}
+                          </div>
+                        </div>
+                      ))}
+                      <div ref={messagesEndRef} /> {/* Empty div for scrolling to bottom */}
+                    </div>
+                    
+                    <form onSubmit={handleChatSubmit} className="chat-input-container">
+                      <input 
+                        type="text" 
+                        value={userInput}
+                        onChange={(e) => setUserInput(e.target.value)}
+                        placeholder="Type your message..."
+                        className="chat-input"
+                      />
+                      <button type="submit" className="send-button">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </button>
+                    </form>
+                  </div>
+                )}
               </div>
-            )}
-          </section>
-          
+              
+              {/* Styling for AI Assistant matching latest screenshot */}
+              <style jsx>{`
+                .ai-assistant-card {
+                  background: #4060E0;
+                  color: white;
+                  border-radius: 12px;
+                  padding: 20px;
+                  display: flex;
+                  flex-direction: column;
+                  margin-bottom: 20px;
+                  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+                  height: ${showChat ? 'auto' : '230px'};
+                  overflow: hidden;
+                  transition: height 0.3s ease;
+                }
+                
+                .ai-assistant-title {
+                  font-size: 18px;
+                  font-weight: 600;
+                  margin-top: 0;
+                  margin-bottom: 16px;
+                  padding-bottom: 12px;
+                  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+                }
+                
+                .ai-assistant-content {
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+                  height: 100%;
+                  gap: 25px;
+                }
+                
+                .assistant-avatar-container {
+                  width: 90px;
+                  height: 90px;
+                  border-radius: 50%;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                }
+                
+                .assistant-avatar {
+                  width: 100%;
+                  height: 100x%;
+                  object-fit: contain;
+                }
+                
+                .chat-button {
+                  width: 100%;
+                  padding: 12px;
+                  background-color: rgba(255, 255, 255, 0.15);
+                  color: white;
+                  border: none;
+                  border-radius: 8px;
+                  font-size: 16px;
+                  font-weight: 500;
+                  cursor: pointer;
+                  transition: background-color 0.2s;
+                }
+                
+                .chat-button:hover {
+                  background-color: rgba(255, 255, 255, 0.25);
+                }
+                
+                .chat-container {
+                  width: 100%;
+                  background-color: rgba(255, 255, 255, 0.05);
+                  border-radius: 10px;
+                  display: flex;
+                  flex-direction: column;
+                  overflow: hidden;
+                  margin-top: 10px;
+                }
+                
+                .chat-messages-container {
+                  padding: 12px;
+                  height: 180px;
+                  overflow-y: auto;
+                  display: flex;
+                  flex-direction: column;
+                  scrollbar-width: thin;
+                  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+                }
+                
+                .chat-messages-container::-webkit-scrollbar {
+                  width: 5px;
+                }
+                
+                .chat-messages-container::-webkit-scrollbar-track {
+                  background: transparent;
+                }
+                
+                .chat-messages-container::-webkit-scrollbar-thumb {
+                  background-color: rgba(255, 255, 255, 0.3);
+                  border-radius: 20px;
+                }
+                
+                .message {
+                  margin-bottom: 10px;
+                  max-width: 90%;
+                }
+                
+                .bot-message {
+                  align-self: flex-start;
+                }
+                
+                .user-message {
+                  align-self: flex-end;
+                }
+                
+                .message-content {
+                  padding: 10px 15px;
+                  border-radius: 18px;
+                  font-size: 14px;
+                  line-height: 1.4;
+                }
+                
+                .bot-message .message-content {
+                  background-color: rgba(255, 255, 255, 0.1);
+                  color: white;
+                  border-top-left-radius: 4px;
+                }
+                
+                .user-message .message-content {
+                  background-color: white;
+                  color: #333;
+                  border-top-right-radius: 4px;
+                }
+                
+                .chat-input-container {
+                  display: flex;
+                  padding: 10px;
+                  background-color: rgba(255, 255, 255, 0.05);
+                  border-top: 1px solid rgba(255, 255, 255, 0.1);
+                }
+                
+                .chat-input {
+                  flex-grow: 1;
+                  padding: 12px 15px;
+                  border: none;
+                  border-radius: 20px;
+                  background-color: rgba(255, 255, 255, 0.1);
+                  color: white;
+                  margin-right: 8px;
+                  font-size: 14px;
+                }
+                
+                .chat-input::placeholder {
+                  color: rgba(255, 255, 255, 0.6);
+                }
+                
+                .chat-input:focus {
+                  outline: none;
+                  background-color: rgba(255, 255, 255, 0.15);
+                }
+                
+                .send-button {
+                  width: 36px;
+                  height: 36px;
+                  border-radius: 50%;
+                  border: none;
+                  background-color: white;
+                  color: #4366E3;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  cursor: pointer;
+                }
+                
+                .send-button svg {
+                  width: 16px;
+                  height: 16px;
+                  color: #4366E3;
+                }
+              `}</style>
+            </section>
+
           {/* Team Following Section - Using the updated FollowTeams component */}
           <FollowTeams 
             activeSport={activeSport}
@@ -408,9 +523,37 @@ const SportsHub = () => {
 
       {/* Add responsive styles for mobile devices */}
       <style jsx>{`
+        .modern-container {
+          display: flex;
+          flex-direction: column;
+          min-height: 100vh;
+          background-color: #f8f9fa;
+        }
+        
+        .modern-content {
+          display: flex;
+          padding: 1.5rem;
+          gap: 1.5rem;
+        }
+        
+        .main-column {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+        }
+        
+        .sidebar-column {
+          width: 300px;
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+        }
+        
         @media (max-width: 768px) {
           .modern-content {
             flex-direction: column;
+            padding: 1rem;
           }
           
           .main-column, .sidebar-column {
@@ -419,10 +562,6 @@ const SportsHub = () => {
           
           .sidebar-column {
             margin-top: 1rem;
-          }
-          
-          .chatbot-container {
-            width: 100%;
           }
         }
       `}</style>
