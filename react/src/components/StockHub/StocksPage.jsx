@@ -15,7 +15,6 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import MainPage from "../Dashboard/Dashboard.jsx";
 import { createElement } from "react";
-import { NavLink } from "react-router-dom";
 import Axios from "axios";
 //import './moreStocksNews.jsx'
 import "./AIStockRecommendationTool.jsx";
