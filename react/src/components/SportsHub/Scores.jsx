@@ -11,71 +11,71 @@ const Scores = ({ team }) => {
   const [showModal, setShowModal] = useState(false);
   const [gameStatsLoading, setGameStatsLoading] = useState(false);
 
-  const apiKey = "b8a466d2aa934ef1881a9cf9b70a3560";
+  const apiKey = "h";
   const teamNameToCode = {
-    "Hawks": "ATL",
-    "Celtics": "BOS",
-    "Nets": "BKN",
-    "Hornets": "CHA",
-    "Bulls": "CHI",
-    "Cavaliers": "CLE",
-    "Mavericks": "DAL",
-    "Nuggets": "DEN",
-    "Pistons": "DET",
-    "Warriors": "GS",
-    "Rockets": "HOU",
-    "Pacers": "IND",
-    "Clippers": "LAC",
-    "Lakers": "LAL",
-    "Grizzlies": "MEM",
-    "Heat": "MIA",
-    "Bucks": "MIL",
-    "Timberwolves": "MIN",
-    "Pelicans": "NOP",
-    "Knicks": "NYK",
-    "Thunder": "OKC",
-    "Magic": "ORL",
-    "76ers": "PHI",
-    "Suns": "PHX",
-    "Trail Blazers": "POR",
-    "Kings": "SAC",
-    "Spurs": "SAS",
-    "Raptors": "TOR",
-    "Jazz": "UTA",
-    "Wizards": "WAS"
+    "Atlanta Hawks": "ATL",
+    "Boston Celtics": "BOS",
+    "Brooklyn Nets": "BKN",
+    "Charlotte Hornets": "CHA",
+    "Chicago Bulls": "CHI",
+    "Cleveland Cavaliers": "CLE",
+    "Dallas Mavericks": "DAL",
+    "Denver Nuggets": "DEN",
+    "Detroit Pistons": "DET",
+    "Golden State Warriors": "GS",
+    "Houston Rockets": "HOU",
+    "Indiana Pacers": "IND",
+    "LA Clippers": "LAC",
+    "Los Angeles Lakers": "LAL",
+    "Memphis Grizzlies": "MEM",
+    "Miami Heat": "MIA",
+    "Milwaukee Bucks": "MIL",
+    "Minnesota Timberwolves": "MIN",
+    "New Orleans Pelicans": "NOP",
+    "New York Knicks": "NYK",
+    "Oklahoma City Thunder": "OKC",
+    "Orlando Magic": "ORL",
+    "Philadelphia 76ers": "PHI",
+    "Phoenix Suns": "PHX",
+    "Portland Trail Blazers": "POR",
+    "Sacramento Kings": "SAC",
+    "San Antonio Spurs": "SAS",
+    "Toronto Raptors": "TOR",
+    "Utah Jazz": "UTA",
+    "Washington Wizards": "WAS"
   };
   
   const teamCodeToName = {
-    "ATL": "Hawks",
-    "BOS": "Celtics",
-    "BKN": "Nets",
-    "CHA": "Hornets",
-    "CHI": "Bulls",
-    "CLE": "Cavaliers",
-    "DAL": "Mavericks",
-    "DEN": "Nuggets",
-    "DET": "Pistons",
-    "GS": "Warriors",
-    "HOU": "Rockets",
-    "IND": "Pacers",
-    "LAC": "Clippers",
-    "LAL": "Lakers",
-    "MEM": "Grizzlies",
-    "MIA": "Heat",
-    "MIL": "Bucks",
-    "MIN": "Timberwolves",
-    "NOP": "Pelicans",
-    "NYK": "Knicks",
-    "OKC": "Thunder",
-    "ORL": "Magic",
-    "PHI": "76ers",
-    "PHX": "Suns",
-    "POR": "Trail Blazers",
-    "SAC": "Kings",
-    "SAS": "Spurs",
-    "TOR": "Raptors",
-    "UTA": "Jazz",
-    "WAS": "Wizards"
+    "ATL": "Atlanta Hawks",
+    "BOS": "Boston Celtics",
+    "BKN": "Brooklyn Nets",
+    "CHA": "Charlotte Hornets",
+    "CHI": "Chicago Bulls",
+    "CLE": "Cleveland Cavaliers",
+    "DAL": "Dallas Mavericks",
+    "DEN": "Denver Nuggets",
+    "DET": "Detroit Pistons",
+    "GS": "Golden State Warriors",
+    "HOU": "Houston Rockets",
+    "IND": "Indiana Pacers",
+    "LAC": "LA Clippers",
+    "LAL": "Los Angeles Lakers",
+    "MEM": "Memphis Grizzlies",
+    "MIA": "Miami Heat",
+    "MIL": "Milwaukee Bucks",
+    "MIN": "Minnesota Timberwolves",
+    "NOP": "New Orleans Pelicans",
+    "NYK": "New York Knicks",
+    "OKC": "Oklahoma City Thunder",
+    "ORL": "Orlando Magic",
+    "PHI": "Philadelphia 76ers",
+    "PHX": "Phoenix Suns",
+    "POR": "Portland Trail Blazers",
+    "SAC": "Sacramento Kings",
+    "SAS": "San Antonio Spurs",
+    "TOR": "Toronto Raptors",
+    "UTA": "Utah Jazz",
+    "WAS": "Washington Wizards"  
   };
   useEffect(() => {
     const fetchTeamGames = async () => {
@@ -158,7 +158,7 @@ const Scores = ({ team }) => {
             { GameID: 12348, HomeTeam: "Clippers", AwayTeam: "Lakers", DateTime: "2023-04-19T19:30:00", HomeTeamCode: "LAC", AwayTeamCode: "LAL" }
           ]
         });
-        setError("Couldn't load live data. Showing sample games.");
+        setError("No Games Available to load");
         setLoading(false);
       }
     };
@@ -392,6 +392,7 @@ const Scores = ({ team }) => {
 
   return (
     <div className="modern-panel">
+      <h2 className="mb-4">Latest Scores</h2>
       {error && <div className="alert alert-warning mb-4">{error}</div>}
       <ul className="nav nav-tabs mb-4">
         <li className="nav-item">

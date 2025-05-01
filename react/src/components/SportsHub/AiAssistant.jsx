@@ -8,7 +8,7 @@ const AIAssistant = ({ currentTeam, activeSport }) => {
   const [messages, setMessages] = useState([
     { 
       sender: 'bot', 
-      text: `Hi there! I'm your Sports Assistant powered by ChatGPT. Ask me anything about ${currentTeam || 'your favorite teams'}, ${activeSport || 'sports'}, players, or games!` 
+      text: `Hi there! I'm your Sports Assistant. Ask me anything about ${currentTeam || 'your favorite teams'}, ${activeSport || 'sports'}, players, or games!` 
     }
   ]);
   const [inputText, setInputText] = useState('');
@@ -23,7 +23,7 @@ const AIAssistant = ({ currentTeam, activeSport }) => {
       setMessages([
         { 
           sender: 'bot', 
-          text: `Hi there! I'm your Sports Assistant powered by ChatGPT. Ask me anything about ${currentTeam || 'your favorite teams'}, ${activeSport || 'sports'}, players, or games!` 
+          text: `Hi there! I'm your Sports Assistant. Ask me anything about ${currentTeam || 'your favorite teams'}, ${activeSport || 'sports'}, players, or games!` 
         }
       ]);
     }
@@ -57,7 +57,7 @@ const AIAssistant = ({ currentTeam, activeSport }) => {
       // Add bot response
       setMessages(prev => [...prev, { sender: 'bot', text: response }]);
     } catch (error) {
-      console.error("Error calling ChatGPT:", error);
+      console.error("Error:", error);
       setMessages(prev => [...prev, { 
         sender: 'bot', 
         text: "Sorry, I'm having trouble connecting right now. Please try again in a moment." 
@@ -71,7 +71,7 @@ const AIAssistant = ({ currentTeam, activeSport }) => {
   
   // Function to call ChatGPT API
   const callChatGPT = async (userMessage, team, sport) => {
-    const apiKey = ''; // 
+    const apiKey = 'h'; // 
   
     const systemMessage = `You are a helpful sports assistant specializing in ${sport || 'all sports'}. 
     ${team ? `You have particular expertise about the ${team} team.` : ''} 
