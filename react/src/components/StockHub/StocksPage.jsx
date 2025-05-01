@@ -1177,7 +1177,7 @@ const API_KEY=""
       <div style={{height: '450px', width: '400px'}}>
         <div id="aiSection" style={{backgroundColor: 'lightblue', borderRadius: '8px', borderColor: 'black', boxShadow: '5px 5px 10px rgba(21, 61, 219, 0.76)', padding: '10px', textAlign: 'center'}}>
         <h3 style={{color: 'black'}}>AI Assistant</h3>
-        <img style={{borderRadius: '10px'}} src="https://cdn.dribbble.com/userupload/22460781/file/original-73dfd4921f8852c03728693bee46deb0.gif" width="50%" height="50%"/> <br></br>
+        <img style={{borderRadius: '50%'}} src="https://cdn.dribbble.com/userupload/22460781/file/original-73dfd4921f8852c03728693bee46deb0.gif" width="50%" height="50%"/> <br></br>
 <br></br>
 <button className="modern-button assistant-button" style={{backgroundColor: 'blue'}} onClick={handleShow3}>
                 Click here to ask AI assistant a question
