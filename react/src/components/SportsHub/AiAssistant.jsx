@@ -1,16 +1,34 @@
-// AI Assistant Component with Improved Chat UI
+// AI Assistant Component with ChatGPT 3.5 Turbo Integration - SportsHub Version
 import React, { useState, useEffect, useRef } from 'react';
 import './AIAssistant.css';
 import aiGifImage from './AIGif.gif';
 
 const AIAssistant = ({ currentTeam, activeSport }) => {
-  const [showChat, setShowChat] = useState(false);
+  const [showChat, setShowChat] = useState(true); // Default to showing chat for SportsHub
   const [messages, setMessages] = useState([
-    { sender: 'bot', text: `Hi there! I'm your Sports Assistant. Ask me anything about your favorite teams, players, or games!` }
+    { 
+      sender: 'bot', 
+      text: `Hi there! I'm your Sports Assistant powered by ChatGPT. Ask me anything about ${currentTeam || 'your favorite teams'}, ${activeSport || 'sports'}, players, or games!` 
+    }
   ]);
   const [inputText, setInputText] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
   
+  // Update welcome message when team or sport changes
+  useEffect(() => {
+    // Only update the welcome message when team or sport changes
+    // and only if there's just one message (the welcome message)
+    if (messages.length === 1 && messages[0].sender === 'bot') {
+      setMessages([
+        { 
+          sender: 'bot', 
+          text: `Hi there! I'm your Sports Assistant powered by ChatGPT. Ask me anything about ${currentTeam || 'your favorite teams'}, ${activeSport || 'sports'}, players, or games!` 
+        }
+      ]);
+    }
+  }, [currentTeam, activeSport]);
+  /*
   // Auto-scroll to bottom of messages
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -19,9 +37,9 @@ const AIAssistant = ({ currentTeam, activeSport }) => {
   useEffect(() => {
     scrollToBottom();
   }, [messages, showChat]);
-  
+  */
   // Handle sending a message
-  const handleSendMessage = (e) => {
+  const handleSendMessage = async (e) => {
     e.preventDefault();
     
     if (!inputText.trim()) return;
@@ -29,31 +47,79 @@ const AIAssistant = ({ currentTeam, activeSport }) => {
     // Add user message
     setMessages(prev => [...prev, { sender: 'user', text: inputText }]);
     
-    // Generate bot response
-    setTimeout(() => {
-      const botResponse = generateResponse(inputText, currentTeam, activeSport);
-      setMessages(prev => [...prev, { sender: 'bot', text: botResponse }]);
-    }, 600);
+    // Show loading state
+    setIsLoading(true);
+    
+    try {
+      // Call ChatGPT API
+      const response = await callChatGPT(inputText, currentTeam, activeSport);
+      
+      // Add bot response
+      setMessages(prev => [...prev, { sender: 'bot', text: response }]);
+    } catch (error) {
+      console.error("Error calling ChatGPT:", error);
+      setMessages(prev => [...prev, { 
+        sender: 'bot', 
+        text: "Sorry, I'm having trouble connecting right now. Please try again in a moment." 
+      }]);
+    } finally {
+      setIsLoading(false);
+    }
     
     setInputText('');
   };
   
-  // Simple response generator
-  const generateResponse = (input, team, sport) => {
-    input = input.toLowerCase();
-    
-    if (input.includes('score') || input.includes('game') || input.includes('result')) {
-      return `The latest ${team} game ended 112-104. They're scheduled to play again this weekend.`;
-    } else if (input.includes('player') || input.includes('roster') || input.includes('team')) {
-      return `${team} has several star players in their roster. Would you like me to list the key players?`;
-    } else if (input.includes('stats') || input.includes('statistics')) {
-      return `${team} is currently ranked 3rd in their division with a record of 24-14.`;
-    } else if (input.includes('news') || input.includes('update')) {
-      return `The latest news for ${team}: Their star player has recovered from injury and will play in the next game.`;
-    } else {
-      return `I'm not sure about that regarding ${team}. Would you like to know about their recent games, players, or stats?`;
+  // Function to call ChatGPT API
+  const callChatGPT = async (userMessage, team, sport) => {
+    const apiKey = ''; // 
+  
+    const systemMessage = `You are a helpful sports assistant specializing in ${sport || 'all sports'}. 
+    ${team ? `You have particular expertise about the ${team} team.` : ''} 
+    Keep your answers focused on sports-related topics, be concise, friendly, and informative. 
+    If asked about non-sports topics, politely redirect the conversation to sports.
+    Provide specific details about ${team || 'teams'} when available, such as player stats, recent game results, and interesting facts.
+    Your responses should be brief and to the point - no more than 3 sentences for most questions.`;
+  
+    const conversationHistory = messages
+      .filter(msg => messages.indexOf(msg) > 0)
+      .map(msg => ({
+        role: msg.sender === 'user' ? 'user' : 'assistant',
+        content: msg.text
+      }));
+  
+    const requestBody = {
+      model: "gpt-3.5-turbo",
+      messages: [
+        { role: "system", content: systemMessage },
+        ...conversationHistory,
+        { role: "user", content: userMessage }
+      ],
+      max_tokens: 150,
+      temperature: 0.7
+    };
+  
+    try {
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`
+        },
+        body: JSON.stringify(requestBody)
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      return data.choices[0].message.content;
+    } catch (error) {
+      console.error("Error calling OpenAI API:", error);
+      throw error;
     }
   };
+  
   
   // Toggle chat visibility
   const toggleChat = () => {
@@ -62,7 +128,7 @@ const AIAssistant = ({ currentTeam, activeSport }) => {
 
   return (
     <div className="ai-assistant-card">
-      <h3 className="assistant-title">AI Assistant</h3>
+      <h3 className="assistant-title">Sports AI Assistant</h3>
       
       <div className="assistant-content">
         <div className="assistant-avatar">
@@ -78,7 +144,7 @@ const AIAssistant = ({ currentTeam, activeSport }) => {
             className="chat-button open-chat"
             onClick={toggleChat}
           >
-            Chat with Assistant
+            Chat with Sports Assistant
           </button>
         ) : (
           <div className="chat-interface">
@@ -109,19 +175,36 @@ const AIAssistant = ({ currentTeam, activeSport }) => {
                   </div>
                 </div>
               ))}
+              {isLoading && (
+                <div className="message bot-message">
+                  <div className="bot-avatar-small">
+                    <img 
+                      src={aiGifImage} 
+                      alt="AI" 
+                      className="bot-avatar-img"
+                    />
+                  </div>
+                  <div className="message-bubble loading-bubble">
+                    <span className="loading-dot"></span>
+                    <span className="loading-dot"></span>
+                    <span className="loading-dot"></span>
+                  </div>
+                </div>
+              )}
               <div ref={messagesEndRef} />
             </div>
             
             <form onSubmit={handleSendMessage} className="chat-input-form">
               <input
                 type="text"
-                placeholder="Ask about sports, teams, or players..."
+                placeholder={`Ask about ${currentTeam || 'teams'}, players, stats...`}
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 className="chat-input"
+                disabled={isLoading}
               />
-              <button type="submit" className="send-button">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <button type="submit" className="send-button" disabled={isLoading}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </button>

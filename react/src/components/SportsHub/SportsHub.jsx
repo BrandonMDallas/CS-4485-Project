@@ -50,7 +50,7 @@ const SportsHub = () => {
   const [showChat, setShowChat] = useState(true); // Default to showing chat
 
   // Ref for scrolling to bottom of messages
-  const messagesEndRef = useRef(null);
+  //const messagesEndRef = useRef(null);
 
   // Function to update quick select teams for a specific sport
   const updateQuickSelect = (sport, teams) => {
@@ -182,12 +182,13 @@ const SportsHub = () => {
   };
 
   // Scroll to bottom of messages when new ones are added
+  /*
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [chatMessages]);
-
+*/
   // Adding event listener for window clicks (equivalent to window.onclick)
   useEffect(() => {
     window.addEventListener("click", handleWindowClick);
@@ -326,249 +327,18 @@ const SportsHub = () => {
 
         {/* Sidebar Column - AI Assistant and Team Following */}
         <div className="sidebar-column">
-          <section className="ai-assistant-card">
-            <h2 className="ai-assistant-title">AI Assistant</h2>
-            <div className="ai-assistant-content">
-              <div className="assistant-avatar-container">
-                <img
-                  src={aiGifImage}
-                  alt="AI Assistant"
-                  className="assistant-avatar"
-                />
+          {/* Custom styled wrapper for AIAssistant */}
+          <div className="ai-assistant-wrapper">
+            {/* Integrate the new AIAssistant component */}
+            <AIAssistant 
+              currentTeam={selectedTeam} 
+              activeSport={activeSport}
+            />
               </div>
+              
+              {/* Inline styles for AI Assistant */}
 
-              <button className="chat-button" onClick={toggleChat}>
-                {showChat ? "Close Chat" : "Chat with Assistant"}
-              </button>
-
-              {showChat && (
-                <div className="chat-container">
-                  <div className="chat-messages-container">
-                    {chatMessages.map((message, index) => (
-                      <div
-                        key={index}
-                        className={`message ${message.sender}-message`}
-                      >
-                        <div className="message-content">{message.text}</div>
-                      </div>
-                    ))}
-                    <div ref={messagesEndRef} />{" "}
-                    {/* Empty div for scrolling to bottom */}
-                  </div>
-
-                  <form
-                    onSubmit={handleChatSubmit}
-                    className="chat-input-container"
-                  >
-                    <input
-                      type="text"
-                      value={userInput}
-                      onChange={(e) => setUserInput(e.target.value)}
-                      placeholder="Type your message..."
-                      className="chat-input"
-                    />
-                    <button type="submit" className="send-button">
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </button>
-                  </form>
-                </div>
-              )}
-            </div>
-
-            {/* Styling for AI Assistant matching latest screenshot */}
-            <style jsx>{`
-              .ai-assistant-card {
-                background: #4060e0;
-                color: white;
-                border-radius: 12px;
-                padding: 20px;
-                display: flex;
-                flex-direction: column;
-                margin-bottom: 20px;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-                height: ${showChat ? "auto" : "230px"};
-                overflow: hidden;
-                transition: height 0.3s ease;
-              }
-
-              .ai-assistant-title {
-                font-size: 18px;
-                font-weight: 600;
-                margin-top: 0;
-                margin-bottom: 16px;
-                padding-bottom: 12px;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-              }
-
-              .ai-assistant-content {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                height: 100%;
-                gap: 25px;
-              }
-
-              .assistant-avatar-container {
-                width: 90px;
-                height: 90px;
-                border-radius: 50%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-              }
-
-              .assistant-avatar {
-                width: 100%;
-                height: 100x%;
-                object-fit: contain;
-              }
-
-              .chat-button {
-                width: 100%;
-                padding: 12px;
-                background-color: rgba(255, 255, 255, 0.15);
-                color: white;
-                border: none;
-                border-radius: 8px;
-                font-size: 16px;
-                font-weight: 500;
-                cursor: pointer;
-                transition: background-color 0.2s;
-              }
-
-              .chat-button:hover {
-                background-color: rgba(255, 255, 255, 0.25);
-              }
-
-              .chat-container {
-                width: 100%;
-                background-color: rgba(255, 255, 255, 0.05);
-                border-radius: 10px;
-                display: flex;
-                flex-direction: column;
-                overflow: hidden;
-                margin-top: 10px;
-              }
-
-              .chat-messages-container {
-                padding: 12px;
-                height: 180px;
-                overflow-y: auto;
-                display: flex;
-                flex-direction: column;
-                scrollbar-width: thin;
-                scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
-              }
-
-              .chat-messages-container::-webkit-scrollbar {
-                width: 5px;
-              }
-
-              .chat-messages-container::-webkit-scrollbar-track {
-                background: transparent;
-              }
-
-              .chat-messages-container::-webkit-scrollbar-thumb {
-                background-color: rgba(255, 255, 255, 0.3);
-                border-radius: 20px;
-              }
-
-              .message {
-                margin-bottom: 10px;
-                max-width: 90%;
-              }
-
-              .bot-message {
-                align-self: flex-start;
-              }
-
-              .user-message {
-                align-self: flex-end;
-              }
-
-              .message-content {
-                padding: 10px 15px;
-                border-radius: 18px;
-                font-size: 14px;
-                line-height: 1.4;
-              }
-
-              .bot-message .message-content {
-                background-color: rgba(255, 255, 255, 0.1);
-                color: white;
-                border-top-left-radius: 4px;
-              }
-
-              .user-message .message-content {
-                background-color: white;
-                color: #333;
-                border-top-right-radius: 4px;
-              }
-
-              .chat-input-container {
-                display: flex;
-                padding: 10px;
-                background-color: rgba(255, 255, 255, 0.05);
-                border-top: 1px solid rgba(255, 255, 255, 0.1);
-              }
-
-              .chat-input {
-                flex-grow: 1;
-                padding: 12px 15px;
-                border: none;
-                border-radius: 20px;
-                background-color: rgba(255, 255, 255, 0.1);
-                color: white;
-                margin-right: 8px;
-                font-size: 14px;
-              }
-
-              .chat-input::placeholder {
-                color: rgba(255, 255, 255, 0.6);
-              }
-
-              .chat-input:focus {
-                outline: none;
-                background-color: rgba(255, 255, 255, 0.15);
-              }
-
-              .send-button {
-                width: 36px;
-                height: 36px;
-                border-radius: 50%;
-                border: none;
-                background-color: white;
-                color: #4366e3;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                cursor: pointer;
-              }
-
-              .send-button svg {
-                width: 16px;
-                height: 16px;
-                color: #4366e3;
-              }
-            `}</style>
-          </section>
-
-          {/* Team Following Section - Using the updated FollowTeams component */}
+          {/* Team Following Section */}
           <FollowTeams
             activeSport={activeSport}
             onTeamFollow={handleTeamFollow}
@@ -580,50 +350,182 @@ const SportsHub = () => {
         </div>
       </main>
 
-      {/* Add responsive styles for mobile devices */}
+      {/* Global responsive styles */}
       <style jsx>{`
-        .modern-container {
-          display: flex;
-          flex-direction: column;
-          min-height: 100vh;
-          background-color: #f8f9fa;
-        }
+                .ai-assistant-card {
+                  background: #4060e0;
+                  color: white;
+                  border-radius: 12px;
+                  padding: 20px;
+                  display: flex;
+                  flex-direction: column;
+                  margin-bottom: 20px;
+                  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+                  height: ${showChat ? "auto" : "230px"};
+                  overflow: hidden;
+                  transition: height 0.3s ease;
+                }
 
-        .modern-content {
-          display: flex;
-          padding: 1.5rem;
-          gap: 1.5rem;
-        }
+                .ai-assistant-title {
+                  font-size: 18px;
+                  font-weight: 600;
+                  margin-top: 0;
+                  margin-bottom: 16px;
+                  padding-bottom: 12px;
+                  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+                }
 
-        .main-column {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          gap: 1.5rem;
-        }
+                .ai-assistant-content {
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+                  height: 100%;
+                  gap: 25px;
+                }
 
-        .sidebar-column {
-          width: 300px;
-          display: flex;
-          flex-direction: column;
-          gap: 1.5rem;
-        }
+                .assistant-avatar-container {
+                  width: 90px;
+                  height: 90px;
+                  border-radius: 50%;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                }
 
-        @media (max-width: 768px) {
-          .modern-content {
-            flex-direction: column;
-            padding: 1rem;
-          }
+                .assistant-avatar {
+                  width: 100%;
+                  height: 100%;
+                  object-fit: contain;
+                }
 
-          .main-column,
-          .sidebar-column {
-            width: 100%;
-          }
+                .chat-button {
+                  width: 100%;
+                  padding: 12px;
+                  background-color: rgba(255, 255, 255, 0.15);
+                  color: white;
+                  border: none;
+                  border-radius: 8px;
+                  font-size: 16px;
+                  font-weight: 500;
+                  cursor: pointer;
+                  transition: background-color 0.2s;
+                }
 
-          .sidebar-column {
-            margin-top: 1rem;
-          }
-        }
+                .chat-button:hover {
+                  background-color: rgba(255, 255, 255, 0.25);
+                }
+
+                .chat-container {
+                  width: 100%;
+                  background-color: rgba(255, 255, 255, 0.05);
+                  border-radius: 10px;
+                  display: flex;
+                  flex-direction: column;
+                  overflow: hidden;
+                  margin-top: 10px;
+                }
+
+                .chat-messages-container {
+                  padding: 12px;
+                  height: 180px;
+                  overflow-y: auto;
+                  display: flex;
+                  flex-direction: column;
+                  scrollbar-width: thin;
+                  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+                }
+
+                .chat-messages-container::-webkit-scrollbar {
+                  width: 5px;
+                }
+
+                .chat-messages-container::-webkit-scrollbar-track {
+                  background: transparent;
+                }
+
+                .chat-messages-container::-webkit-scrollbar-thumb {
+                  background-color: rgba(255, 255, 255, 0.3);
+                  border-radius: 20px;
+                }
+
+                .message {
+                  margin-bottom: 10px;
+                  max-width: 90%;
+                }
+
+                .bot-message {
+                  align-self: flex-start;
+                }
+
+                .user-message {
+                  align-self: flex-end;
+                }
+
+                .message-content {
+                  padding: 10px 15px;
+                  border-radius: 18px;
+                  font-size: 14px;
+                  line-height: 1.4;
+                }
+
+                .bot-message .message-content {
+                  background-color: rgba(255, 255, 255, 0.1);
+                  color: white;
+                  border-top-left-radius: 4px;
+                }
+
+                .user-message .message-content {
+                  background-color: white;
+                  color: #333;
+                  border-top-right-radius: 4px;
+                }
+
+                .chat-input-container {
+                  display: flex;
+                  padding: 10px;
+                  background-color: rgba(255, 255, 255, 0.05);
+                  border-top: 1px solid rgba(255, 255, 255, 0.1);
+                }
+
+                .chat-input {
+                  flex-grow: 1;
+                  padding: 12px 15px;
+                  border: none;
+                  border-radius: 20px;
+                  background-color: rgba(255, 255, 255, 0.1);
+                  color: white;
+                  margin-right: 8px;
+                  font-size: 14px;
+                }
+
+                .chat-input::placeholder {
+                  color: rgba(255, 255, 255, 0.6);
+                }
+
+                .chat-input:focus {
+                  outline: none;
+                  background-color: rgba(255, 255, 255, 0.15);
+                }
+
+                .send-button {
+                  width: 36px;
+                  height: 36px;
+                  border-radius: 50%;
+                  border: none;
+                  background-color: white;
+                  color: #4366e3;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  cursor: pointer;
+                }
+
+                .send-button svg {
+                  width: 16px;
+                  height: 16px;
+                  color: #4366e3;
+                }
       `}</style>
     </div>
   );
