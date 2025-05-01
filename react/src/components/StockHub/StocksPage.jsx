@@ -994,61 +994,20 @@ function StockFunc() {
                 />
               </div>
             </Link>
-            <div style={{ display: "flex", gap: "220px" }}>
+            <div style={{ display: "flex"}}>
               <h1
                 className="sports-hub-title fs-4 mb-0 me-4"
                 style={{ fontSize: "150px", textAlign: "left" }}
               >
                 StocksHub
               </h1>
-              <div style={{ display: "block", textAlign: "center" }}>
-                <p class="lead">Browse this page by section</p>
-                <ul class="nav nav-pills">
-                  <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#listSection">
-                      Top 10 stocks
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#savedList">
-                      Saved stocks
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#viewerSection">
-                      Stock viewer
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#newsSection">
-                      Stock news
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#videoSection">
-                      Specific video news
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a
-                      class="nav-link"
-                      aria-current="page"
-                      href="#currExchSection"
-                    >
-                      Exchange rates
-                    </a>
-                  </li>
-                </ul>
-              </div>
-
-              <Link
-                to="/settingsPage"
-                style={{ position: "relative", right: "10px" }}
-              >
-                <button className="btn btn-outline-primary me-2 d-flex align-items-center">
-                  Settings
-                </button>
-              </Link>
+              
+<div style={{position: 'absolute', right: '1%'}}>
+      <Link to="/settingsPage" style={{position: 'relative', right: '10px'}}><button className="btn btn-outline-primary me-2 d-flex align-items-center">
+      Settings
+      </button></Link>
+      </div>
+             
             </div>
           </div>
         </div>
@@ -1059,55 +1018,7 @@ function StockFunc() {
       </p>
       <br></br>
       <div style={{ display: "flex", gap: "20px" }}>
-        <ul
-          class="nav flex-column"
-          style={{
-            position: "fixed",
-            right: "0.7%",
-            bottom: "18%",
-            backgroundColor: "white",
-            boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.3)",
-            borderRadius: "10px",
-            padding: "15px",
-          }}
-        >
-          Navigation menu
-          <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="#listSection">
-              Top 10 stocks
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="#aiSection">
-              AI assistant
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="#currExchSection">
-              Exchange rates
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#savedList">
-              Saved stocks
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#viewerSection">
-              Stock viewer
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#newsSection">
-              Stock news
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#videoSection">
-              Specific video news
-            </a>
-          </li>
-        </ul>
+        
         <div class="moreSection" id="listSection" style={{ width: "65%" }}>
           <br></br>
           <div
