@@ -2551,7 +2551,7 @@ function StockFunc() {
           position: "absolute",
           marginLeft: "auto",
           marginRight: "auto",
-          width: "73%",
+          width: 'fit-content'
         }}
       >
         <h6 class="h6" style={{ fontWeight: "bold", fontSize: "30px" }}>
