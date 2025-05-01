@@ -1451,9 +1451,9 @@ const API_KEY=""
       <br></br>
       <br></br>
       <div id="newsSection" style={{ backgroundColor: 'white',
-    boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px', position: 'absolute', marginLeft: 'auto', marginRight: 'auto', width: 'fit-content'}}>
+    boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.3)', borderRadius: '10px', padding: '10px', position: 'absolute', marginLeft: 'auto', marginRight: 'auto', width: '90%'}}>
       <h6 class="h6" style={{ fontWeight: 'bold', fontSize: '30px' }}>Latest in news</h6>
-      <div style={{display: 'flex', gap: '13px'}}>
+      <div style={{display: 'flex', gap: '3px'}}>
       <div>
       <div id="videoSection">
         <h3 style={{color: 'blue', display: 'block'}}>Videos related to {currentGraph}</h3>
