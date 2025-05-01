@@ -867,7 +867,13 @@ const API_KEY=""
   
       </div>
       <br></br>
-      <p class="lead">Today's date and time: {displayDate} {currTime.toLocaleTimeString()}</p>
+        <br></br>
+      <div class="card" style={{width:'fit-content'}}>
+  <div class="card-body">
+  <p class="lead">Today's date and time: {displayDate} {currTime.toLocaleTimeString()}</p>
+    The US stock market is usually open on weekdays from 8:30 am to 3 pm central time. 
+  </div>
+</div>
       <br></br>
       <div style={{display: 'flex', gap: '20px'}}>
       
