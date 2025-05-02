@@ -71,7 +71,7 @@ const AIAssistant = ({ currentTeam, activeSport }) => {
   
   // Function to call ChatGPT API
   const callChatGPT = async (userMessage, team, sport) => {
-    const apiKey = 'h'; // 
+    const apiKey = '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'; // 
   
     const systemMessage = `You are a helpful sports assistant specializing in ${sport || 'all sports'}. 
     ${team ? `You have particular expertise about the ${team} team.` : ''} 
