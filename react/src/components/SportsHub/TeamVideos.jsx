@@ -142,9 +142,23 @@ const TeamVideos = ({ team }) => {
           
           <div className="text-center">
             <a href={`https://www.youtube.com/results?search_query=${team}+latest+team+highlights`} 
-               className="btn btn-outline-primary btn-sm" 
-               target="_blank" 
-               rel="noopener noreferrer">
+              className="btn btn-outline-primary btn-sm" 
+              style={{
+                backgroundColor: 'white',
+                color: 'black',
+                borderColor: '#0d6efd',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#0d6efd';
+                e.currentTarget.style.color = 'white';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'white';
+                e.currentTarget.style.color = 'black';
+              }}
+              target="_blank" 
+              rel="noopener noreferrer">
               View more on YouTube
             </a>
           </div>

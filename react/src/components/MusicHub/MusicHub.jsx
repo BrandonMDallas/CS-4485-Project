@@ -490,7 +490,7 @@ const MusicHub = () => {
               <FaArrowLeft />
             </button>
             </NavLink>
-            <h1 className="modern-title heading-blue">Music Hub</h1>
+            <h1 className="modern-title heading-blue">MusicHub</h1>
           </div>
           <div className="header-right">
             <div className="modern-search">

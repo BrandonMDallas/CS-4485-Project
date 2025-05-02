@@ -670,3 +670,144 @@ body.dark-mode .heading-blue {
 .modern-card {
     animation: fadeIn 0.4s ease forwards;
 }
+
+.modern-container {
+    padding-top: 20px;
+  }
+  
+  /* Improve header spacing and alignment */
+  .modern-header {
+    margin-bottom: 36px;
+  }
+  
+  /* Enhance search bar styling */
+  .modern-search {
+    display: flex;
+    align-items: center;
+    background-color: #f5f5f5;
+    border-radius: 24px;
+    padding: 4px 8px;
+    transition: all 0.3s ease;
+    width: 300px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  }
+  
+  .modern-search input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 8px 12px;
+    font-size: 14px;
+    outline: none;
+  }
+  
+  .modern-search .search-button,
+  .modern-search .dark-mode-toggle {
+    background: transparent;
+    border: none;
+    color: #555;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+  }
+  
+  .modern-search .search-button:hover,
+  .modern-search .dark-mode-toggle:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+    color: #0d6efd;
+  }
+  
+  /* Dark mode styles for search bar */
+  body.dark-mode .modern-search {
+    background-color: #333;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  body.dark-mode .modern-search input {
+    color: #e4e4e4;
+  }
+  
+  body.dark-mode .modern-search .search-button,
+  body.dark-mode .modern-search .dark-mode-toggle {
+    color: #bbb;
+  }
+  
+  body.dark-mode .modern-search .search-button:hover,
+  body.dark-mode .modern-search .dark-mode-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #4b96ff;
+  }
+  
+  /* Improve spacing between elements */
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px;
+  }
+  
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  /* Make back button more prominent */
+  .modern-back-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+    color: #0d6efd;
+    font-size: 18px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .modern-back-button:hover {
+    background-color: rgba(13, 110, 253, 0.1);
+  }
+  
+  body.dark-mode .modern-back-button {
+    color: #4b96ff;
+  }
+  
+  body.dark-mode .modern-back-button:hover {
+    background-color: rgba(75, 150, 255, 0.15);
+  }
+  
+  /* Make title more prominent */
+  .modern-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  /* Add responsive adjustments */
+  @media (max-width: 768px) {
+    .modern-search {
+      width: 200px;
+    }
+    
+    .header-content {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    
+    .header-right {
+      width: 100%;
+    }
+    
+    .modern-search {
+      width: 100%;
+    }
+  }
