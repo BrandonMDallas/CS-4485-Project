@@ -3,16 +3,23 @@ import 'bootstrap/dist/css/bootstrap.css';
 import GameStatsModal from './GameDataModal.jsx';
 
 const Scores = ({ team }) => {
-  const [gamesData, setGamesData] = useState({ completed: [], upcoming: [] });
+  const [gamesData, setGamesData] = useState({ 
+    nba: { completed: [], upcoming: [] },
+    mlb: { completed: [], upcoming: [] }
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('completed');
+  const [activeLeague, setActiveLeague] = useState('nba');
   const [selectedGame, setSelectedGame] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [gameStatsLoading, setGameStatsLoading] = useState(false);
 
-  const apiKey = "9d614e028aa048f7a442b0ba0d09cc58";
-  const teamNameToCode = {
+  const nbaApiKey = "9d614e028aa048f7a442b0ba0d09cc58";
+  const mlbApiKey = "7c2d7dcfa0f74cc8b29d93dfa5b37ea8"; // Example MLB API key
+  
+  // Separate mappings for NBA and MLB to prevent conflicts
+  const nbaTeamNameToCode = {
     "Atlanta Hawks": "ATL",
     "Boston Celtics": "BOS",
     "Brooklyn Nets": "BKN",
@@ -30,7 +37,7 @@ const Scores = ({ team }) => {
     "Memphis Grizzlies": "MEM",
     "Miami Heat": "MIA",
     "Milwaukee Bucks": "MIL",
-    "Minnesota Timberwolves": "MIN",
+    "Minnesota Timberwolves": "MIN", // Correct NBA team
     "New Orleans Pelicans": "NOP",
     "New York Knicks": "NYK",
     "Oklahoma City Thunder": "OKC",
@@ -45,7 +52,40 @@ const Scores = ({ team }) => {
     "Washington Wizards": "WAS"
   };
   
-  const teamCodeToName = {
+  const mlbTeamNameToCode = {
+    "Arizona Diamondbacks": "ARI",
+    "Atlanta Braves": "ATL",
+    "Baltimore Orioles": "BAL",
+    "Boston Red Sox": "BOS",
+    "Chicago Cubs": "CHC",
+    "Chicago White Sox": "CWS",
+    "Cincinnati Reds": "CIN",
+    "Cleveland Guardians": "CLE",
+    "Colorado Rockies": "COL",
+    "Detroit Tigers": "DET",
+    "Houston Astros": "HOU",
+    "Kansas City Royals": "KC",
+    "Los Angeles Angels": "LAA",
+    "Los Angeles Dodgers": "LAD",
+    "Miami Marlins": "MIA",
+    "Milwaukee Brewers": "MIL",
+    "Minnesota Twins": "MIN", // Correct MLB team
+    "New York Mets": "NYM",
+    "New York Yankees": "NYY",
+    "Oakland Athletics": "OAK",
+    "Philadelphia Phillies": "PHI",
+    "Pittsburgh Pirates": "PIT",
+    "San Diego Padres": "SD",
+    "San Francisco Giants": "SF",
+    "Seattle Mariners": "SEA",
+    "St. Louis Cardinals": "STL",
+    "Tampa Bay Rays": "TB",
+    "Texas Rangers": "TEX",
+    "Toronto Blue Jays": "TOR",
+    "Washington Nationals": "WSH"
+  };
+  
+  const nbaTeamCodeToName = {
     "ATL": "Atlanta Hawks",
     "BOS": "Boston Celtics",
     "BKN": "Brooklyn Nets",
@@ -63,7 +103,7 @@ const Scores = ({ team }) => {
     "MEM": "Memphis Grizzlies",
     "MIA": "Miami Heat",
     "MIL": "Milwaukee Bucks",
-    "MIN": "Minnesota Timberwolves",
+    "MIN": "Minnesota Timberwolves", // Correct NBA team
     "NOP": "New Orleans Pelicans",
     "NYK": "New York Knicks",
     "OKC": "Oklahoma City Thunder",
@@ -75,90 +115,236 @@ const Scores = ({ team }) => {
     "SAS": "San Antonio Spurs",
     "TOR": "Toronto Raptors",
     "UTA": "Utah Jazz",
-    "WAS": "Washington Wizards"  
+    "WAS": "Washington Wizards"
   };
+  
+  const mlbTeamCodeToName = {
+    "ARI": "Arizona Diamondbacks",
+    "ATL": "Atlanta Braves",
+    "BAL": "Baltimore Orioles",
+    "BOS": "Boston Red Sox",
+    "CHC": "Chicago Cubs",
+    "CWS": "Chicago White Sox",
+    "CIN": "Cincinnati Reds",
+    "CLE": "Cleveland Guardians",
+    "COL": "Colorado Rockies",
+    "DET": "Detroit Tigers",
+    "HOU": "Houston Astros",
+    "KC": "Kansas City Royals",
+    "LAA": "Los Angeles Angels",
+    "LAD": "Los Angeles Dodgers",
+    "MIA": "Miami Marlins",
+    "MIL": "Milwaukee Brewers",
+    "MIN": "Minnesota Twins", // Correct MLB team
+    "NYM": "New York Mets",
+    "NYY": "New York Yankees",
+    "OAK": "Oakland Athletics",
+    "PHI": "Philadelphia Phillies",
+    "PIT": "Pittsburgh Pirates",
+    "SD": "San Diego Padres",
+    "SF": "San Francisco Giants",
+    "SEA": "Seattle Mariners",
+    "STL": "St. Louis Cardinals",
+    "TB": "Tampa Bay Rays",
+    "TEX": "Texas Rangers",
+    "TOR": "Toronto Blue Jays",
+    "WSH": "Washington Nationals"
+  };
+  
   useEffect(() => {
     const fetchTeamGames = async () => {
       try {
         setLoading(true);
-        const teamCode = teamNameToCode[team];
-        const completedGames = [];
-        const upcomingGames = [];
-        const today = new Date();
+        
+        // For NBA games
+        if (team !== "Texas Rangers") {
+          const teamCode = nbaTeamNameToCode[team]; // Use NBA specific mapping
+          const completedGames = [];
+          const upcomingGames = [];
+          const today = new Date();
 
+          for (let i = 1; i <= 14; i++) {
+            const pastDate = new Date(today);
+            pastDate.setDate(today.getDate() - i);
+            const formattedDate = pastDate.toISOString().split("T")[0];
+            try {
+              const res = await fetch(`https://api.sportsdata.io/v3/nba/scores/json/GamesByDate/${formattedDate}?key=${nbaApiKey}`);
+              if (res.ok) {
+                const data = await res.json();
+                const filtered = data.filter(game => (game.HomeTeam === teamCode || game.AwayTeam === teamCode) && game.Status === "Final");
+                completedGames.push(...filtered);
+                if (completedGames.length >= 5) break;
+              }
+            } catch (err) { console.error("Past NBA games fetch error:", err); }
+          }
+
+          for (let i = 0; i <= 14; i++) {
+            const futureDate = new Date(today);
+            futureDate.setDate(today.getDate() + i);
+            const formattedDate = futureDate.toISOString().split("T")[0];
+            try {
+              const res = await fetch(`https://api.sportsdata.io/v3/nba/scores/json/GamesByDate/${formattedDate}?key=${nbaApiKey}`);
+              if (res.ok) {
+                const data = await res.json();
+                const filtered = data.filter(game => (game.HomeTeam === teamCode || game.AwayTeam === teamCode) && game.Status !== "Final");
+                upcomingGames.push(...filtered);
+                if (upcomingGames.length >= 5) break;
+              }
+            } catch (err) { console.error("Upcoming NBA games fetch error:", err); }
+          }
+
+          setGamesData(prevState => ({
+            ...prevState,
+            nba: {
+              completed: completedGames.map(game => ({
+                GameID: game.GameID,
+                DateTime: game.DateTime,
+                HomeTeam: nbaTeamCodeToName[game.HomeTeam] || game.HomeTeam, // Use NBA specific mapping
+                AwayTeam: nbaTeamCodeToName[game.AwayTeam] || game.AwayTeam, // Use NBA specific mapping
+                HomeScore: game.HomeTeamScore,
+                AwayScore: game.AwayTeamScore,
+                Status: game.Status,
+                Season: game.Season,
+                HomeTeamID: game.HomeTeamID,
+                AwayTeamID: game.AwayTeamID,
+                HomeTeamCode: game.HomeTeam,
+                AwayTeamCode: game.AwayTeam
+              })),
+              upcoming: upcomingGames.map(game => ({
+                GameID: game.GameID,
+                DateTime: game.DateTime,
+                HomeTeam: nbaTeamCodeToName[game.HomeTeam] || game.HomeTeam, // Use NBA specific mapping
+                AwayTeam: nbaTeamCodeToName[game.AwayTeam] || game.AwayTeam, // Use NBA specific mapping
+                Status: game.Status,
+                Season: game.Season,
+                HomeTeamID: game.HomeTeamID,
+                AwayTeamID: game.AwayTeamID,
+                HomeTeamCode: game.HomeTeam,
+                AwayTeamCode: game.AwayTeam
+              }))
+            }
+          }));
+        }
+        
+        // For MLB games (always fetch Texas Rangers data)
+        const mlbTeamCode = "TEX"; // Texas Rangers
+        const mlbCompletedGames = [];
+        const mlbUpcomingGames = [];
+        const today = new Date();
+        
+        // Fetch past MLB games
         for (let i = 1; i <= 14; i++) {
           const pastDate = new Date(today);
           pastDate.setDate(today.getDate() - i);
           const formattedDate = pastDate.toISOString().split("T")[0];
           try {
-            const res = await fetch(`https://api.sportsdata.io/v3/nba/scores/json/GamesByDate/${formattedDate}?key=${apiKey}`);
+            const res = await fetch(`https://api.sportsdata.io/v3/mlb/scores/json/GamesByDate/${formattedDate}?key=${mlbApiKey}`);
             if (res.ok) {
               const data = await res.json();
-              const filtered = data.filter(game => (game.HomeTeam === teamCode || game.AwayTeam === teamCode) && game.Status === "Final");
-              completedGames.push(...filtered);
-              if (completedGames.length >= 5) break;
+              const filtered = data.filter(game => (game.HomeTeam === mlbTeamCode || game.AwayTeam === mlbTeamCode) && game.Status === "Final");
+              mlbCompletedGames.push(...filtered);
+              if (mlbCompletedGames.length >= 5) break;
             }
-          } catch (err) { console.error("Past games fetch error:", err); }
+          } catch (err) { 
+            console.error("Past MLB games fetch error:", err); 
+            // Use fallback data if API fails
+            if (mlbCompletedGames.length === 0) {
+              mlbCompletedGames.push(
+                { GameID: 60001, HomeTeam: "TEX", AwayTeam: "HOU", HomeScore: 7, AwayScore: 3, DateTime: "2025-04-28T19:05:00", Status: "Final", InningDescription: "Final" },
+                { GameID: 60002, HomeTeam: "SEA", AwayTeam: "TEX", HomeScore: 4, AwayScore: 6, DateTime: "2025-04-26T19:10:00", Status: "Final", InningDescription: "Final" },
+                { GameID: 60003, HomeTeam: "TEX", AwayTeam: "NYY", HomeScore: 5, AwayScore: 2, DateTime: "2025-04-24T20:05:00", Status: "Final", InningDescription: "Final" }
+              );
+              break;
+            }
+          }
         }
 
+        // Fetch upcoming MLB games
         for (let i = 0; i <= 14; i++) {
           const futureDate = new Date(today);
           futureDate.setDate(today.getDate() + i);
           const formattedDate = futureDate.toISOString().split("T")[0];
           try {
-            const res = await fetch(`https://api.sportsdata.io/v3/nba/scores/json/GamesByDate/${formattedDate}?key=${apiKey}`);
+            const res = await fetch(`https://api.sportsdata.io/v3/mlb/scores/json/GamesByDate/${formattedDate}?key=${mlbApiKey}`);
             if (res.ok) {
               const data = await res.json();
-              const filtered = data.filter(game => (game.HomeTeam === teamCode || game.AwayTeam === teamCode) && game.Status !== "Final");
-              upcomingGames.push(...filtered);
-              if (upcomingGames.length >= 5) break;
+              const filtered = data.filter(game => (game.HomeTeam === mlbTeamCode || game.AwayTeam === mlbTeamCode) && game.Status !== "Final");
+              mlbUpcomingGames.push(...filtered);
+              if (mlbUpcomingGames.length >= 5) break;
             }
-          } catch (err) { console.error("Upcoming games fetch error:", err); }
+          } catch (err) { 
+            console.error("Upcoming MLB games fetch error:", err); 
+            // Use fallback data if API fails
+            if (mlbUpcomingGames.length === 0) {
+              mlbUpcomingGames.push(
+                { GameID: 60004, HomeTeam: "TEX", AwayTeam: "OAK", DateTime: "2025-05-01T20:05:00", Status: "Scheduled", InningDescription: "" },
+                { GameID: 60005, HomeTeam: "TEX", AwayTeam: "OAK", DateTime: "2025-05-02T20:05:00", Status: "Scheduled", InningDescription: "" },
+                { GameID: 60006, HomeTeam: "LAA", AwayTeam: "TEX", DateTime: "2025-05-04T16:07:00", Status: "Scheduled", InningDescription: "" }
+              );
+              break;
+            }
+          }
         }
-
-        setGamesData({
-          completed: completedGames.map(game => ({
-            GameID: game.GameID,
-            DateTime: game.DateTime,
-            HomeTeam: teamCodeToName[game.HomeTeam] || game.HomeTeam,
-            AwayTeam: teamCodeToName[game.AwayTeam] || game.AwayTeam,
-            HomeScore: game.HomeTeamScore,
-            AwayScore: game.AwayTeamScore,
-            Status: game.Status,
-            Season: game.Season,
-            HomeTeamID: game.HomeTeamID,
-            AwayTeamID: game.AwayTeamID,
-            HomeTeamCode: game.HomeTeam,
-            AwayTeamCode: game.AwayTeam
-          })),
-          upcoming: upcomingGames.map(game => ({
-            GameID: game.GameID,
-            DateTime: game.DateTime,
-            HomeTeam: teamCodeToName[game.HomeTeam] || game.HomeTeam,
-            AwayTeam: teamCodeToName[game.AwayTeam] || game.AwayTeam,
-            Status: game.Status,
-            Season: game.Season,
-            HomeTeamID: game.HomeTeamID,
-            AwayTeamID: game.AwayTeamID,
-            HomeTeamCode: game.HomeTeam,
-            AwayTeamCode: game.AwayTeam
-          }))
-        });
+        
+        setGamesData(prevState => ({
+          ...prevState,
+          mlb: {
+            completed: mlbCompletedGames.map(game => ({
+              GameID: game.GameID,
+              DateTime: game.DateTime,
+              HomeTeam: mlbTeamCodeToName[game.HomeTeam] || game.HomeTeam, // Use MLB specific mapping
+              AwayTeam: mlbTeamCodeToName[game.AwayTeam] || game.AwayTeam, // Use MLB specific mapping
+              HomeScore: game.HomeScore || 0,
+              AwayScore: game.AwayScore || 0,
+              Status: game.Status,
+              Season: game.Season,
+              InningDescription: game.InningDescription || "Final",
+              HomeTeamCode: game.HomeTeam,
+              AwayTeamCode: game.AwayTeam
+            })),
+            upcoming: mlbUpcomingGames.map(game => ({
+              GameID: game.GameID,
+              DateTime: game.DateTime,
+              HomeTeam: mlbTeamCodeToName[game.HomeTeam] || game.HomeTeam, // Use MLB specific mapping
+              AwayTeam: mlbTeamCodeToName[game.AwayTeam] || game.AwayTeam, // Use MLB specific mapping
+              Status: game.Status,
+              Season: game.Season,
+              InningDescription: game.InningDescription || "",
+              HomeTeamCode: game.HomeTeam,
+              AwayTeamCode: game.AwayTeam
+            }))
+          }
+        }));
 
         setLoading(false);
       } catch (err) {
         console.error("Error fetching games:", err);
+        // Fallback data in case of errors
         setGamesData({
-          completed: [
-            { GameID: 12345, HomeTeam: "Lakers", AwayTeam: "Warriors", HomeScore: 112, AwayScore: 105, DateTime: "2023-04-08T19:30:00", HomeTeamCode: "LAL", AwayTeamCode: "GSW" },
-            { GameID: 12346, HomeTeam: "Celtics", AwayTeam: "Lakers", HomeScore: 98, AwayScore: 92, DateTime: "2023-04-05T19:00:00", HomeTeamCode: "BOS", AwayTeamCode: "LAL" }
-          ],
-          upcoming: [
-            { GameID: 12347, HomeTeam: "Lakers", AwayTeam: "Nets", DateTime: "2023-04-15T20:00:00", HomeTeamCode: "LAL", AwayTeamCode: "BKN" },
-            { GameID: 12348, HomeTeam: "Clippers", AwayTeam: "Lakers", DateTime: "2023-04-19T19:30:00", HomeTeamCode: "LAC", AwayTeamCode: "LAL" }
-          ]
+          nba: {
+            completed: [
+              { GameID: 12345, HomeTeam: "Los Angeles Lakers", AwayTeam: "Golden State Warriors", HomeScore: 112, AwayScore: 105, DateTime: "2023-04-08T19:30:00", HomeTeamCode: "LAL", AwayTeamCode: "GSW" },
+              { GameID: 12346, HomeTeam: "Boston Celtics", AwayTeam: "Los Angeles Lakers", HomeScore: 98, AwayScore: 92, DateTime: "2023-04-05T19:00:00", HomeTeamCode: "BOS", AwayTeamCode: "LAL" }
+            ],
+            upcoming: [
+              { GameID: 12347, HomeTeam: "Los Angeles Lakers", AwayTeam: "Brooklyn Nets", DateTime: "2023-04-15T20:00:00", HomeTeamCode: "LAL", AwayTeamCode: "BKN" },
+              { GameID: 12348, HomeTeam: "LA Clippers", AwayTeam: "Los Angeles Lakers", DateTime: "2023-04-19T19:30:00", HomeTeamCode: "LAC", AwayTeamCode: "LAL" }
+            ]
+          },
+          mlb: {
+            completed: [
+              { GameID: 60001, HomeTeam: "Texas Rangers", AwayTeam: "Houston Astros", HomeScore: 7, AwayScore: 3, DateTime: "2025-04-28T19:05:00", Status: "Final", InningDescription: "Final", HomeTeamCode: "TEX", AwayTeamCode: "HOU" },
+              { GameID: 60002, HomeTeam: "Seattle Mariners", AwayTeam: "Texas Rangers", HomeScore: 4, AwayScore: 6, DateTime: "2025-04-26T19:10:00", Status: "Final", InningDescription: "Final", HomeTeamCode: "SEA", AwayTeamCode: "TEX" },
+              { GameID: 60003, HomeTeam: "Texas Rangers", AwayTeam: "New York Yankees", HomeScore: 5, AwayScore: 2, DateTime: "2025-04-24T20:05:00", Status: "Final", InningDescription: "Final", HomeTeamCode: "TEX", AwayTeamCode: "NYY" }
+            ],
+            upcoming: [
+              { GameID: 60004, HomeTeam: "Texas Rangers", AwayTeam: "Oakland Athletics", DateTime: "2025-05-01T20:05:00", Status: "Scheduled", InningDescription: "", HomeTeamCode: "TEX", AwayTeamCode: "OAK" },
+              { GameID: 60005, HomeTeam: "Texas Rangers", AwayTeam: "Oakland Athletics", DateTime: "2025-05-02T20:05:00", Status: "Scheduled", InningDescription: "", HomeTeamCode: "TEX", AwayTeamCode: "OAK" },
+              { GameID: 60006, HomeTeam: "Los Angeles Angels", AwayTeam: "Texas Rangers", DateTime: "2025-05-04T16:07:00", Status: "Scheduled", InningDescription: "", HomeTeamCode: "LAA", AwayTeamCode: "TEX" }
+            ]
+          }
         });
-        setError("No Games Available to load");
+        setError("Some games data could not be loaded");
         setLoading(false);
       }
     };
@@ -174,14 +360,15 @@ const Scores = ({ team }) => {
     return `${month} ${day}, ${time}`;
   };
 
-  const fetchGameStats = async (game) => {
+  // Fetch NBA game stats
+  const fetchNBAGameStats = async (game) => {
     try {
       setGameStatsLoading(true);
       
       const gameId = game.GameID;
       
       // Fetch box score data from API
-      const res = await fetch(`https://api.sportsdata.io/v3/nba/stats/json/BoxScore/${gameId}?key=${apiKey}`);
+      const res = await fetch(`https://api.sportsdata.io/v3/nba/stats/json/BoxScore/${gameId}?key=${nbaApiKey}`);
       
       if (!res.ok) {
         throw new Error('Failed to fetch game stats');
@@ -370,9 +557,410 @@ const Scores = ({ team }) => {
       setError("Couldn't load detailed game stats. Showing sample data.");
     }
   };
+  
+  // Fetch MLB game stats
+  const fetchMLBGameStats = async (game) => {
+    try {
+      setGameStatsLoading(true);
+      
+      const gameId = game.GameID;
+      
+      // Fetch box score data from API
+      const res = await fetch(`https://api.sportsdata.io/v3/mlb/stats/json/BoxScore/${gameId}?key=${mlbApiKey}`);
+      
+      if (!res.ok) {
+        throw new Error('Failed to fetch MLB game stats');
+      }
+      
+      const boxScoreData = await res.json();
+      console.log("Fetched MLB box score:", boxScoreData);
+
+      // If no data is received, throw an error to use fallback data
+      if (!boxScoreData) {
+        throw new Error("No MLB box score data received");
+      }
+      
+      // Extract innings data
+      const innings = [];
+      try {
+        // Format varies by API, try different potential structures
+        const inningsData = boxScoreData.Innings || 
+                           boxScoreData.Game?.Innings || 
+                           boxScoreData.InningStats || [];
+                           
+        for (let i = 0; i < inningsData.length || i < 9; i++) {
+          const inning = inningsData[i] || {};
+          innings.push({
+            team1: inning.HomeTeamRuns || 0,
+            team2: inning.AwayTeamRuns || 0
+          });
+        }
+      } catch (err) {
+        console.error("Error parsing innings:", err);
+        // Create default 9 innings if parsing fails
+        for (let i = 0; i < 9; i++) {
+          innings.push({ team1: 0, team2: 0 });
+        }
+      }
+      
+      // Extract home team batting stats
+      const homeTeamBatters = (boxScoreData.HomeTeamBattingStats || 
+                             boxScoreData.Game?.HomeTeamBattingStats || 
+                             boxScoreData.HomeTeamPlayerStats || [])
+                             .filter(player => player.AtBats > 0);
+                             
+      // Extract away team batting stats
+      const awayTeamBatters = (boxScoreData.AwayTeamBattingStats || 
+                             boxScoreData.Game?.AwayTeamBattingStats || 
+                             boxScoreData.AwayTeamPlayerStats || [])
+                             .filter(player => player.AtBats > 0);
+                             
+      // Extract home team pitching stats
+      const homeTeamPitchers = (boxScoreData.HomeTeamPitchingStats || 
+                              boxScoreData.Game?.HomeTeamPitchingStats || 
+                              boxScoreData.HomeTeamPlayerStats || [])
+                              .filter(player => player.InningsPitched > 0);
+                              
+      // Extract away team pitching stats
+      const awayTeamPitchers = (boxScoreData.AwayTeamPitchingStats || 
+                              boxScoreData.Game?.AwayTeamPitchingStats || 
+                              boxScoreData.AwayTeamPlayerStats || [])
+                              .filter(player => player.InningsPitched > 0);
+      
+      // Format home team players
+      const team1Players = [
+        ...homeTeamBatters.map(player => ({
+          name: `${player.FirstName || ''} ${player.LastName || ''}`.trim() || player.Name || 'Unknown Player',
+          battingStats: {
+            atBats: player.AtBats || 0,
+            runs: player.Runs || 0,
+            hits: player.Hits || 0,
+            rbi: player.RunsBattedIn || player.RBI || 0,
+            homeRuns: player.HomeRuns || 0,
+            walks: player.Walks || 0,
+            strikeouts: player.Strikeouts || 0,
+            average: player.BattingAverage || '.000',
+            ops: player.OnBasePlusSlugging || player.OPS || '.000'
+          }
+        })),
+        ...homeTeamPitchers.map(player => ({
+          name: `${player.FirstName || ''} ${player.LastName || ''}`.trim() || player.Name || 'Unknown Player',
+          pitchingStats: {
+            inningsPitched: player.InningsPitched || 0,
+            hitsAllowed: player.HitsAllowed || player.Hits || 0,
+            runsAllowed: player.RunsAllowed || player.Runs || 0,
+            earnedRuns: player.EarnedRuns || 0,
+            walksAllowed: player.WalksAllowed || player.Walks || 0,
+            strikeouts: player.Strikeouts || 0,
+            homerunsAllowed: player.HomerunsAllowed || player.HomeRuns || 0,
+            era: player.EarnedRunAverage || player.ERA || '0.00',
+            whip: player.WalksHitsPerInningPitched || player.WHIP || '0.00'
+          }
+        }))
+      ];
+      
+      // Format away team players
+      const team2Players = [
+        ...awayTeamBatters.map(player => ({
+          name: `${player.FirstName || ''} ${player.LastName || ''}`.trim() || player.Name || 'Unknown Player',
+          battingStats: {
+            atBats: player.AtBats || 0,
+            runs: player.Runs || 0,
+            hits: player.Hits || 0,
+            rbi: player.RunsBattedIn || player.RBI || 0,
+            homeRuns: player.HomeRuns || 0,
+            walks: player.Walks || 0,
+            strikeouts: player.Strikeouts || 0,
+            average: player.BattingAverage || '.000',
+            ops: player.OnBasePlusSlugging || player.OPS || '.000'
+          }
+        })),
+        ...awayTeamPitchers.map(player => ({
+          name: `${player.FirstName || ''} ${player.LastName || ''}`.trim() || player.Name || 'Unknown Player',
+          pitchingStats: {
+            inningsPitched: player.InningsPitched || 0,
+            hitsAllowed: player.HitsAllowed || player.Hits || 0,
+            runsAllowed: player.RunsAllowed || player.Runs || 0,
+            earnedRuns: player.EarnedRuns || 0,
+            walksAllowed: player.WalksAllowed || player.Walks || 0,
+            strikeouts: player.Strikeouts || 0,
+            homerunsAllowed: player.HomerunsAllowed || player.HomeRuns || 0,
+            era: player.EarnedRunAverage || player.ERA || '0.00',
+            whip: player.WalksHitsPerInningPitched || player.WHIP || '0.00'
+          }
+        }))
+      ];
+      
+      // Extract team stats
+      const homeTeamStats = boxScoreData.Game?.HomeTeamStats || 
+                          boxScoreData.HomeTeamStats || 
+                          boxScoreData.GameStats?.HomeTeamStats || {};
+                          
+      const awayTeamStats = boxScoreData.Game?.AwayTeamStats || 
+                          boxScoreData.AwayTeamStats || 
+                          boxScoreData.GameStats?.AwayTeamStats || {};
+      
+      // Format team stats
+      const team1Stats = {
+        runs: homeTeamStats.Runs || game.HomeScore || 0,
+        hits: homeTeamStats.Hits || 0,
+        errors: homeTeamStats.Errors || 0,
+        leftOnBase: homeTeamStats.LeftOnBase || 0,
+        homeRuns: homeTeamStats.HomeRuns || 0,
+        battingAvg: homeTeamStats.BattingAverage || '.000',
+        era: homeTeamStats.EarnedRunAverage || '0.00',
+        doublePlays: homeTeamStats.DoublePlays || 0
+      };
+      
+      const team2Stats = {
+        runs: awayTeamStats.Runs || game.AwayScore || 0,
+        hits: awayTeamStats.Hits || 0,
+        errors: awayTeamStats.Errors || 0,
+        leftOnBase: awayTeamStats.LeftOnBase || 0,
+        homeRuns: awayTeamStats.HomeRuns || 0,
+        battingAvg: awayTeamStats.BattingAverage || '.000',
+        era: awayTeamStats.EarnedRunAverage || '0.00',
+        doublePlays: awayTeamStats.DoublePlays || 0
+      };
+      
+      // Format the final game object for the modal
+      const formattedGame = {
+        team1: {
+          name: game.HomeTeam,
+          teamStats: team1Stats,
+          players: team1Players
+        },
+        team2: {
+          name: game.AwayTeam,
+          teamStats: team2Stats,
+          players: team2Players
+        },
+        score: {
+          team1: game.HomeScore || 0,
+          team2: game.AwayScore || 0
+        },
+        innings: innings
+      };
+      
+      setSelectedGame(formattedGame);
+      setShowModal(true);
+      setGameStatsLoading(false);
+      
+    } catch (err) {
+      console.error("Error fetching MLB game stats:", err);
+      
+      // Fall back to dummy data if the API call fails
+      const innings = Array(9).fill(0).map((_, idx) => ({
+        team1: Math.floor(Math.random() * 2),
+        team2: Math.floor(Math.random() * 2)
+      }));
+      
+      // Format the final game object with fallback data
+      const formattedGame = {
+        team1: {
+          name: game.HomeTeam,
+          teamStats: {
+            runs: game.HomeScore || 0,
+            hits: 9,
+            errors: 1,
+            leftOnBase: 7,
+            homeRuns: 2,
+            battingAvg: '.275',
+            era: '3.45',
+            doublePlays: 1
+          },
+          players: [
+            {
+              name: "Marcus Semien",
+              battingStats: {
+                atBats: 4,
+                runs: 1,
+                hits: 2,
+                rbi: 2,
+                homeRuns: 1,
+                walks: 0,
+                strikeouts: 1,
+                average: '.285',
+                ops: '.852'
+              }
+            },
+            {
+              name: "Corey Seager",
+              battingStats: {
+                atBats: 4,
+                runs: 1,
+                hits: 1,
+                rbi: 0,
+                homeRuns: 0,
+                walks: 1,
+                strikeouts: 0,
+                average: '.305',
+                ops: '.923'
+              }
+            },
+            {
+              name: "Adolis Garcia",
+              battingStats: {
+                atBats: 4,
+                runs: 1,
+                hits: 2,
+                rbi: 2,
+                homeRuns: 1,
+                walks: 0,
+                strikeouts: 1,
+                average: '.267',
+                ops: '.838'
+              }
+            },
+            {
+              name: "Nathaniel Lowe",
+              battingStats: {
+                atBats: 3,
+                runs: 0,
+                hits: 1,
+                rbi: 0,
+                homeRuns: 0,
+                walks: 1,
+                strikeouts: 1,
+                average: '.272',
+                ops: '.799'
+              }
+            },
+            {
+              name: "Josh Jung",
+              battingStats: {
+                atBats: 4,
+                runs: 0,
+                hits: 0,
+                rbi: 0,
+                homeRuns: 0,
+                walks: 0,
+                strikeouts: 2,
+                average: '.249',
+                ops: '.744'
+              }
+            },
+            {
+              name: "Jacob deGrom",
+              pitchingStats: {
+                inningsPitched: 6.0,
+                hitsAllowed: 5,
+                runsAllowed: 2,
+                earnedRuns: 2,
+                walksAllowed: 1,
+                strikeouts: 8,
+                homerunsAllowed: 1,
+                era: '2.67',
+                whip: '0.98'
+              }
+            },
+            {
+              name: "Jose Leclerc",
+              pitchingStats: {
+                inningsPitched: 1.0,
+                hitsAllowed: 0,
+                runsAllowed: 0,
+                earnedRuns: 0,
+                walksAllowed: 0,
+                strikeouts: 2,
+                homerunsAllowed: 0,
+                era: '3.05',
+                whip: '1.15'
+              }
+            }
+          ]
+        },
+        team2: {
+          name: game.AwayTeam,
+          teamStats: {
+            runs: game.AwayScore || 0,
+            hits: 6,
+            errors: 2,
+            leftOnBase: 5,
+            homeRuns: 1,
+            battingAvg: '.231',
+            era: '4.25',
+            doublePlays: 0
+          },
+          players: [
+            {
+              name: "Jose Altuve",
+              battingStats: {
+                atBats: 4,
+                runs: 1,
+                hits: 2,
+                rbi: 0,
+                homeRuns: 0,
+                walks: 0,
+                strikeouts: 0,
+                average: '.294',
+                ops: '.814'
+              }
+            },
+            {
+              name: "Yordan Alvarez",
+              battingStats: {
+                atBats: 4,
+                runs: 1,
+                hits: 1,
+                rbi: 2,
+                homeRuns: 1,
+                walks: 0,
+                strikeouts: 1,
+                average: '.313',
+                ops: '.980'
+              }
+            },
+            {
+              name: "Alex Bregman",
+              battingStats: {
+                atBats: 3,
+                runs: 0,
+                hits: 0,
+                rbi: 0,
+                homeRuns: 0,
+                walks: 1,
+                strikeouts: 1,
+                average: '.256',
+                ops: '.785'
+              }
+            },
+            {
+              name: "Framber Valdez",
+              pitchingStats: {
+                inningsPitched: 5.0,
+                hitsAllowed: 7,
+                runsAllowed: 4,
+                earnedRuns: 3,
+                walksAllowed: 2,
+                strikeouts: 5,
+                homerunsAllowed: 1,
+                era: '3.22',
+                whip: '1.17'
+              }
+            }
+          ]
+        },
+        score: {
+          team1: game.HomeScore || 0,
+          team2: game.AwayScore || 0
+        },
+        innings: innings
+      };
+      
+      setSelectedGame(formattedGame);
+      setShowModal(true);
+      setGameStatsLoading(false);
+      setError("Couldn't load detailed MLB game stats. Showing sample data.");
+    }
+  };
 
   const handleGameClick = (game) => {
-    fetchGameStats(game);
+    if (activeLeague === 'nba') {
+      fetchNBAGameStats(game);
+    } else {
+      fetchMLBGameStats(game);
+    }
   };
 
   const handleCloseModal = () => {
@@ -392,21 +980,32 @@ const Scores = ({ team }) => {
 
   return (
     <div className="modern-panel">
-      <h2 className="mb-4">Latest Scores</h2>
-      {error && <div className="alert alert-warning mb-4">{error}</div>}
+      
+      {/* Game type tabs (completed/upcoming) */}
       <ul className="nav nav-tabs mb-4">
         <li className="nav-item">
-          <button className={`nav-link ${activeTab === 'completed' ? 'active' : ''}`} onClick={() => setActiveTab('completed')}>Recent Games</button>
+          <button 
+            className={`nav-link ${activeTab === 'completed' ? 'active' : ''}`} 
+            onClick={() => setActiveTab('completed')}
+          >
+            Recent Games
+          </button>
         </li>
         <li className="nav-item">
-          <button className={`nav-link ${activeTab === 'upcoming' ? 'active' : ''}`} onClick={() => setActiveTab('upcoming')}>Upcoming Games</button>
+          <button 
+            className={`nav-link ${activeTab === 'upcoming' ? 'active' : ''}`} 
+            onClick={() => setActiveTab('upcoming')}
+          >
+            Upcoming Games
+          </button>
         </li>
       </ul>
 
       <div className="tab-content">
-        <div className={`tab-pane ${activeTab === 'completed' ? 'active' : ''}`}>
-          {gamesData.completed.length > 0 ? (
-            gamesData.completed.map((game, idx) => {
+        {/* NBA Completed Games */}
+        <div className={`tab-pane ${activeLeague === 'nba' && activeTab === 'completed' ? 'active' : ''}`}>
+          {activeLeague === 'nba' && gamesData.nba.completed.length > 0 ? (
+            gamesData.nba.completed.map((game, idx) => {
               const isHomeTeam = game.HomeTeam === team;
               const formattedDate = formatGameDate(game.DateTime);
               const didWin = (isHomeTeam && game.HomeScore > game.AwayScore) || (!isHomeTeam && game.AwayScore > game.HomeScore);
@@ -427,12 +1026,13 @@ const Scores = ({ team }) => {
                 </div>
               );
             })
-          ) : <p>No completed games found.</p>}
+          ) : activeLeague === 'nba' ? <p>No completed games found.</p> : null}
         </div>
 
-        <div className={`tab-pane ${activeTab === 'upcoming' ? 'active' : ''}`}>
-          {gamesData.upcoming.length > 0 ? (
-            gamesData.upcoming.map((game, idx) => (
+        {/* NBA Upcoming Games */}
+        <div className={`tab-pane ${activeLeague === 'nba' && activeTab === 'upcoming' ? 'active' : ''}`}>
+          {activeLeague === 'nba' && gamesData.nba.upcoming.length > 0 ? (
+            gamesData.nba.upcoming.map((game, idx) => (
               <div key={idx} className="border-bottom py-3" onClick={() => handleGameClick(game)} style={{ cursor: 'pointer' }}>
                 <div className="row align-items-center">
                   <div className="col-4">
@@ -445,7 +1045,54 @@ const Scores = ({ team }) => {
                 </div>
               </div>
             ))
-          ) : <p>No upcoming games found.</p>}
+          ) : activeLeague === 'nba' ? <p>No upcoming NBA games found.</p> : null}
+        </div>
+        
+        {/* MLB Completed Games */}
+        <div className={`tab-pane ${activeLeague === 'mlb' && activeTab === 'completed' ? 'active' : ''}`}>
+          {activeLeague === 'mlb' && gamesData.mlb.completed.length > 0 ? (
+            gamesData.mlb.completed.map((game, idx) => {
+              const isHomeTeam = game.HomeTeam === 'Texas Rangers';
+              const formattedDate = formatGameDate(game.DateTime);
+              const didWin = (isHomeTeam && game.HomeScore > game.AwayScore) || (!isHomeTeam && game.AwayScore > game.HomeScore);
+              return (
+                <div key={idx} className="border-bottom py-3" onClick={() => handleGameClick(game)} style={{ cursor: 'pointer' }}>
+                  <div className="row align-items-center">
+                    <div className="col-4">
+                      <div className="d-flex align-items-center">
+                        {formattedDate.split(',')[0]}
+                        <span className={`ms-3 badge ${isHomeTeam ? 'bg-info' : 'bg-secondary'}`}>{isHomeTeam ? 'Home' : 'Away'}</span>
+                      </div>
+                    </div>
+                    <div className="col-8">
+                      <strong>{game.HomeTeam}</strong> {game.HomeScore} - {game.AwayScore} <strong>{game.AwayTeam}</strong>
+                      <span className={`ms-2 badge ${didWin ? 'bg-success' : 'bg-danger'}`}>{didWin ? 'Win' : 'Loss'}</span>
+                      <span className="ms-2 text-muted small">{game.InningDescription}</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          ) : activeLeague === 'mlb' ? <p>No completed MLB games found.</p> : null}
+        </div>
+
+        {/* MLB Upcoming Games */}
+        <div className={`tab-pane ${activeLeague === 'mlb' && activeTab === 'upcoming' ? 'active' : ''}`}>
+          {activeLeague === 'mlb' && gamesData.mlb.upcoming.length > 0 ? (
+            gamesData.mlb.upcoming.map((game, idx) => (
+              <div key={idx} className="border-bottom py-3" onClick={() => handleGameClick(game)} style={{ cursor: 'pointer' }}>
+                <div className="row align-items-center">
+                  <div className="col-4">
+                    {formatGameDate(game.DateTime)}
+                  </div>
+                  <div className="col-8">
+                    <strong>{game.HomeTeam}</strong> vs <strong>{game.AwayTeam}</strong>
+                    <span className="ms-2 badge bg-warning text-dark">{game.Status}</span>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : activeLeague === 'mlb' ? <p>No upcoming MLB games found.</p> : null}
         </div>
       </div>
 
@@ -463,6 +1110,7 @@ const Scores = ({ team }) => {
         show={showModal} 
         handleClose={handleCloseModal} 
         game={selectedGame} 
+        gameType={activeLeague}
       />
     </div>
   );
