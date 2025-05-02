@@ -11,7 +11,7 @@ const Scores = ({ team }) => {
   const [showModal, setShowModal] = useState(false);
   const [gameStatsLoading, setGameStatsLoading] = useState(false);
 
-  const apiKey = "h";
+  const apiKey = "9d614e028aa048f7a442b0ba0d09cc58";
   const teamNameToCode = {
     "Atlanta Hawks": "ATL",
     "Boston Celtics": "BOS",

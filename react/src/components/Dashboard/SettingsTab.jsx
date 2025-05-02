@@ -52,7 +52,7 @@ const SettingsTab = () => {
       {/* Font Size Slider */}
       <div className={styles.settingItem}>
         <label htmlFor="fontSizeRange" className={styles.label}>
-          Font Size: {fontSize}px
+          Zoom: {fontSize}px
         </label>
         <input
           id="fontSizeRange"

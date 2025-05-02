@@ -28,7 +28,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './moreStocksNews.jsx'
-
+import { NavLink } from "react-router-dom";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import { CgEnter } from 'react-icons/cg';
 import AIStockRecommendationTool from './AIStockRecommendationTool.jsx';
@@ -38,7 +38,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
   LineElement,
   PointElement,
 )
-const API_KEY=""
+const API_KEY="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"
 
 /*const aiClient=new OpenAI({
   apiKey: API_KEY,
@@ -846,10 +846,10 @@ const API_KEY=""
       </div>
       <div style={{display: 'flex', gap: '400px'}}>
       <div style={{display: 'flex'}}>
-      <Link to="/"><div style={{ backgroundColor: 'white',
+      <NavLink to="/dashboard"><div style={{ backgroundColor: 'white',
      padding: '10px', margin: '20px'}}>
       <img src="https://cdn-icons-png.flaticon.com/512/81/81037.png" width="20px" height="20px"/>
-      </div></Link>
+      </div></NavLink>
       <div style={{display: 'flex'}}>
    
       <h1  className="sports-hub-title fs-4 mb-0 me-4" style={{fontSize: '150px', textAlign: 'left'}}>StocksHub</h1>
