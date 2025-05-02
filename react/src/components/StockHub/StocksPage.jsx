@@ -38,7 +38,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
   LineElement,
   PointElement,
 )
-const API_KEY="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"
+const API_KEY="h"
 
 /*const aiClient=new OpenAI({
   apiKey: API_KEY,
